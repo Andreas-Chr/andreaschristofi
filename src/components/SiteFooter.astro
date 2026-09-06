@@ -1,0 +1,70 @@
+---
+import SocialLinks from './SocialLinks.astro';
+import { site } from '../data/site';
+const phrases = ['Meaningful Experiences', 'Intuitive Products', 'Delightful Interactions'];
+---
+<footer class="site-footer">
+  <div class="marquee"><div class="marquee-inner">{[0,1,2].map(copy=><div class="marquee-track" aria-hidden={copy ? 'true' : undefined}>{phrases.map(phrase=><span>{phrase}<i aria-hidden="true">/</i></span>)}</div>)}</div></div>
+  <section class="footer-contact container" aria-labelledby="contact-heading">
+    <h2 class="display" id="contact-heading">Let’s make<br />something <span>matter</span></h2>
+    <div class="contact-disclosure" data-contact>
+      <button class="contact-trigger" type="button" aria-label="Get in touch" aria-expanded="true" aria-controls="contact-panel" hidden><img src="/assets/icons/arrow-up-right.svg" width="80" height="80" alt="" /></button>
+      <div class="contact-panel" id="contact-panel">
+        <button class="icon-button contact-close" type="button" aria-label="Close contact details" hidden><img src="/assets/icons/close.svg" width="24" height="24" alt="" /></button>
+        <p class="contact-title">Get in touch</p>
+        <p>Submit a request to <a href={`mailto:${site.email}`}>{site.email}</a>. We’ll discuss your project and propose a solution.</p>
+        <p class="eyebrow">Follow me</p><SocialLinks />
+      </div>
+    </div>
+  </section>
+  <div class="footer-info container">
+    <p class="copyright">© {new Date().getFullYear()} Andreas Christofi. All rights reserved.</p>
+    <img class="footer-mark" src="/assets/logo/logo-light.svg" width="45" height="80" alt="" />
+    <div class="footer-links"><a class="legal-link" href="/legal/">Privacy &amp; Cookie Policy</a><SocialLinks /></div>
+  </div>
+</footer>
+<script>
+  import { setPanel } from '../scripts/disclosure';
+  document.querySelectorAll<HTMLElement>('[data-contact]').forEach(root => {
+    if (root.dataset.ready) return;
+    const trigger=root.querySelector<HTMLButtonElement>('.contact-trigger')!;
+    const close=root.querySelector<HTMLButtonElement>('.contact-close')!;
+    const panel=root.querySelector<HTMLElement>('.contact-panel')!;
+    const change=(open:boolean) => { setPanel(panel,trigger,open); root.dataset.open=String(open); };
+    trigger.addEventListener('click',()=>change(trigger.getAttribute('aria-expanded')!=='true'));
+    close.addEventListener('click',()=>{ trigger.focus({preventScroll:true}); change(false); });
+    root.addEventListener('keydown',event=>{if(event.key==='Escape'){trigger.focus({preventScroll:true});change(false);}});
+    setPanel(panel,trigger,false,false); root.dataset.ready='true'; trigger.hidden=close.hidden=false;
+  });
+</script>
+<style>
+  .site-footer { padding-bottom:5rem; }
+  .marquee { overflow:hidden; padding-block:2.5rem; }
+  .marquee-inner { display:flex; width:max-content; animation:marquee 32s linear infinite; }
+  .marquee-track { display:flex; flex-shrink:0; }
+  .marquee-track span { display:flex; align-items:center; gap:3rem; padding-right:3rem; white-space:nowrap; font:900 1.125rem/1.5rem var(--font-family-primary); text-transform:uppercase; }
+  .marquee-track i { color:var(--color-text-accent); font-weight:400; }
+  @keyframes marquee { to { transform:translateX(-33.333333%); } }
+  .footer-contact { display:grid; gap:2.5rem; align-items:center; padding-block:10rem; }
+  .footer-contact h2 { font-size:2.5rem; line-height:3rem; }
+  .footer-contact h2 span { color:var(--color-text-accent); }
+  .contact-disclosure { min-width:0; }
+  .contact-trigger { display:flex; align-items:center; justify-content:center; width:100%; padding:2.5rem; border:0; border-radius:.75rem; background:var(--color-text-accent); }
+  .contact-trigger img { width:5rem; height:5rem; }
+  .contact-trigger:hover { background:var(--color-button-primary-hover); }
+  .contact-trigger:hover img { filter:brightness(0) invert(1); }
+  [data-open='true'] .contact-trigger { border-radius:.75rem .75rem 0 0; }
+  .contact-panel { padding:2.5rem; position:relative; border-radius:.75rem; background:#303030; font-size:1.25rem; line-height:2.25rem; overflow-wrap:anywhere; }
+  .contact-title { font-weight:300; font-size:2rem; line-height:3rem; margin:0 3rem 1rem 0; }
+  .contact-close { position:absolute; right:1rem; top:1rem; width:3rem; height:3rem; background:#474747; }
+  .contact-close img { filter:brightness(0) invert(1); }
+  .contact-panel .eyebrow { margin:2rem 0 1rem; }
+  .footer-info { display:flex; flex-direction:column; align-items:center; gap:2.5rem; text-align:center; }
+  .footer-mark { width:2.8125rem; height:5rem; }
+  .footer-links { display:flex; flex-direction:column; align-items:center; gap:1rem; }
+  .legal-link { font-size:1.25rem; line-height:2.25rem; }
+  @media(min-width:40rem) { .footer-contact h2 { font-size:5rem; line-height:6rem; } .footer-contact { padding-block:20rem; } }
+  @media(min-width:60rem) { .footer-contact { grid-template-columns:1fr 1fr; } .footer-contact h2 { font-size:clamp(3rem,5.556vw,5rem); line-height:1.2; } }
+  @media(min-width:75rem) { .footer-info { flex-direction:row; text-align:left; gap:1rem; } .copyright,.footer-links { flex:1; } .footer-links { flex-direction:row; justify-content:flex-end; } }
+  @media(prefers-reduced-motion:reduce) { .marquee-inner { width:100%; } .marquee-track { width:100%; flex-wrap:wrap; justify-content:center; gap:1rem; } .marquee-track span { white-space:normal; text-align:center; padding:0; } .marquee-track i,.marquee-track[aria-hidden] { display:none; } }
+</style>

@@ -1,0 +1,48 @@
+---
+import experience from '../data/experience.json';
+---
+<section class="experience" aria-labelledby="experience-heading" data-experience>
+  <h2 id="experience-heading">Experience &amp; education</h2>
+  <div class="experience-cards">
+    {experience.map((entry,i)=><article class="experience-card">
+      <h3><button class="experience-trigger" type="button" disabled aria-expanded="true" aria-controls={`experience-panel-${i}`}><span class="experience-title">{entry.title}</span><span class="experience-meta"><span>{entry.role}</span><span>{entry.year}</span></span><span class="experience-toggle" aria-hidden="true"><img class="plus" src="/assets/icons/plus.svg" width="16" height="16" alt="" /><img class="minus" src="/assets/icons/minus.svg" width="16" height="16" alt="" /></span></button></h3>
+      <div class="experience-panel" id={`experience-panel-${i}`}>
+        {entry.description.startsWith('- ') ? <ul>{entry.description.split('\n').map(line=><li>{line.replace(/^- /,'')}</li>)}</ul> : <p>{entry.description}</p>}
+      </div>
+    </article>)}
+  </div>
+</section>
+<script>
+  import { setPanel } from '../scripts/disclosure';
+  document.querySelectorAll<HTMLElement>('[data-experience]').forEach(root=>{
+    if(root.dataset.ready)return;
+    root.querySelectorAll<HTMLElement>('.experience-card').forEach((card,i)=>{
+      const trigger=card.querySelector<HTMLButtonElement>('button')!;
+      const panel=card.querySelector<HTMLElement>('.experience-panel')!;
+      const change=(open:boolean,animate=true)=>{card.dataset.open=String(open);setPanel(panel,trigger,open,animate);};
+      trigger.addEventListener('click',()=>change(trigger.getAttribute('aria-expanded')!=='true'));
+      change(i===0,false);trigger.disabled=false;
+    });root.dataset.ready='true';
+  });
+</script>
+<style>
+  .experience { min-width:0; }
+  h2 { margin-bottom:2.5rem; }
+  .experience-cards { display:grid; gap:.25rem; }
+  .experience-card { background:#fff; color:#303030; border-radius:.5rem; padding:1.5rem; }
+  .experience-trigger { display:block; width:100%; position:relative; color:inherit; background:none; border:0; padding:0; text-align:left; }
+  .experience-title { font-size:1.25rem; line-height:2.25rem; display:block; overflow-wrap:anywhere; }
+  .experience-meta { font:400 .75rem/1rem var(--font-family-primary); display:flex; flex-wrap:wrap; gap:.5rem 1rem; }
+  .experience-toggle { display:none; position:absolute; right:0; top:50%; transform:translateY(-50%); width:2rem; height:2rem; border-radius:.25rem; background:#474747; align-items:center; justify-content:center; }
+  .experience-toggle img { width:1rem; height:1rem; }
+  .experience-panel { margin-top:1rem; }
+  .experience-panel ul { padding-left:1.25rem; margin:0; }
+  [data-ready] .experience-card[data-open='false'] { background:#303030; color:#fff; }
+  [data-ready] .experience-card[data-open='false'] .experience-meta { color:#c5fa00; }
+  [data-ready] .experience-toggle { display:flex; }
+  [data-ready] .experience-trigger { padding-right:3rem; }
+  [data-open='true'] .experience-toggle { background:#c5fa00; }
+  [data-open='true'] .plus,[data-open='false'] .minus { display:none; }
+  [data-open='false'] .plus { filter:brightness(0) invert(1); }
+  .experience-card[data-open='true'] button:focus-visible { outline-color:#4b09f5; }
+</style>

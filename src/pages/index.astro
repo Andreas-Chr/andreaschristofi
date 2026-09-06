@@ -1,0 +1,81 @@
+---
+import { Picture } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TopBackground from '../components/TopBackground.astro';
+import HeroDiamond from '../components/HeroDiamond.astro';
+import Process from '../components/Process.astro';
+import Experience from '../components/Experience.astro';
+import portrait from '../assets/andreas-bw.png';
+import innovation from '../assets/cssda-inn-field-no7.png';
+import kudos from '../assets/cssda-special-kudos.png';
+import ui from '../assets/cssda-ui-field-no7.png';
+import ux from '../assets/cssda-ux-field-no7.png';
+import {site,toolGroups,awards} from '../data/site';
+const certificates=[{src:innovation,alt:'CSS Design Awards Innovation certificate for Field No.7'},{src:kudos,alt:'CSS Design Awards Special Kudos certificate for Field No.7'},{src:ui,alt:'CSS Design Awards UI certificate for Field No.7'},{src:ux,alt:'CSS Design Awards UX certificate for Field No.7'}];
+---
+<BaseLayout title="Andreas Christofi — Digital Product Designer">
+  <div class="top-region">
+    <TopBackground />
+    <section class="hero top-content container" aria-labelledby="hero-heading">
+      <div class="hero-copy"><h1 id="hero-heading">Designer<br />Researcher<br />Pathfinder</h1><p class="lead">{site.description}</p><a class="button" href={site.cv} download>Download CV<img src="/assets/icons/download.svg" width="24" height="24" alt="" /></a></div>
+      <div class="hero-visual"><HeroDiamond /></div>
+    </section>
+  </div>
+  <Process />
+  <section class="section about container" id="about" aria-labelledby="about-heading">
+    <Picture class="portrait" src={portrait} formats={['avif','webp']} fallbackFormat="jpg" widths={[304,448,680,896,1120]} sizes="(min-width: 900px) 48vw, 100vw" alt="Andreas Christofi walking through the city" loading="lazy" />
+    <div class="about-copy"><h2 id="about-heading">About me</h2><p class="lead">{site.description}</p><p class="body-large">For the past 2 decades, I’ve studied and worked across print, branding, web, and digital product design. I’ve learned the art of simplicity by crafting complex ideas into clear, impactful, and engaging experiences. And somewhere along the way, I’ve also had the opportunity to run my own studio, to lead creative teams, and work on SaaS digital products, and AI-powered tools.</p><p class="body-large">Being a designer is only a part of who I am. I’m also a husband and father, a martial artist, an aviation geek and a custom PC builder. I make space in my life for the things I enjoy because they keep me curious, disciplined, grounded, and always eager to learn something new.</p><div class="about-button"><a class="button secondary" href={site.cv} download>Download CV<img src="/assets/icons/download.svg" width="24" height="24" alt="" /></a></div></div>
+  </section>
+  <div class="section stack-experience container">
+    <section class="stack" aria-labelledby="stack-heading"><h2 id="stack-heading">Stack</h2><p class="body-large">Tools I’ve learned to design, prototype, animate and build cool projects with.</p>
+      {toolGroups.map(group=><div class="tool-group"><h3 class="eyebrow">{group.label}</h3><ul>{group.tools.map(([label,slug])=><li class="tool" title={label}><img class="tool-grey" src={`/assets/tools/${slug}-grey.svg`} width="32" height="32" alt={label} loading="lazy" /><img class="tool-color" src={`/assets/tools/${slug}-color.svg`} width="32" height="32" alt="" aria-hidden="true" loading="lazy" /></li>)}</ul></div>)}
+    </section><Experience />
+  </div>
+  <section class="section awards container" aria-labelledby="awards-heading"><h2 id="awards-heading">Awards</h2><div class="awards-grid">
+    <div class="certificates">{certificates.map((certificate,i)=><div class="certificate" style={`--i:${i}`}><Picture src={certificate.src} formats={['avif','webp']} fallbackFormat="jpg" width={540} alt={certificate.alt} loading="lazy" /></div>)}</div>
+    <ul class="award-list">{awards.map(award=><li><img src={`/assets/awards/${award.icon}.svg`} width="60" height="40" alt="" loading="lazy" /><div><h3>{award.title}</h3><p class="eyebrow">{award.detail}<span>{award.year}</span></p></div></li>)}</ul>
+  </div></section>
+</BaseLayout>
+<style>
+  .hero { display:grid; gap:1.5rem; align-items:center; }
+  .hero-copy { display:flex; flex-direction:column; align-items:flex-start; gap:1.5rem; padding-block:1rem; position:relative; z-index:2; }
+  .hero h1 { text-transform:uppercase; }
+  .hero .lead { font-size:1.25rem; line-height:2.25rem; font-weight:500; }
+  .hero-visual { position:absolute; inset:auto 0 0; display:flex; justify-content:center; z-index:0; }
+  .hero-copy .button { width:100%; }
+  .about { display:grid; gap:2.5rem; align-items:start; }
+  .about :global(.portrait) { display:block; width:100%; aspect-ratio:679/687; object-fit:cover; object-position:bottom; border-radius:1rem; }
+  .about-copy { display:grid; gap:2rem; min-width:0; }
+  .about-button { padding-block:2rem; }
+  .stack-experience { display:grid; gap:5rem 2.5rem; align-items:start; }
+  .stack h2 { margin-bottom:1rem; }
+  .tool-group { margin-top:2.5rem; }
+  .tool-group h3 { margin-bottom:1rem; }
+  .tool-group ul { display:flex; gap:.25rem; flex-wrap:wrap; list-style:none; padding:0; margin:0; }
+  .tool { position:relative; display:flex; justify-content:center; align-items:center; width:5rem; height:5rem; background:#303030; border-radius:.5rem; }
+  .tool img { width:2rem; height:2rem; object-fit:contain; transition:opacity var(--primitive-animation-duration-fast); }
+  .tool-color { position:absolute; opacity:0; }
+  .tool:hover .tool-color { opacity:1; } .tool:hover .tool-grey { opacity:0; }
+  .awards h2 { margin-bottom:2.5rem; }
+  .awards-grid { display:grid; gap:2.5rem 1.5rem; align-items:start; }
+  .certificates { position:relative; width:100%; aspect-ratio:684/416; }
+  .certificate { width:27.05%; position:absolute; left:calc(var(--i) * 24.31%); top:calc(var(--i) * 12.4%); border:4px solid #121212; border-radius:.5rem; overflow:hidden; }
+  .certificate :global(img) { width:100%; height:auto; }
+  .award-list { display:grid; gap:.25rem; padding:0; margin:0; list-style:none; }
+  .award-list li { display:flex; gap:1.5rem; align-items:center; padding:1.5rem; background:#303030; border-radius:.5rem; }
+  .award-list li>img { width:3.75rem; height:2.5rem; object-fit:contain; flex-shrink:0; }
+  .award-list h3 { font-size:1.25rem; line-height:2.25rem; margin-bottom:.25rem; }
+  .award-list .eyebrow { display:flex; flex-wrap:wrap; gap:.5rem 1rem; }
+  @media(min-width:40rem) { .hero h1 { font-size:clamp(3rem,10.4167vw,5rem); line-height:1.2; } .hero-copy { gap:3rem; } .hero .lead { font-size:2rem; line-height:3rem; font-weight:300; } .hero-copy .button { width:auto; } .hero-visual { position:relative; opacity:1; padding-block:2rem 5rem; } }
+  @media(min-width:56.25rem) { .about { grid-template-columns:1fr 1fr; } }
+  @media(min-width:25rem) and (max-width:39.99rem) { .hero { padding-block:5rem; } .hero-copy { gap:2.5rem; padding-block:2rem; } }
+  @media(min-width:75rem) {
+    .hero { grid-template-columns:minmax(0,1fr) 35.375rem; }
+    .hero h1 { font-size:clamp(3rem,calc(10vw - 4rem),5rem); }
+    .hero-visual { padding:0; }
+    .stack-experience { grid-template-columns:1fr 1fr; }
+    .awards-grid { grid-template-columns:1fr 1fr; }
+  }
+  @media(max-width:24.99rem) { .award-list li { gap:1rem; padding:1rem; } .award-list li>img { width:2.5rem; } }
+  @media(min-width:100rem) { .hero { grid-template-columns:1fr 1fr; padding-block:1.5rem; } .about { gap:5rem; } }
+</style>

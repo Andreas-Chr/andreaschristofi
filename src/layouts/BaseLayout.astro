@@ -1,0 +1,34 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { site } from '../data/site';
+interface Props { title:string; description?:string; noindex?:boolean; }
+const { title, description=site.description, noindex=false }=Astro.props;
+const canonical=new URL(Astro.url.pathname,site.origin);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#121212" />
+    <title>{title}</title><meta name="description" content={description} />
+    {noindex ? <meta name="robots" content="noindex,follow" /> : <link rel="canonical" href={canonical} />}
+    <meta property="og:type" content="website" /><meta property="og:site_name" content="Andreas Christofi" />
+    <meta property="og:title" content={title} /><meta property="og:description" content={description} />
+    {!noindex && <meta property="og:url" content={canonical} />}
+    <meta name="twitter:card" content="summary" />
+    <link rel="icon" href="/assets/logo/logo-light.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="preload" href="/assets/fonts/zalandosansexpanded-black.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/dmsans-regular.woff2" as="font" type="font/woff2" crossorigin />
+    {Astro.url.pathname==='/' && <script is:inline type="application/ld+json" set:html={JSON.stringify({'@context':'https://schema.org','@graph':[{'@type':'Person','@id':`${site.origin}/#person`,name:site.name,url:site.origin,jobTitle:'Digital Product Designer'},{'@type':'WebSite',name:site.name,url:site.origin}]})} />}
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
+    <main id="main" tabindex="-1"><slot /></main>
+    <SiteFooter />
+  </body>
+</html>

@@ -1,0 +1,31 @@
+/* V1 Figma semantic roles and approved motion tokens. Lengths are in rem. */
+:root {
+  --color-background-canvas: #121212;
+  --color-surface-card-dark: #303030;
+  --color-surface-card-light: #fff;
+  --color-text-light: #fff;
+  --color-text-dark: #303030;
+  --color-text-accent: #c5fa00;
+  --color-button-primary-default: #c5fa00;
+  --color-button-primary-hover: #4b09f5;
+  --color-button-tertiary-default: #474747;
+  --color-focus-primary: #fff;
+  --color-focus-secondary: #4b09f5;
+  --font-family-primary: 'Zalando Sans Expanded', Arial, sans-serif;
+  --font-family-secondary: 'DM Sans', Arial, sans-serif;
+  --primitive-animation-duration-fast: 160ms;
+  --primitive-animation-duration-standard: 240ms;
+  --primitive-animation-duration-slow: 360ms;
+  --primitive-animation-easing-fast: cubic-bezier(.00376159,-.00361693,0,1);
+  --primitive-animation-easing-standard: cubic-bezier(.00376159,-.00361693,.14776142,1);
+  --primitive-animation-easing-slow: cubic-bezier(.00376159,-.00361693,.49654454,1);
+  --page-gutter: .5rem;
+  --section-space: 5rem;
+  --header-clearance: 6rem;
+  --header-padding: 1rem;
+  --heading-size: 2rem;
+  --heading-line: 3rem;
+}
+@media (min-width: 25rem) { :root { --page-gutter: 1rem; --heading-size: 2.5rem; --heading-line:4rem; } }
+@media (min-width: 40rem) { :root { --heading-size: 5rem; --heading-line: 6rem; --header-padding: 3rem; --header-clearance: 10rem; } }
+@media (min-width: 75rem) { :root { --page-gutter: 1.5rem; --section-space: 10rem; } }

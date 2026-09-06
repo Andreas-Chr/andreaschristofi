@@ -1,0 +1,10 @@
+---
+interface Props { text:string; }
+const {text}=Astro.props;
+const pattern=/(https:\/\/www\.gov\.cy\/dataprotection\/|developers\.cloudflare\.com\/fundamentals\/reference\/policies-compliances\/cloudflare-cookies|cloudflare\.com\/privacypolicy|namecheap\.com\/legal\/general\/privacy-policy|hello@andreaschristofi\.com|andreaschristofi\.com)/g;
+function parts(line:string) {
+  return line.split(pattern).map(value=>({value,href:value==='hello@andreaschristofi.com'?`mailto:${value}`: /^(https:|cloudflare\.com\/|developers\.cloudflare\.com\/|namecheap\.com\/|andreaschristofi\.com$)/.test(value) ? (value.startsWith('https:')?value:`https://${value}`):undefined}));
+}
+---
+{text.split('\n\n').map(paragraph=><p>{paragraph.split('\n').map((line,i)=><Fragment>{i>0&&<br />}{parts(line).map(part=>part.href?<a href={part.href}>{part.value}</a>:part.value)}</Fragment>)}</p>)}
+<style>p { margin-block:0 1.5rem; } a { overflow-wrap:anywhere; } a:hover { color:var(--color-text-accent); }</style>

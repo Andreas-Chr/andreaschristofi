@@ -1,0 +1,12 @@
+---
+import { socialLinks } from '../data/site';
+---
+<ul class="social-links" aria-label="Social profiles">
+  {socialLinks.map(link => <li><a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={`Andreas Christofi on ${link.label}`}><img src={`/assets/icons/${link.icon}.svg`} width="16" height="16" alt="" /></a></li>)}
+</ul>
+<style>
+  .social-links { display:flex; flex-wrap:wrap; gap:.25rem; list-style:none; padding:0; margin:0; }
+  a { display:flex; align-items:center; justify-content:center; width:3rem; height:3rem; background:var(--color-button-tertiary-default); border-radius:.5rem; transition:background var(--primitive-animation-duration-fast); }
+  a:hover { background:var(--color-button-primary-hover); }
+  img { width:1rem; height:1rem; }
+</style>

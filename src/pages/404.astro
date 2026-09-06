@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TopBackground from '../components/TopBackground.astro';
+---
+<BaseLayout title="Unknown Path — Andreas Christofi" description="This page could not be found. Return to Andreas Christofi’s homepage." noindex>
+  <div class="top-region"><TopBackground /><section class="error-page top-content container" aria-labelledby="error-heading">
+    <div class="error-copy"><p class="eyebrow">404 error</p><h1 id="error-heading">Unknown<br />Path</h1><h2>Wrong coordinates</h2><p class="body-large">Lost your way? This route doesn’t exist anymore, but there are better paths ahead.</p><a class="button" href="/">Return Home<img src="/assets/icons/arrow-up-right.svg" width="24" height="24" alt="" /></a></div>
+    <img class="error-art" src="/assets/icons/404-visual.svg" width="704" height="720" alt="" aria-hidden="true" />
+  </section></div>
+</BaseLayout>
+<style>
+  .error-page { display:grid; align-items:center; gap:2.5rem; padding-block:5rem; }
+  .error-copy { display:flex; flex-direction:column; align-items:flex-start; gap:1.5rem; }
+  .error-copy h2 { font-size:1.5rem; line-height:2.25rem; }
+  .error-art { width:100%; height:auto; object-fit:contain; }
+  @media(min-width:75rem) { .error-page { grid-template-columns:1fr 1fr; gap:1.5rem; } .error-art { min-height:45rem; } }
+</style>
