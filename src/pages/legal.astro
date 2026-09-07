@@ -7,12 +7,29 @@ const headings=copy.filter(item=>item.size===24 || item.size===36);
 const slug=(text:string)=>text.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/-$/,'');
 ---
 <BaseLayout title="Privacy & Cookie Policy — Andreas Christofi" description="How information is handled when you visit andreaschristofi.com, including privacy, cookies, infrastructure, and contact by email.">
-  <div class="top-region"><TopBackground /><div class="legal-intro container top-content"><h1>{copy[0].text}</h1><p class="eyebrow">Last updated: <time datetime="2026-08-31">31 August 2026</time></p></div></div>
+  <div class="top-region">
+    <TopBackground />
+    <div class="legal-intro container top-content">
+      <h1>{copy[0].text}</h1>
+      <p class="eyebrow">
+        Last updated:
+        <time datetime="2026-08-31">31 August 2026</time>
+      </p>
+    </div>
+  </div>
   <div class="legal-layout container">
-    <nav class="contents" aria-label="Policy contents"><h2>Contents</h2><ol>{headings.map(item=><li><a href={`#${slug(item.text)}`}>{item.text}</a></li>)}</ol></nav>
+    <nav class="contents" aria-label="Policy contents">
+      <h2>Contents</h2>
+      <ol>
+        {headings.map(item=><li><a href={`#${slug(item.text)}`}>{item.text}</a></li>)}
+      </ol>
+    </nav>
     <article class="legal-copy" aria-label="Privacy and cookie policy">
       {copy.slice(2).map(item=>item.size===36||item.size===24?<h2 id={slug(item.text)}>{item.text}</h2>:item.size===18?<h3 id={slug(item.text)}>{item.text}</h3>:<LegalText text={item.text} />)}
-      <a class="button secondary" href="/">Return Home<img src="/assets/icons/arrow-up-right.svg" width="24" height="24" alt="" /></a>
+      <a class="button secondary" href="/">
+        Return Home
+        <img src="/assets/icons/arrow-up-right.svg" width="24" height="24" alt="" />
+      </a>
     </article>
   </div>
 </BaseLayout>

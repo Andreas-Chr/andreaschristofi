@@ -30,7 +30,7 @@ img { display:block; max-width:100%; }
 .button.secondary { background:#fff; }
 .button:hover { background:var(--color-button-primary-hover); color:#fff; }
 .button:hover img { filter:brightness(0) invert(1); }
-.icon-button { border:0; padding:0; display:inline-flex; align-items:center; justify-content:center; width:4rem; height:4rem; border-radius:.5rem; background:var(--color-button-primary-default); flex-shrink:0; }
+.icon-button { border:0; padding:0; display:inline-flex; align-items:center; justify-content:center; width:3rem; height:3rem; border-radius:.5rem; background:var(--color-button-primary-default); flex-shrink:0; }
 .icon-button img { width:1.5rem; height:1.5rem; }
 .icon-button:hover { background:var(--color-button-primary-hover); }
 .icon-button:hover img { filter:brightness(0) invert(1); }

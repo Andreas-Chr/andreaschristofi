@@ -10,34 +10,64 @@ import innovation from '../assets/cssda-inn-field-no7.png';
 import kudos from '../assets/cssda-special-kudos.png';
 import ui from '../assets/cssda-ui-field-no7.png';
 import ux from '../assets/cssda-ux-field-no7.png';
-import {site,toolGroups,awards} from '../data/site';
+import { site, toolGroups, awards } from '../data/site';
 const certificates=[{src:innovation,alt:'CSS Design Awards Innovation certificate for Field No.7'},{src:kudos,alt:'CSS Design Awards Special Kudos certificate for Field No.7'},{src:ui,alt:'CSS Design Awards UI certificate for Field No.7'},{src:ux,alt:'CSS Design Awards UX certificate for Field No.7'}];
 ---
 <BaseLayout title="Andreas Christofi — Digital Product Designer">
   <div class="top-region">
     <TopBackground />
     <section class="hero top-content container" aria-labelledby="hero-heading">
-      <div class="hero-copy"><h1 id="hero-heading">Designer<br />Researcher<br />Pathfinder</h1><p class="lead">{site.description}</p><a class="button" href={site.cv} download>Download CV<img src="/assets/icons/download.svg" width="24" height="24" alt="" /></a></div>
-      <div class="hero-visual"><HeroDiamond /></div>
+      <div class="hero-copy">
+        <h1 id="hero-heading">Designer<br />Researcher<br />Pathfinder</h1>
+        <p class="lead">{site.description}</p>
+        <a class="button" href={site.cv} download>
+          Download CV
+          <img src="/assets/icons/download.svg" width="24" height="24" alt="" />
+        </a>
+      </div>
+      <div class="hero-visual">
+        <HeroDiamond />
+      </div>
     </section>
   </div>
   <Process />
   <section class="section about container" id="about" aria-labelledby="about-heading">
     <Picture class="portrait" src={portrait} formats={['avif','webp']} fallbackFormat="jpg" widths={[304,448,680,896,1120]} sizes="(min-width: 900px) 48vw, 100vw" alt="Andreas Christofi walking through the city" loading="lazy" />
-    <div class="about-copy"><h2 id="about-heading">About me</h2><p class="lead">{site.description}</p><p class="body-large">For the past 2 decades, I’ve studied and worked across print, branding, web, and digital product design. I’ve learned the art of simplicity by crafting complex ideas into clear, impactful, and engaging experiences. And somewhere along the way, I’ve also had the opportunity to run my own studio, to lead creative teams, and work on SaaS digital products, and AI-powered tools.</p><p class="body-large">Being a designer is only a part of who I am. I’m also a husband and father, a martial artist, an aviation geek and a custom PC builder. I make space in my life for the things I enjoy because they keep me curious, disciplined, grounded, and always eager to learn something new.</p><div class="about-button"><a class="button secondary" href={site.cv} download>Download CV<img src="/assets/icons/download.svg" width="24" height="24" alt="" /></a></div></div>
+    <div class="about-copy">
+      <h2 id="about-heading">About me</h2>
+      <p class="lead">{site.description}</p>
+      <p class="body-large">For the past 2 decades, I’ve studied and worked across print, branding, web, and digital product design. I’ve learned the art of simplicity by crafting complex ideas into clear, impactful, and engaging experiences. And somewhere along the way, I’ve also had the opportunity to run my own studio, to lead creative teams, and work on SaaS digital products, and AI-powered tools.</p>
+      <p class="body-large">Being a designer is only a part of who I am. I’m also a husband and father, a martial artist, an aviation geek and a custom PC builder. I make space in my life for the things I enjoy because they keep me curious, disciplined, grounded, and always eager to learn something new.</p>
+      <div class="about-button">
+        <a class="button secondary" href={site.cv} download>
+          Download CV
+          <img src="/assets/icons/download.svg" width="24" height="24" alt="" />
+        </a>
+      </div>
+    </div>
   </section>
   <div class="section stack-experience container">
-    <section class="stack" aria-labelledby="stack-heading"><h2 id="stack-heading">Stack</h2><p class="body-large">Tools I’ve learned to design, prototype, animate and build cool projects with.</p>
+    <section class="stack" aria-labelledby="stack-heading">
+      <h2 id="stack-heading">Stack</h2>
+      <p class="body-large">Tools I’ve learned to design, prototype, animate and build cool projects with.</p>
       {toolGroups.map(group=><div class="tool-group"><h3 class="eyebrow">{group.label}</h3><ul>{group.tools.map(([label,slug])=><li class="tool" title={label}><img class="tool-grey" src={`/assets/tools/${slug}-grey.svg`} width="32" height="32" alt={label} loading="lazy" /><img class="tool-color" src={`/assets/tools/${slug}-color.svg`} width="32" height="32" alt="" aria-hidden="true" loading="lazy" /></li>)}</ul></div>)}
-    </section><Experience />
+    </section>
+    <Experience />
   </div>
-  <section class="section awards container" aria-labelledby="awards-heading"><h2 id="awards-heading">Awards</h2><div class="awards-grid">
-    <div class="certificates">{certificates.map((certificate,i)=><div class="certificate" style={`--i:${i}`}><Picture src={certificate.src} formats={['avif','webp']} fallbackFormat="jpg" width={540} alt={certificate.alt} loading="lazy" /></div>)}</div>
-    <ul class="award-list">{awards.map(award=><li><img src={`/assets/awards/${award.icon}.svg`} width="60" height="40" alt="" loading="lazy" /><div><h3>{award.title}</h3><p class="eyebrow">{award.detail}<span>{award.year}</span></p></div></li>)}</ul>
-  </div></section>
+  <section class="section awards container" aria-labelledby="awards-heading">
+    <h2 id="awards-heading">Awards</h2>
+    <div class="awards-grid">
+      <div class="certificates">
+        {certificates.map((certificate,i)=><div class="certificate" style={`--i:${i}`}><Picture src={certificate.src} formats={['avif','webp']} fallbackFormat="jpg" width={540} alt={certificate.alt} loading="lazy" /></div>)}
+      </div>
+      <ul class="award-list">
+        {awards.map(award=><li><img src={`/assets/awards/${award.icon}.svg`} width="60" height="40" alt="" loading="lazy" /><div><h3>{award.title}</h3><p class="eyebrow">{award.detail}<span>{award.year}</span></p></div></li>)}
+      </ul>
+    </div>
+  </section>
 </BaseLayout>
 <style>
-  .hero { display:grid; gap:1.5rem; align-items:center; }
+  .hero { display:grid; gap:1.5rem; align-items:center; height:100vh; max-width:120rem; }
   .hero-copy { display:flex; flex-direction:column; align-items:flex-start; gap:1.5rem; padding-block:1rem; position:relative; z-index:2; }
   .hero h1 { text-transform:uppercase; }
   .hero .lead { font-size:1.25rem; line-height:2.25rem; font-weight:500; }
