@@ -111,6 +111,10 @@ test('routes, canonical URLs, policy anchors, and every local asset resolve in t
   const routes=['index.html','legal/index.html','404.html'];
   for(const file of routes) {
     const w=fixture(readFileSync(new URL(`../dist/${file}`,import.meta.url),'utf8'));
+    const wave=document.querySelector('.top-background img.wave-fallback');
+    assert.ok(wave, `${file}: static wave must render without JavaScript`);
+    assert.equal(wave.getAttribute('alt'), '');
+    assert.equal(wave.closest('astro-island'), null, 'fallback must survive renderer failure');
     assert.equal(document.querySelectorAll('h1').length,1,file);
     const ids=[...document.querySelectorAll('[id]')].map(n=>n.id);
     assert.equal(new Set(ids).size,ids.length,`duplicate IDs: ${file}`);

@@ -1,5 +1,7 @@
 # V1 release review
 
+Latest review: [7 September Figma implementation audit](FIGMA-AUDIT.md). Source mismatches in the header, hero sizing, responsive footer and missing wave fallback were corrected. Check/build and seven automated tests pass; local production preview returns 200/200/404. Full browser fidelity remains unverified because browser control could not complete navigation during this run. The detailed audit separates source fixes from rendered verification and records remaining hero geometry differences.
+
 ## Implementation and evidence
 
 - Home, `/legal/`, and `404.html` generate successfully with static Astro.

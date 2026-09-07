@@ -45,12 +45,12 @@ const phrases = ['Meaningful Experiences', 'Intuitive Products', 'Delightful Int
   .marquee-track span { display:flex; align-items:center; gap:3rem; padding-right:3rem; white-space:nowrap; font:900 1.125rem/1.5rem var(--font-family-primary); text-transform:uppercase; }
   .marquee-track i { color:var(--color-text-accent); font-weight:400; }
   @keyframes marquee { to { transform:translateX(-33.333333%); } }
-  .footer-contact { display:grid; gap:2.5rem; align-items:center; padding-block:10rem; }
-  .footer-contact h2 { font-size:2.5rem; line-height:3rem; }
+  .footer-contact { display:grid; gap:2.5rem; align-items:center; padding-block:20rem; }
+  .footer-contact h2 { font-size:2rem; line-height:3rem; }
   .footer-contact h2 span { color:var(--color-text-accent); }
   .contact-disclosure { min-width:0; }
   .contact-trigger { display:flex; align-items:center; justify-content:center; width:100%; padding:2.5rem; border:0; border-radius:.75rem; background:var(--color-text-accent); }
-  .contact-trigger img { width:5rem; height:5rem; }
+  .contact-trigger img { width:3rem; height:3rem; }
   .contact-trigger:hover { background:var(--color-button-primary-hover); }
   .contact-trigger:hover img { filter:brightness(0) invert(1); }
   [data-open='true'] .contact-trigger { border-radius:.75rem .75rem 0 0; }
@@ -63,8 +63,10 @@ const phrases = ['Meaningful Experiences', 'Intuitive Products', 'Delightful Int
   .footer-mark { width:2.8125rem; height:5rem; }
   .footer-links { display:flex; flex-direction:column; align-items:center; gap:1rem; }
   .legal-link { font-size:1.25rem; line-height:2.25rem; }
-  @media(min-width:40rem) { .footer-contact h2 { font-size:5rem; line-height:6rem; } .footer-contact { padding-block:20rem; } }
-  @media(min-width:60rem) { .footer-contact { grid-template-columns:1fr 1fr; } .footer-contact h2 { font-size:clamp(3rem,5.556vw,5rem); line-height:1.2; } }
-  @media(min-width:75rem) { .footer-info { flex-direction:row; text-align:left; gap:1rem; } .copyright,.footer-links { flex:1; } .footer-links { flex-direction:row; justify-content:flex-end; } }
+  @media(min-width:25rem) { .footer-contact { max-width:calc(28rem + 2 * var(--page-gutter)); } .footer-contact h2 { font-size:3rem; line-height:4rem; } .contact-trigger img { width:4rem; height:4rem; } }
+  @media(min-width:64rem) { .footer-contact { max-width:120rem; } .footer-contact h2 { font-size:4rem; line-height:5rem; } .contact-trigger img { width:5rem; height:5rem; } }
+  @media(min-width:75rem) { .footer-contact { grid-template-columns:minmax(0,1fr) minmax(0,1fr); } .footer-contact h2 { font-size:5rem; line-height:6rem; } }
+  @media(min-width:100rem) { .footer-contact { gap:5rem; } }
+  @media(min-width:64rem) { .footer-info { flex-direction:row; text-align:left; gap:1rem; } .copyright,.footer-links { flex:1; } .footer-links { flex-direction:row; justify-content:flex-end; } }
   @media(prefers-reduced-motion:reduce) { .marquee-inner { width:100%; } .marquee-track { width:100%; flex-wrap:wrap; justify-content:center; gap:1rem; } .marquee-track span { white-space:normal; text-align:center; padding:0; } .marquee-track i,.marquee-track[aria-hidden] { display:none; } }
 </style>

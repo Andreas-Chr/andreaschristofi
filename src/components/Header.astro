@@ -57,8 +57,8 @@ import SocialLinks from './SocialLinks.astro';
 </script>
 <style>
   .site-header { position:relative; z-index:100; padding-block:var(--header-padding); }
-  .site-header[data-ready] { position:fixed; inset:0 0 auto; pointer-events:none; backdrop-filter:blur(5px); filter:drop-shadow(0 2px 5px #00000012); border-radius:1rem; }
-  .header-row { display:flex; justify-content:center; gap:1rem; align-content:center; align-items:center; flex-direction:row; flex-wrap:wrap; }
+  .site-header[data-ready] { position:fixed; inset:0 0 auto; pointer-events:none; }
+  .header-row { display:flex; justify-content:space-between; gap:1rem; align-items:center; }
   .header-row>* { pointer-events:auto; }
   .logo-link { width:14.93rem; height:4rem; display:block; position:relative; }
   .full-logo { position:absolute; width:15.56rem; height:5.25rem; max-width:none; left:-.625rem; top:-.5rem; }
@@ -74,5 +74,6 @@ import SocialLinks from './SocialLinks.astro';
   .menu-contact h2 { font:300 2rem/3rem var(--font-family-secondary); text-transform:none; margin-bottom:.5rem; }
   .menu-contact p { font-size:1.25rem; line-height:2.25rem; overflow-wrap:anywhere; }
   .eyebrow { margin-bottom:1.5rem; }
-  @media(max-width:39.99rem) { .full-logo { display:none; } .small-logo { display:flex; } .logo-link { width:3rem; } .menu-panel { padding:1.5rem; gap:2rem; } nav a { font-size:1.75rem; line-height:2.5rem; } .menu-contact p { font-size:1rem; line-height:1.5rem; } }
+  @media(max-width:24.99rem) { .full-logo { display:none; } .small-logo { display:flex; } .logo-link { width:3rem; } }
+  @media(max-width:39.99rem) { .menu-panel { padding:1.5rem; gap:2rem; } nav a { font-size:1.75rem; line-height:2.5rem; } .menu-contact p { font-size:1rem; line-height:1.5rem; } }
 </style>

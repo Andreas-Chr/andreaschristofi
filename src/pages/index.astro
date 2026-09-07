@@ -67,7 +67,7 @@ const certificates=[{src:innovation,alt:'CSS Design Awards Innovation certificat
   </section>
 </BaseLayout>
 <style>
-  .hero { display:grid; gap:1.5rem; align-items:center; height:100vh; max-width:120rem; }
+  .hero { display:grid; gap:1.5rem; align-items:center; max-width:120rem; }
   .hero-copy { display:flex; flex-direction:column; align-items:flex-start; gap:1.5rem; padding-block:1rem; position:relative; z-index:2; }
   .hero h1 { text-transform:uppercase; }
   .hero .lead { font-size:1.25rem; line-height:2.25rem; font-weight:500; }
@@ -83,7 +83,7 @@ const certificates=[{src:innovation,alt:'CSS Design Awards Innovation certificat
   .tool-group h3 { margin-bottom:1rem; }
   .tool-group ul { display:flex; gap:.25rem; flex-wrap:wrap; list-style:none; padding:0; margin:0; }
   .tool { position:relative; display:flex; justify-content:center; align-items:center; width:5rem; height:5rem; background:#303030; border-radius:.5rem; }
-  .tool img { width:2rem; height:2rem; object-fit:contain; transition:opacity var(--primitive-animation-duration-fast); }
+  .tool img { width:2.25rem; height:2.25rem; object-fit:contain; transition:opacity var(--primitive-animation-duration-fast); }
   .tool-color { position:absolute; opacity:0; }
   .tool:hover .tool-color { opacity:1; } .tool:hover .tool-grey { opacity:0; }
   .awards h2 { margin-bottom:2.5rem; }
@@ -98,7 +98,7 @@ const certificates=[{src:innovation,alt:'CSS Design Awards Innovation certificat
   .award-list .eyebrow { display:flex; flex-wrap:wrap; gap:.5rem 1rem; }
   @media(min-width:40rem) { .hero h1 { font-size:clamp(3rem,10.4167vw,5rem); line-height:1.2; } .hero-copy { gap:3rem; } .hero .lead { font-size:2rem; line-height:3rem; font-weight:300; } .hero-copy .button { width:auto; } .hero-visual { position:relative; opacity:1; padding-block:2rem 5rem; } }
   @media(min-width:56.25rem) { .about { grid-template-columns:1fr 1fr; } }
-  @media(min-width:25rem) and (max-width:39.99rem) { .hero { padding-block:5rem; } .hero-copy { gap:2.5rem; padding-block:2rem; } }
+  @media(min-width:25rem) and (max-width:39.99rem) { .hero { padding-block:5rem; } .hero-copy { gap:3rem; padding-block:3rem; } .hero-copy .button { width:auto; } .hero-visual { bottom:5rem; } }
   @media(min-width:75rem) {
     .hero { grid-template-columns:minmax(0,1fr) 35.375rem; }
     .hero h1 { font-size:clamp(3rem,calc(10vw - 4rem),5rem); }
@@ -106,6 +106,6 @@ const certificates=[{src:innovation,alt:'CSS Design Awards Innovation certificat
     .stack-experience { grid-template-columns:1fr 1fr; }
     .awards-grid { grid-template-columns:1fr 1fr; }
   }
-  @media(max-width:24.99rem) { .award-list li { gap:1rem; padding:1rem; } .award-list li>img { width:2.5rem; } }
+  @media(max-width:24.99rem) { .stack-experience,.awards { padding-block:3rem; } .award-list li { gap:1rem; padding:1rem; } .award-list li>img { width:2.5rem; } }
   @media(min-width:100rem) { .hero { grid-template-columns:1fr 1fr; padding-block:1.5rem; } .about { gap:5rem; } }
 </style>
