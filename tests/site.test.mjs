@@ -4,7 +4,7 @@ import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { Window } from 'happy-dom';
 import ts from 'typescript';
-import { setPanel } from '../src/scripts/disclosure.ts';
+import { setPanel, resizeCards } from '../src/scripts/disclosure.ts';
 
 const html = readFileSync(new URL('../dist/index.html', import.meta.url), 'utf8');
 function fixture(source=html) {
@@ -19,9 +19,9 @@ function fixture(source=html) {
 }
 function enhance(name) {
   const source=readFileSync(new URL(`../src/components/${name}.astro`,import.meta.url),'utf8');
-  const script=source.match(/<script>([\s\S]*?)<\/script>/)[1].replace(/import\s+\{\s*setPanel\s*\}\s+from\s+['"][^'"]+['"];?/, '');
+  const script=source.match(/<script>([\s\S]*?)<\/script>/)[1].replace(/import\s+\{\s*setPanel(?:, resizeCards)?\s*\}\s+from\s+['"][^'"]+['"];?/, '');
   const code=ts.transpileModule(script,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ESNext}}).outputText;
-  new Function('setPanel',code)(setPanel);
+  new Function('setPanel','resizeCards',code)(setPanel,resizeCards);
 }
 
 test('static output exposes all content and native links before enhancement',()=>{
@@ -71,14 +71,15 @@ test('process always has exactly one selected phase and matching artwork',()=>{
   w.close();
 });
 
-test('experience disclosures expand independently and can all close',()=>{
+test('experience keeps exactly one card open, including repeated selection',()=>{
   const w=fixture();enhance('Experience');
   const buttons=[...document.querySelectorAll('.experience-trigger')];
   assert.equal(document.querySelectorAll('.experience-panel:not([hidden])').length,1);
   buttons[1].click();buttons[3].click();
-  assert.equal(document.querySelectorAll('.experience-panel:not([hidden])').length,3);
+  assert.equal(document.querySelectorAll('.experience-panel:not([hidden])').length,1);
+  assert.equal(document.querySelector('.experience-panel:not([hidden])').id,'experience-panel-3');
   [0,1,3].forEach(i=>buttons[i].click());
-  assert.equal(document.querySelectorAll('.experience-panel:not([hidden])').length,0);
+  assert.equal(document.querySelectorAll('.experience-panel:not([hidden])').length,1);
   w.close();
 });
 
@@ -86,10 +87,11 @@ test('footer contact closes with Escape and restores trigger focus',()=>{
   const w=fixture();enhance('SiteFooter');
   const trigger=document.querySelector('.contact-trigger'), panel=document.querySelector('.contact-panel');
   trigger.click();assert.equal(panel.hidden,false);
+  assert.equal(trigger.hidden,true);assert.equal(document.activeElement,document.querySelector('.contact-close'));
   panel.querySelector('a').focus();
   panel.dispatchEvent(new w.KeyboardEvent('keydown',{key:'Escape',bubbles:true}));
   assert.equal(panel.hidden,true);assert.equal(document.activeElement,trigger);
-  assert.equal(panel.inert,true);
+  assert.equal(trigger.hidden,false);assert.equal(panel.inert,true);
   w.close();
 });
 

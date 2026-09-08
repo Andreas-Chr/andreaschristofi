@@ -5,13 +5,9 @@ import TopBackground from '../components/TopBackground.astro';
 import HeroDiamond from '../components/HeroDiamond.astro';
 import Process from '../components/Process.astro';
 import Experience from '../components/Experience.astro';
+import allAwards from '../assets/all-awards.png';
 import portrait from '../assets/andreas-bw.png';
-import innovation from '../assets/cssda-inn-field-no7.png';
-import kudos from '../assets/cssda-special-kudos.png';
-import ui from '../assets/cssda-ui-field-no7.png';
-import ux from '../assets/cssda-ux-field-no7.png';
 import { site, toolGroups, awards } from '../data/site';
-const certificates=[{src:innovation,alt:'CSS Design Awards Innovation certificate for Field No.7'},{src:kudos,alt:'CSS Design Awards Special Kudos certificate for Field No.7'},{src:ui,alt:'CSS Design Awards UI certificate for Field No.7'},{src:ux,alt:'CSS Design Awards UX certificate for Field No.7'}];
 ---
 <BaseLayout title="Andreas Christofi — Digital Product Designer">
   <div class="top-region">
@@ -57,9 +53,7 @@ const certificates=[{src:innovation,alt:'CSS Design Awards Innovation certificat
   <section class="section awards container" aria-labelledby="awards-heading">
     <h2 id="awards-heading">Awards</h2>
     <div class="awards-grid">
-      <div class="certificates">
-        {certificates.map((certificate,i)=><div class="certificate" style={`--i:${i}`}><Picture src={certificate.src} formats={['avif','webp']} fallbackFormat="jpg" width={540} alt={certificate.alt} loading="lazy" /></div>)}
-      </div>
+      <Picture class="certificates" src={allAwards} formats={['avif','webp']} fallbackFormat="png" widths={[304,448,684,992,1392]} sizes="(min-width: 1200px) 684px, calc(100vw - 32px)" alt="CSS Design Awards certificates for Innovation, Special Kudos, UI and UX" loading="lazy" />
       <ul class="award-list">
         {awards.map(award=><li><img src={`/assets/awards/${award.icon}.svg`} width="60" height="40" alt="" loading="lazy" /><div><h3>{award.title}</h3><p class="eyebrow">{award.detail}<span>{award.year}</span></p></div></li>)}
       </ul>
@@ -67,45 +61,50 @@ const certificates=[{src:innovation,alt:'CSS Design Awards Innovation certificat
   </section>
 </BaseLayout>
 <style>
-  .hero { display:grid; gap:1.5rem; align-items:center; max-width:120rem; }
-  .hero-copy { display:flex; flex-direction:column; align-items:flex-start; gap:1.5rem; padding-block:1rem; position:relative; z-index:2; }
+  .hero { padding-block:48px; display:grid; gap:24px; align-items:center; max-width:1440px; }
+  .hero-copy { display:flex; flex-direction:column; align-items:flex-start; gap:24px; padding-block:16px; position:relative; z-index:2; }
   .hero h1 { text-transform:uppercase; }
-  .hero .lead { font-size:1.25rem; line-height:2.25rem; font-weight:500; }
+  .hero .lead { font-size:20px; line-height:36px; font-weight:500; }
   .hero-visual { position:absolute; inset:auto 0 0; display:flex; justify-content:center; z-index:0; }
   .hero-copy .button { width:100%; }
-  .about { display:grid; gap:2.5rem; align-items:start; }
-  .about :global(.portrait) { display:block; width:100%; aspect-ratio:679/687; object-fit:cover; object-position:bottom; border-radius:1rem; }
-  .about-copy { display:grid; gap:2rem; min-width:0; }
-  .about-button { padding-block:2rem; }
-  .stack-experience { display:grid; gap:5rem 2.5rem; align-items:start; }
-  .stack h2 { margin-bottom:1rem; }
-  .tool-group { margin-top:2.5rem; }
-  .tool-group h3 { margin-bottom:1rem; }
-  .tool-group ul { display:flex; gap:.25rem; flex-wrap:wrap; list-style:none; padding:0; margin:0; }
-  .tool { position:relative; display:flex; justify-content:center; align-items:center; width:5rem; height:5rem; background:#303030; border-radius:.5rem; }
-  .tool img { width:2.25rem; height:2.25rem; object-fit:contain; transition:opacity var(--primitive-animation-duration-fast); }
+  .about { display:grid; gap:40px; align-items:start; }
+  .about > :global(picture) { position:relative; width:100%; aspect-ratio:679/687; }
+  .about :global(.portrait) { display:block; width:100%; height:100%; position:absolute; inset:0; aspect-ratio:679/687; object-fit:cover; object-position:bottom; border-radius:16px; }
+  .about-copy { display:grid; gap:32px; min-width:0; }
+  .about-button { padding-block:32px; }
+  .stack-experience { display:grid; gap:80px 24px; align-items:start; }
+  .stack h2 { margin-bottom:16px; }
+  .tool-group { margin-top:40px; }
+  .tool-group h3 { margin-bottom:16px; }
+  .tool-group ul { display:flex; gap:4px; flex-wrap:wrap; list-style:none; padding:0; margin:0; }
+  .tool { position:relative; display:flex; justify-content:center; align-items:center; width:80px; height:80px; background:#303030; border-radius:8px; }
+  .tool img { width:36px; height:36px; object-fit:contain; transition:opacity var(--primitive-animation-duration-fast); }
+  .tool:hover { background:#fff; }
   .tool-color { position:absolute; opacity:0; }
   .tool:hover .tool-color { opacity:1; } .tool:hover .tool-grey { opacity:0; }
-  .awards h2 { margin-bottom:2.5rem; }
-  .awards-grid { display:grid; gap:2.5rem 1.5rem; align-items:start; }
-  .certificates { position:relative; width:100%; aspect-ratio:684/416; }
-  .certificate { width:27.05%; position:absolute; left:calc(var(--i) * 24.31%); top:calc(var(--i) * 12.4%); border:4px solid #121212; border-radius:.5rem; overflow:hidden; }
-  .certificate :global(img) { width:100%; height:auto; }
-  .award-list { display:grid; gap:.25rem; padding:0; margin:0; list-style:none; }
-  .award-list li { display:flex; gap:1.5rem; align-items:center; padding:1.5rem; background:#303030; border-radius:.5rem; }
-  .award-list li>img { width:3.75rem; height:2.5rem; object-fit:contain; flex-shrink:0; }
-  .award-list h3 { font-size:1.25rem; line-height:2.25rem; margin-bottom:.25rem; }
-  .award-list .eyebrow { display:flex; flex-wrap:wrap; gap:.5rem 1rem; }
-  @media(min-width:40rem) { .hero h1 { font-size:clamp(3rem,10.4167vw,5rem); line-height:1.2; } .hero-copy { gap:3rem; } .hero .lead { font-size:2rem; line-height:3rem; font-weight:300; } .hero-copy .button { width:auto; } .hero-visual { position:relative; opacity:1; padding-block:2rem 5rem; } }
-  @media(min-width:56.25rem) { .about { grid-template-columns:1fr 1fr; } }
-  @media(min-width:25rem) and (max-width:39.99rem) { .hero { padding-block:5rem; } .hero-copy { gap:3rem; padding-block:3rem; } .hero-copy .button { width:auto; } .hero-visual { bottom:5rem; } }
-  @media(min-width:75rem) {
-    .hero { grid-template-columns:minmax(0,1fr) 35.375rem; }
-    .hero h1 { font-size:clamp(3rem,calc(10vw - 4rem),5rem); }
+  .awards h2 { margin-bottom:40px; }
+  .awards-grid { display:grid; gap:40px 24px; align-items:start; }
+  .award-list { display:grid; gap:4px; padding:0; margin:0; list-style:none; }
+  .award-list li { display:flex; gap:24px; align-items:center; padding:24px; background:#303030; border-radius:8px; }
+  .award-list li>img { width:60px; height:40px; object-fit:contain; flex-shrink:0; }
+  .award-list h3 { font-size:20px; line-height:36px; margin-bottom:4px; }
+  .award-list .eyebrow { display:flex; flex-wrap:wrap; gap:8px 16px; }
+  @media(min-width:640px) {  .hero-copy { gap:48px; }  .hero-copy .button { width:auto; } .hero-visual { position:relative; opacity:1; padding:0; } }
+  @media(min-width:900px) { .about { grid-template-columns:1fr 1fr; } }
+  @media(min-width:400px) and (max-width:639.84px) { .hero { padding-block:80px; } .hero-copy { gap:48px; padding-block:48px; } .hero-copy .button { width:auto; } .hero-visual { bottom:80px; } }
+  .certificates { display:block; width:100%; height:auto; }
+  .hero .lead { max-width:683px; }
+  @media(min-width:640px) and (max-width:1199px) { .hero { min-height:1376px; padding-block:96px 48px; align-content:space-between; } .hero-copy { padding:0; } .hero-visual { padding-bottom:0; } }
+  @media(min-width:900px) and (max-width:1199px) { .hero { min-height:1288px; padding-block:128px 80px; gap:0; } }
+  @media(min-width:1200px) {
+    .hero { padding-block:80px; }
+    .about .body-large { font-size:16px; line-height:32px; font-weight:400; }
+    .about .lead { font-size:20px; line-height:36px; font-weight:500; }
+    .hero { grid-template-columns:minmax(0,1fr) minmax(0,1fr); }
+
     .hero-visual { padding:0; }
     .stack-experience { grid-template-columns:1fr 1fr; }
     .awards-grid { grid-template-columns:1fr 1fr; }
   }
-  @media(max-width:24.99rem) { .stack-experience,.awards { padding-block:3rem; } .award-list li { gap:1rem; padding:1rem; } .award-list li>img { width:2.5rem; } }
-  @media(min-width:100rem) { .hero { grid-template-columns:1fr 1fr; padding-block:1.5rem; } .about { gap:5rem; } }
+  @media(max-width:399.84px) { .hero .lead { font-size:16px; line-height:32px; font-weight:400; } .hero-visual { bottom:-41.77px; } .about-button .button { width:100%; } .stack-experience,.awards { padding-block:48px; } .award-list li { flex-direction:column; align-items:flex-start; gap:24px; padding:24px; } .award-list li>img { width:60px; height:38.86px; } }
 </style>

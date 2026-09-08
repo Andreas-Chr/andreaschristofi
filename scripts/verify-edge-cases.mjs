@@ -1,0 +1,17 @@
+const {chromium}=await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
+import assert from 'node:assert/strict';
+const browser=await chromium.launch({executablePath:process.env.CHROME_PATH || (process.platform==='darwin'?'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome':undefined),headless:true});
+const origin=process.env.QA_ORIGIN || 'http://127.0.0.1:4323';const results=[];
+const page=await browser.newPage({viewport:{width:320,height:320},hasTouch:true,reducedMotion:'reduce'});
+await page.goto(origin);await page.waitForSelector('.page-loader',{state:'detached'});
+await page.locator('.menu-trigger').tap();const menu=await page.locator('.menu-panel').boundingBox();assert.ok(menu.y>=0&&menu.y+menu.height<=320);assert.equal(await page.locator('.menu-trigger').isVisible(),true);
+await page.locator('.menu-panel').evaluate(n=>n.scrollTop=n.scrollHeight);await page.locator('.menu-trigger').tap();results.push('Short touch viewport retains reachable same-position menu control');
+await page.locator('.phase-card').nth(1).tap({position:{x:12,y:12}});assert.equal(await page.locator('.phase-trigger').nth(1).getAttribute('aria-expanded'),'true');
+await page.locator('.phase-trigger').nth(3).focus();await page.keyboard.press('Space');assert.equal(await page.locator('.phase-trigger').nth(3).getAttribute('aria-expanded'),'true');
+await page.setViewportSize({width:1024,height:500});assert.equal(await page.locator('[data-phase-art]:visible').getAttribute('data-phase-art'),'3');results.push('Full-card touch, Space activation and resize preserve phase state');
+const response=await page.goto(origin+'/unmatched/deep/path/');assert.equal(response.status(),404);assert.match(await page.locator('h1').textContent(),/Unknown Path/);results.push('Deep unknown route returns HTTP 404 with recovery page');
+await page.goto(origin+'/legal/');const links=await page.locator('.legal-copy a').evaluateAll(nodes=>nodes.map(n=>({href:n.getAttribute('href'),target:n.target,rel:n.rel})));
+for(const link of links)if(link.href.startsWith('mailto:'))assert.equal(link.target,'');else{assert.equal(link.target,'_blank');assert.ok(link.rel.includes('noopener')&&link.rel.includes('noreferrer'));}assert.ok(await page.locator('.legal-copy ul li').count()>10);results.push('Semantic policy lists and web/mailto link targets verified');await page.close();
+const restore=await browser.newPage();await restore.route('**/assets/fonts/zalandosansexpanded-black.woff2',()=>{});await restore.goto(origin,{waitUntil:'domcontentloaded'});await restore.evaluate(()=>window.dispatchEvent(new PageTransitionEvent('pageshow',{persisted:true})));assert.equal(await restore.locator('.page-loader').count(),0);assert.equal(await restore.locator('[data-site-shell]').evaluate(n=>n.inert),false);results.push('Persisted pageshow handler releases loader immediately');await restore.close();
+const transition=await browser.newPage();await transition.addInitScript(()=>{const add=EventTarget.prototype.addEventListener;EventTarget.prototype.addEventListener=function(type,...args){if(type==='transitionend')return;return add.call(this,type,...args);};});await transition.goto(origin);await transition.waitForSelector('.page-loader',{state:'detached',timeout:1000});assert.equal(await transition.locator('[data-site-shell]').evaluate(n=>n.inert),false);results.push('Loader completion fallback succeeds without transitionend');await transition.close();
+console.log(JSON.stringify({results}));await browser.close();

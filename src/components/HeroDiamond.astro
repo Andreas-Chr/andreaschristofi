@@ -1,6 +1,6 @@
 <div class="hero-diamond" data-diamond aria-hidden="true">
-  <picture class="diamond-top"><source media="(max-width: 39.99rem)" srcset="/assets/hero/diamond-top-small.svg" /><source media="(max-width: 74.99rem)" srcset="/assets/hero/diamond-top-medium.svg" /><img src="/assets/hero/diamond-top.svg" width="498" height="441" alt="" /></picture>
-  <picture class="diamond-bottom"><source media="(max-width: 39.99rem)" srcset="/assets/hero/diamond-bottom-small.svg" /><source media="(max-width: 74.99rem)" srcset="/assets/hero/diamond-bottom-medium.svg" /><img src="/assets/hero/diamond-bottom.svg" width="546" height="586" alt="" /></picture>
+  <picture class="diamond-top"><source media="(max-width: 639.84px)" srcset="/assets/hero/diamond-top-small.svg" /><img src="/assets/hero/diamond-top-medium.svg" width="498" height="441" alt="" /></picture>
+  <picture class="diamond-bottom"><source media="(max-width: 639.84px)" srcset="/assets/hero/diamond-bottom-small.svg" /><img src="/assets/hero/diamond-bottom-medium.svg" width="546" height="586" alt="" /></picture>
   <span class="viewport-measure"></span>
 </div>
 <script>
@@ -13,7 +13,7 @@
     const schedule=()=>{if(!frame)frame=requestAnimationFrame(update);};
     const resize=()=>{
       range=measure.getBoundingClientRect().height || 1;
-      // Actual Closed/Opened differences: Large 197/546, Medium 156/393.7959, Small 124/276.4774.
+      // Current layer delta / width: Large 156/393.7959, Small 124/276.4774.
       const ratio=parseFloat(getComputedStyle(diamond).getPropertyValue('--travel-ratio'));
       travel=diamond.getBoundingClientRect().width*ratio;
       schedule();
@@ -26,13 +26,12 @@
   }
 </script>
 <style>
-  .hero-diamond { --travel-ratio:.44849962; --diamond-travel:0px; width:17.27984rem; max-width:100%; aspect-ratio:276.4774/445.7738; position:relative; pointer-events:none; }
+  .hero-diamond { --travel-ratio:.44849962; --diamond-travel:0px; width:276.477px; max-width:100%; aspect-ratio:276.4774/445.7738; position:relative; pointer-events:none; }
   picture { display:block; position:absolute; }
   picture img { width:100%; height:100%; }
   .diamond-top { top:0; left:4.4143%; width:91.1732%; height:50.1%; }
   .diamond-bottom { width:100%; height:66.57%; top:33.43%; transform:translateY(var(--diamond-travel)); }
   .viewport-measure { position:absolute; visibility:hidden; width:0; height:100vh; pointer-events:none; }
-  @media(min-width:40rem) { .hero-diamond { width:24.61224rem; aspect-ratio:393.7959/634.3311; --travel-ratio:.39614433; } .diamond-bottom { top:33.3709%; height:66.6291%; } }
-  @media(min-width:75rem) { .hero-diamond { width:34.125rem; aspect-ratio:546/879.4728; --travel-ratio:.36080586; } .diamond-bottom { top:33.3701%; height:66.6299%; } }
+  @media(min-width:640px) { .hero-diamond { width:393.796px; aspect-ratio:393.7959/634.3311; --travel-ratio:.39614433; } .diamond-bottom { top:33.3709%; height:66.6291%; } }
   @media(prefers-reduced-motion:reduce) { .diamond-bottom { transform:none; } }
 </style>

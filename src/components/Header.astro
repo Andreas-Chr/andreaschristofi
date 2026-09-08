@@ -5,75 +5,66 @@ import SocialLinks from './SocialLinks.astro';
 <header class="site-header" data-menu>
   <div class="header-row container">
     <a class="logo-link" href="/" aria-label="Andreas Christofi — Home">
-      <img class="full-logo" src="/assets/logo/header-logo.svg" width="249" height="84" alt="" />
-      <span class="small-logo">
-        <img src="/assets/logo/logo-light.svg" width="27" height="48" alt="" />
-      </span>
+      <span class="logo-surface"><img class="light-mark" src="/assets/logo/logo-light.svg" width="27" height="48" alt="" /><img class="dark-mark" src="/assets/logo/logo-dark.svg" width="27" height="48" alt="" /></span>
+      <img class="wordmark" src="/assets/logo/andreaschristofi.svg" width="183" height="15" alt="" />
     </a>
     <button class="icon-button menu-trigger" type="button" aria-label="Open main menu" aria-expanded="true" aria-controls="main-navigation" hidden>
-      <img src="/assets/icons/burger.svg" width="24" height="24" alt="" />
+      <img class="burger" src="/assets/icons/burger.svg" width="16" height="16" alt="" /><img class="close" src="/assets/icons/close.svg" width="16" height="16" alt="" />
     </button>
   </div>
   <div class="menu-panel" id="main-navigation">
-    <button class="icon-button menu-close" type="button" aria-label="Close menu" hidden>
-      <img src="/assets/icons/close.svg" width="24" height="24" alt="" />
-    </button>
-    <nav aria-label="Main navigation">
-      <ul>
-        {navigation.map(link=><li><a href={link.href}>{link.label}</a></li>)}
-      </ul>
-    </nav>
-    <div class="menu-contact">
-      <h2>Get in touch</h2>
-      <p>Submit a request to <a href={`mailto:${site.email}`}>{site.email}</a>. We’ll discuss your project and propose a solution.</p>
-    </div>
-    <div>
-      <p class="eyebrow">Follow me</p>
-      <SocialLinks />
-    </div>
+    <nav aria-label="Main navigation"><ul>{navigation.map(link=><li><a href={link.href}>{link.label}</a></li>)}</ul></nav>
+    <div class="menu-contact"><h2>Get in touch</h2><p>Submit a request to <a href={`mailto:${site.email}`}>{site.email}</a>. We’ll discuss your project and propose a solution.</p></div>
+    <div><p class="eyebrow">Follow me</p><SocialLinks surface="light" menu /></div>
   </div>
 </header>
 <script>
   import { setPanel } from '../scripts/disclosure';
-  const root = document.querySelector<HTMLElement>('[data-menu]');
-  if (root && !root.dataset.ready) {
-    const trigger = root.querySelector<HTMLButtonElement>('.menu-trigger')!;
-    const close = root.querySelector<HTMLButtonElement>('.menu-close')!;
-    const panel = root.querySelector<HTMLElement>('.menu-panel')!;
-    const change = (open: boolean, restore = false) => {
-      if (restore) trigger.focus({ preventScroll: true });
-      setPanel(panel, trigger, open);
-      trigger.setAttribute('aria-label', open ? 'Toggle main menu' : 'Open main menu');
+  const root=document.querySelector<HTMLElement>('[data-menu]');
+  if(root && !root.dataset.ready) {
+    const trigger=root.querySelector<HTMLButtonElement>('.menu-trigger')!;
+    const panel=root.querySelector<HTMLElement>('.menu-panel')!;
+    const change=(open:boolean,restore=false)=>{
+      if(restore)trigger.focus({preventScroll:true});
+      setPanel(panel,trigger,open);
+      root.dataset.open=String(open);
+      trigger.setAttribute('aria-label',open?'Close main menu':'Open main menu');
     };
-    trigger.addEventListener('click', () => change(trigger.getAttribute('aria-expanded') !== 'true'));
-    close.addEventListener('click', () => change(false, true));
-    document.addEventListener('keydown', event => { if (event.key === 'Escape' && trigger.getAttribute('aria-expanded') === 'true') change(false, true); });
-    document.addEventListener('click', event => { if (!root.contains(event.target as Node) && trigger.getAttribute('aria-expanded') === 'true') change(false); });
-    panel.querySelectorAll('a').forEach(link => link.addEventListener('click', () => change(false)));
-    setPanel(panel, trigger, false, false);
-    root.dataset.ready = 'true';
-    trigger.hidden = close.hidden = false;
+    trigger.addEventListener('click',()=>change(trigger.getAttribute('aria-expanded')!=='true'));
+    document.addEventListener('keydown',event=>{if(event.key==='Escape'&&trigger.getAttribute('aria-expanded')==='true')change(false,true);});
+    document.addEventListener('click',event=>{if(!root.contains(event.target as Node)&&trigger.getAttribute('aria-expanded')==='true')change(false);});
+    panel.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>change(false)));
+    setPanel(panel,trigger,false,false);root.dataset.open='false';root.dataset.ready='true';trigger.hidden=false;
   }
 </script>
 <style>
-  .site-header { position:relative; z-index:100; padding-block:var(--header-padding); }
+  .site-header { position:relative; z-index:100; padding-block:var(--header-padding); max-width:1440px; margin-inline:auto; }
   .site-header[data-ready] { position:fixed; inset:0 0 auto; pointer-events:none; }
-  .header-row { display:flex; justify-content:space-between; gap:1rem; align-items:center; }
+  .header-row { display:flex; justify-content:space-between; align-items:center; gap:16px; }
   .header-row>* { pointer-events:auto; }
-  .logo-link { width:14.93rem; height:4rem; display:block; position:relative; }
-  .full-logo { position:absolute; width:15.56rem; height:5.25rem; max-width:none; left:-.625rem; top:-.5rem; }
-  .small-logo { display:none; width:3rem; height:4rem; align-items:center; justify-content:center; background:#47474780; border-radius:.5rem; }
-  .small-logo img { width:1.6875rem; height:3rem; }
-  .menu-panel { background:#303030; color:#fff; border-radius:1rem; padding:2.5rem; display:grid; gap:2.5rem; margin:1rem var(--page-gutter) 0; pointer-events:auto; }
-  [data-ready] .menu-panel { position:absolute; right:var(--page-gutter); top:calc(var(--header-padding) + 5rem); width:min(37.5rem,calc(100% - 2 * var(--page-gutter))); max-height:calc(100dvh - var(--header-padding) - 6rem); overflow-y:auto; overscroll-behavior:contain; margin:0; }
-  .menu-close { position:absolute; top:1rem; right:1rem; width:3rem; height:3rem; background:#474747; }
-  .menu-close img { filter:brightness(0) invert(1); }
-  nav ul { list-style:none; margin:0; padding:0 3rem 0 0; display:grid; gap:1rem; }
-  nav a { font:900 2.5rem/3rem var(--font-family-primary); text-decoration:none; }
-  nav a:hover { color:var(--color-text-accent); }
-  .menu-contact h2 { font:300 2rem/3rem var(--font-family-secondary); text-transform:none; margin-bottom:.5rem; }
-  .menu-contact p { font-size:1.25rem; line-height:2.25rem; overflow-wrap:anywhere; }
-  .eyebrow { margin-bottom:1.5rem; }
-  @media(max-width:24.99rem) { .full-logo { display:none; } .small-logo { display:flex; } .logo-link { width:3rem; } }
-  @media(max-width:39.99rem) { .menu-panel { padding:1.5rem; gap:2rem; } nav a { font-size:1.75rem; line-height:2.5rem; } .menu-contact p { font-size:1rem; line-height:1.5rem; } }
+  .logo-link { display:flex; align-items:center; gap:8px; text-decoration:none; }
+  .logo-surface { position:relative; display:grid; place-items:center; width:48px; height:64px; background:#ffffff1a; border:1px solid #ffffff33; border-radius:12px; transition:background var(--primitive-animation-duration-fast); }
+  .logo-surface img { width:27px; height:48px; }
+  .dark-mark { position:absolute; opacity:0; }
+  .logo-link:hover .logo-surface,.logo-link:focus-visible .logo-surface { background:#c5fa00; }
+  .logo-link:hover .light-mark,.logo-link:focus-visible .light-mark { opacity:0; }
+  .logo-link:hover .dark-mark,.logo-link:focus-visible .dark-mark { opacity:1; }
+  .wordmark { width:183px; height:15px; }
+  .menu-trigger { position:relative; z-index:2; }
+  .menu-trigger img { width:16px; height:16px; }
+  .menu-trigger .close { display:none; }
+  [data-open='true'] .menu-trigger { background:#4b09f5; }
+  [data-open='true'] .menu-trigger .burger { display:none; }
+  [data-open='true'] .menu-trigger .close { display:block; filter:brightness(0) invert(1); }
+  .menu-panel { background:#fff; color:#303030; border-radius:16px; padding:40px; display:grid; gap:40px; margin:16px var(--page-gutter) 0; pointer-events:auto; }
+  [data-ready] .menu-panel { position:absolute; right:0; top:8px; width:min(600px,100%); max-height:calc(100dvh - 16px); overflow-y:auto; overscroll-behavior:contain; margin:0; padding-top:88px; }
+  nav ul { list-style:none; margin:0; padding:0; display:grid; gap:8px; }
+  nav a { font:900 40px/48px var(--font-family-primary); text-decoration:none; }
+  nav a:hover { color:#4b09f5; }
+  .menu-contact h2 { font:300 32px/48px var(--font-family-secondary); text-transform:none; }
+  .menu-contact p { font-size:20px; line-height:36px; overflow-wrap:anywhere; }
+  .eyebrow { color:#303030; margin-bottom:8px; }
+  .menu-panel a:focus-visible { outline-color:#4b09f5; }
+  @media(min-width:700px) { [data-ready] .menu-panel { padding-top:40px; } nav { padding-right:48px; } }
+  @media(max-width:399px) { .wordmark { display:none; } .menu-panel { padding:16px; } [data-ready] .menu-panel { padding-top:64px; } }
 </style>

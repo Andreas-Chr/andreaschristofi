@@ -1,4 +1,20 @@
 /** Shared, interruptible state transition. Focus and interactivity change immediately. */
+export function resizeCards(cards: HTMLElement[], update: () => void, animate = true) {
+  const heights = cards.map(card => card.getBoundingClientRect().height);
+  cards.forEach(card => card.getAnimations().forEach(animation => animation.cancel()));
+  update();
+  if (!animate || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  cards.forEach((card, i) => {
+    const height = card.getBoundingClientRect().height;
+    if (Math.abs(height - heights[i]) < 1 || !card.animate) return;
+    const css = getComputedStyle(card);
+    card.animate([{height:`${heights[i]}px`},{height:`${height}px`}], {
+      duration:parseFloat(css.getPropertyValue('--primitive-animation-duration-standard')) || 240,
+      easing:css.getPropertyValue('--primitive-animation-easing-standard').trim() || 'ease-out',
+    });
+  });
+}
+
 export function setPanel(panel: HTMLElement, trigger: HTMLButtonElement, open: boolean, animate = true) {
   panel.getAnimations().forEach(animation => animation.cancel());
   if (!open && panel.contains(document.activeElement)) trigger.focus({ preventScroll: true });

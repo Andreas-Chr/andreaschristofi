@@ -1,0 +1,1044 @@
+[
+  {
+    "width": 320,
+    "path": "/",
+    "geometry": {
+      "width": 320,
+      "scroll": 320,
+      "height": 10768,
+      "failed": [],
+      "sections": [
+        {
+          "name": "hero top-content container",
+          "y": 96,
+          "height": 496
+        },
+        {
+          "name": "section process container",
+          "y": 592,
+          "height": 1836
+        },
+        {
+          "name": "section about container",
+          "y": 2428,
+          "height": 2035.578125
+        },
+        {
+          "name": "section stack-experience container",
+          "y": 4463.578125,
+          "height": 3232
+        },
+        {
+          "name": "section awards container",
+          "y": 7695.578125,
+          "height": 1509.296875
+        },
+        {
+          "name": "footer-contact container",
+          "y": 9436.875,
+          "height": 926.84375
+        },
+        {
+          "name": "footer-info container",
+          "y": 10363.71875,
+          "height": 324
+        }
+      ],
+      "overflow": []
+    },
+    "errors": []
+  },
+  {
+    "width": 320,
+    "path": "/legal/",
+    "geometry": {
+      "width": 320,
+      "scroll": 320,
+      "height": 22007,
+      "failed": [],
+      "sections": [
+        {
+          "name": "footer-contact container",
+          "y": 20676,
+          "height": 926.84375
+        },
+        {
+          "name": "footer-info container",
+          "y": 21602.84375,
+          "height": 324
+        }
+      ],
+      "overflow": []
+    },
+    "errors": []
+  },
+  {
+    "width": 320,
+    "path": "/404.html",
+    "geometry": {
+      "width": 320,
+      "scroll": 320,
+      "height": 2574,
+      "failed": [],
+      "sections": [
+        {
+          "name": "error-page top-content container",
+          "y": 96,
+          "height": 915.359375
+        },
+        {
+          "name": "footer-contact container",
+          "y": 1243.359375,
+          "height": 926.84375
+        },
+        {
+          "name": "footer-info container",
+          "y": 2170.203125,
+          "height": 324
+        }
+      ],
+      "overflow": [
+        {
+          "tag": "PICTURE",
+          "cls": "",
+          "right": 384
+        },
+        {
+          "tag": "IMG",
+          "cls": "error-art",
+          "right": 384
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "width": 480,
+    "path": "/",
+    "geometry": {
+      "width": 480,
+      "scroll": 480,
+      "height": 9378,
+      "failed": [],
+      "sections": [
+        {
+          "name": "hero top-content container",
+          "y": 96,
+          "height": 700
+        },
+        {
+          "name": "section process container",
+          "y": 796,
+          "height": 1736
+        },
+        {
+          "name": "section about container",
+          "y": 2532,
+          "height": 1713.265625
+        },
+        {
+          "name": "section stack-experience container",
+          "y": 4245.265625,
+          "height": 2312
+        },
+        {
+          "name": "section awards container",
+          "y": 6557.265625,
+          "height": 1278
+        },
+        {
+          "name": "footer-contact container",
+          "y": 8019.265625,
+          "height": 986.265625
+        },
+        {
+          "name": "footer-info container",
+          "y": 9005.53125,
+          "height": 292
+        }
+      ],
+      "overflow": []
+    },
+    "errors": []
+  },
+  {
+    "width": 480,
+    "path": "/legal/",
+    "geometry": {
+      "width": 480,
+      "scroll": 480,
+      "height": 17378,
+      "failed": [],
+      "sections": [
+        {
+          "name": "footer-contact container",
+          "y": 16020,
+          "height": 986.265625
+        },
+        {
+          "name": "footer-info container",
+          "y": 17006.265625,
+          "height": 292
+        }
+      ],
+      "overflow": []
+    },
+    "errors": []
+  },
+  {
+    "width": 480,
+    "path": "/404.html",
+    "geometry": {
+      "width": 480,
+      "scroll": 480,
+      "height": 2450,
+      "failed": [],
+      "sections": [
+        {
+          "name": "error-page top-content container",
+          "y": 96,
+          "height": 811.359375
+        },
+        {
+          "name": "footer-contact container",
+          "y": 1091.359375,
+          "height": 986.265625
+        },
+        {
+          "name": "footer-info container",
+          "y": 2077.625,
+          "height": 292
+        }
+      ],
+      "overflow": []
+    },
+    "errors": []
+  },
+  {
+    "width": 768,
+    "path": "/",
+    "geometry": {
+      "width": 768,
+      "scroll": 768,
+      "height": 9268,
+      "failed": [],
+      "sections": [
+        {
+          "name": "hero top-content container",
+          "y": 112,
+          "height": 1376
+        },
+        {
+          "name": "section process container",
+          "y": 1488,
+          "height": 1381.5
+        },
+        {
+          "name": "section about container",
+          "y": 2869.5,
+          "height": 1728.65625
+        },
+        {
+          "name": "section stack-experience container",
+          "y": 4598.15625,
+          "height": 1908
+        },
+        {
+          "name": "section awards container",
+          "y": 6506.15625,
+          "height": 1259.953125
+        },
+        {
+          "name": "footer-contact container",
+          "y": 7910.109375,
+          "height": 986.265625
+        },
+        {
+          "name": "footer-info container",
+          "y": 8896.375,
+          "height": 292
+        }
+      ],
+      "overflow": []
+    },
+    "errors": []
+  },
+  {
+    "width": 768,
+    "path": "/legal/",
+    "geometry": {
+      "width": 768,
+      "scroll": 768,
+      "height": 13654,
+      "failed": [],
+      "sections": [
+        {
+          "name": "footer-contact container",
+          "y": 12296,
+          "height": 986.265625
+        },
+        {
+          "name": "footer-info container",
+          "y": 13282.265625,
+          "height": 292
+        }
+      ],
+      "overflow": []
+    },
+    "errors": []
+  },
+  {
+    "width": 768,
+    "path": "/404.html",
+    "geometry": {
+      "width": 768,
+      "scroll": 768,
+      "height": 2794,
+      "failed": [],
+      "sections": [
+        {
+          "name": "error-page top-content container",
+          "y": 112,
+          "height": 1180
+        },
+        {
+          "name": "footer-contact container",
+          "y": 1436,
+          "height": 986.265625
+        },
+        {
+          "name": "footer-info container",
+          "y": 2422.265625,
+          "height": 292
+        }
+      ],
+      "overflow": []
+    },
+    "errors": []
+  },
+  {
+    "width": 1024,
+    "path": "/",
+    "geometry": {
+      "width": 1024,
+      "scroll": 1024,
+      "height": 8595,
+      "failed": [],
+      "sections": [
+        {
+          "name": "hero top-content container",
+          "y": 112,
+          "height": 1288
+        },
+        {
+          "name": "section process container",
+          "y": 1400,
+          "height": 1505
+        },
+        {
+          "name": "section about container",
+          "y": 2905,
+          "height": 1184
+        },
+        {
+          "name": "section stack-experience container",
+          "y": 4089,
+          "height": 1844
+        },
+        {
+          "name": "section awards container",
+          "y": 5933,
+          "height": 1414.359375
+        },
+        {
+          "name": "footer-contact container",
+          "y": 7451.359375,
+          "height": 984
+        },
+        {
+          "name": "footer-info container",
+          "y": 8435.359375,
+          "height": 80
+        }
+      ],
+      "overflow": []
+    },
+    "errors": []
+  },
+  {
+    "width": 1024,
+    "path": "/legal/",
+    "geometry": {
+      "width": 1024,
+      "scroll": 1024,
+      "height": 12100,
+      "failed": [],
+      "sections": [
+        {
+          "name": "footer-contact container",
+          "y": 10956,
+          "height": 984
+        },
+        {
+          "name": "footer-info container",
+          "y": 11940,
+          "height": 80
+        }
+      ],
+      "overflow": []
+    },
+    "errors": []
+  },
+  {
+    "width": 1024,
+    "path": "/404.html",
+    "geometry": {
+      "width": 1024,
+      "scroll": 1024,
+      "height": 2568,
+      "failed": [],
+      "sections": [
+        {
+          "name": "error-page top-content container",
+          "y": 112,
+          "height": 1208
+        },
+        {
+          "name": "footer-contact container",
+          "y": 1424,
+          "height": 984
+        },
+        {
+          "name": "footer-info container",
+          "y": 2408,
+          "height": 80
+        }
+      ],
+      "overflow": []
+    },
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "path": "/",
+    "geometry": {
+      "width": 1440,
+      "scroll": 1440,
+      "height": 7239,
+      "failed": [],
+      "sections": [
+        {
+          "name": "hero top-content container",
+          "y": 112,
+          "height": 794.296875
+        },
+        {
+          "name": "section process container",
+          "y": 906.296875,
+          "height": 1765.015625
+        },
+        {
+          "name": "section about container",
+          "y": 2671.3125,
+          "height": 1003.953125
+        },
+        {
+          "name": "section stack-experience container",
+          "y": 3675.265625,
+          "height": 1508
+        },
+        {
+          "name": "section awards container",
+          "y": 5183.265625,
+          "height": 936
+        },
+        {
+          "name": "footer-contact container",
+          "y": 6223.265625,
+          "height": 856
+        },
+        {
+          "name": "footer-info container",
+          "y": 7079.265625,
+          "height": 80
+        }
+      ],
+      "overflow": []
+    },
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "path": "/legal/",
+    "geometry": {
+      "width": 1440,
+      "scroll": 1440,
+      "height": 11196,
+      "failed": [],
+      "sections": [
+        {
+          "name": "footer-contact container",
+          "y": 10180,
+          "height": 856
+        },
+        {
+          "name": "footer-info container",
+          "y": 11036,
+          "height": 80
+        }
+      ],
+      "overflow": []
+    },
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "path": "/404.html",
+    "geometry": {
+      "width": 1440,
+      "scroll": 1440,
+      "height": 2112,
+      "failed": [],
+      "sections": [
+        {
+          "name": "error-page top-content container",
+          "y": 112,
+          "height": 880
+        },
+        {
+          "name": "footer-contact container",
+          "y": 1096,
+          "height": 856
+        },
+        {
+          "name": "footer-info container",
+          "y": 1952,
+          "height": 80
+        }
+      ],
+      "overflow": []
+    },
+    "errors": []
+  },
+  {
+    "width": 375,
+    "path": "/",
+    "geometry": {
+      "width": 375,
+      "scroll": 375,
+      "height": 9921,
+      "failed": [],
+      "sections": [
+        {
+          "name": "hero top-content container",
+          "y": 96,
+          "height": 464
+        },
+        {
+          "name": "section process container",
+          "y": 560,
+          "height": 1804
+        },
+        {
+          "name": "section about container",
+          "y": 2364,
+          "height": 1863.21875
+        },
+        {
+          "name": "section stack-experience container",
+          "y": 4227.21875,
+          "height": 2736
+        },
+        {
+          "name": "section awards container",
+          "y": 6963.21875,
+          "height": 1474.65625
+        },
+        {
+          "name": "footer-contact container",
+          "y": 8621.875,
+          "height": 926.84375
+        },
+        {
+          "name": "footer-info container",
+          "y": 9548.71875,
+          "height": 292
+        }
+      ],
+      "overflow": []
+    },
+    "errors": []
+  },
+  {
+    "width": 375,
+    "path": "/legal/",
+    "geometry": {
+      "width": 375,
+      "scroll": 375,
+      "height": 19555,
+      "failed": [],
+      "sections": [
+        {
+          "name": "footer-contact container",
+          "y": 18256,
+          "height": 926.84375
+        },
+        {
+          "name": "footer-info container",
+          "y": 19182.84375,
+          "height": 292
+        }
+      ],
+      "overflow": []
+    },
+    "errors": []
+  },
+  {
+    "width": 375,
+    "path": "/404.html",
+    "geometry": {
+      "width": 375,
+      "scroll": 375,
+      "height": 2410,
+      "failed": [],
+      "sections": [
+        {
+          "name": "error-page top-content container",
+          "y": 96,
+          "height": 831.359375
+        },
+        {
+          "name": "footer-contact container",
+          "y": 1111.359375,
+          "height": 926.84375
+        },
+        {
+          "name": "footer-info container",
+          "y": 2038.203125,
+          "height": 292
+        }
+      ],
+      "overflow": [
+        {
+          "tag": "PICTURE",
+          "cls": "",
+          "right": 411.5
+        },
+        {
+          "tag": "IMG",
+          "cls": "error-art",
+          "right": 411.5
+        }
+      ]
+    },
+    "errors": []
+  },
+  {
+    "width": 600,
+    "path": "/",
+    "geometry": {
+      "width": 600,
+      "scroll": 600,
+      "height": 9008,
+      "failed": [],
+      "sections": [
+        {
+          "name": "hero top-content container",
+          "y": 96,
+          "height": 700
+        },
+        {
+          "name": "section process container",
+          "y": 796,
+          "height": 1704
+        },
+        {
+          "name": "section about container",
+          "y": 2500,
+          "height": 1678.6875
+        },
+        {
+          "name": "section stack-experience container",
+          "y": 4178.6875,
+          "height": 2132
+        },
+        {
+          "name": "section awards container",
+          "y": 6310.6875,
+          "height": 1194.953125
+        },
+        {
+          "name": "footer-contact container",
+          "y": 7649.640625,
+          "height": 986.265625
+        },
+        {
+          "name": "footer-info container",
+          "y": 8635.90625,
+          "height": 292
+        }
+      ],
+      "overflow": []
+    },
+    "errors": []
+  },
+  {
+    "width": 600,
+    "path": "/legal/",
+    "geometry": {
+      "width": 600,
+      "scroll": 600,
+      "height": 14986,
+      "failed": [],
+      "sections": [
+        {
+          "name": "footer-contact container",
+          "y": 13628,
+          "height": 986.265625
+        },
+        {
+          "name": "footer-info container",
+          "y": 14614.265625,
+          "height": 292
+        }
+      ],
+      "overflow": []
+    },
+    "errors": []
+  },
+  {
+    "width": 600,
+    "path": "/404.html",
+    "geometry": {
+      "width": 600,
+      "scroll": 600,
+      "height": 2410,
+      "failed": [],
+      "sections": [
+        {
+          "name": "error-page top-content container",
+          "y": 96,
+          "height": 811.359375
+        },
+        {
+          "name": "footer-contact container",
+          "y": 1051.359375,
+          "height": 986.265625
+        },
+        {
+          "name": "footer-info container",
+          "y": 2037.625,
+          "height": 292
+        }
+      ],
+      "overflow": []
+    },
+    "errors": []
+  },
+  {
+    "width": 900,
+    "path": "/",
+    "geometry": {
+      "width": 900,
+      "scroll": 900,
+      "height": 8866,
+      "failed": [],
+      "sections": [
+        {
+          "name": "hero top-content container",
+          "y": 112,
+          "height": 1288
+        },
+        {
+          "name": "section process container",
+          "y": 1400,
+          "height": 1443.875
+        },
+        {
+          "name": "section about container",
+          "y": 2843.875,
+          "height": 1304
+        },
+        {
+          "name": "section stack-experience container",
+          "y": 4147.875,
+          "height": 1876
+        },
+        {
+          "name": "section awards container",
+          "y": 6023.875,
+          "height": 1339.5625
+        },
+        {
+          "name": "footer-contact container",
+          "y": 7507.4375,
+          "height": 986.265625
+        },
+        {
+          "name": "footer-info container",
+          "y": 8493.703125,
+          "height": 292
+        }
+      ],
+      "overflow": []
+    },
+    "errors": []
+  },
+  {
+    "width": 900,
+    "path": "/legal/",
+    "geometry": {
+      "width": 900,
+      "scroll": 900,
+      "height": 13070,
+      "failed": [],
+      "sections": [
+        {
+          "name": "footer-contact container",
+          "y": 11712,
+          "height": 986.265625
+        },
+        {
+          "name": "footer-info container",
+          "y": 12698.265625,
+          "height": 292
+        }
+      ],
+      "overflow": []
+    },
+    "errors": []
+  },
+  {
+    "width": 900,
+    "path": "/404.html",
+    "geometry": {
+      "width": 900,
+      "scroll": 900,
+      "height": 2822,
+      "failed": [],
+      "sections": [
+        {
+          "name": "error-page top-content container",
+          "y": 112,
+          "height": 1208
+        },
+        {
+          "name": "footer-contact container",
+          "y": 1464,
+          "height": 986.265625
+        },
+        {
+          "name": "footer-info container",
+          "y": 2450.265625,
+          "height": 292
+        }
+      ],
+      "overflow": []
+    },
+    "errors": []
+  },
+  {
+    "width": 1200,
+    "path": "/",
+    "geometry": {
+      "width": 1200,
+      "scroll": 1200,
+      "height": 7285,
+      "failed": [],
+      "sections": [
+        {
+          "name": "hero top-content container",
+          "y": 112,
+          "height": 794.296875
+        },
+        {
+          "name": "section process container",
+          "y": 906.296875,
+          "height": 1646.90625
+        },
+        {
+          "name": "section about container",
+          "y": 2553.203125,
+          "height": 1028
+        },
+        {
+          "name": "section stack-experience container",
+          "y": 3581.203125,
+          "height": 1612
+        },
+        {
+          "name": "section awards container",
+          "y": 5193.203125,
+          "height": 972
+        },
+        {
+          "name": "footer-contact container",
+          "y": 6269.203125,
+          "height": 856
+        },
+        {
+          "name": "footer-info container",
+          "y": 7125.203125,
+          "height": 80
+        }
+      ],
+      "overflow": []
+    },
+    "errors": []
+  },
+  {
+    "width": 1200,
+    "path": "/legal/",
+    "geometry": {
+      "width": 1200,
+      "scroll": 1200,
+      "height": 11708,
+      "failed": [],
+      "sections": [
+        {
+          "name": "footer-contact container",
+          "y": 10692,
+          "height": 856
+        },
+        {
+          "name": "footer-info container",
+          "y": 11548,
+          "height": 80
+        }
+      ],
+      "overflow": []
+    },
+    "errors": []
+  },
+  {
+    "width": 1200,
+    "path": "/404.html",
+    "geometry": {
+      "width": 1200,
+      "scroll": 1200,
+      "height": 2112,
+      "failed": [],
+      "sections": [
+        {
+          "name": "error-page top-content container",
+          "y": 112,
+          "height": 880
+        },
+        {
+          "name": "footer-contact container",
+          "y": 1096,
+          "height": 856
+        },
+        {
+          "name": "footer-info container",
+          "y": 1952,
+          "height": 80
+        }
+      ],
+      "overflow": []
+    },
+    "errors": []
+  },
+  {
+    "width": 1920,
+    "path": "/",
+    "geometry": {
+      "width": 1920,
+      "scroll": 1920,
+      "height": 7239,
+      "failed": [],
+      "sections": [
+        {
+          "name": "hero top-content container",
+          "y": 112,
+          "height": 794.296875
+        },
+        {
+          "name": "section process container",
+          "y": 906.296875,
+          "height": 1765.015625
+        },
+        {
+          "name": "section about container",
+          "y": 2671.3125,
+          "height": 1003.953125
+        },
+        {
+          "name": "section stack-experience container",
+          "y": 3675.265625,
+          "height": 1508
+        },
+        {
+          "name": "section awards container",
+          "y": 5183.265625,
+          "height": 936
+        },
+        {
+          "name": "footer-contact container",
+          "y": 6223.265625,
+          "height": 856
+        },
+        {
+          "name": "footer-info container",
+          "y": 7079.265625,
+          "height": 80
+        }
+      ],
+      "overflow": []
+    },
+    "errors": []
+  },
+  {
+    "width": 1920,
+    "path": "/legal/",
+    "geometry": {
+      "width": 1920,
+      "scroll": 1920,
+      "height": 11196,
+      "failed": [],
+      "sections": [
+        {
+          "name": "footer-contact container",
+          "y": 10180,
+          "height": 856
+        },
+        {
+          "name": "footer-info container",
+          "y": 11036,
+          "height": 80
+        }
+      ],
+      "overflow": []
+    },
+    "errors": []
+  },
+  {
+    "width": 1920,
+    "path": "/404.html",
+    "geometry": {
+      "width": 1920,
+      "scroll": 1920,
+      "height": 2112,
+      "failed": [],
+      "sections": [
+        {
+          "name": "error-page top-content container",
+          "y": 112,
+          "height": 880
+        },
+        {
+          "name": "footer-contact container",
+          "y": 1096,
+          "height": 856
+        },
+        {
+          "name": "footer-info container",
+          "y": 1952,
+          "height": 80
+        }
+      ],
+      "overflow": []
+    },
+    "errors": []
+  }
+]

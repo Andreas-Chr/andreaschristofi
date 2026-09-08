@@ -7,7 +7,7 @@ class RendererBoundary extends Component {
   render() { return this.state.failed ? null : this.props.children; }
 }
 
-/** The artwork underneath remains visible before hydration and on renderer failure. */
+/** The renderer owns ready/failure state; the server-rendered image is the fallback. */
 export default function GradientBackground() {
   const [enabled, setEnabled] = useState(false);
   const [canvas, setCanvas] = useState('#121212');

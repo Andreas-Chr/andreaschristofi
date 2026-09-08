@@ -1,80 +1,49 @@
-# V1 implementation audit — 7 September 2026
+# 8 September 2026 handoff implementation
 
-This is a source-level Figma comparison and local build review, not a completed visual or accessibility sign-off.
+Implemented locally in the existing Astro site. This supersedes the 7 September source audit. No deployment or launch-readiness sign-off is included.
 
-## Discover: evidence and coverage
+## Source and scope
 
-Live Figma file: `FXrcGSbJF7X4lbbGanlb6d`. Inventoried all nine pages and all 18 V1 responsive frames. Read the canonical V1 handoff, header owner description, relevant color/motion variables, all six Home section-layout metrics, selected responsive header/hero/footer details, and the prototype frame inventory. Retrieved design context and screenshots for Home 1440 and 320, Legal 1440, and 404 1440. Large context responses were supplemented by targeted structural reads; this is not an exhaustive descendant or prototype-connection audit.
+Read the current `07 - Behaviour & Handoff Notes` page (`5033:133`) in Figma file `FXrcGSbJF7X4lbbGanlb6d`, the current responsive frames, and owning component states. The supplied JPEGs are 2× references; implementation dimensions are CSS pixels. Figma documentation was used as product specifications, not as authorization to publish the site.
 
-| Width | Home | Legal | 404 |
+| CSS width | Home | Legal | 404 |
 | --- | --- | --- | --- |
-| 1920 | 4966:246 | 5193:3474 | 5201:2241 |
 | 1440 | 5303:3403 | 5314:11138 | 5314:11317 |
 | 1024 | 5314:6850 | 5314:11501 | 5314:11898 |
 | 768 | 5314:7010 | 5314:11590 | 5314:11983 |
 | 480 | 5314:8120 | 5314:12260 | 5314:12540 |
 | 320 | 5314:8280 | 5314:12349 | 5314:12625 |
 
-## Define: implementation contract
+Only Home, `/legal/` and custom 404 are implemented. The layout stops growing at 1440px. Wider viewports center that composition. Work, project pages, shots, NDA and testimonials remain deferred.
 
-Confirmed scope: Home, `/legal/`, custom 404, shared header/footer, Process, Experience, CV links, contact and decorative effects. Work/project/shot routes, overlays, collections, NDA and testimonials remain deferred.
+## Changes
 
-Current source supersedes the skill's historical portfolio reference: enhanced menu starts Closed on every route (`5166:10`); header appearance does not change on scroll (`5162:10`, owner `5069:1025`); canvas is #121212; the continuous marquee remains an explicit owner decision with an unresolved accessibility limitation (`5165:10`). At 1024 the actual header gutter is 16px, consistent with the 992px container.
+- Authored lengths use px. Reduced heading sizes, 48px primary buttons, placed header spacing, responsive section composition and footer typography follow the current source. The transparent header retains a persistent Burger/Close control in exactly the same position. The white menu is bounded to the viewport and scrolls internally when necessary.
+- Logo hover changes both surface and mark. Stack hover changes both badge surface and artwork. White cards use dark social artwork; Footer Info uses light artwork and its own order.
+- Rebuilt Process markup/controller with one active phase, a full-card semantic button, responsive illustration sources and interruptible size transitions. Exported all 25 current phase/layout illustrations and the separate desktop Develop/Prototype marker.
+- Experience now keeps exactly one card open. Content can grow naturally; card dimensions are not fixed to Figma text examples.
+- Contact replaces the CTA with a white card in the same slot, focuses Close, and restores the CTA and its focus when dismissed. No modal focus trap or page scroll lock is added.
+- Added a shared black full-page loader with only the standalone light mark. It waits for document load, exits upward as one group, dismisses immediately for reduced motion, and releases the page after at most five seconds if a critical resource hangs. Baseline no-JS HTML has no blocking overlay.
+- Hero uses the current Large/Small geometry. Re-read endpoints: Large lower layer y=211.6916→367.6916, Small y=149.0457→273.0457. The reversible scroll range remains measured CSS 100vh.
+- Exported the already-oriented Figma waves fallback. Static and live paths are mutually exclusive. A valid WebGL frame enables the live layer; initialization/drawing/context failure leaves or restores the fallback. Reduced motion uses the static artwork.
+- Replaced the separate certificate layers with the supplied `All-awards.png`; removed the four obsolete production certificate files. Corrected portrait cropping, Stack order and narrow award layout.
+- Restored the responsive 404 illustration from current Figma nodes; the supplied 1024 artwork remains in use. Mobile headings and recovery button follow the narrow layout.
+- Removed the unrequested Legal contents navigation and extra article-end CTA. Recovered semantic lists from Figma text metadata. Wording and the fixed 31 August 2026 date are unchanged. Policy web links open new tabs with `noopener noreferrer`; mailto stays native.
+- Verified the stable Astro version through the package registry and pinned the compatible 7.3.2 patch with the lockfile. Installation audit reported no vulnerabilities.
 
-Preserve the existing Astro version and lockfile. No deployment, Figma edits, analytics setup, policy rewriting, or new sharing artwork is included in this audit.
+## Validation
 
-## Develop: findings and changes
+`npm run check`, production build and all seven DOM/interaction tests pass. All three static routes generate. Browser scripts are retained in `scripts/verify-browser.mjs` and `scripts/verify-failures.mjs` (plus `scripts/verify-edge-cases.mjs`) and use an external Playwright installation, without adding it to the shipped site.
 
-| Status | Finding and impact | Source | Action / evidence |
-| --- | --- | --- | --- |
-| ✅ Source fix | Header centered both controls instead of separating them; full wordmark disappeared at 480. | Header rows under `5303:3404`, `5314:8121`, `5314:8281` | Restored space-between; compact mark only below 400px. Browser fit pending. |
-| ✅ Source fix | Added full-header blur/shadow contradicted the component owner. | `5069:1025` | Removed effects; retained fixed positioning and nonmodal disclosure. |
-| ✅ Source fix | Hero fixed to 100vh could let tall grid content escape into Process. The 100vh measurement belongs to motion progress. | `5163:10`, `5166:4`, `5303:3406` | Removed fixed hero height; preserved independent 100vh motion measurement. Full responsive composition remains partial. |
-| ✅ Source fix | 480px hero CTA stretched full width and copy spacing differed. | `5314:8124`, `5314:8131` | Restored intrinsic CTA width, 48px copy gaps/padding and decorative bottom offset. |
-| ✅ Source fix | Footer used a 160px mobile vertical inset, oversized narrow type/icons, and horizontal contact too early. | Footer instances under all six Home frames | Restored 320px inset, 32/48/64/80px heading sizes, 48/64/80px arrows, 448px narrow contact width, and desktop contact columns. Footer information becomes horizontal at 1024. |
-| ✅ Source fix | Smallest Stack/Awards spacing and tool artwork size differed. | `5314:8328`, `5314:8411`, Home desktop context | Applied 48px section inset at smallest width and 36px tool artwork. |
-| ✅ Regression verified | Wave fallback file existed but no image was rendered, leaving no artwork before hydration or after renderer failure. | `5166:7`, `5166:10` | Restored supplied image outside the React island. Build produces a ~9KB WebP. Regression checks require a decorative server-rendered fallback on all three routes. |
-| ⚠ Partial | Tablet hero artwork is absolutely positioned in Figma; production keeps it in normal flow. 1920 hero proportions and scroll endpoint still need matching in the browser. | `5314:6862`, `5314:7022`, `5104:1577` | Kept content-safe flow; do not claim pixel parity or F13 completion. |
-| ⚠ Unverified | Full viewport comparisons, font wrapping, focus visibility, live waves and responsive failure states. | `5165:7`, `5165:10` | Browser control unavailable through tab provider; native navigation encountered user activity and a clipboard timeout. No rendered-site screenshots obtained this run. |
-| ❌ Open limitation | Automatic marquee has no pause/stop/hide control. | `5165:10`, `5166:4` | Preserve explicit owner decision; do not claim full WCAG AA conformance. Review waves alongside it. |
+The Chrome matrix covers Home, Legal and 404 at 320, 375, 480, 600, 768, 900, 1024, 1200, 1440 and 1920 viewport pixels. Checks include horizontal overflow, image loading, console errors, same-position menu toggling, contact replacement/focus, every Process phase and single-open Experience. Five reference-width screenshots per route were captured in `/private/tmp/handoff-qa/`. These use reduced motion, so the stationary marquee wraps intentionally and differs from the moving JPEG reference.
 
-## Deliver: local verification
+Failure checks cover no-JS content, a hung critical font resource and the five-second loader timeout, valid-frame renderer readiness, WebGL context loss, initialization failure, reversible hero endpoint movement, and rapid menu/phase changes. Additional checks passed for a 320×320 touch viewport, full-card tap/Space selection and resize persistence, deep unknown-route HTTP 404, policy links/lists, the persisted-pageshow cleanup handler and missing-transitionend completion. Machine-readable results are recorded beside this document under `qa/`.
 
-- `npm run check`: 19 files, zero errors/warnings/hints.
-- `npm run build`: Home, Legal and 404 generated successfully.
-- `npm test`: all seven tests pass, including the new wave regression assertion on every route.
-- Local production preview HTTP responses: Home 200, Legal 200, unknown route 404. The network sandbox initially blocked these checks; verified outside it.
-- `git diff --check`: clean.
-- Preview: http://127.0.0.1:4321 (Astro preview running). This does not verify Cloudflare.
+Visual inspection included full-page Home and 404 captures plus open menu/contact states. This is not a pixel-difference certification of every frame or a complete accessibility audit. Flexible text content, intermediate widths and browser font metrics can produce different section heights from fixed Figma examples.
 
-## User journeys and edge cases
+## Remaining release checks
 
-| Journey | Required edge/error/empty states | Evidence |
-| --- | --- | --- |
-| [Open menu] → [Anchored card expands] → [Tab into links]; [Escape/Close] → [Card collapses, trigger regains focus] | Short viewport; repeated toggles; outside click; no JS; anchor navigation must survive closing | Automated DOM checks; real keyboard/geometry pending |
-| [Select phase] → [Exactly one description and matching artwork shown] → [Selected phase] | Re-select active phase; all five transitions; no JS exposes all descriptions; missing art leaves text usable | Automated DOM checks; mobile artwork/focus pending |
-| [Toggle experience] → [Independent expanded/collapsed state] → [Same section] | All items closed; several long items open; narrow/zoomed text; no JS | Automated DOM checks; rendered overflow pending |
-| [Contact CTA] → [Email/social panel] → [Close restores CTA focus] | No JS; short viewport; interrupted closing; mailto depends on configured email handler | Automated DOM checks; pointer/touch pending |
-| [Download CV] → [Native PDF download] → [Reader/file] | Missing PDF; final content and accessible PDF structure | Local file/link integrity checked; owner content/accessibility review remains |
-| [Unknown URL] → [404 recovery page] → [Return Home] | Deep unknown path; host must return HTTP 404 rather than soft 404 | Local status checked; Cloudflare pending |
-
-## Focused Nielsen heuristic review
-
-| Heuristic | Assessment / next action |
-| --- | --- |
-| Visibility of system status | Expanded state and selected phase exposed; visually verify focus and transitions. |
-| Match with real world | Process/About labels and native email/download actions are clear. |
-| User control and freedom | Escape/Close and independent Experience work in DOM tests; continuous motion remains a control gap. |
-| Consistency and standards | Shared components and restored responsive header/footer values; browser comparison pending. |
-| Error prevention | No dead Work links; native links and asset checks reduce broken destinations. |
-| Recognition rather than recall | Persistent menu trigger and named phase controls; confirm their visibility over artwork. |
-| Flexibility and efficiency | Keyboard and anchors supported; real keyboard and enlarged-text checks remain. |
-| Aesthetic and minimalist design | V2 content remains excluded. Large footer whitespace follows Figma; reassess only if owner requests redesign. |
-| Recognize, diagnose, recover from errors | 404 has Home recovery; wave failure retains static artwork. |
-| Help and documentation | Legal contents and contact paths exist; final deployed services must match approved policy. |
-
-## Remaining release gates
-
-Full visual matrix at 1920/1440/1024/768/480/320 and intermediate widths; 200% zoom; short-height screens; reduced motion; no-JS and renderer/media failures; real keyboard/touch and assistive technology; browser console/network review. Resolve tablet/1920 hero composition and F13 using rendered geometry.
-
-Owner/external inputs still needed: approved sharing image, final CV/content review, Cloudflare configuration and analytics identifier/decision. Validate actual domain/HTTPS/redirects/404, deployed policy alignment, and external links before launch. No deployment or launch-readiness sign-off was performed.
+- Final owner visual review, real touch devices, 200% browser zoom, Safari/VoiceOver and NVDA. A short touch viewport was emulated in Chrome; that does not replace device acceptance. Actual Back/Forward cache and OS mail-handler behavior need real-browser acceptance beyond the implemented event handling/native links.
+- Approved sharing artwork is still absent; OG/Twitter image metadata awaits that asset. Final CV content/PDF accessibility and external-profile reachability need owner/manual review.
+- Cloudflare/domain/HTTPS/redirects, deployed 404 status, analytics configuration and policy/service alignment remain launch checks. This implementation does not publish or configure those services.
+- The specified continuously moving marquee still has no pause/stop/hide control. Reduced-motion support alone does not establish WCAG SC 2.2.2 conformance. Review live waves alongside that recorded limitation.

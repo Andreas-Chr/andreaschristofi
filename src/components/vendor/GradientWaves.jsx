@@ -174,6 +174,9 @@ const GradientWaves = ({
     canvas.style.display = 'block';
     container.appendChild(canvas);
 
+    const region=container.closest('.top-background');
+    const report=(ready)=>{if(region)region.dataset.live=String(ready);};
+    let failed=false;
     const geometry = new Triangle(gl);
     const program = new Program(gl, {
       vertex,
@@ -208,6 +211,14 @@ const GradientWaves = ({
     const mesh = new Mesh(gl, { geometry, program });
     ctxMap.set(container, { renderer, program, mesh });
 
+    const draw = () => {
+      try {
+        if(failed || gl.isContextLost()) { report(false); return false; }
+        renderer.render({scene:mesh});
+        if(!gl.getProgramParameter(program.program,gl.LINK_STATUS) || gl.getError()!==gl.NO_ERROR) throw new Error('Wave renderer could not draw');
+        report(true);return true;
+      } catch { failed=true;report(false);return false; }
+    };
     const setSize = () => {
       const rect = container.getBoundingClientRect();
       const w = Math.max(1, Math.floor(rect.width));
@@ -216,7 +227,7 @@ const GradientWaves = ({
       const res = program.uniforms.iResolution.value;
       res[0] = gl.drawingBufferWidth;
       res[1] = gl.drawingBufferHeight;
-      renderer.render({ scene: mesh });
+      draw();
     };
 
     const ro = new ResizeObserver(setSize);
@@ -251,12 +262,12 @@ const GradientWaves = ({
       currentMouse[1] += 0.05 * (ty - currentMouse[1]);
       program.uniforms.uMouse.value[0] = currentMouse[0];
       program.uniforms.uMouse.value[1] = currentMouse[1];
-      renderer.render({ scene: mesh });
-      raf = requestAnimationFrame(loop);
+      raf = 0;
+      if(draw())raf = requestAnimationFrame(loop);
     };
 
     const tryStart = () => {
-      if (isVisible && isPageVisible && raf === 0) raf = requestAnimationFrame(loop);
+      if (!failed && isVisible && isPageVisible && raf === 0) raf = requestAnimationFrame(loop);
     };
     const tryStop = () => {
       if (raf !== 0) {
@@ -265,6 +276,8 @@ const GradientWaves = ({
       }
     };
 
+    const onContextLost = event => { event.preventDefault(); failed=true; report(false); tryStop(); };
+    canvas.addEventListener('webglcontextlost',onContextLost);
     const io = new IntersectionObserver(
       ([entry]) => {
         isVisible = entry.isIntersecting;
@@ -283,6 +296,8 @@ const GradientWaves = ({
     tryStart();
 
     return () => {
+      report(false);
+      canvas.removeEventListener('webglcontextlost',onContextLost);
       tryStop();
       ro.disconnect();
       io.disconnect();

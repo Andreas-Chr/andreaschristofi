@@ -1,69 +1,84 @@
 ---
 import phases from '../data/process.json';
+const layouts=[{name:'ultranarrow',media:'(max-width: 399px)',width:304},{name:'narrow',media:'(max-width: 639px)',width:304},{name:'compact',media:'(max-width: 899px)',width:736},{name:'condensed',media:'(max-width: 1199px)',width:992}];
 ---
 <section class="section process container" id="process" aria-labelledby="process-heading" data-process>
   <h2 id="process-heading">This is the way</h2>
   <div class="process-art" aria-hidden="true">
-    {phases.map((_,i)=><picture data-phase-art={i} hidden={i!==0}><source media="(max-width: 39.99rem)" srcset={`/assets/process/phase-${i}-mobile.svg`} width="306" height={i<2?618:650} /><img src={`/assets/process/phase-${i}.svg`} width="1394" height="686" alt="" loading="lazy" /></picture>)}
-    <img class="prototype-marker" data-phase-marker src="/assets/process/prototype-marker.svg" width="177" height="261" alt="" hidden />
+    {phases.map((phase,i)=><picture data-phase-art={i} hidden={i!==0}>
+      {layouts.map(layout=><source media={layout.media} srcset={`/assets/process/${layout.name}-${phase.title.toLowerCase()}.svg`} />)}
+      <img src={`/assets/process/wide-${phase.title.toLowerCase()}.svg`} width="1392" height="684" alt="" loading="lazy" />
+    </picture>)}
+    <img class="prototype-marker" data-phase-marker src="/assets/process/prototype-marker.svg" width="116" height="259" alt="" hidden />
   </div>
   <div class="phase-cards">
     {phases.map((phase,i)=><article class="phase-card" data-phase={i}>
-      <span class="phase-number">{String(i+1).padStart(2,'0')}</span>
+      <span class="phase-number" aria-hidden="true">{String(i+1).padStart(2,'0')}</span>
       <h3><button type="button" class="phase-trigger" disabled aria-expanded="true" aria-controls={`phase-panel-${i}`}><span>{phase.title}</span><span class="phase-toggle" aria-hidden="true"><img class="plus" src="/assets/icons/plus.svg" width="16" height="16" alt="" /><img class="minus" src="/assets/icons/minus.svg" width="16" height="16" alt="" /></span></button></h3>
       <div id={`phase-panel-${i}`} class="phase-panel"><p class="phase-subtitle">{phase.subtitle}</p><p>{phase.description}</p></div>
     </article>)}
   </div>
 </section>
 <script>
-  import { setPanel } from '../scripts/disclosure';
+  import { setPanel, resizeCards } from '../scripts/disclosure';
   const root=document.querySelector<HTMLElement>('[data-process]');
   if(root && !root.dataset.ready) {
     const cards=Array.from(root.querySelectorAll<HTMLElement>('[data-phase]'));
-    const art=Array.from(root.querySelectorAll<HTMLElement>('[data-phase-art]'));
+    const illustrations=Array.from(root.querySelectorAll<HTMLElement>('[data-phase-art]'));
     const marker=root.querySelector<HTMLElement>('[data-phase-marker]')!;
-    const select=(index:number,animate=true)=>cards.forEach((card,i)=>{
-      const trigger=card.querySelector<HTMLButtonElement>('.phase-trigger')!;
-      const panel=card.querySelector<HTMLElement>('.phase-panel')!;
-      const open=i===index; card.dataset.active=String(open);
-      // Close immediately to avoid a second visible phase; animate selected content only.
-      setPanel(panel,trigger,open,open&&animate); art[i].hidden=!open;
-      if(open)marker.hidden=i!==3;
+    let active=0;
+    const select=(index:number,animate=true)=>{
+      active=index; root.dataset.phase=String(active);
+      root.style.setProperty('--phase-columns',cards.map((_,i)=>i===active?'minmax(0,416fr)':'minmax(0,240fr)').join(' ')); marker.hidden=active!==3;
+      resizeCards(cards,()=>cards.forEach((card,i)=>{
+        const open=i===active;
+        card.dataset.active=String(open);
+        const button=card.querySelector<HTMLButtonElement>('button')!;
+        const panel=card.querySelector<HTMLElement>('.phase-panel')!;
+        setPanel(panel,button,open,open&&animate);
+        illustrations[i].hidden=!open;
+      }),animate);
+    };
+    cards.forEach((card,i)=>{
+      const trigger=card.querySelector<HTMLButtonElement>('button')!;
+      trigger.addEventListener('click',()=>{if(active!==i)select(i);});
+      trigger.disabled=false;
     });
-    cards.forEach((card,i)=>{const button=card.querySelector<HTMLButtonElement>('button')!;button.addEventListener('click',()=>select(i));button.disabled=false;});
     root.dataset.ready='true';select(0,false);
   }
 </script>
 <style>
-  .process { display:grid; gap:2.5rem; }
-  .process-art { position:relative; width:100%; max-width:19rem; margin-inline:auto; }
+  .process { display:grid; gap:40px; }
+  .process-art { position:relative; width:304px; max-width:100%; margin-inline:auto; }
+  .process-art picture { display:block; }
+  @media(max-width:639px) { .process-art picture { aspect-ratio:304/656; } .process-art picture[data-phase-art="2"],.process-art picture[data-phase-art="3"],.process-art picture[data-phase-art="4"] { aspect-ratio:304/648; } .process-art picture img { height:100%; object-fit:fill; } }
   .process-art img { width:100%; height:auto; }
-  .process-art .prototype-marker { position:absolute; top:0; left:43.75%; width:12.57%; }
-  @media(max-width:39.99rem) { .process-art .prototype-marker { display:none; } }
-  .phase-cards { display:flex; flex-direction:column; gap:.25rem; }
-  .phase-card { position:relative; padding:1.5rem 4rem 1.5rem 1.5rem; border-radius:1.5rem; background:#fff; color:#303030; min-width:0; }
-  .phase-number { display:block; font:400 .75rem/1rem var(--font-family-primary); margin-bottom:1rem; }
-  .phase-trigger { font:900 1.5rem/2.25rem var(--font-family-primary); text-transform:uppercase; border:0; background:none; padding:0; color:inherit; width:100%; text-align:left; }
-  .phase-trigger:focus-visible { outline-color:#4b09f5; }
-  .phase-toggle { display:none; background:#474747; border-radius:.25rem; width:2rem; height:2rem; align-items:center; justify-content:center; }
-  .phase-toggle img { width:1rem; height:1rem; }
-  .phase-subtitle { font-size:1.25rem; line-height:2.25rem; font-weight:500; margin-bottom:.25rem; }
-  .phase-panel { margin-top:1rem; }
-  [data-ready] .phase-card { background:#303030; color:#fff; }
-  [data-ready] .phase-card[data-active='true'] { background:#fff; color:#303030; }
-  [data-ready] .phase-trigger { padding-right:0; }
-  [data-ready] .phase-toggle { display:flex; position:absolute; right:1.5rem; top:2rem; }
+  .process-art .prototype-marker { display:none; position:absolute; top:0; left:45.83%; width:8.33%; }
+  .phase-cards { display:grid; gap:4px; }
+  .phase-card { position:relative; min-width:0; padding:24px 64px 24px 24px; border-radius:24px; background:#fff; color:#303030; transition:background var(--primitive-animation-duration-standard),color var(--primitive-animation-duration-standard); }
+  .phase-number { display:block; font:400 12px/16px var(--font-family-primary); margin-bottom:16px; }
+  .phase-trigger { font:900 24px/36px var(--font-family-primary); text-transform:uppercase; color:inherit; border:0; background:none; padding:0; text-align:left; }
+  .phase-trigger::after { content:''; position:absolute; inset:0; border-radius:inherit; }
+  .phase-trigger:focus-visible { outline:none; }
+  .phase-card:has(:focus-visible) { outline:3px solid #c5fa00; outline-offset:4px; }
+  .phase-card[data-active='true']:has(:focus-visible) { outline-color:#4b09f5; }
+  .phase-panel { margin-top:16px; font-size:16px; line-height:32px; }
+  .phase-subtitle { font-size:20px; line-height:36px; margin-bottom:16px; }
+  .phase-toggle { display:none; position:absolute; right:24px; top:50%; transform:translateY(-50%); width:40px; height:40px; border-radius:4px; align-items:center; justify-content:center; background:#474747; }
+  .phase-toggle img { width:16px; height:16px; }
+  [data-ready] .phase-toggle { display:flex; }
+  [data-active='false'] { background:#303030; color:#fff; }
   [data-active='true'] .phase-toggle { background:#c5fa00; }
   [data-active='true'] .plus,[data-active='false'] .minus { display:none; }
   [data-active='false'] .plus { filter:brightness(0) invert(1); }
-  @media(max-width:24.99rem) { .process { padding-block:3rem; } }
-  @media(min-width:40rem) { .process-art { max-width:none; margin-bottom:0; } }
-  @media(min-width:75rem) {
-    .phase-cards { flex-direction:row; }
-    .process-art { margin-bottom:2.5rem; }
-    .phase-card { flex:1; min-height:37.5rem; border-radius:.5rem; padding:1.5rem 1.5rem 5rem; transition:flex var(--primitive-animation-duration-standard) var(--primitive-animation-easing-standard); }
-    [data-ready] .phase-card[data-active='true'] { flex:1.85; }
-    .phase-trigger { font-size:clamp(1rem,1.667vw,1.5rem); padding-right:0!important; }
-    [data-ready] .phase-toggle { top:auto; right:auto; left:1.5rem; bottom:1.5rem; }
+  @media(max-width:399px) { .process { padding-block:48px; } .phase-card { padding-right:72px; } }
+  @media(min-width:400px) { .phase-cards { margin-top:8px; } }
+  @media(min-width:640px) { .process-art { width:100%; } }
+  @media(min-width:1200px) {
+    .phase-cards { display:grid; grid-template-columns:var(--phase-columns,repeat(5,minmax(0,1fr))); margin-top:40px; transition:grid-template-columns var(--primitive-animation-duration-standard) var(--primitive-animation-easing-standard); }
+    .phase-card { flex:1; padding:24px 24px 80px; min-height:600px; border-radius:24px; transition:flex var(--primitive-animation-duration-standard),background var(--primitive-animation-duration-standard); }
+    [data-active='true'] { flex:1.7333; }
+    .phase-toggle { top:auto; bottom:24px; left:24px; transform:none; }
+    .process-art .prototype-marker { display:block; }
   }
 </style>

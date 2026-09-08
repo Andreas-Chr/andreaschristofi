@@ -2,275 +2,713 @@
   {
     "id": "5314:11143",
     "text": "Privacy & Cookie Policy",
-    "size": 80
+    "size": 64,
+    "segments": [
+      {
+        "text": "Privacy & Cookie Policy",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11145",
     "text": "last updated: 31 august 2026",
-    "size": 12
+    "size": 12,
+    "segments": [
+      {
+        "text": "last updated: 31 august 2026",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11146",
     "text": "This Privacy & Cookie Policy explains how information is handled when you visit andreaschristofi.com (“the website”).\nThe website is operated by Andreas Christofi, an independent digital product and web designer based in Cyprus.",
-    "size": 20
+    "size": 20,
+    "segments": [
+      {
+        "text": "This Privacy & Cookie Policy explains how information is handled when you visit andreaschristofi.com (“the website”).\nThe website is operated by Andreas Christofi, an independent digital product and web designer based in Cyprus.",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11148",
     "text": "Privacy at a glance",
-    "size": 36
+    "size": 36,
+    "segments": [
+      {
+        "text": "Privacy at a glance",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11149",
     "text": "This website is designed to collect as little information as possible.\n\nNo user accounts or registrations are provided.\nNo contact, newsletter or subscription forms are used.\nNo advertising or behavioural tracking is used.\nNo personal information is sold or shared for advertising.\nNo non-essential cookies are intentionally placed on your device.\nNo information is intentionally stored using localStorage or sessionStorage.\nFonts and videos are hosted directly by the website.\nPrivacy-focused, cookie-free analytics are provided by Cloudflare.\nPersonal information is received only when you voluntarily contact me by email.\n\nLimited technical information may still be processed automatically by the website’s infrastructure and service providers to deliver, secure and measure the performance of the website.",
-    "size": 16
+    "size": 16,
+    "segments": [
+      {
+        "text": "This website is designed to collect as little information as possible.\n\n",
+        "list": "NONE"
+      },
+      {
+        "text": "No user accounts or registrations are provided.\nNo contact, newsletter or subscription forms are used.\nNo advertising or behavioural tracking is used.\nNo personal information is sold or shared for advertising.\nNo non-essential cookies are intentionally placed on your device.\nNo information is intentionally stored using localStorage or sessionStorage.\nFonts and videos are hosted directly by the website.\nPrivacy-focused, cookie-free analytics are provided by Cloudflare.\nPersonal information is received only when you voluntarily contact me by email.\n",
+        "list": "UNORDERED"
+      },
+      {
+        "text": "\nLimited technical information may still be processed automatically by the website’s infrastructure and service providers to deliver, secure and measure the performance of the website.",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11151",
     "text": "1. Who is responsible for your information?",
-    "size": 24
+    "size": 24,
+    "segments": [
+      {
+        "text": "1. Who is responsible for your information?",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11152",
     "text": "For the purposes of applicable data-protection law, the data controller is:\nAndreas Christofi\nNicosia, Cyprus\nEmail: hello@andreaschristofi.com\nWebsite: andreaschristofi.com\n\nQuestions about this policy or the handling of your personal information can be sent to the email address above.",
-    "size": 16
+    "size": 16,
+    "segments": [
+      {
+        "text": "For the purposes of applicable data-protection law, the data controller is:\n",
+        "list": "NONE"
+      },
+      {
+        "text": "Andreas Christofi\nNicosia, Cyprus\nEmail: hello@andreaschristofi.com\nWebsite: andreaschristofi.com\n",
+        "list": "UNORDERED"
+      },
+      {
+        "text": "\nQuestions about this policy or the handling of your personal information can be sent to the email address above.",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11154",
     "text": "2. Information processed when you visit the website",
-    "size": 24
+    "size": 24,
+    "segments": [
+      {
+        "text": "2. Information processed when you visit the website",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11155",
     "text": "When you access the website, certain technical information is transmitted automatically between your browser, Cloudflare and the website’s hosting infrastructure.\nThis information may include:\nYour Internet Protocol address\nBrowser and device type\nOperating system\nRequested page or resource\nDate and time of the request\nReferring website, where available\nApproximate country or region\nNetwork, performance and loading information\nSecurity-related information\nHTTP response and error information\n\nThis technical processing is necessary for delivering the website, maintaining its performance, preventing malicious activity and diagnosing technical problems.\nI do not use this information to personally identify individual visitors, create visitor profiles or track people across other websites.",
-    "size": 16
+    "size": 16,
+    "segments": [
+      {
+        "text": "When you access the website, certain technical information is transmitted automatically between your browser, Cloudflare and the website’s hosting infrastructure.\nThis information may include:\n",
+        "list": "NONE"
+      },
+      {
+        "text": "Your Internet Protocol address\nBrowser and device type\nOperating system\nRequested page or resource\nDate and time of the request\nReferring website, where available\nApproximate country or region\nNetwork, performance and loading information\nSecurity-related information\nHTTP response and error information\n",
+        "list": "UNORDERED"
+      },
+      {
+        "text": "\nThis technical processing is necessary for delivering the website, maintaining its performance, preventing malicious activity and diagnosing technical problems.\nI do not use this information to personally identify individual visitors, create visitor profiles or track people across other websites.",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11157",
     "text": "3. Cloudflare hosting and security",
-    "size": 24
+    "size": 24,
+    "segments": [
+      {
+        "text": "3. Cloudflare hosting and security",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11158",
     "text": "The website uses Cloudflare for hosting, content delivery, network performance, security and protection against malicious traffic.\n\nWhen you access the website, your request is processed through Cloudflare’s infrastructure. Cloudflare may process technical information such as IP addresses, request information, device information and security signals as part of providing these services.\n\nCloudflare may also maintain limited technical or security logs in accordance with its own operational, security and legal requirements.\n\nThis processing is based on the legitimate interest of operating a secure, reliable and efficient website.\n\nMore information about Cloudflare’s handling of information is available through the Cloudflare Privacy Policy:\ncloudflare.com/privacypolicy",
-    "size": 16
+    "size": 16,
+    "segments": [
+      {
+        "text": "The website uses Cloudflare for hosting, content delivery, network performance, security and protection against malicious traffic.\n\nWhen you access the website, your request is processed through Cloudflare’s infrastructure. Cloudflare may process technical information such as IP addresses, request information, device information and security signals as part of providing these services.\n\nCloudflare may also maintain limited technical or security logs in accordance with its own operational, security and legal requirements.\n\nThis processing is based on the legitimate interest of operating a secure, reliable and efficient website.\n\nMore information about Cloudflare’s handling of information is available through the Cloudflare Privacy Policy:\ncloudflare.com/privacypolicy",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11160",
     "text": "4. Cloudflare Web Analytics",
-    "size": 24
+    "size": 24,
+    "segments": [
+      {
+        "text": "4. Cloudflare Web Analytics",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11161",
     "text": "The website uses Cloudflare Web Analytics to understand general website usage and technical performance.\nCloudflare Web Analytics may provide aggregated information such as:\nPage views and visits\nPopular pages\nReferring websites\nApproximate visitor countries\nDevice and browser categories\nWebsite loading and performance metrics\nHTTP status codes\n\nCloudflare Web Analytics does not use cookies or browser storage for analytics, does not create persistent visitor identifiers and is not used to track visitors across different websites.\n\nThe source IP address may be received by Cloudflare as part of normal internet communication. Cloudflare states that its Real User Monitoring service discards this address at the nearest Cloudflare data centre rather than retaining it in its core analytics databases or logs.\n\nI use the resulting aggregated information to understand how the website performs and to identify opportunities for technical or usability improvements. It is not used for advertising, visitor profiling or automated decision-making.",
-    "size": 16
+    "size": 16,
+    "segments": [
+      {
+        "text": "The website uses Cloudflare Web Analytics to understand general website usage and technical performance.\nCloudflare Web Analytics may provide aggregated information such as:\n",
+        "list": "NONE"
+      },
+      {
+        "text": "Page views and visits\nPopular pages\nReferring websites\nApproximate visitor countries\nDevice and browser categories\nWebsite loading and performance metrics\nHTTP status codes\n",
+        "list": "UNORDERED"
+      },
+      {
+        "text": "\nCloudflare Web Analytics does not use cookies or browser storage for analytics, does not create persistent visitor identifiers and is not used to track visitors across different websites.\n\nThe source IP address may be received by Cloudflare as part of normal internet communication. Cloudflare states that its Real User Monitoring service discards this address at the nearest Cloudflare data centre rather than retaining it in its core analytics databases or logs.\n\nI use the resulting aggregated information to understand how the website performs and to identify opportunities for technical or usability improvements. It is not used for advertising, visitor profiling or automated decision-making.",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11163",
     "text": "5. Cookies and browser storage",
-    "size": 24
+    "size": 24,
+    "segments": [
+      {
+        "text": "5. Cookies and browser storage",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11164",
     "text": "Cookies are small text files that a website or service provider may store on your device. Similar browser technologies include localStorage, sessionStorage and other client-side storage mechanisms.",
-    "size": 16
+    "size": 16,
+    "segments": [
+      {
+        "text": "Cookies are small text files that a website or service provider may store on your device. Similar browser technologies include localStorage, sessionStorage and other client-side storage mechanisms.",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11166",
     "text": "Website cookies",
-    "size": 18
+    "size": 18,
+    "segments": [
+      {
+        "text": "Website cookies",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11167",
     "text": "The website does not intentionally use first-party cookies for preferences, personalisation, advertising or behavioural tracking.",
-    "size": 16
+    "size": 16,
+    "segments": [
+      {
+        "text": "The website does not intentionally use first-party cookies for preferences, personalisation, advertising or behavioural tracking.",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11169",
     "text": "Browser storage",
-    "size": 18
+    "size": 18,
+    "segments": [
+      {
+        "text": "Browser storage",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11170",
     "text": "The website does not intentionally store visitor information using localStorage or sessionStorage.",
-    "size": 16
+    "size": 16,
+    "segments": [
+      {
+        "text": "The website does not intentionally store visitor information using localStorage or sessionStorage.",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11172",
     "text": "Analytics cookies",
-    "size": 18
+    "size": 18,
+    "segments": [
+      {
+        "text": "Analytics cookies",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11173",
     "text": "Cloudflare Web Analytics does not use cookies or browser storage to measure website usage.",
-    "size": 16
+    "size": 16,
+    "segments": [
+      {
+        "text": "Cloudflare Web Analytics does not use cookies or browser storage to measure website usage.",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11175",
     "text": "Security cookies",
-    "size": 18
+    "size": 18,
+    "segments": [
+      {
+        "text": "Security cookies",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11176",
     "text": "Cloudflare may place strictly necessary cookies when required to:\nProtect the website against malicious activity\nManage network traffic\nApply security rules\nPresent or complete a security challenge\nVerify that a visitor is human\n\nThese may include a Cloudflare clearance cookie, such as cf_clearance, after a visitor successfully completes a security challenge.\n\nThese cookies are used exclusively for website security and technical operation. They are not used by this website for advertising, behavioural tracking or marketing.\n\nBecause these cookies are strictly necessary for security and delivery of the website, they may be placed without prior consent. Their duration is determined by Cloudflare and the applicable security configuration.\nMore information is available through the Cloudflare Cookie Policy:\n\ndevelopers.cloudflare.com/fundamentals/reference/policies-compliances/cloudflare-cookies",
-    "size": 16
+    "size": 16,
+    "segments": [
+      {
+        "text": "Cloudflare may place strictly necessary cookies when required to:\n",
+        "list": "NONE"
+      },
+      {
+        "text": "Protect the website against malicious activity\nManage network traffic\nApply security rules\nPresent or complete a security challenge\nVerify that a visitor is human\n",
+        "list": "UNORDERED"
+      },
+      {
+        "text": "\nThese may include a Cloudflare clearance cookie, such as cf_clearance, after a visitor successfully completes a security challenge.\n\nThese cookies are used exclusively for website security and technical operation. They are not used by this website for advertising, behavioural tracking or marketing.\n\nBecause these cookies are strictly necessary for security and delivery of the website, they may be placed without prior consent. Their duration is determined by Cloudflare and the applicable security configuration.\nMore information is available through the Cloudflare Cookie Policy:\n\ndevelopers.cloudflare.com/fundamentals/reference/policies-compliances/cloudflare-cookies",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11178",
     "text": "6. Why no cookie banner is displayed",
-    "size": 24
+    "size": 24,
+    "segments": [
+      {
+        "text": "6. Why no cookie banner is displayed",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11179",
     "text": "The website does not currently use non-essential cookies, advertising cookies, personalisation cookies or cookie-based analytics.\n\nA cookie-consent banner is therefore not displayed. Showing an Accept or Reject interface where no consent decision is required would create unnecessary friction and could mislead visitors about the website’s actual data practices.\nIf non-essential cookies or browser-storage technologies are introduced in the future, this policy will be updated and an appropriate consent mechanism will be implemented before those technologies are activated.",
-    "size": 16
+    "size": 16,
+    "segments": [
+      {
+        "text": "The website does not currently use non-essential cookies, advertising cookies, personalisation cookies or cookie-based analytics.\n\nA cookie-consent banner is therefore not displayed. Showing an Accept or Reject interface where no consent decision is required would create unnecessary friction and could mislead visitors about the website’s actual data practices.\nIf non-essential cookies or browser-storage technologies are introduced in the future, this policy will be updated and an appropriate consent mechanism will be implemented before those technologies are activated.",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11181",
     "text": "7. Self-hosted fonts and media",
-    "size": 24
+    "size": 24,
+    "segments": [
+      {
+        "text": "7. Self-hosted fonts and media",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11182",
     "text": "The website’s fonts, including Zalando Sans Expanded and DM Sans, are self-hosted.\n\nThe fonts are served directly from the website. Your browser does not need to connect to Google Fonts or another external font provider to display them.\n\nVideos and portfolio media are also self-hosted unless otherwise identified. Loading this media therefore does not intentionally establish a connection with an external video-hosting or social-media platform.\nIf externally embedded content is added in the future, this policy will be updated before or when that content is introduced.",
-    "size": 16
+    "size": 16,
+    "segments": [
+      {
+        "text": "The website’s fonts, including Zalando Sans Expanded and DM Sans, are self-hosted.\n\nThe fonts are served directly from the website. Your browser does not need to connect to Google Fonts or another external font provider to display them.\n\nVideos and portfolio media are also self-hosted unless otherwise identified. Loading this media therefore does not intentionally establish a connection with an external video-hosting or social-media platform.\nIf externally embedded content is added in the future, this policy will be updated before or when that content is introduced.",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11184",
     "text": "8. Contact by email",
-    "size": 24
+    "size": 24,
+    "segments": [
+      {
+        "text": "8. Contact by email",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11185",
     "text": "The website provides direct email links using the mailto: protocol. Selecting an email link opens your device’s default email application or configured email service.\n\nNo personal information is transmitted to the website merely by selecting the link. Information is transmitted only when you choose to compose and send an email.\n\nWhen you contact me, the information you provide may include:\nYour name\nYour email address\nYour organisation or professional role\nThe content of your message\nYour email signature\nAny attachments or other information you choose to provide\n\nThis information is used to:\nRead and respond to your enquiry\nContinue a professional conversation\nDiscuss potential work or collaboration\nTake steps requested before entering a professional agreement\nMaintain relevant records of professional correspondence\nProtect or exercise legal rights where necessary\n\nDepending on the nature of the correspondence, processing is based on responding to your request, taking steps before a potential agreement, complying with a legal obligation, or the legitimate interest of managing professional communications.\nPlease avoid including sensitive personal information in an email unless it is necessary for your enquiry.",
-    "size": 16
+    "size": 16,
+    "segments": [
+      {
+        "text": "The website provides direct email links using the mailto: protocol. Selecting an email link opens your device’s default email application or configured email service.\n\nNo personal information is transmitted to the website merely by selecting the link. Information is transmitted only when you choose to compose and send an email.\n\nWhen you contact me, the information you provide may include:\n",
+        "list": "NONE"
+      },
+      {
+        "text": "Your name\nYour email address\nYour organisation or professional role\nThe content of your message\nYour email signature\nAny attachments or other information you choose to provide\n",
+        "list": "UNORDERED"
+      },
+      {
+        "text": "\nThis information is used to:\n",
+        "list": "NONE"
+      },
+      {
+        "text": "Read and respond to your enquiry\nContinue a professional conversation\nDiscuss potential work or collaboration\nTake steps requested before entering a professional agreement\nMaintain relevant records of professional correspondence\nProtect or exercise legal rights where necessary\n",
+        "list": "UNORDERED"
+      },
+      {
+        "text": "\nDepending on the nature of the correspondence, processing is based on responding to your request, taking steps before a potential agreement, complying with a legal obligation, or the legitimate interest of managing professional communications.\nPlease avoid including sensitive personal information in an email unless it is necessary for your enquiry.",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11187",
     "text": "9. Email service provider",
-    "size": 24
+    "size": 24,
+    "segments": [
+      {
+        "text": "9. Email service provider",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11188",
     "text": "Email sent to hello@andreaschristofi.com is hosted and processed through Namecheap Private Email.\n\nNamecheap may process and store message content, sender and recipient addresses, timestamps, attachments and associated technical information to deliver and secure the email service.\n\nNamecheap acts as an external service provider and handles information in accordance with its own contractual and privacy obligations.\n\nMore information is available through the Namecheap Privacy Policy:\nnamecheap.com/legal/general/privacy-policy",
-    "size": 16
+    "size": 16,
+    "segments": [
+      {
+        "text": "Email sent to hello@andreaschristofi.com is hosted and processed through Namecheap Private Email.\n\nNamecheap may process and store message content, sender and recipient addresses, timestamps, attachments and associated technical information to deliver and secure the email service.\n\nNamecheap acts as an external service provider and handles information in accordance with its own contractual and privacy obligations.\n\nMore information is available through the Namecheap Privacy Policy:\nnamecheap.com/legal/general/privacy-policy",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11190",
     "text": "10. How long email correspondence is retained",
-    "size": 24
+    "size": 24,
+    "segments": [
+      {
+        "text": "10. How long email correspondence is retained",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11191",
     "text": "Email correspondence is retained for as long as reasonably necessary to:\nRespond to your enquiry\nMaintain an ongoing professional conversation\nKeep relevant records of work-related discussions\nManage a potential or existing professional relationship\nMeet applicable legal, accounting or administrative requirements\nEstablish, exercise or defend potential legal claims\n\nCorrespondence may be deleted when it is no longer required.\n\nYou may request the deletion of your correspondence by contacting hello@andreaschristofi.com. A deletion request may be refused or limited where retaining the information is necessary to comply with a legal obligation or protect legitimate legal interests.",
-    "size": 16
+    "size": 16,
+    "segments": [
+      {
+        "text": "Email correspondence is retained for as long as reasonably necessary to:\n",
+        "list": "NONE"
+      },
+      {
+        "text": "Respond to your enquiry\nMaintain an ongoing professional conversation\nKeep relevant records of work-related discussions\nManage a potential or existing professional relationship\nMeet applicable legal, accounting or administrative requirements\nEstablish, exercise or defend potential legal claims\n",
+        "list": "UNORDERED"
+      },
+      {
+        "text": "\nCorrespondence may be deleted when it is no longer required.\n\nYou may request the deletion of your correspondence by contacting hello@andreaschristofi.com. A deletion request may be refused or limited where retaining the information is necessary to comply with a legal obligation or protect legitimate legal interests.",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11193",
     "text": "11. Legal bases for processing",
-    "size": 24
+    "size": 24,
+    "segments": [
+      {
+        "text": "11. Legal bases for processing",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11194",
-    "text": "Where the processing of personal information is subject to the General Data Protection Regulation, the relevant legal bases may include:\nLegitimate interests\nLimited technical information may be processed to operate, secure, maintain and improve the website, provided those interests are not overridden by your data-protection rights.\nProfessional correspondence may also be retained where reasonably necessary to manage communications, maintain relevant records or protect legal interests.\n\nSteps before entering an agreement\nIf you contact me regarding potential work, collaboration or professional services, your information may be processed to respond to your request and take steps before entering an agreement.\n\nLegal obligations\nInformation may be retained or disclosed where necessary to comply with an applicable legal, regulatory, accounting or judicial obligation.\nConsent\nThe website does not currently rely on consent for analytics or non-essential cookies. Where consent becomes necessary for a future feature, it will be requested before the relevant processing begins and may be withdrawn at any time."
+    "text": "Where the processing of personal information is subject to the General Data Protection Regulation, the relevant legal bases may include:\nLegitimate interests\nLimited technical information may be processed to operate, secure, maintain and improve the website, provided those interests are not overridden by your data-protection rights.\nProfessional correspondence may also be retained where reasonably necessary to manage communications, maintain relevant records or protect legal interests.\n\nSteps before entering an agreement\nIf you contact me regarding potential work, collaboration or professional services, your information may be processed to respond to your request and take steps before entering an agreement.\n\nLegal obligations\nInformation may be retained or disclosed where necessary to comply with an applicable legal, regulatory, accounting or judicial obligation.\nConsent\nThe website does not currently rely on consent for analytics or non-essential cookies. Where consent becomes necessary for a future feature, it will be requested before the relevant processing begins and may be withdrawn at any time.",
+    "segments": [
+      {
+        "text": "Where the processing of personal information is subject to the General Data Protection Regulation, the relevant legal bases may include:\n",
+        "list": "NONE"
+      },
+      {
+        "text": "Legitimate interests\nLimited technical information may be processed to operate, secure, maintain and improve the website, provided those interests are not overridden by your data-protection rights.\nProfessional correspondence may also be retained where reasonably necessary to manage communications, maintain relevant records or protect legal interests.\n",
+        "list": "UNORDERED"
+      },
+      {
+        "text": "\nSteps before entering an agreement\nIf you contact me regarding potential work, collaboration or professional services, your information may be processed to respond to your request and take steps before entering an agreement.\n\nLegal obligations\nInformation may be retained or disclosed where necessary to comply with an applicable legal, regulatory, accounting or judicial obligation.\nConsent\nThe website does not currently rely on consent for analytics or non-essential cookies. Where consent becomes necessary for a future feature, it will be requested before the relevant processing begins and may be withdrawn at any time.",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11196",
     "text": "12. Sharing of information",
-    "size": 24
+    "size": 24,
+    "segments": [
+      {
+        "text": "12. Sharing of information",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11197",
     "text": "I do not sell, rent or trade personal information.\n\nInformation may be processed by service providers where necessary to operate the website and communications, including:\nCloudflare, for hosting, content delivery, analytics and security\nNamecheap, for domain registration, DNS-related services and email hosting\n\nInformation may also be disclosed where reasonably necessary to:\nComply with applicable law or a valid legal request\nRespond to a court order or regulatory authority\nPrevent fraud, abuse or malicious activity\nProtect the website, its operator or other people\nEstablish, exercise or defend legal claims\n\nService providers are permitted to process information only in connection with the services they provide and under their respective contractual and legal obligations.",
-    "size": 16
+    "size": 16,
+    "segments": [
+      {
+        "text": "I do not sell, rent or trade personal information.\n\nInformation may be processed by service providers where necessary to operate the website and communications, including:\n",
+        "list": "NONE"
+      },
+      {
+        "text": "Cloudflare, for hosting, content delivery, analytics and security\nNamecheap, for domain registration, DNS-related services and email hosting\n",
+        "list": "UNORDERED"
+      },
+      {
+        "text": "\nInformation may also be disclosed where reasonably necessary to:\n",
+        "list": "NONE"
+      },
+      {
+        "text": "Comply with applicable law or a valid legal request\nRespond to a court order or regulatory authority\nPrevent fraud, abuse or malicious activity\nProtect the website, its operator or other people\nEstablish, exercise or defend legal claims\n",
+        "list": "UNORDERED"
+      },
+      {
+        "text": "\nService providers are permitted to process information only in connection with the services they provide and under their respective contractual and legal obligations.",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11199",
     "text": "13. International processing",
-    "size": 24
+    "size": 24,
+    "segments": [
+      {
+        "text": "13. International processing",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11200",
     "text": "Cloudflare and Namecheap operate internationally. As a result, limited technical information or email correspondence may be processed in countries outside Cyprus or the European Economic Area.\n\nWhere applicable, these providers are responsible for implementing appropriate legal and technical safeguards for international transfers in accordance with applicable data-protection law.\n\nFurther information about their processing locations and transfer safeguards can be found in their respective privacy policies.",
-    "size": 16
+    "size": 16,
+    "segments": [
+      {
+        "text": "Cloudflare and Namecheap operate internationally. As a result, limited technical information or email correspondence may be processed in countries outside Cyprus or the European Economic Area.\n\nWhere applicable, these providers are responsible for implementing appropriate legal and technical safeguards for international transfers in accordance with applicable data-protection law.\n\nFurther information about their processing locations and transfer safeguards can be found in their respective privacy policies.",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11202",
     "text": "14. External links",
-    "size": 24
+    "size": 24,
+    "segments": [
+      {
+        "text": "14. External links",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11203",
     "text": "The website may contain links to portfolio projects, client websites, social-media profiles or other third-party websites.\n\nSelecting an external link takes you away from this website. The external provider may collect information, use cookies or apply its own privacy practices after you visit its website.\n\nI do not control and am not responsible for the content, availability, security or privacy practices of external websites. You should review the privacy policy of the relevant third party before providing personal information.",
-    "size": 16
+    "size": 16,
+    "segments": [
+      {
+        "text": "The website may contain links to portfolio projects, client websites, social-media profiles or other third-party websites.\n\nSelecting an external link takes you away from this website. The external provider may collect information, use cookies or apply its own privacy practices after you visit its website.\n\nI do not control and am not responsible for the content, availability, security or privacy practices of external websites. You should review the privacy policy of the relevant third party before providing personal information.",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11205",
     "text": "15. Data security",
-    "size": 24
+    "size": 24,
+    "segments": [
+      {
+        "text": "15. Data security",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11206",
     "text": "Reasonable technical and organisational measures are used to protect the website and any correspondence received against unauthorised access, loss, misuse or disclosure.\n\nThese measures include using reputable infrastructure and email providers, encrypted HTTPS connections, access controls and Cloudflare security services.\n\nHowever, no website, internet transmission or email system can be guaranteed to be completely secure. You should avoid sending confidential or sensitive information by ordinary email unless appropriate precautions have been taken.",
-    "size": 16
+    "size": 16,
+    "segments": [
+      {
+        "text": "Reasonable technical and organisational measures are used to protect the website and any correspondence received against unauthorised access, loss, misuse or disclosure.\n\nThese measures include using reputable infrastructure and email providers, encrypted HTTPS connections, access controls and Cloudflare security services.\n\nHowever, no website, internet transmission or email system can be guaranteed to be completely secure. You should avoid sending confidential or sensitive information by ordinary email unless appropriate precautions have been taken.",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11208",
     "text": "16. Your data-protection rights",
-    "size": 24
+    "size": 24,
+    "segments": [
+      {
+        "text": "16. Your data-protection rights",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11209",
     "text": "Depending on the circumstances and applicable law, you may have the right to:\nRequest access to personal information held about you\nRequest correction of inaccurate or incomplete information\nRequest deletion of your personal information\nRequest restriction of processing\nObject to processing based on legitimate interests\nRequest the transfer of information you provided, where applicable\nWithdraw consent where processing is based on consent\nLodge a complaint with a data-protection authority\n\nSome rights are subject to legal conditions and exceptions. For example, information may need to be retained where required by law or where necessary to establish, exercise or defend a legal claim.\n\nTo exercise a right or ask a privacy-related question, contact:\nhello@andreaschristofi.com\n\nSufficient information may be requested to verify your identity before responding to a request. Only information reasonably necessary for verification will be requested.",
-    "size": 16
+    "size": 16,
+    "segments": [
+      {
+        "text": "Depending on the circumstances and applicable law, you may have the right to:\n",
+        "list": "NONE"
+      },
+      {
+        "text": "Request access to personal information held about you\nRequest correction of inaccurate or incomplete information\nRequest deletion of your personal information\nRequest restriction of processing\nObject to processing based on legitimate interests\nRequest the transfer of information you provided, where applicable\nWithdraw consent where processing is based on consent\nLodge a complaint with a data-protection authority\n",
+        "list": "UNORDERED"
+      },
+      {
+        "text": "\nSome rights are subject to legal conditions and exceptions. For example, information may need to be retained where required by law or where necessary to establish, exercise or defend a legal claim.\n\nTo exercise a right or ask a privacy-related question, contact:\nhello@andreaschristofi.com\n\nSufficient information may be requested to verify your identity before responding to a request. Only information reasonably necessary for verification will be requested.",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11211",
     "text": "17. Complaints",
-    "size": 24
+    "size": 24,
+    "segments": [
+      {
+        "text": "17. Complaints",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11212",
     "text": "If you believe your personal information has been handled unlawfully, you are encouraged to contact me first so that the issue can be reviewed and, where possible, resolved.\n\nYou also have the right to lodge a complaint with the supervisory authority in Cyprus:\nOffice of the Commissioner for Personal Data Protection https://www.gov.cy/dataprotection/\n\nYou may alternatively contact the competent data-protection authority in the country where you live or work, where applicable.",
-    "size": 16
+    "size": 16,
+    "segments": [
+      {
+        "text": "If you believe your personal information has been handled unlawfully, you are encouraged to contact me first so that the issue can be reviewed and, where possible, resolved.\n\nYou also have the right to lodge a complaint with the supervisory authority in Cyprus:\nOffice of the Commissioner for Personal Data Protection https://www.gov.cy/dataprotection/\n\nYou may alternatively contact the competent data-protection authority in the country where you live or work, where applicable.",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11214",
     "text": "18. Automated decision-making",
-    "size": 24
+    "size": 24,
+    "segments": [
+      {
+        "text": "18. Automated decision-making",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11215",
     "text": "The website does not use personal information for automated decision-making, automated profiling, targeted advertising or decisions that produce legal or similarly significant effects.",
-    "size": 16
+    "size": 16,
+    "segments": [
+      {
+        "text": "The website does not use personal information for automated decision-making, automated profiling, targeted advertising or decisions that produce legal or similarly significant effects.",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11217",
     "text": "19. Children’s privacy",
-    "size": 24
+    "size": 24,
+    "segments": [
+      {
+        "text": "19. Children’s privacy",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11218",
     "text": "The website is a professional portfolio intended for a general audience and is not specifically directed towards children.\n\nThe website does not knowingly request or collect personal information from children. If you believe that a child has provided personal information through email correspondence, please contact hello@andreaschristofi.com so that the matter can be reviewed.",
-    "size": 16
+    "size": 16,
+    "segments": [
+      {
+        "text": "The website is a professional portfolio intended for a general audience and is not specifically directed towards children.\n\nThe website does not knowingly request or collect personal information from children. If you believe that a child has provided personal information through email correspondence, please contact hello@andreaschristofi.com so that the matter can be reviewed.",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11220",
     "text": "20. Changes to this policy",
-    "size": 24
+    "size": 24,
+    "segments": [
+      {
+        "text": "20. Changes to this policy",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11221",
     "text": "This policy may be updated if the website’s functionality, service providers or legal obligations change.\n\nExamples include introducing:\nContact or NDA-access forms\nEmbedded third-party media\nAdditional analytics services\nNon-essential cookies\nPersonalisation functionality\nNewsletter or subscription features\n\nThe revised policy will be published on this page with an updated revision date. Where a change materially affects how personal information is handled, additional notice or consent will be provided where required.",
-    "size": 16
+    "size": 16,
+    "segments": [
+      {
+        "text": "This policy may be updated if the website’s functionality, service providers or legal obligations change.\n\nExamples include introducing:\n",
+        "list": "NONE"
+      },
+      {
+        "text": "Contact or NDA-access forms\nEmbedded third-party media\nAdditional analytics services\nNon-essential cookies\nPersonalisation functionality\nNewsletter or subscription features\n",
+        "list": "UNORDERED"
+      },
+      {
+        "text": "\nThe revised policy will be published on this page with an updated revision date. Where a change materially affects how personal information is handled, additional notice or consent will be provided where required.",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11223",
     "text": "21. Contact",
-    "size": 24
+    "size": 24,
+    "segments": [
+      {
+        "text": "21. Contact",
+        "list": "NONE"
+      }
+    ]
   },
   {
     "id": "5314:11224",
     "text": "For questions about this Privacy & Cookie Policy, the website’s data practices or your data-protection rights, contact:\nAndreas Christofi\nNicosia, Cyprus\nEmail: hello@andreaschristofi.com\nWebsite: andreaschristofi.com",
-    "size": 16
+    "size": 16,
+    "segments": [
+      {
+        "text": "For questions about this Privacy & Cookie Policy, the website’s data practices or your data-protection rights, contact:\n",
+        "list": "NONE"
+      },
+      {
+        "text": "Andreas Christofi\nNicosia, Cyprus\nEmail: hello@andreaschristofi.com\nWebsite: andreaschristofi.com",
+        "list": "UNORDERED"
+      }
+    ]
   }
 ]

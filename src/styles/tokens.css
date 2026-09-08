@@ -1,4 +1,4 @@
-/* V1 Figma semantic roles and approved motion tokens. Lengths are in rem. */
+/* V1 Figma semantic roles and approved motion tokens. Lengths are in CSS px. */
 :root {
   --color-background-canvas: #121212;
   --color-surface-card-dark: #303030;
@@ -19,13 +19,13 @@
   --primitive-animation-easing-fast: cubic-bezier(.00376159,-.00361693,0,1);
   --primitive-animation-easing-standard: cubic-bezier(.00376159,-.00361693,.14776142,1);
   --primitive-animation-easing-slow: cubic-bezier(.00376159,-.00361693,.49654454,1);
-  --page-gutter: .5rem;
-  --section-space: 5rem;
-  --header-clearance: 6rem;
-  --header-padding: 1rem;
-  --heading-size: 2rem;
-  --heading-line: 3rem;
+  --page-gutter: 8px;
+  --section-space: 80px;
+  --header-clearance: 96px;
+  --header-padding: 16px;
+  --heading-size: 32px;
+  --heading-line: 48px;
 }
-@media (min-width: 25rem) { :root { --page-gutter: 1rem; --heading-size: 2.5rem; --heading-line:4rem; } }
-@media (min-width: 40rem) { :root { --heading-size: 5rem; --heading-line: 6rem; --header-padding: 3rem; --header-clearance: 10rem; } }
-@media (min-width: 75rem) { :root { --page-gutter: 1.5rem; --section-space: 10rem; } }
+@media (min-width: 400px) { :root { --page-gutter: 16px; --heading-size: 40px; --heading-line:64px; } }
+@media (min-width: 640px) { :root { --heading-size: 64px; --heading-line: 72px; --header-padding: 24px; --header-clearance: 112px; } }
+@media (min-width: 1200px) { :root { --page-gutter: 24px; --section-space: 160px; } }

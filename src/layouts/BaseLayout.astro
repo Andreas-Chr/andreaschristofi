@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import PageLoader from '../components/PageLoader.astro';
 import Header from '../components/Header.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import { site } from '../data/site';
@@ -26,9 +27,12 @@ const canonical=new URL(Astro.url.pathname,site.origin);
     {Astro.url.pathname==='/' && <script is:inline type="application/ld+json" set:html={JSON.stringify({'@context':'https://schema.org','@graph':[{'@type':'Person','@id':`${site.origin}/#person`,name:site.name,url:site.origin,jobTitle:'Digital Product Designer'},{'@type':'WebSite',name:site.name,url:site.origin}]})} />}
   </head>
   <body>
+    <div data-site-shell>
     <a class="skip-link" href="#main">Skip to content</a>
     <Header />
     <main id="main" tabindex="-1"><slot /></main>
     <SiteFooter />
+    </div>
+    <PageLoader />
   </body>
 </html>

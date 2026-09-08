@@ -1,6 +1,6 @@
 ---
 import { Picture } from 'astro:assets';
-import waveFallback from '../assets/gradient-waves.png';
+import waveFallback from '../assets/gradient-waves-fallback.png';
 import GradientBackground from './GradientBackground.jsx';
 ---
 <div class="top-background" aria-hidden="true">
@@ -12,8 +12,10 @@ import GradientBackground from './GradientBackground.jsx';
 <style>
   .top-background { position:absolute; inset:0; z-index:-1; overflow:hidden; pointer-events:none; background:var(--color-background-canvas); }
   .top-background::after { content:''; position:absolute; inset:0; background:linear-gradient(180deg,transparent 40%,var(--color-background-canvas) 100%); }
-  .top-background :global(.wave-fallback) { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.5; transform:scaleY(-1); }
-  .wave-renderer { position:absolute; inset:0; opacity:.5; transform:scaleY(-1); }
+  .top-background :global(.wave-fallback) { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:1; }
+  .top-background[data-live="true"] :global(.wave-fallback) { visibility:hidden; }
+  .top-background[data-live="true"] .wave-renderer { visibility:visible; }
+  .wave-renderer { visibility:hidden; position:absolute; inset:0; opacity:.5; transform:scaleY(-1); }
   .wave-renderer :global(astro-island) { display:block; height:100%; }
   @media(prefers-reduced-motion:reduce) { .wave-renderer { display:none; } }
 </style>

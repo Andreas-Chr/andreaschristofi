@@ -3,7 +3,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import TopBackground from '../components/TopBackground.astro';
 import LegalText from '../components/LegalText.astro';
 import copy from '../data/legal.json';
-const headings=copy.filter(item=>item.size===24 || item.size===36);
 const slug=(text:string)=>text.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/-$/,'');
 ---
 <BaseLayout title="Privacy & Cookie Policy — Andreas Christofi" description="How information is handled when you visit andreaschristofi.com, including privacy, cookies, infrastructure, and contact by email.">
@@ -18,34 +17,18 @@ const slug=(text:string)=>text.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(
     </div>
   </div>
   <div class="legal-layout container">
-    <nav class="contents" aria-label="Policy contents">
-      <h2>Contents</h2>
-      <ol>
-        {headings.map(item=><li><a href={`#${slug(item.text)}`}>{item.text}</a></li>)}
-      </ol>
-    </nav>
     <article class="legal-copy" aria-label="Privacy and cookie policy">
-      {copy.slice(2).map(item=>item.size===36||item.size===24?<h2 id={slug(item.text)}>{item.text}</h2>:item.size===18?<h3 id={slug(item.text)}>{item.text}</h3>:<LegalText text={item.text} />)}
-      <a class="button secondary" href="/">
-        Return Home
-        <img src="/assets/icons/arrow-up-right.svg" width="24" height="24" alt="" />
-      </a>
+      {copy.slice(2).map(item=>item.size===36||item.size===24?<h2 id={slug(item.text)}>{item.text}</h2>:item.size===18?<h3 id={slug(item.text)}>{item.text}</h3>:<LegalText text={item.text} size={item.size} segments={item.segments} />)}
     </article>
   </div>
 </BaseLayout>
 <style>
-  .legal-intro { padding-block:5rem; display:grid; gap:2.5rem; }
+  .legal-intro { padding-block:80px 24px; display:grid; gap:24px; }
   .legal-intro h1 { overflow-wrap:anywhere; }
-  .legal-layout { display:grid; gap:3rem; padding-bottom:var(--section-space); }
-  .contents { background:#303030; padding:1.5rem; border-radius:.5rem; align-self:start; }
-  .contents h2 { font-size:1rem; line-height:1.5rem; margin-bottom:1rem; }
-  .contents ol { list-style:none; padding:0; margin:0; display:grid; gap:.5rem; }
-  .contents a { display:inline-block; padding-block:.125rem; line-height:1.5rem; }
-  .contents a:hover { color:var(--color-text-accent); }
-  .legal-copy { max-width:72ch; font-size:1rem; line-height:1.5rem; min-width:0; }
-  .legal-copy h2 { font-size:1.5rem; line-height:2.25rem; text-transform:none; margin-block:3rem 1.5rem; overflow-wrap:break-word; }
-  .legal-copy h2:first-of-type { font-size:2.25rem; line-height:2.5rem; }
-  .legal-copy h3 { font:900 1.125rem/1.5rem var(--font-family-primary); margin-block:2rem 1rem; }
-  .legal-copy .button { margin-top:2rem; }
-  @media(min-width:64rem) { .legal-layout { grid-template-columns:minmax(14rem,22rem) minmax(0,72ch); gap:5rem; justify-content:center; } }
+  .legal-layout { padding-bottom:80px; }
+  .legal-copy { display:flex; flex-direction:column; gap:24px; font-size:16px; line-height:32px; min-width:0; }
+  .legal-copy h2 { font-size:24px; line-height:36px; text-transform:uppercase; margin:0; overflow-wrap:break-word; }
+  .legal-copy h2:first-of-type { font-size:36px; line-height:40px; }
+  .legal-copy h3 { font:900 18px/24px var(--font-family-primary); margin:0; text-transform:uppercase; }
+  @media(max-width:639px) { .legal-intro { padding-top:48px; } .legal-layout { padding-bottom:48px; } }
 </style>
