@@ -1,4 +1,5 @@
 ---
+import ParagraphLink from './ParagraphLink.astro';
 import SocialLinks from './SocialLinks.astro';
 import { site } from '../data/site';
 const phrases = ['Meaningful Experiences', 'Intuitive Products', 'Delightful Interactions'];
@@ -12,7 +13,7 @@ const phrases = ['Meaningful Experiences', 'Intuitive Products', 'Delightful Int
       <div class="contact-panel" id="contact-panel">
         <button class="icon-button contact-close" type="button" aria-label="Close contact details" hidden><img src="/assets/icons/close.svg" width="24" height="24" alt="" /></button>
         <p class="contact-title">Get in touch</p>
-        <p>Submit a request to <a href={`mailto:${site.email}`}>{site.email}</a>. We’ll discuss your project and propose a solution.</p>
+        <p>Submit a request to <ParagraphLink href={`mailto:${site.email}`}>{site.email}</ParagraphLink>. We’ll discuss your project and propose a solution.</p>
         <p class="eyebrow">Follow me</p><SocialLinks surface="light" menu compact />
       </div>
     </div>
@@ -20,7 +21,7 @@ const phrases = ['Meaningful Experiences', 'Intuitive Products', 'Delightful Int
   <div class="footer-info container">
     <p class="copyright">© {new Date().getFullYear()} Andreas Christofi. All rights reserved.</p>
     <img class="footer-mark" src="/assets/logo/logo-light.svg" width="45" height="80" alt="" />
-    <div class="footer-links"><a class="legal-link" href="/legal/">Privacy &amp; Cookie Policy</a><SocialLinks /></div>
+    <div class="footer-links"><ParagraphLink class="legal-link" href="/legal/">Privacy &amp; Cookie Policy</ParagraphLink><SocialLinks /></div>
   </div>
 </footer>
 <script>
@@ -78,7 +79,7 @@ const phrases = ['Meaningful Experiences', 'Intuitive Products', 'Delightful Int
   .copyright { order:3; }
   .footer-mark { order:1; width:45px; height:80px; }
   .footer-links { order:2; display:flex; flex-direction:column-reverse; align-items:center; gap:16px; }
-  .legal-link { font-size:20px; line-height:36px; }
+  .footer-links :global(.legal-link) { font-size:20px; line-height:36px; }
   @media(max-width:639px) { .contact-close { width:32px; height:32px; } .contact-close img { width:16px; height:16px; } .contact-panel { padding:16px; font-size:16px; line-height:32px; } .contact-panel .eyebrow { margin-top:40px; } }
   @media(min-width:400px) { .footer-contact { max-width:calc(448px + 2 * var(--page-gutter)); } .footer-contact h2 { font-size:48px; line-height:64px; } .contact-trigger img { width:64px; height:64px; } }
   @media(min-width:1024px) { .footer-contact { max-width:1440px; } .footer-contact h2 { text-box-trim:none; font-size:64px; line-height:72px; } .contact-trigger img { width:80px; height:80px; } }

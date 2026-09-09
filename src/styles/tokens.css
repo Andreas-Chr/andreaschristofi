@@ -5,6 +5,8 @@
   --color-surface-card-light: #fff;
   --color-text-light: #fff;
   --color-text-dark: #303030;
+  --color-text-hover: #4b09f5;
+  --color-text-disabled: #676767;
   --color-text-accent: #c5fa00;
   --color-button-primary-default: #c5fa00;
   --color-button-primary-hover: #4b09f5;
