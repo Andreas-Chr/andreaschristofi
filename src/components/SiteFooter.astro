@@ -4,7 +4,7 @@ import { site } from '../data/site';
 const phrases = ['Meaningful Experiences', 'Intuitive Products', 'Delightful Interactions'];
 ---
 <footer class="site-footer">
-  <div class="marquee"><div class="marquee-inner">{[0,1,2].map(copy=><div class="marquee-track" aria-hidden={copy ? 'true' : undefined}>{phrases.map(phrase=><span>{phrase}<i aria-hidden="true">/</i></span>)}</div>)}</div></div>
+  <div class="marquee"><div class="marquee-inner">{[0,1,2,3].map(copy=><div class="marquee-track" aria-hidden={copy ? 'true' : undefined}>{phrases.map(phrase=><span>{phrase}<i aria-hidden="true">/</i></span>)}</div>)}</div></div>
   <section class="footer-contact container" aria-labelledby="contact-heading">
     <h2 class="display" id="contact-heading">Let’s make<br />something <span>matter</span></h2>
     <div class="contact-disclosure" data-contact>
@@ -53,13 +53,13 @@ const phrases = ['Meaningful Experiences', 'Intuitive Products', 'Delightful Int
   });
 </script>
 <style>
-  .site-footer { padding-bottom:80px; max-width:1440px; margin-inline:auto; }
+  .site-footer { padding-bottom:80px; max-width:2560px; margin-inline:auto; }
   .marquee { overflow:hidden; padding-block:40px; }
   .marquee-inner { display:flex; width:max-content; animation:marquee 32s linear infinite; }
   .marquee-track { display:flex; flex-shrink:0; }
   .marquee-track span { display:flex; align-items:center; gap:48px; padding-right:48px; white-space:nowrap; font:900 18px/24px var(--font-family-primary); text-transform:uppercase; }
   .marquee-track i { color:var(--color-text-accent); font-weight:400; }
-  @keyframes marquee { to { transform:translateX(-33.333333%); } }
+  @keyframes marquee { to { transform:translateX(-25%); } }
   .footer-contact { display:grid; gap:40px; align-items:center; padding-block:320px; }
   .footer-contact h2 { text-box-trim:trim-both; text-box-edge:cap alphabetic; font-size:32px; line-height:48px; }
   .footer-contact h2 span { color:var(--color-text-accent); }

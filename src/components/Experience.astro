@@ -5,7 +5,7 @@ import experience from '../data/experience.json';
   <h2 id="experience-heading">Experience &amp; education</h2>
   <div class="experience-cards">
     {experience.map((entry,i)=><article class="experience-card">
-      <h3><button class="experience-trigger" type="button" disabled aria-expanded="true" aria-controls={`experience-panel-${i}`}><span class="experience-title">{entry.title}</span><span class="experience-meta"><span>{entry.role}</span><span>{entry.year}</span></span><span class="experience-toggle" aria-hidden="true"><img class="plus" src="/assets/icons/plus.svg" width="16" height="16" alt="" /><img class="minus" src="/assets/icons/minus.svg" width="16" height="16" alt="" /></span></button></h3>
+      <h3><button class="experience-trigger" type="button" disabled aria-expanded="true" aria-controls={`experience-panel-${i}`}><span class="experience-title">{entry.title}</span><span class="experience-meta"><span>{entry.role}</span><span class="experience-date"><span aria-hidden="true">/</span><span>{entry.year}</span></span></span><span class="experience-toggle" aria-hidden="true"><img class="plus" src="/assets/icons/plus.svg" width="16" height="16" alt="" /><img class="minus" src="/assets/icons/minus.svg" width="16" height="16" alt="" /></span></button></h3>
       <div class="experience-panel" id={`experience-panel-${i}`}>
         {entry.description.startsWith('- ') ? <ul>{entry.description.split('\n').map(line=><li>{line.replace(/^- /,'')}</li>)}</ul> : <p>{entry.description}</p>}
       </div>
@@ -45,6 +45,7 @@ import experience from '../data/experience.json';
   .experience-trigger { display:block; width:100%; position:static; color:inherit; background:none; border:0; padding:0; text-align:left; }
   .experience-title { margin-bottom:8px; font-size:20px; line-height:36px; display:block; overflow-wrap:anywhere; }
   .experience-meta { font:400 12px/16px var(--font-family-primary); display:flex; flex-wrap:wrap; gap:8px 16px; }
+  .experience-date { display:inline-flex; align-items:center; gap:16px; white-space:nowrap; }
   .experience-toggle { display:none; position:absolute; right:24px; top:50%; transform:translateY(-50%); width:40px; height:40px; border-radius:4px; background:#474747; align-items:center; justify-content:center; }
   .experience-toggle img { width:16px; height:16px; }
   .experience-panel { margin-top:24px; }
@@ -56,5 +57,12 @@ import experience from '../data/experience.json';
   [data-open='true'] .experience-toggle { background:#c5fa00; }
   [data-open='true'] .plus,[data-open='false'] .minus { display:none; }
   [data-open='false'] .plus { filter:brightness(0) invert(1); }
+  .experience-toggle { transition:background var(--primitive-animation-duration-fast); }
+  [data-ready] .experience-trigger:focus-visible .experience-toggle { background:var(--color-text-accent); }
+  [data-ready] .experience-trigger:focus-visible .experience-toggle img { filter:none; }
+  @media(hover:hover) {
+    [data-ready] .experience-card:hover .experience-toggle { background:var(--color-text-accent); }
+    [data-ready] .experience-card:hover .experience-toggle img { filter:none; }
+  }
   .experience-card[data-open='true'] button:focus-visible { outline-color:#4b09f5; }
 </style>

@@ -1,10 +1,10 @@
 ---
 import { Picture } from 'astro:assets';
-import waveFallback from '../assets/gradient-waves-fallback.png';
+import waveFallback from '../assets/bg-gradient-waves-fallback.jpg';
 import GradientBackground from './GradientBackground.jsx';
 ---
 <div class="top-background" aria-hidden="true">
-  <Picture class="wave-fallback" src={waveFallback} formats={['webp']} fallbackFormat="png" alt="" />
+  <Picture class="wave-fallback" src={waveFallback} formats={['webp']} fallbackFormat="jpg" alt="" />
   <div class="wave-renderer">
     <GradientBackground client:idle />
   </div>

@@ -44,6 +44,8 @@ import SocialLinks from './SocialLinks.astro';
   .header-row>* { pointer-events:auto; }
   .logo-link { display:flex; align-items:center; gap:8px; text-decoration:none; }
   .logo-surface { position:relative; display:grid; place-items:center; width:48px; height:64px; background:#ffffff1a; border:1px solid #ffffff33; border-radius:12px; transition:background var(--primitive-animation-duration-fast); }
+  /* Figma “lumi card”: 10px blur radius maps to a 5px CSS blur. */
+  .logo-surface { -webkit-backdrop-filter:blur(5px); backdrop-filter:blur(5px); box-shadow:0 2px 10px 0 #00000012; }
   .logo-surface img { width:27px; height:48px; }
   .dark-mark { position:absolute; opacity:0; }
   .logo-link:hover .logo-surface,.logo-link:focus-visible .logo-surface { background:#c5fa00; }
