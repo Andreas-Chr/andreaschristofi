@@ -1,0 +1,34 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { Window } from 'happy-dom';
+import { bindWavePointer } from '../src/scripts/wave-pointer.mjs';
+
+test('wave parallax tracks foreground pointer movement, resets, and cleans up', () => {
+  const window = new Window();
+  const region = window.document.createElement('div');
+  const link = window.document.createElement('a');
+  region.append(link);
+  const target = [0.5, 0.5];
+  const canvas = { getBoundingClientRect: () => ({ left: 100, top: 50, width: 800, height: 400 }) };
+  const release = bindWavePointer(region, canvas, target);
+  const move = (x, y, pointerType = 'mouse') => link.dispatchEvent(new window.PointerEvent('pointermove', { bubbles: true, clientX: x, clientY: y, pointerType }));
+  move(300, 150);
+  assert.deepEqual(target, [0.25, 0.75]);
+  move(900, 450, 'touch');
+  assert.deepEqual(target, [0.25, 0.75]);
+  move(1100, -50);
+  assert.deepEqual(target, [1, 1]);
+  region.dispatchEvent(new window.PointerEvent('pointerleave'));
+  assert.deepEqual(target, [0.5, 0.5]);
+  move(100, 450);
+  region.dispatchEvent(new window.PointerEvent('pointercancel'));
+  assert.deepEqual(target, [0.5, 0.5]);
+  release();
+  move(100, 450);
+  assert.deepEqual(target, [0.5, 0.5]);
+  const releaseFlipped = bindWavePointer(region, canvas, target, true);
+  move(300, 150);
+  assert.deepEqual(target, [0.25, 0.25], 'vertical flip maps the pointer back into canvas coordinates');
+  releaseFlipped();
+  window.close();
+});

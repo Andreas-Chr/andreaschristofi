@@ -1,3 +1,4 @@
+import { bindWavePointer } from '../../scripts/wave-pointer.mjs';
 import { useEffect, useRef } from 'react';
 import { Renderer, Program, Mesh, Triangle } from 'ogl';
 import './GradientWaves.css';
@@ -237,17 +238,9 @@ const GradientWaves = ({
     const currentMouse = [0.5, 0.5];
     const targetMouse = [0.5, 0.5];
 
-    const onPointerMove = e => {
-      const rect = canvas.getBoundingClientRect();
-      targetMouse[0] = (e.clientX - rect.left) / rect.width;
-      targetMouse[1] = 1.0 - (e.clientY - rect.top) / rect.height;
-    };
-    const onPointerLeave = () => {
-      targetMouse[0] = 0.5;
-      targetMouse[1] = 0.5;
-    };
-    canvas.addEventListener('pointermove', onPointerMove);
-    canvas.addEventListener('pointerleave', onPointerLeave);
+    // Listen above the decorative layer so foreground content does not block parallax.
+    const pointerRegion = container.closest('.top-region') || container;
+    const releasePointer = bindWavePointer(pointerRegion, canvas, targetMouse, container.closest('[data-flipped="true"]') !== null);
 
     let raf = 0;
     let isVisible = true;
@@ -302,8 +295,7 @@ const GradientWaves = ({
       ro.disconnect();
       io.disconnect();
       document.removeEventListener('visibilitychange', onVisibility);
-      canvas.removeEventListener('pointermove', onPointerMove);
-      canvas.removeEventListener('pointerleave', onPointerLeave);
+      releasePointer();
       ctxMap.delete(container);
       try {
         container.removeChild(canvas);

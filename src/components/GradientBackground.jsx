@@ -20,8 +20,10 @@ export default function GradientBackground() {
     return () => media.removeEventListener('change', update);
   }, []);
   if (!enabled) return null;
-  return <RendererBoundary><GradientWaves horizonColor={canvas} waveColor="#303030"
-    speed={0.25} amplitude={3.45} waveScale={0.35} waveRatio={3} swell={23.5}
-    turbulence={25.5} tilt={1.01} detail="high" mouseInteraction={false} className="live-waves" />
+  return <RendererBoundary><GradientWaves horizonColor={canvas} waveColor="#303030" crestColor="#FFFFFF"
+    speed={0.2} amplitude={2.8} waveScale={0.4} waveRatio={3} swell={15.5}
+    turbulence={20} tilt={1.2} zoom={1} height={5.5} fogDepth={15} detail="high"
+    brightness={0.5} grain grainIntensity={0.3} mouseInteraction
+    parallaxStrength={0.7} className="live-waves" />
   </RendererBoundary>;
 }
