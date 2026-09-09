@@ -71,6 +71,13 @@ const layouts=[{name:'ultranarrow',media:'(max-width: 399px)',width:304},{name:'
   [data-active='true'] .phase-toggle { background:#c5fa00; }
   [data-active='true'] .plus,[data-active='false'] .minus { display:none; }
   [data-active='false'] .plus { filter:brightness(0) invert(1); }
+  .phase-toggle { transition:background var(--primitive-animation-duration-fast); }
+  [data-ready] .phase-trigger:focus-visible .phase-toggle { background:var(--color-text-accent); }
+  [data-ready] .phase-trigger:focus-visible .phase-toggle img { filter:none; }
+  @media(hover:hover) {
+    [data-ready] .phase-card:hover .phase-toggle { background:var(--color-text-accent); }
+    [data-ready] .phase-card:hover .phase-toggle img { filter:none; }
+  }
   @media(max-width:399px) { .process { padding-block:48px; } .phase-card { padding-right:72px; } }
   @media(min-width:400px) { .phase-cards { margin-top:8px; } }
   @media(min-width:640px) { .process-art { width:100%; } }
