@@ -5,6 +5,7 @@ import TopBackground from '../components/TopBackground.astro';
 import HeroDiamond from '../components/HeroDiamond.astro';
 import Process from '../components/Process.astro';
 import Experience from '../components/Experience.astro';
+import Tooltip from '../components/Tooltip.astro';
 import allAwards from '../assets/all-awards.png';
 import portrait from '../assets/andreas-bw.png';
 import { site, toolGroups, awards } from '../data/site';
@@ -46,7 +47,7 @@ import { site, toolGroups, awards } from '../data/site';
     <section class="stack" aria-labelledby="stack-heading">
       <h2 id="stack-heading">Stack</h2>
       <p class="body-large">Tools I’ve learned to design, prototype, animate and build cool projects with.</p>
-      {toolGroups.map(group=><div class="tool-group"><h3 class="eyebrow">{group.label}</h3><ul>{group.tools.map(([label,slug])=><li class="tool" title={label}><img class="tool-grey" src={`/assets/tools/${slug}-grey.svg`} width="32" height="32" alt={label} loading="lazy" /><img class="tool-color" src={`/assets/tools/${slug}-color.svg`} width="32" height="32" alt="" aria-hidden="true" loading="lazy" /></li>)}</ul></div>)}
+      {toolGroups.map(group=><div class="tool-group"><h3 class="eyebrow">{group.label}</h3><ul>{group.tools.map(([label,slug])=><li class="tool" tabindex="0" aria-label={label} aria-describedby={`tool-${slug}-tooltip`} data-tooltip-owner><img class="tool-grey" src={`/assets/tools/${slug}-grey.svg`} width="32" height="32" alt="" aria-hidden="true" loading="lazy" /><img class="tool-color" src={`/assets/tools/${slug}-color.svg`} width="32" height="32" alt="" aria-hidden="true" loading="lazy" /><Tooltip id={`tool-${slug}-tooltip`} title={label} /></li>)}</ul></div>)}
     </section>
     <Experience />
   </div>
@@ -79,9 +80,10 @@ import { site, toolGroups, awards } from '../data/site';
   .tool-group ul { display:flex; gap:4px; flex-wrap:wrap; list-style:none; padding:0; margin:0; }
   .tool { position:relative; display:flex; justify-content:center; align-items:center; width:80px; height:80px; background:#303030; border-radius:8px; }
   .tool img { transition:opacity var(--primitive-animation-duration-fast); width:24; height:24; }
-  .tool:hover { background:#fff; }
+  .tool:hover, .tool:focus-visible { background:#fff; }
+  .tool:focus-visible { outline:3px solid var(--color-text-accent); outline-offset:2px; }
   .tool-color { opacity:0; overflow:clip; object-fit:contain; position:absolute; }
-  .tool:hover .tool-color { opacity:1; } .tool:hover .tool-grey { opacity:0; }
+  .tool:is(:hover,:focus-visible) .tool-color { opacity:1; } .tool:is(:hover,:focus-visible) .tool-grey { opacity:0; }
   .awards h2 { margin-bottom:40px; }
   .awards-grid { display:grid; gap:40px 24px; align-items:start; }
   .award-list { display:grid; gap:4px; padding:0; margin:0; list-style:none; }

@@ -1,0 +1,81 @@
+---
+interface Props {
+  id: string;
+  title: string;
+}
+
+const { id, title } = Astro.props;
+---
+<span class="tooltip" id={id} role="tooltip" data-tooltip>
+  <span class="tooltip-label">{title}</span>
+  <span class="tooltip-pointer" aria-hidden="true"></span>
+</span>
+
+<script>
+  const positionTooltip = (owner: HTMLElement) => {
+    const tooltip = owner.querySelector<HTMLElement>('[data-tooltip]');
+    if (!tooltip) return;
+    tooltip.style.setProperty('--tooltip-shift', '0px');
+    const rect = tooltip.getBoundingClientRect();
+    const edge = 8;
+    const shift = rect.left < edge
+      ? edge - rect.left
+      : rect.right > document.documentElement.clientWidth - edge
+        ? document.documentElement.clientWidth - edge - rect.right
+        : 0;
+    tooltip.style.setProperty('--tooltip-shift', `${shift}px`);
+  };
+
+  document.querySelectorAll<HTMLElement>('[data-tooltip-owner]').forEach(owner => {
+    owner.addEventListener('mouseenter', () => positionTooltip(owner));
+    owner.addEventListener('focus', () => positionTooltip(owner));
+  });
+</script>
+
+<style>
+  .tooltip {
+    --tooltip-shift: 0px;
+    position:absolute;
+    bottom:100%;
+    left:50%;
+    z-index:10;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    width:max-content;
+    max-width:calc(100vw - 16px);
+    color:var(--color-text-light);
+    font:400 16px/32px var(--font-family-secondary);
+    text-align:center;
+    pointer-events:none;
+    visibility:hidden;
+    opacity:0;
+    transform:translateX(calc(-50% + var(--tooltip-shift)));
+    transition:opacity var(--primitive-animation-duration-fast) var(--primitive-animation-easing-fast);
+  }
+
+  .tooltip-label {
+    padding:4px 16px;
+    border-radius:6px;
+    background:var(--color-surface-card-dark);
+    box-shadow:0 3px 8px rgb(0 0 0 / 20%);
+    white-space:nowrap;
+  }
+
+  .tooltip-pointer {
+    width:8px;
+    height:8px;
+    margin-top:-6px;
+    background:var(--color-surface-card-dark);
+    transform:rotate(45deg);
+  }
+
+  :global(.tool:is(:hover,:focus-visible)) .tooltip {
+    visibility:visible;
+    opacity:1;
+  }
+
+  @media (prefers-reduced-motion:reduce) {
+    .tooltip { transition:none; }
+  }
+</style>
