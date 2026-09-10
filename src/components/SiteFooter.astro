@@ -11,7 +11,7 @@ const phrases = ['Meaningful Experiences', 'Intuitive Products', 'Delightful Int
     <div class="contact-disclosure" data-contact>
       <button class="contact-trigger" type="button" aria-label="Get in touch" aria-expanded="true" aria-controls="contact-panel" hidden><img src="/assets/icons/arrow-up-right.svg" width="80" height="80" alt="" /></button>
       <div class="contact-panel" id="contact-panel">
-        <button class="icon-button contact-close" type="button" aria-label="Close contact details" hidden><img src="/assets/icons/close.svg" width="24" height="24" alt="" /></button>
+        <button class="icon-button contact-close" type="button" aria-label="Close contact details" hidden><img src="/assets/icons/close.svg" width="16" height="16" alt="" /></button>
         <p class="contact-title">Get in touch</p>
         <p>Submit a request to <ParagraphLink href={`mailto:${site.email}`}>{site.email}</ParagraphLink>. We’ll discuss your project and propose a solution.</p>
         <p class="eyebrow">Follow me</p><SocialLinks surface="light" menu compact />
@@ -25,32 +25,21 @@ const phrases = ['Meaningful Experiences', 'Intuitive Products', 'Delightful Int
   </div>
 </footer>
 <script>
-  import { setPanel } from '../scripts/disclosure';
+  import { setContactPanel } from '../scripts/contact';
   document.querySelectorAll<HTMLElement>('[data-contact]').forEach(root => {
     if (root.dataset.ready) return;
     const trigger=root.querySelector<HTMLButtonElement>('.contact-trigger')!;
     const close=root.querySelector<HTMLButtonElement>('.contact-close')!;
-    const panel=root.querySelector<HTMLElement>('.contact-panel')!;
     let open=false;
     const change=(next:boolean) => {
       open=next;
-      panel.getAnimations().forEach(animation=>animation.cancel());
-      trigger.getAnimations().forEach(animation=>animation.cancel());
-      trigger.setAttribute('aria-expanded',String(open));
-      root.dataset.open=String(open);
-      trigger.hidden=open;
-      panel.hidden=!open; panel.inert=!open;
-      (open?close:trigger).focus({preventScroll:true});
-      const entering=open?panel:trigger;
-      if(!matchMedia('(prefers-reduced-motion: reduce)').matches && entering.animate) {
-        const css=getComputedStyle(root);
-        entering.animate([{opacity:0},{opacity:1}],{duration:240,easing:css.getPropertyValue('--primitive-animation-easing-standard').trim()});
-      }
+      setContactPanel(root,open);
     };
     trigger.addEventListener('click',()=>change(true));
     close.addEventListener('click',()=>change(false));
     root.addEventListener('keydown',event=>{if(event.key==='Escape'&&open)change(false);});
-    setPanel(panel,trigger,false,false); root.dataset.ready='true'; trigger.hidden=close.hidden=false;
+    window.addEventListener('resize',()=>setContactPanel(root,open,false,false));
+    setContactPanel(root,false,false,false); root.dataset.ready='true'; trigger.hidden=close.hidden=false;
   });
 </script>
 <style>
@@ -68,8 +57,8 @@ const phrases = ['Meaningful Experiences', 'Intuitive Products', 'Delightful Int
   .contact-disclosure[data-ready] { min-height:var(--contact-trigger-height); }
   .contact-trigger { display:flex; align-items:center; justify-content:center; width:100%; padding:40px; border:0; border-radius:12px; background:var(--color-text-accent); }
   .contact-trigger img { width:48px; height:48px; }
-  .contact-trigger:hover { background:var(--color-button-primary-hover); }
-  .contact-trigger:hover img { filter:brightness(0) invert(1); }
+  .contact-trigger:hover,.contact-trigger:focus-visible { background:var(--color-button-primary-hover); }
+  .contact-trigger:hover img,.contact-trigger:focus-visible img { filter:brightness(0) invert(1); }
   [data-open='true'] .contact-trigger { border-radius:12px 12px 0 0; }
   .contact-panel { padding:40px; position:relative; border-radius:12px; background:#fff; color:#303030; font-size:20px; line-height:36px; overflow-wrap:anywhere; }
   [data-ready] .contact-panel { position:absolute; inset:0 0 auto; z-index:1; width:100%; }

@@ -7,6 +7,7 @@ import ts from 'typescript';
 import { setPanel, resizeCards } from '../src/scripts/disclosure.ts';
 import { setMenuPanel } from '../src/scripts/menu.ts';
 import { animateMenuIcon } from '../src/scripts/menu-icon.ts';
+import { setContactPanel } from '../src/scripts/contact.ts';
 
 const html = readFileSync(new URL('../dist/index.html', import.meta.url), 'utf8');
 function fixture(source=html) {
@@ -22,8 +23,8 @@ function fixture(source=html) {
 function enhance(name) {
   const source=readFileSync(new URL(`../src/components/${name}.astro`,import.meta.url),'utf8');
   const script=source.match(/<script>([\s\S]*?)<\/script>/)[1].replace(/import\s+\{\s*setPanel(?:, resizeCards)?\s*\}\s+from\s+['"][^'"]+['"];?/, '');
-  const code=ts.transpileModule(script.replace(/import\s+\{\s*(?:setMenuPanel|animateMenuIcon)\s*\}\s+from\s+['"][^'"]+['"];?/g, ''),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ESNext}}).outputText;
-  new Function('setPanel','resizeCards','setMenuPanel','animateMenuIcon',code)(setPanel,resizeCards,setMenuPanel,animateMenuIcon);
+  const code=ts.transpileModule(script.replace(/import\s+\{\s*(?:setMenuPanel|animateMenuIcon|setContactPanel)\s*\}\s+from\s+['"][^'"]+['"];?/g, ''),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ESNext}}).outputText;
+  new Function('setPanel','resizeCards','setMenuPanel','animateMenuIcon','setContactPanel',code)(setPanel,resizeCards,setMenuPanel,animateMenuIcon,setContactPanel);
 }
 
 test('static output exposes all content and native links before enhancement',()=>{

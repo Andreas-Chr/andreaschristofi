@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Window } from 'happy-dom';
 import { setMenuPanel } from '../src/scripts/menu.ts';
+import { setContactPanel } from '../src/scripts/contact.ts';
 
 function fixture() {
   const window = new Window();
@@ -78,5 +79,37 @@ test('reduced motion opens and closes the menu without animation effects', () =>
   assert.equal(panel.hidden, true);
   assert.equal(panel.inert, true);
   assert.equal(calls.length, 0);
+  window.close();
+});
+
+test('contact collapse preserves focus and cannot hide a rapidly reopened card', async () => {
+  const { window, calls } = fixture();
+  document.body.innerHTML = '<div data-contact><button class="contact-trigger"><img alt=""></button><div class="contact-panel" hidden><button class="contact-close"><img alt=""></button><p>Contact details</p></div></div>';
+  const root = document.querySelector('[data-contact]');
+  const trigger = root.querySelector('.contact-trigger');
+  const panel = root.querySelector('.contact-panel');
+  const close = root.querySelector('.contact-close');
+  setContactPanel(root, true);
+  assert.equal(document.activeElement, close);
+  assert.equal(trigger.hidden, true);
+  setContactPanel(root, false);
+  assert.equal(document.activeElement, trigger);
+  assert.equal(panel.hidden, false, 'closing panel stays visible for the animation');
+  assert.equal(panel.inert, true, 'closing content immediately stops receiving focus');
+  const closing = calls.filter(a => a.node === panel).at(-1);
+  setContactPanel(root, true);
+  closing.finish();
+  await Promise.resolve();
+  assert.equal(panel.hidden, false);
+  assert.equal(panel.inert, false);
+  assert.equal(document.activeElement, close);
+  // A resize settles the current state without moving keyboard focus.
+  setContactPanel(root, true, false, false);
+  assert.equal(panel.getAnimations().length, 0);
+  assert.equal(close.querySelector('img').getAnimations().length, 0);
+  globalThis.matchMedia = () => ({ matches: true });
+  setContactPanel(root, false);
+  assert.equal(panel.hidden, true);
+  assert.equal(document.activeElement, trigger);
   window.close();
 });
