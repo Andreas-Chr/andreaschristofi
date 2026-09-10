@@ -6,7 +6,7 @@ import copy from '../data/legal.json';
 const slug=(text:string)=>text.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/-$/,'');
 ---
 <BaseLayout title="Privacy & Cookie Policy — Andreas Christofi" description="How information is handled when you visit andreaschristofi.com, including privacy, cookies, infrastructure, and contact by email.">
-  <div class="top-region">
+  <div class="top-region legal-top-region">
     <TopBackground />
     <div class="legal-intro container top-content">
       <h1>{copy[0].text}</h1>
@@ -23,6 +23,7 @@ const slug=(text:string)=>text.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(
   </div>
 </BaseLayout>
 <style>
+  .legal-top-region { height:auto; }
   .legal-intro { padding-block:80px 24px; display:grid; gap:24px; }
   .legal-intro h1 { overflow-wrap:anywhere; }
   .legal-layout { padding-bottom:80px; }

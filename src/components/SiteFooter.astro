@@ -61,16 +61,18 @@ const phrases = ['Meaningful Experiences', 'Intuitive Products', 'Delightful Int
   .marquee-track span { display:flex; align-items:center; gap:48px; padding-right:48px; white-space:nowrap; font:900 18px/24px var(--font-family-primary); text-transform:uppercase; }
   .marquee-track i { color:var(--color-text-accent); font-weight:400; }
   @keyframes marquee { to { transform:translateX(-25%); } }
-  .footer-contact { display:grid; gap:40px; align-items:center; padding-block:320px; }
+  .footer-contact { display:grid; gap:40px; padding-block:320px; }
   .footer-contact h2 { text-box-trim:trim-both; text-box-edge:cap alphabetic; font-size:32px; line-height:48px; }
   .footer-contact h2 span { color:var(--color-text-accent); }
-  .contact-disclosure { min-width:0; }
+  .contact-disclosure { --contact-trigger-height:128px; position:relative; min-width:0; }
+  .contact-disclosure[data-ready] { min-height:var(--contact-trigger-height); }
   .contact-trigger { display:flex; align-items:center; justify-content:center; width:100%; padding:40px; border:0; border-radius:12px; background:var(--color-text-accent); }
   .contact-trigger img { width:48px; height:48px; }
   .contact-trigger:hover { background:var(--color-button-primary-hover); }
   .contact-trigger:hover img { filter:brightness(0) invert(1); }
   [data-open='true'] .contact-trigger { border-radius:12px 12px 0 0; }
   .contact-panel { padding:40px; position:relative; border-radius:12px; background:#fff; color:#303030; font-size:20px; line-height:36px; overflow-wrap:anywhere; }
+  [data-ready] .contact-panel { position:absolute; inset:0 0 auto; z-index:1; width:100%; }
   .contact-title { font-weight:300; font-size:32px; line-height:48px; margin:0 48px 16px 0; }
   .contact-close { position:absolute; right:16px; top:16px; width:48px; height:48px; background:#4b09f5; }
   .contact-close img { filter:brightness(0) invert(1); }
@@ -79,10 +81,10 @@ const phrases = ['Meaningful Experiences', 'Intuitive Products', 'Delightful Int
   .copyright { order:3; }
   .footer-mark { order:1; width:45px; height:80px; }
   .footer-links { order:2; display:flex; flex-direction:column-reverse; align-items:center; gap:16px; }
-  .footer-links :global(.legal-link) { font-size:20px; line-height:36px; }
+  .footer-links :global(.legal-link) { font-size:16px; line-height:24px; }
   @media(max-width:639px) { .contact-close { width:32px; height:32px; } .contact-close img { width:16px; height:16px; } .contact-panel { padding:16px; font-size:16px; line-height:32px; } .contact-panel .eyebrow { margin-top:40px; } }
-  @media(min-width:400px) { .footer-contact { max-width:calc(448px + 2 * var(--page-gutter)); } .footer-contact h2 { font-size:48px; line-height:64px; } .contact-trigger img { width:64px; height:64px; } }
-  @media(min-width:1024px) { .footer-contact { max-width:1440px; } .footer-contact h2 { text-box-trim:none; font-size:64px; line-height:72px; } .contact-trigger img { width:80px; height:80px; } }
+  @media(min-width:400px) { .footer-contact { max-width:calc(448px + 2 * var(--page-gutter)); } .footer-contact h2 { font-size:48px; line-height:64px; } .contact-disclosure { --contact-trigger-height:144px; } .contact-trigger img { width:64px; height:64px; } }
+  @media(min-width:1024px) { .footer-contact { max-width:1440px; } .footer-contact h2 { text-box-trim:none; font-size:64px; line-height:72px; } .contact-disclosure { --contact-trigger-height:160px; } .contact-trigger img { width:80px; height:80px; } }
   @media(min-width:1200px) { .footer-contact { grid-template-columns:minmax(0,1fr) minmax(0,1fr); } .footer-contact h2 { text-box-trim:none; font-size:64px; line-height:72px; } }
 
   @media(min-width:1024px) { .footer-info { flex-direction:row; text-align:left; gap:16px; } .copyright,.footer-links { flex:1; } .copyright { order:0; } .footer-links { flex-direction:row; justify-content:flex-end; } }
