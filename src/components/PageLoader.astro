@@ -1,12 +1,17 @@
-<div class="page-loader" hidden aria-hidden="true"><img src="/assets/logo/logo-light.svg" width="45" height="80" alt="" /></div>
+<div class="page-loader" hidden aria-hidden="true">
+  <img src="/assets/logo/logo-light.svg" width="45" height="80" alt="" />
+</div>
 <script is:inline>
   (() => {
     const overlay = document.querySelector('.page-loader');
     const shell = document.querySelector('[data-site-shell]');
     if (!overlay || !shell) return;
-    let timeout, completion, exiting = false;
+    let timeout,
+      completion,
+      exiting = false;
     const cleanup = () => {
-      clearTimeout(timeout); clearTimeout(completion);
+      clearTimeout(timeout);
+      clearTimeout(completion);
       shell.inert = false;
       overlay.remove();
       window.removeEventListener('load', ready);
@@ -15,12 +20,17 @@
     const ready = () => {
       if (exiting) return;
       exiting = true;
-      if (matchMedia('(prefers-reduced-motion: reduce)').matches) { cleanup(); return; }
-      overlay.addEventListener('transitionend', cleanup, {once:true});
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        cleanup();
+        return;
+      }
+      overlay.addEventListener('transitionend', cleanup, { once: true });
       overlay.style.transform = 'translateY(-100%)';
       completion = setTimeout(cleanup, 300);
     };
-    const restored = event => { if (event.persisted) cleanup(); };
+    const restored = (event) => {
+      if (event.persisted) cleanup();
+    };
     // Established before enhancement: renderer/module failures cannot strand the page.
     timeout = setTimeout(cleanup, 5000);
     try {
@@ -28,11 +38,25 @@
       shell.inert = true;
       overlay.hidden = false;
       if (document.readyState === 'complete') ready();
-      else window.addEventListener('load', ready, {once:true});
-    } catch { cleanup(); }
+      else window.addEventListener('load', ready, { once: true });
+    } catch {
+      cleanup();
+    }
   })();
 </script>
 <style>
-  .page-loader { position:fixed; inset:0; z-index:1000; display:grid; place-items:center; background:#000; transition:transform var(--primitive-animation-duration-standard) var(--primitive-animation-easing-standard); }
-  img { width:45px; height:80px; }
+  .page-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: grid;
+    place-items: center;
+    background: #121212;
+    transition: transform var(--primitive-animation-duration-standard)
+      var(--primitive-animation-easing-standard);
+  }
+  img {
+    width: 45px;
+    height: 80px;
+  }
 </style>

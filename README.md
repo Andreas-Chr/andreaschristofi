@@ -26,6 +26,7 @@ Tests read the production output, so build before running them. Astro generates 
 - `src/components/`: shared header/footer, Process, Experience, hero and decorative background.
 - `src/data/`: site destinations, exact Figma process/experience/legal copy.
 - `src/styles/`: local fonts, semantic design tokens, shared styles.
+- [Typography catalog](docs/TYPOGRAPHY.md): all Figma foundation text styles and reusable CSS classes; consult before choosing typography.
 - `src/scripts/disclosure.ts`: interruptible disclosure transitions and focus handling.
 - `public/assets/`: supplied/exported SVG artwork, fonts, licenses, CV.
 - `src/assets/`: original raster assets optimized by Astro into AVIF/WebP/JPEG.
