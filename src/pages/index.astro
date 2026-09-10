@@ -78,9 +78,9 @@ import { site, toolGroups, awards } from '../data/site';
   .tool-group h3 { margin-bottom:16px; }
   .tool-group ul { display:flex; gap:4px; flex-wrap:wrap; list-style:none; padding:0; margin:0; }
   .tool { position:relative; display:flex; justify-content:center; align-items:center; width:80px; height:80px; background:#303030; border-radius:8px; }
-  .tool img { width:36px; height:36px; object-fit:contain; transition:opacity var(--primitive-animation-duration-fast); }
+  .tool img { transition:opacity var(--primitive-animation-duration-fast); width:24; height:24; }
   .tool:hover { background:#fff; }
-  .tool-color { position:absolute; opacity:0; }
+  .tool-color { opacity:0; overflow:clip; object-fit:contain; position:absolute; }
   .tool:hover .tool-color { opacity:1; } .tool:hover .tool-grey { opacity:0; }
   .awards h2 { margin-bottom:40px; }
   .awards-grid { display:grid; gap:40px 24px; align-items:start; }
@@ -107,4 +107,5 @@ import { site, toolGroups, awards } from '../data/site';
     .awards-grid { grid-template-columns:1fr 1fr; }
   }
   @media(max-width:399.84px) { .hero .lead { font-size:16px; line-height:32px; font-weight:400; } .hero-visual { bottom:-41.77px; } .about-button .button { width:100%; } .stack-experience,.awards { padding-block:48px; } .award-list li { flex-direction:column; align-items:flex-start; gap:24px; padding:24px; } .award-list li>img { width:60px; height:38.86px; } }
+  indesign { width:28; height:28; }
 </style>

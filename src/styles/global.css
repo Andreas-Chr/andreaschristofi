@@ -5,7 +5,7 @@
 @font-face { font-family:'DM Sans'; src:url('/assets/fonts/dmsans-light.woff2') format('woff2'); font-weight:300; font-style:normal; font-display:swap; }
 @font-face { font-family:'DM Sans'; src:url('/assets/fonts/dmsans-medium.woff2') format('woff2'); font-weight:500; font-style:normal; font-display:swap; }
 *, *::before, *::after { box-sizing:border-box; }
-html { background:var(--color-background-canvas); color:var(--color-text-light); scroll-behavior:smooth; scroll-padding-top:calc(var(--header-clearance) + 16px); }
+html { background:var(--color-background-canvas); color:var(--color-text-light); scroll-behavior:smooth; scroll-padding-top:calc(var(--header-clearance) + 16px); position:absolute; }
 body { margin:0; font:400 16px/32px var(--font-family-secondary); font-feature-settings:'liga' 0; }
 h1,h2,h3,p { margin:0; }
 h1,h2,.display { font-family:var(--font-family-primary); font-weight:900; }
