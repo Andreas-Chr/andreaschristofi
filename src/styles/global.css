@@ -37,7 +37,7 @@ img { display:block; max-width:100%; }
 .skip-link { position:fixed; left:16px; top:-96px; z-index:200; padding:16px; background:#fff; color:#121212; }
 .skip-link:focus { top:16px; }
 .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
-.top-region { position:relative; isolation:isolate; padding-top:var(--header-clearance); }
+.top-region { position:relative; isolation:isolate; height:100vh; padding-top:var(--header-clearance); }
 .top-content { position:relative; z-index:1; }
 @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { animation:none!important; transition:none!important; } }
 @media (forced-colors:active) { button,.button,.experience-card,.phase-card { border:1px solid ButtonText; } }
