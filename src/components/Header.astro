@@ -17,7 +17,16 @@ import SocialLinks from './SocialLinks.astro';
   <div class="menu-panel" id="main-navigation">
     <nav aria-label="Main navigation"><ul>{navigation.map(link=><li><a href={link.href}>{link.label}</a></li>)}</ul></nav>
     <div class="menu-contact"><h2>Get in touch</h2><p>Submit a request to <ParagraphLink href={`mailto:${site.email}`}>{site.email}</ParagraphLink>. We’ll discuss your project and propose a solution.</p></div>
-    <div class="menu-social"><p class="eyebrow">Follow me</p><SocialLinks surface="light" menu /></div>
+    <div class="menu-social">
+      <p class="eyebrow">Useful links</p>
+      <div class="menu-useful-links">
+        <SocialLinks surface="light" menu />
+        <a class="button" href={site.cv} download>
+          Download CV
+          <img src="/assets/icons/download.svg" width="24" height="24" alt="" />
+        </a>
+      </div>
+    </div>
   </div>
 </header>
 <script>
@@ -83,7 +92,10 @@ import SocialLinks from './SocialLinks.astro';
   .menu-contact h2 { font:300 32px/48px var(--font-family-secondary); text-transform:none; }
   .menu-contact p { font-size:20px; line-height:36px; overflow-wrap:anywhere; }
   .eyebrow { color:#303030; margin-bottom:8px; }
+  .menu-useful-links { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px 16px; }
+  .menu-useful-links .button { flex-shrink:0; }
   .menu-panel a:focus-visible { outline-color:#4b09f5; }
+  @media(max-width:479px) { .menu-useful-links .button { width:100%; } }
   @media(min-width:700px) { [data-ready] .menu-panel { padding-top:40px; } nav { padding-right:48px; } }
   @media(max-width:399px) { .wordmark { display:none; } .menu-panel { padding:16px; } [data-ready] .menu-panel { padding-top:64px; } }
 </style>
