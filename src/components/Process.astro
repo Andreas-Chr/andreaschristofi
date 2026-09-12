@@ -50,7 +50,7 @@ const layouts=[{name:'ultranarrow',media:'(max-width: 399px)',width:304},{name:'
 <style>
   .process { display:grid; gap:40px; }
   .process-art { position:relative; width:304px; max-width:100%; margin-inline:auto; }
-  .process-art picture { display:block; }
+  .process-art picture:not([hidden]) { display:block; }
   @media(max-width:639px) { .process-art picture { aspect-ratio:304/656; } .process-art picture[data-phase-art="2"],.process-art picture[data-phase-art="3"],.process-art picture[data-phase-art="4"] { aspect-ratio:304/648; } .process-art picture img { height:100%; object-fit:fill; } }
   .process-art img { width:100%; height:auto; }
   .process-art .prototype-marker { display:none; position:absolute; top:0; left:45.83%; width:8.33%; }
@@ -86,6 +86,6 @@ const layouts=[{name:'ultranarrow',media:'(max-width: 399px)',width:304},{name:'
     .phase-card { flex:1; padding:24px 24px 80px; min-height:600px; border-radius:24px; transition:flex var(--primitive-animation-duration-standard),background var(--primitive-animation-duration-standard); }
     [data-active='true'] { flex:1.7333; }
     .phase-toggle { top:auto; bottom:24px; left:24px; transform:none; }
-    .process-art .prototype-marker { display:block; }
+    .process-art .prototype-marker:not([hidden]) { display:block; }
   }
 </style>

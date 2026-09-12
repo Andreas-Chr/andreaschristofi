@@ -13,8 +13,8 @@ const phrases = ['Meaningful Experiences', 'Intuitive Products', 'Delightful Int
       <div class="contact-panel" id="contact-panel">
         <button class="icon-button contact-close" type="button" aria-label="Close contact details" hidden><img src="/assets/icons/close.svg" width="16" height="16" alt="" /></button>
         <p class="contact-title">Get in touch</p>
-        <p>Submit a request to <ParagraphLink href={`mailto:${site.email}`}>{site.email}</ParagraphLink>. We’ll discuss your project and propose a solution.</p>
-        <p class="eyebrow">Follow me</p><SocialLinks surface="light" menu compact />
+        <p>Send me an email to <ParagraphLink href={`mailto:${site.email}`}>{site.email}</ParagraphLink>. We’ll discuss your project and propose a solution. Ideas need real conversations.</p>
+        <p class="eyebrow">Useful links</p><SocialLinks surface="light" menu />
       </div>
     </div>
   </section>
@@ -56,22 +56,23 @@ const phrases = ['Meaningful Experiences', 'Intuitive Products', 'Delightful Int
   .contact-disclosure { --contact-trigger-height:128px; position:relative; min-width:0; }
   .contact-disclosure[data-ready] { min-height:var(--contact-trigger-height); }
   .contact-trigger { display:flex; align-items:center; justify-content:center; width:100%; padding:40px; border:0; border-radius:12px; background:var(--color-text-accent); }
+  .contact-trigger[hidden] { display:none; }
   .contact-trigger img { width:48px; height:48px; }
   .contact-trigger:hover,.contact-trigger:focus-visible { background:var(--color-button-primary-hover); }
   .contact-trigger:hover img,.contact-trigger:focus-visible img { filter:brightness(0) invert(1); }
   [data-open='true'] .contact-trigger { border-radius:12px 12px 0 0; }
-  .contact-panel { padding:40px; position:relative; border-radius:12px; background:#fff; color:#303030; font-size:20px; line-height:36px; overflow-wrap:anywhere; }
+  .contact-panel { --contact-panel-padding:40px; padding:var(--contact-panel-padding); position:relative; border-radius:24px; background:var(--color-surface-card-light); color:var(--color-text-dark); font:var(--text-display-small); overflow-wrap:anywhere; }
   [data-ready] .contact-panel { position:absolute; inset:0 0 auto; z-index:1; width:100%; }
-  .contact-title { font-weight:300; font-size:32px; line-height:48px; margin:0 48px 16px 0; }
-  .contact-close { position:absolute; right:16px; top:16px; width:48px; height:48px; background:#4b09f5; }
-  .contact-close img { filter:brightness(0) invert(1); }
-  .contact-panel .eyebrow { margin:80px 0 8px; color:#303030; }
+  .contact-title { font:var(--text-headings-h4); margin:0 32px 24px 0; }
+  .contact-close { position:absolute; right:var(--contact-panel-padding); top:var(--contact-panel-padding); width:32px; height:32px; border:1px solid var(--color-focus-primary); border-radius:4px; background:var(--color-button-primary-hover); }
+  .contact-close img { width:16px; height:16px; filter:brightness(0) invert(1); }
+  .contact-panel .eyebrow { margin:80px 0 8px; color:var(--color-text-dark); }
   .footer-info { display:flex; flex-direction:column; align-items:center; gap:40px; text-align:center; }
   .copyright { order:3; }
   .footer-mark { order:1; width:45px; height:80px; }
   .footer-links { order:2; display:flex; flex-direction:column-reverse; align-items:center; gap:16px; }
   .footer-links :global(.legal-link) { font-size:16px; line-height:24px; }
-  @media(max-width:639px) { .contact-close { width:32px; height:32px; } .contact-close img { width:16px; height:16px; } .contact-panel { padding:16px; font-size:16px; line-height:32px; } .contact-panel .eyebrow { margin-top:40px; } }
+  @media(max-width:399px) { .contact-panel { --contact-panel-padding:16px; font:var(--text-body-medium); } .contact-title { margin-bottom:16px; } .contact-panel :global(.paragraph-link) { font-weight:400; } .contact-panel .eyebrow { margin-top:40px; } }
   @media(min-width:400px) { .footer-contact { max-width:calc(448px + 2 * var(--page-gutter)); } .footer-contact h2 { font-size:48px; line-height:64px; } .contact-disclosure { --contact-trigger-height:144px; } .contact-trigger img { width:64px; height:64px; } }
   @media(min-width:1024px) { .footer-contact { max-width:1440px; } .footer-contact h2 { text-box-trim:none; font-size:64px; line-height:72px; } .contact-disclosure { --contact-trigger-height:160px; } .contact-trigger img { width:80px; height:80px; } }
   @media(min-width:1200px) { .footer-contact { grid-template-columns:minmax(0,1fr) minmax(0,1fr); } .footer-contact h2 { text-box-trim:none; font-size:64px; line-height:72px; } }

@@ -32,7 +32,7 @@ export function setContactPanel(root: HTMLElement, open: boolean, animate = true
   trigger.hidden = open;
   panel.hidden = false;
   const collapsed = `inset(0px 0px ${Math.max(0, panel.getBoundingClientRect().height - buttonHeight)}px 0px round 12px)`;
-  const expanded = 'inset(0px 0px 0px 0px round 12px)';
+  const expanded = `inset(0px 0px 0px 0px round ${css.borderRadius})`;
   const easing = 'cubic-bezier(.22, 1, .36, 1)';
   const shell = panel.animate([
     wasHidden ? { clipPath: collapsed, backgroundColor: buttonColor, opacity: 1 }
