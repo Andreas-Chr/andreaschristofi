@@ -6,17 +6,31 @@ import SocialLinks from './SocialLinks.astro';
 <header class="site-header" data-menu>
   <div class="header-row container">
     <a class="logo-link" href="/" aria-label="Andreas Christofi — Home">
-      <span class="logo-surface"><img class="light-mark" src="/assets/logo/logo-light.svg" width="27" height="48" alt="" /><img class="dark-mark" src="/assets/logo/logo-dark.svg" width="27" height="48" alt="" /></span>
-      <img class="wordmark" src="/assets/logo/andreaschristofi.svg" width="183" height="15" alt="" />
+      <span class="logo-surface">
+        <img class="light-mark" src="/assets/logo/header-logo-light.svg" width="21" height="36" alt="" />
+        <img class="dark-mark" src="/assets/logo/header-logo-dark.svg" width="20" height="36" alt="" />
+      </span>
+      <img class="wordmark" src="/assets/logo/header-wordmark.svg" width="151" height="12" alt="" />
     </a>
-    <button class="icon-button menu-trigger" type="button" aria-label="Open main menu" aria-expanded="true" aria-controls="main-navigation" hidden>
+    <button class="icon-button tertiary menu-trigger" type="button" aria-label="Open main menu" aria-expanded="true" aria-controls="main-navigation" hidden>
       <span class="menu-label-mask" aria-hidden="true"><span class="menu-label text-headings-h5">Menu</span></span>
       <span class="menu-icon" aria-hidden="true"><span class="menu-icon-line"></span><span class="menu-icon-line"></span></span>
     </button>
   </div>
   <div class="menu-panel" id="main-navigation">
-    <nav aria-label="Main navigation"><ul>{navigation.map(link=><li><a href={link.href}>{link.label}</a></li>)}</ul></nav>
-    <div class="menu-contact"><h2>Get in touch</h2><p>Submit a request to <ParagraphLink href={`mailto:${site.email}`}>{site.email}</ParagraphLink>. We’ll discuss your project and propose a solution.</p></div>
+    <nav aria-label="Main navigation">
+      <ul>
+        {navigation.map(link=><li><a href={link.href}>{link.label}</a></li>)}
+      </ul>
+    </nav>
+    <div class="menu-contact">
+      <h2>Get in touch</h2>
+      <p>
+        Submit a request to
+        <ParagraphLink href={`mailto:${site.email}`}>{site.email}</ParagraphLink>
+        . We’ll discuss your project and propose a solution.
+      </p>
+    </div>
     <div class="menu-social">
       <p class="eyebrow">Useful links</p>
       <div class="menu-useful-links">
@@ -57,35 +71,32 @@ import SocialLinks from './SocialLinks.astro';
   .header-row { display:flex; justify-content:space-between; align-items:center; gap:16px; }
   .header-row>* { pointer-events:auto; }
   .logo-link { display:flex; align-items:center; gap:8px; text-decoration:none; }
-  .logo-surface { position:relative; display:grid; place-items:center; width:48px; height:64px; background:#ffffff1a; border:1px solid #ffffff33; border-radius:12px; transition:background var(--primitive-animation-duration-fast); }
+  .logo-surface { position:relative; display:grid; place-items:center; width:48px; height:64px; background:#ffffff1a; border:1px solid #ffffff33; border-radius:8px; transition:background var(--primitive-animation-duration-fast); }
   /* Figma “lumi card”: 10px blur radius maps to a 5px CSS blur. */
-  .logo-surface { -webkit-backdrop-filter:blur(5px); backdrop-filter:blur(5px); box-shadow:0 2px 10px 0 #00000012; }
-  .logo-surface img { width:27px; height:48px; }
-  .dark-mark { position:absolute; opacity:0; }
+  .logo-surface,.menu-trigger { -webkit-backdrop-filter:blur(5px); backdrop-filter:blur(5px); box-shadow:0 2px 10px 0 #00000012; }
+  .logo-surface img { width:21px; height:36px; }
+  .logo-surface .dark-mark { position:absolute; width:20px; opacity:0; }
   .logo-link:hover .logo-surface,.logo-link:focus-visible .logo-surface { background:#c5fa00; }
   .logo-link:hover .light-mark,.logo-link:focus-visible .light-mark { opacity:0; }
   .logo-link:hover .dark-mark,.logo-link:focus-visible .dark-mark { opacity:1; }
-  .wordmark { width:183px; height:15px; }
+  .wordmark { width:188px; height:15; }
   .menu-trigger { position:relative; z-index:2; }
   .menu-label-mask { position:absolute; right:calc(100% + 24px); top:50%; transform:translateY(-50%); overflow:hidden; pointer-events:none; }
   .menu-label { display:block; color:var(--color-text-light); white-space:nowrap; opacity:0; transform:translateY(-100%); transition:transform 300ms cubic-bezier(.22,1,.36,1),opacity 240ms ease; }
   [data-open='false'] .menu-trigger:focus-visible .menu-label { opacity:1; transform:translateY(0); }
-  .menu-trigger:focus-visible { background:var(--color-button-primary-hover); }
-  .menu-trigger:focus-visible .menu-icon { color:var(--color-text-light); }
   @media(hover:hover) { [data-open='false'] .menu-trigger:hover .menu-label { opacity:1; transform:translateY(0); } }
   /* Reserve room for the label when the wordmark would otherwise overlap it. */
   @media(min-width:400px) and (max-width:459px) { .wordmark { display:none; } }
-  .menu-icon { position:relative; display:block; width:16px; height:16px; color:var(--color-text-dark); pointer-events:none; }
+  .menu-icon { position:relative; display:block; width:16px; height:16px; color:inherit; pointer-events:none; }
   /* Match the original burger's 16px-wide, 1.75px strokes and 5.75px spacing. */
   .menu-icon-line { position:absolute; left:0; top:calc(50% - .875px); width:16px; height:1.75px; background:currentColor; transform:translateY(-2.875px) rotate(0deg); transform-origin:center; clip-path:inset(0 0 0 0); }
   .menu-icon-line:last-child { transform:translateY(2.875px) rotate(0deg); }
-  @media(hover:hover) { .menu-trigger:hover .menu-icon { color:var(--color-text-light); } }
   [data-open='true'] .menu-trigger { background:#4b09f5; }
   [data-open='true'] .menu-icon { color:var(--color-text-light); }
   [data-open='true'] .menu-icon-line { transform:translateY(0) rotate(45deg); }
   [data-open='true'] .menu-icon-line:last-child { transform:translateY(0) rotate(-45deg); }
-  .menu-panel { background:#fff; color:#303030; border-radius:16px; padding:40px; display:grid; gap:40px; margin:16px var(--page-gutter) 0; pointer-events:auto; }
-  [data-ready] .menu-panel { position:absolute; right:0; top:8px; width:min(600px,100%); max-height:calc(100dvh - 16px); overflow-y:auto; overscroll-behavior:contain; margin:0; padding-top:88px; }
+  .menu-panel { background:#fff; color:#303030; border-radius:16px; padding:24px; display:grid; gap:40px; margin:16px var(--page-gutter) 0; pointer-events:auto; }
+  [data-ready] .menu-panel { position:absolute; right:0; top:8px; width:min(600px,100%); max-height:calc(100dvh - 16px); overflow-y:auto; overscroll-behavior:contain; margin:0; }
   nav ul { list-style:none; margin:0; padding:0; display:grid; gap:8px; }
   nav a { font:var(--text-navigation-navigation-link); text-decoration:none; }
   nav a:hover { color:#4b09f5; }
@@ -96,6 +107,6 @@ import SocialLinks from './SocialLinks.astro';
   .menu-useful-links .button { flex-shrink:0; }
   .menu-panel a:focus-visible { outline-color:#4b09f5; }
   @media(max-width:479px) { .menu-useful-links .button { width:100%; } }
-  @media(min-width:700px) { [data-ready] .menu-panel { padding-top:40px; } nav { padding-right:48px; } }
-  @media(max-width:399px) { .wordmark { display:none; } .menu-panel { padding:16px; } [data-ready] .menu-panel { padding-top:64px; } }
+  @media(min-width:700px) { nav { padding-right:48px; } }
+  @media(max-width:399px) { .wordmark { display:none; } }
 </style>

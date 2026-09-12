@@ -35,6 +35,12 @@ img { display:block; max-width:100%; }
   .icon-button img { width:16px; height:16px; }
 .icon-button:hover { background:var(--color-button-primary-hover); }
 .icon-button:hover img { filter:brightness(0) invert(1); }
+/* Figma Button/Icon — Tertiary, Large (5175:2278). */
+.icon-button.tertiary { width:48px; height:48px; border:1px solid rgb(255 255 255 / 12%); border-radius:8px; background:rgb(255 255 255 / 12%); color:var(--color-text-light); }
+@media(hover:hover) { .icon-button.tertiary:hover { background:var(--color-button-primary-default); border-color:transparent; color:var(--color-text-dark); } .icon-button.tertiary:hover img { filter:brightness(0); } }
+.icon-button.tertiary:focus-visible { background:var(--color-button-primary-default); border-color:var(--color-text-light); color:var(--color-text-dark); }
+.icon-button.tertiary:active { background:rgb(255 255 255 / 12%); border-color:var(--color-text-light); color:var(--color-text-light); }
+.icon-button.tertiary:disabled { background:#acacac; border-color:transparent; color:var(--color-text-disabled); }
 .skip-link { position:fixed; left:16px; top:-96px; z-index:200; padding:16px; background:#fff; color:#121212; }
 .skip-link:focus { top:16px; }
 .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
