@@ -19,7 +19,7 @@ button:disabled { cursor:default; }
 button,a { -webkit-tap-highlight-color:transparent; }
 button:focus-visible,a:focus-visible { outline:3px solid var(--color-text-accent); outline-offset:5px; }
 button:focus-visible { outline-color:var(--color-focus-primary); }
-[hidden] { display:none !important; }
+[hidden] { display:none; }
 img { display:block; max-width:100%; width:16; height:16; }
 .container { width:100%; max-width:1440px; margin-inline:auto; padding-inline:var(--page-gutter); }
 .section { padding-block:var(--section-space); }
