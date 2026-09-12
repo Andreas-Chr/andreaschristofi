@@ -27,11 +27,14 @@ function enhance(name) {
   new Function('setPanel','resizeCards','setMenuPanel','animateMenuIcon','setContactPanel',code)(setPanel,resizeCards,setMenuPanel,animateMenuIcon,setContactPanel);
 }
 
-test('static output exposes all content and native links before enhancement',()=>{
+test('static output keeps the menu closed and exposes page content and native links',()=>{
   const w=fixture();
   assert.equal(document.querySelectorAll('main').length,1);
   assert.equal(document.querySelectorAll('h1').length,1);
-  for(const selector of ['.menu-panel','.contact-panel','.phase-panel','.experience-panel']) {
+  assert.equal(document.querySelector('.menu-panel').hidden,true);
+  assert.equal(document.querySelector('.menu-panel').inert,true);
+  assert.equal(document.querySelector('.menu-trigger').getAttribute('aria-expanded'),'false');
+  for(const selector of ['.contact-panel','.phase-panel','.experience-panel']) {
     const panels=[...document.querySelectorAll(selector)];assert.ok(panels.length);
     panels.forEach(panel=>assert.equal(panel.hidden,false,selector));
   }
@@ -47,6 +50,11 @@ test('menu is non-modal; Escape restores focus and links retain navigation',()=>
   const w=fixture();enhance('Header');
   const trigger=document.querySelector('.menu-trigger');
   const panel=document.querySelector('.menu-panel');
+  assert.equal(panel.hidden,true);assert.equal(trigger.getAttribute('aria-expanded'),'false');
+  trigger.dispatchEvent(new w.MouseEvent('mouseenter'));
+  trigger.focus();
+  window.dispatchEvent(new w.Event('resize'));
+  document.body.click();
   assert.equal(panel.hidden,true);assert.equal(trigger.getAttribute('aria-expanded'),'false');
   trigger.focus();trigger.click();
   assert.equal(panel.hidden,false);assert.equal(document.activeElement,trigger);
