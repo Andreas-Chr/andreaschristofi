@@ -2,12 +2,14 @@
 import { Picture } from 'astro:assets';
 import waveFallback from '../assets/bg-gradient-waves-fallback.jpg';
 import GradientBackground from './GradientBackground.jsx';
+import NoiseBackground from './NoiseBackground.astro';
 ---
 <div class="top-background" aria-hidden="true">
   <Picture class="wave-fallback" src={waveFallback} formats={['webp']} fallbackFormat="jpg" alt="" />
   <div class="wave-renderer" data-flipped="true">
     <GradientBackground client:idle />
   </div>
+  <NoiseBackground />
 </div>
 <style>
   .top-background { position:absolute; inset:0; z-index:-1; overflow:hidden; pointer-events:none; background:var(--color-background-canvas); }

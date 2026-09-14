@@ -5,6 +5,7 @@ import '../styles/global.css';
 import PageLoader from '../components/PageLoader.astro';
 import Header from '../components/Header.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import NoiseBackground from '../components/NoiseBackground.astro';
 import { site } from '../data/site';
 interface Props {
   title: string;
@@ -79,6 +80,7 @@ const canonical = new URL(Astro.url.pathname, site.origin);
   </head>
   <body>
     <div data-site-shell>
+      <NoiseBackground fixed />
       <a class="skip-link" href="#main">Skip to content</a>
       <Header />
       <main id="main" tabindex="-1"><slot /></main>
