@@ -1,0 +1,58 @@
+---
+import SocialLinks from './SocialLinks.astro';
+import { site } from '../data/site';
+
+interface Props { id?: string; }
+const { id = 'contact-popup' } = Astro.props;
+// Standalone: mount when needed and call showModal() on this dialog to open it.
+// Native dialog handles focus containment, Escape, and focus restoration.
+---
+<dialog id={id} class="contact-popup" aria-labelledby={`${id}-title`} aria-describedby={`${id}-description`}>
+  <div class="popup-content">
+    <div class="popup-text">
+      <div class="popup-title">
+        <h2 id={`${id}-title`}>Say hello</h2>
+        <form method="dialog">
+          <button class="icon-button popup-close" type="submit" aria-label="Close contact popup" autofocus>
+            <img src="/assets/icons/close.svg" width="16" height="16" alt="" />
+          </button>
+        </form>
+      </div>
+      <p id={`${id}-description`}>Send me an email to <a href={`mailto:${site.email}`}>{site.email}</a>. We’ll discuss your project and propose a solution. Ideas need real conversations.</p>
+    </div>
+    <div class="popup-social">
+      <p class="popup-label">Useful links</p>
+      <div class="popup-links">
+        <SocialLinks surface="light" menu />
+        <a class="button" href={site.cv} download>
+          Resume
+          <img src="/assets/icons/download.svg" width="16" height="16" alt="" />
+        </a>
+      </div>
+    </div>
+  </div>
+</dialog>
+<style>
+  .contact-popup { width:720px; max-width:calc(100% - 32px); max-height:calc(100dvh - 32px); margin:auto; padding:40px; border:0; border-radius:24px; background:var(--color-surface-card-light); color:var(--color-text-dark); overflow:auto; overscroll-behavior:contain; }
+  .contact-popup::backdrop { background:rgb(0 0 0 / 48%); }
+  .popup-content { display:flex; flex-direction:column; gap:80px; }
+  .popup-text { display:flex; flex-direction:column; gap:24px; }
+  .popup-title { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+  h2 { font:var(--text-headings-h4); text-transform:none; }
+  form { margin:0; flex-shrink:0; }
+  .popup-close { background:var(--color-surface-card-light); border:1px solid #e3e3e3; }
+  .popup-close:hover { background:var(--color-button-primary-hover); }
+  .popup-text p { font:var(--text-display-small); overflow-wrap:anywhere; }
+  .popup-text a { text-decoration:underline; text-underline-position:from-font; text-underline-offset:auto; }
+  .popup-social { display:flex; flex-direction:column; gap:8px; }
+  .popup-label { font:var(--text-headings-h6); text-transform:uppercase; }
+  .popup-links { display:flex; align-items:flex-start; justify-content:space-between; gap:8px; }
+  .popup-links .button { flex-shrink:0; }
+  .contact-popup :global(a:focus-visible), .popup-close:focus-visible { outline-color:var(--color-button-primary-hover); }
+  @media(max-width:479px) {
+    .contact-popup { padding:24px; }
+    .popup-content { gap:40px; }
+    .popup-links { flex-wrap:wrap; gap:16px; }
+    .popup-links .button { width:100%; }
+  }
+</style>
