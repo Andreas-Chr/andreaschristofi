@@ -1,4 +1,5 @@
 ---
+import ButtonMain from './ButtonMain.astro';
 import { site } from '../data/site';
 const words = ['Vision', 'Clarity', 'Systems', 'Hype'];
 ---
@@ -12,11 +13,7 @@ const words = ['Vision', 'Clarity', 'Systems', 'Hype'];
       </span>
     </h1>
     <p class="hero-description">{site.description}</p>
-    <a class="button" href={site.cv} download>
-      Download CV
-      <img src="/assets/icons/download.svg" width="16" height="16" alt="" />
-    </a>
-    <button class="hero-motion-control" type="button" aria-label="Pause headline animation" aria-pressed="false" hidden>Pause animation</button>
+    <ButtonMain type="button" aria-disabled="true">Curated Works</ButtonMain>
   </div>
 </section>
 <script>
@@ -34,7 +31,6 @@ const words = ['Vision', 'Clarity', 'Systems', 'Hype'];
   [data-motion-ready] .hero-word { animation:hero-fold 12s cubic-bezier(.4,0,.2,1) infinite; animation-delay:var(--word-delay); }
   [data-paused='true'] .hero-word { animation-play-state:paused; }
   .hero-description { font:var(--text-display-small); }
-  .hero-motion-control { position:absolute; top:calc(100% + 12px); padding:4px 8px; border:0; border-radius:4px; background:transparent; color:var(--color-text-light); font:400 12px/20px var(--font-family-secondary); text-decoration:underline; text-underline-offset:3px; }
   @keyframes hero-fold {
     0%, 20% { opacity:1; transform:translateY(0) rotateX(0deg); }
     25%, 94.999% { opacity:0; transform:translateY(-35%) rotateX(90deg); }
@@ -43,5 +39,5 @@ const words = ['Vision', 'Clarity', 'Systems', 'Hype'];
   }
   @media(min-width:400px) { .hero { padding-block:80px; } }
   @media(max-width:399px) { .hero-description { font:var(--text-body-medium); } .hero-copy>.button { width:100%; } }
-  @media(prefers-reduced-motion:reduce) { .hero-word { animation:none!important; transform:none; opacity:0; } .hero-word:first-child { opacity:1; } .hero-motion-control { display:none; } }
+  @media(prefers-reduced-motion:reduce) { .hero-word { animation:none!important; transform:none; opacity:0; } .hero-word:first-child { opacity:1; } }
 </style>

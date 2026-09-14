@@ -1,0 +1,38 @@
+/* Shared appearance for Figma Button/Main and Button/Icon. */
+.button-main,.icon-button {
+  --button-background:var(--color-button-primary-default);
+  --button-foreground:var(--color-text-dark);
+  --button-hover:var(--color-button-primary-hover);
+  --button-hover-foreground:var(--color-text-light);
+  --button-border:transparent;
+  --button-active-border:var(--color-focus-primary);
+  display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;
+  border:1px solid var(--button-border); border-radius:8px;
+  background:var(--button-background); color:var(--button-foreground); text-decoration:none;
+  transition:background var(--primitive-animation-duration-fast) var(--primitive-animation-easing-fast),color var(--primitive-animation-duration-fast) var(--primitive-animation-easing-fast);
+}
+.button-main { gap:8px; min-height:48px; padding:11px 23px; font:900 14px/24px var(--font-family-primary); }
+.icon-button { width:48px; height:48px; padding:0; }
+.icon-button.small { width:32px; height:32px; border-radius:4px; }
+.button-main.secondary,.icon-button.secondary { --button-background:var(--color-button-secondary-default); --button-active-border:var(--color-text-accent); }
+.icon-button.secondary { --button-border:var(--color-button-secondary-border); }
+.icon-button.tertiary { --button-background:var(--color-button-tertiary-default); --button-foreground:var(--color-text-light); --button-hover:var(--color-button-tertiary-hover); --button-hover-foreground:var(--color-text-dark); --button-border:var(--color-button-tertiary-default); }
+.icon-button.tertiary.small { --button-border:transparent; }
+.button-main img,.icon-button img { width:16px; height:16px; flex-shrink:0; }
+.icon-button.tertiary img { filter:brightness(0) invert(1); }
+@media(hover:hover) {
+  :is(.button-main,.icon-button):not(:disabled):not([aria-disabled='true']):hover { background:var(--button-hover); color:var(--button-hover-foreground); border-color:transparent; }
+  :is(.button-main,.icon-button):not(:disabled):not([aria-disabled='true']):hover img { filter:brightness(0) invert(1); }
+  .icon-button.tertiary:not(:disabled):not([aria-disabled='true']):hover img { filter:brightness(0); }
+}
+:is(.button-main,.icon-button):focus-visible { background:var(--button-hover); color:var(--button-hover-foreground); border-color:var(--color-focus-primary); outline:2px solid var(--color-focus-primary); outline-offset:3px; }
+:is(.button-main,.icon-button):focus-visible img { filter:brightness(0) invert(1); }
+.icon-button.tertiary:focus-visible img { filter:brightness(0); }
+:is(.button-main,.icon-button):not(:disabled):not([aria-disabled='true']):active { background:var(--button-background); color:var(--button-foreground); border-color:var(--button-active-border); }
+:is(.button-main,.icon-button):not(:disabled):not([aria-disabled='true']):active img { filter:none; }
+.icon-button.tertiary:not(:disabled):not([aria-disabled='true']):active img { filter:brightness(0) invert(1); }
+:is(.button-main,.icon-button):is(:disabled,[aria-disabled='true']) { background:var(--color-button-disabled); color:var(--color-text-disabled); border-color:transparent; cursor:default; }
+:is(.button-main,.icon-button):is(:disabled,[aria-disabled='true']) img { filter:brightness(0) invert(.404); }
+.button-main[hidden],.icon-button[hidden] { display:none; }
+@media(max-width:639px) { .icon-button.compact { width:32px; height:32px; border-radius:4px; } }
+@media(forced-colors:active) { .button-main,.icon-button { border:1px solid ButtonText; } }

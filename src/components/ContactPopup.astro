@@ -1,4 +1,6 @@
 ---
+import ButtonIcon from './ButtonIcon.astro';
+import ButtonMain from './ButtonMain.astro';
 import SocialLinks from './SocialLinks.astro';
 import { site } from '../data/site';
 
@@ -13,9 +15,7 @@ const { id = 'contact-popup' } = Astro.props;
       <div class="popup-title">
         <h2 id={`${id}-title`}>Say hello</h2>
         <form method="dialog">
-          <button class="icon-button popup-close" type="submit" aria-label="Close contact popup" autofocus>
-            <img src="/assets/icons/close.svg" width="16" height="16" alt="" />
-          </button>
+          <ButtonIcon class="popup-close" type="submit" aria-label="Close contact popup" autofocus version="secondary" icon="/assets/icons/close.svg" />
         </form>
       </div>
       <p id={`${id}-description`}>Send me an email to <a href={`mailto:${site.email}`}>{site.email}</a>. We’ll discuss your project and propose a solution. Ideas need real conversations.</p>
@@ -24,10 +24,7 @@ const { id = 'contact-popup' } = Astro.props;
       <p class="popup-label">Useful links</p>
       <div class="popup-links">
         <SocialLinks surface="light" menu />
-        <a class="button" href={site.cv} download>
-          Resume
-          <img src="/assets/icons/download.svg" width="16" height="16" alt="" />
-        </a>
+        <ButtonMain href={site.cv} download icon="/assets/icons/download.svg">Resume</ButtonMain>
       </div>
     </div>
   </div>
@@ -40,8 +37,6 @@ const { id = 'contact-popup' } = Astro.props;
   .popup-title { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
   h2 { font:var(--text-headings-h4); text-transform:none; }
   form { margin:0; flex-shrink:0; }
-  .popup-close { background:var(--color-surface-card-light); border:1px solid #e3e3e3; }
-  .popup-close:hover { background:var(--color-button-primary-hover); }
   .popup-text p { font:var(--text-display-small); overflow-wrap:anywhere; }
   .popup-text a { text-decoration:underline; text-underline-position:from-font; text-underline-offset:auto; }
   .popup-social { display:flex; flex-direction:column; gap:8px; }

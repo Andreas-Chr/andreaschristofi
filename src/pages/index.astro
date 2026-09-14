@@ -1,9 +1,11 @@
 ---
+import ButtonMain from '../components/ButtonMain.astro';
 import { Picture } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import TopBackground from '../components/TopBackground.astro';
 import Process from '../components/Process.astro';
 import Hero from '../components/Hero.astro';
+import SocialLinks from '../components/SocialLinks.astro';
 import Experience from '../components/Experience.astro';
 import Tooltip from '../components/Tooltip.astro';
 import allAwards from '../assets/all-awards.png';
@@ -24,10 +26,8 @@ import { site, toolGroups, awards } from '../data/site';
       <p class="body-large">I’m a multidisciplinary designer that for the past 2 decades worked through traditional graphic design, print, brand strategy, web, and digital product design. I’ve learned the art of simplicity by crafting complex ideas into clear, impactful, and engaging experiences. And somewhere along the way, I’ve also had the opportunity to run my own studio, to lead creative teams, and work on SaaS digital products, and AI-powered tools.</p>
       <p class="body-large">Being a designer is only a part of who I am. I’m also a husband and father, a martial artist, an aviation geek and a custom PC builder. I make space in my life for the things I enjoy because they keep me curious, disciplined, grounded, and always eager to learn something new.</p>
       <div class="about-button">
-        <a class="button secondary" href={site.cv} download>
-          Resume
-          <img src="/assets/icons/download.svg" width="24" height="24" alt="" />
-        </a>
+        <ButtonMain href={site.cv} download icon="/assets/icons/download.svg" hierarchy="secondary">Resume</ButtonMain>
+        <SocialLinks />
       </div>
     </div>
   </section>
@@ -55,7 +55,8 @@ import { site, toolGroups, awards } from '../data/site';
   .about > :global(picture) { position:relative; width:100%; aspect-ratio:679/687; }
   .about :global(.portrait) { display:block; width:100%; height:100%; position:absolute; inset:0; aspect-ratio:679/687; object-fit:cover; object-position:bottom; border-radius:16px; }
   .about-copy { display:grid; gap:32px; min-width:0; }
-  .about-button { padding-block:32px; }
+  .about-copy .lead { text-align:left; }
+  .about-button { display:flex; flex-wrap:wrap; align-items:center; gap:32px; padding-block:32px; }
   .stack-experience { display:grid; gap:80px 24px; align-items:start; }
   .stack h2 { margin-bottom:16px; }
   .tool-group { margin-top:40px; }

@@ -1,0 +1,22 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import '../styles/buttons.css';
+
+/** Figma Button/Main — 5040:805. States follow native pointer/keyboard interaction. */
+type Props = HTMLAttributes<'button'> & Pick<HTMLAttributes<'a'>, 'href' | 'target' | 'rel' | 'download'> & {
+  hierarchy?: 'primary' | 'secondary';
+  icon?: string;
+  iconPosition?: 'left' | 'right';
+};
+const { hierarchy = 'primary', icon, iconPosition = 'right', href, disabled = false,
+  type = 'button', class: className, ...attributes } = Astro.props;
+const Tag = href ? 'a' : 'button';
+---
+<Tag {...attributes} class:list={['button', 'button-main', hierarchy, className]}
+  data-button="main" href={disabled ? undefined : href} type={href ? undefined : type}
+  disabled={href ? undefined : disabled} aria-disabled={disabled ? true : attributes['aria-disabled']}
+  role={href && disabled ? 'link' : attributes.role} tabindex={disabled ? -1 : attributes.tabindex}>
+  {icon && iconPosition === 'left' && <img src={icon} width="16" height="16" alt="" />}
+  <slot />
+  {icon && iconPosition === 'right' && <img src={icon} width="16" height="16" alt="" />}
+</Tag>

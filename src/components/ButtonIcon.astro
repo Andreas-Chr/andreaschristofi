@@ -1,0 +1,23 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import '../styles/buttons.css';
+
+/** Figma Button/Icon — 5105:2232. Supply an accessible label and an icon or slot. */
+type Props = HTMLAttributes<'button'> & Pick<HTMLAttributes<'a'>, 'href' | 'target' | 'rel' | 'download'> & {
+  'aria-label': string;
+  version?: 'primary' | 'secondary' | 'tertiary';
+  size?: 'large' | 'small';
+  icon?: string;
+  compact?: boolean;
+};
+const { version = 'primary', size = 'large', icon, compact = false, href, disabled = false,
+  type = 'button', class: className, ...attributes } = Astro.props;
+const Tag = href ? 'a' : 'button';
+---
+<Tag {...attributes} class:list={['icon-button', version, size, { compact }, className]}
+  data-button="icon" href={disabled ? undefined : href} type={href ? undefined : type}
+  disabled={href ? undefined : disabled} aria-disabled={disabled ? true : attributes['aria-disabled']}
+  role={href && disabled ? 'link' : attributes.role} tabindex={disabled ? -1 : attributes.tabindex}>
+  {icon && <img src={icon} width="16" height="16" alt="" />}
+  <slot />
+</Tag>

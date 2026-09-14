@@ -50,13 +50,46 @@ test('V2 homepage exposes stable hero copy, Approach and six professional entrie
   const w=fixture();
   assert.match(document.querySelector('#hero-heading .sr-only').textContent,/Building vision, clarity, systems, hype/);
   assert.deepEqual([...document.querySelectorAll('.hero-word')].map(n=>n.textContent),['Vision','Clarity','Systems','Hype']);
-  assert.equal(document.querySelector('.hero-motion-control').hidden,true);
+  assert.equal(document.querySelector('.hero-motion-control'),null);
+  const curatedWorks=document.querySelector('.hero-copy .button');
+  assert.equal(curatedWorks.textContent.trim(),'Curated Works');
+  assert.equal(curatedWorks.hasAttribute('href'),false);
+  assert.equal(curatedWorks.querySelector('img'),null);
   assert.equal(document.querySelector('[data-diamond],.hero-visual'),null);
   assert.equal(document.querySelector('#process-heading').textContent,'Approach');
   assert.match(document.querySelector('.process-intro p').textContent,/Complex problems require dependable outcomes/);
   assert.equal(document.querySelector('#experience-heading').textContent,'Experience');
   assert.deepEqual([...document.querySelectorAll('.experience-title')].map(n=>n.textContent),['Remazing','Infocredit Group','BLEND Digital Agency','Core Branding (CORB)','Cassoulides Masterprinters','Daedalus Creative Services']);
   w.close();
+});
+
+test('shared buttons preserve native links, accessible names and single accordion triggers on every route',()=>{
+  for(const route of ['index.html','legal/index.html','404.html']) {
+    const w=fixture(readFileSync(new URL(`../dist/${route}`,import.meta.url),'utf8'));
+    assert.equal(document.querySelector('button button,button a,a button'),null);
+    for(const button of document.querySelectorAll('[data-button]')) {
+      assert.ok(button.getAttribute('aria-label') || button.textContent.trim(),'Every control has an accessible name');
+      if(button.tagName==='BUTTON') assert.equal(button.type,'button','Page actions must not accidentally submit a form');
+      for(const image of button.querySelectorAll('img')) assert.equal(image.getAttribute('alt'),'');
+    }
+    for(const link of document.querySelectorAll('[data-button][download]')) {
+      assert.equal(link.tagName,'A');
+      assert.equal(link.getAttribute('href'),'/assets/documents/andreas-christofi-cv.pdf');
+    }
+    for(const link of document.querySelectorAll('.social-links a')) {
+      assert.equal(link.target,'_blank');
+      assert.match(link.rel,/noopener/);
+    }
+    for(const trigger of document.querySelectorAll('[data-button="accordion"]')) {
+      assert.ok(document.getElementById(trigger.getAttribute('aria-controls')));
+      assert.equal(trigger.disabled,true,'Content stays readable until enhancement enables the trigger');
+      assert.equal(trigger.getAttribute('aria-expanded'),'true');
+    }
+    assert.equal(document.querySelector('.menu-trigger').hidden,true);
+    assert.equal(document.querySelector('.contact-close').hidden,true);
+    if(route==='404.html') assert.equal(document.querySelector('.error-copy .button').getAttribute('href'),'/');
+    w.close();
+  }
 });
 
 test('menu is non-modal; Escape restores focus and links retain navigation',()=>{

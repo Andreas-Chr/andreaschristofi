@@ -1,0 +1,37 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+/** Figma Button/Accordion — 5044:2837. A single button owns the label and indicator. */
+type Props = HTMLAttributes<'button'> & {
+  indicatorClass?: string;
+};
+const { class: className, indicatorClass, type = 'button', ...attributes } = Astro.props;
+---
+<button {...attributes} type={type} class:list={['button-accordion', className]} data-button="accordion">
+  <slot />
+  <span class:list={['accordion-indicator', indicatorClass]} aria-hidden="true">
+    <img class="plus" src="/assets/icons/plus.svg" width="16" height="16" alt="" />
+    <img class="minus" src="/assets/icons/minus.svg" width="16" height="16" alt="" />
+  </span>
+</button>
+<style>
+  .button-accordion { display:inline-flex; align-items:center; padding:0; border:0; background:none; color:inherit; font:inherit; }
+  .button-accordion[hidden] { display:none; }
+  .accordion-indicator { display:inline-flex; flex-shrink:0; align-items:center; justify-content:center; width:40px; height:40px; border:1px solid transparent; border-radius:8px; background:var(--color-button-accordion-default); transition:background var(--primitive-animation-duration-fast); }
+  img { width:16px; height:16px; }
+  .plus { filter:brightness(0) invert(1); }
+  .minus { display:none; }
+  [aria-expanded='true'] .accordion-indicator { background:var(--color-button-accordion-hover); }
+  [aria-expanded='true'] .plus { display:none; }
+  [aria-expanded='true'] .minus { display:block; }
+  @media(hover:hover) {
+    :global([data-accordion-card]:hover) .button-accordion:not(:disabled):not(:focus-visible) .accordion-indicator, .button-accordion:not(:disabled):not(:focus-visible):hover .accordion-indicator { background:var(--color-button-accordion-hover); }
+    :global([data-accordion-card]:hover) .button-accordion:not(:disabled):not(:focus-visible) img, .button-accordion:not(:disabled):not(:focus-visible):hover img { filter:none; }
+  }
+  .button-accordion:focus-visible .accordion-indicator { background:var(--color-button-accordion-default); border-color:var(--color-focus-primary); }
+  .button-accordion:focus-visible img { filter:brightness(0) invert(1); }
+  .button-accordion:not(:disabled):active .accordion-indicator { background:var(--color-button-accordion-hover); border-color:transparent; }
+  .button-accordion:not(:disabled):active img { filter:none; }
+  .button-accordion:disabled .accordion-indicator { background:var(--color-button-disabled); border-color:transparent; }
+  .button-accordion:disabled img { filter:none; }
+</style>

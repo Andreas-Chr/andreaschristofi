@@ -10,7 +10,13 @@
   --color-text-accent: #c5fa00;
   --color-button-primary-default: #c5fa00;
   --color-button-primary-hover: #4b09f5;
-  --color-button-tertiary-default: #474747;
+  --color-button-secondary-default: #fff;
+  --color-button-secondary-border: #e3e3e3;
+  --color-button-tertiary-default: rgb(255 255 255 / 12%);
+  --color-button-tertiary-hover: #c5fa00;
+  --color-button-accordion-default: #474747;
+  --color-button-accordion-hover: #c5fa00;
+  --color-button-disabled: #acacac;
   --color-focus-primary: #fff;
   --color-focus-secondary: #4b09f5;
   --font-family-primary: 'Zalando Sans Expanded', Arial, sans-serif;

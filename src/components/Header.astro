@@ -1,4 +1,6 @@
 ---
+import ButtonIcon from './ButtonIcon.astro';
+import ButtonMain from './ButtonMain.astro';
 import ParagraphLink from './ParagraphLink.astro';
 import { navigation, site } from '../data/site';
 import SocialLinks from './SocialLinks.astro';
@@ -12,10 +14,10 @@ import SocialLinks from './SocialLinks.astro';
       </span>
       <img class="wordmark" src="/assets/logo/header-wordmark.svg" width="188" height="15" alt="" />
     </a>
-    <button class="icon-button tertiary menu-trigger" type="button" aria-label="Open main menu" aria-expanded="false" aria-controls="main-navigation" hidden>
+    <ButtonIcon class="menu-trigger" type="button" aria-label="Open main menu" aria-expanded="false" aria-controls="main-navigation" hidden version="tertiary">
       <span class="menu-label-mask" aria-hidden="true"><span class="menu-label text-headings-h5">Menu</span></span>
       <span class="menu-icon" aria-hidden="true"><span class="menu-icon-line"></span><span class="menu-icon-line"></span></span>
-    </button>
+    </ButtonIcon>
   </div>
   <div class="menu-panel" id="main-navigation" hidden inert>
     <nav aria-label="Main navigation">
@@ -35,10 +37,7 @@ import SocialLinks from './SocialLinks.astro';
       <p class="eyebrow">Useful links</p>
       <div class="menu-useful-links">
         <SocialLinks surface="light" menu />
-        <a class="button" href={site.cv} download>
-          Resume
-          <img src="/assets/icons/download.svg" width={16} height={16} alt="" />
-        </a>
+        <ButtonMain href={site.cv} download icon="/assets/icons/download.svg">Resume</ButtonMain>
       </div>
     </div>
   </div>

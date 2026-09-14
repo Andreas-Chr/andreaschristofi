@@ -1,4 +1,5 @@
 ---
+import ButtonAccordion from './ButtonAccordion.astro';
 import phases from '../data/process.json';
 const layouts=[{name:'ultranarrow',media:'(max-width: 399px)',width:304},{name:'narrow',media:'(max-width: 639px)',width:304},{name:'compact',media:'(max-width: 899px)',width:736},{name:'condensed',media:'(max-width: 1199px)',width:992}];
 ---
@@ -15,9 +16,9 @@ const layouts=[{name:'ultranarrow',media:'(max-width: 399px)',width:304},{name:'
     <img class="prototype-marker" data-phase-marker src="/assets/process/prototype-marker.svg" width="116" height="259" alt="" hidden />
   </div>
   <div class="phase-cards">
-    {phases.map((phase,i)=><article class="phase-card" data-phase={i}>
+    {phases.map((phase,i)=><article data-accordion-card class="phase-card" data-phase={i}>
       <span class="phase-number" aria-hidden="true">{String(i+1).padStart(2,'0')}</span>
-      <h3><button type="button" class="phase-trigger" disabled aria-expanded="true" aria-controls={`phase-panel-${i}`}><span>{phase.title}</span><span class="phase-toggle" aria-hidden="true"><img class="plus" src="/assets/icons/plus.svg" width="16" height="16" alt="" /><img class="minus" src="/assets/icons/minus.svg" width="16" height="16" alt="" /></span></button></h3>
+      <h3><ButtonAccordion indicatorClass="phase-toggle" type="button" class="phase-trigger" disabled aria-expanded="true" aria-controls={`phase-panel-${i}`}><span>{phase.title}</span></ButtonAccordion></h3>
       <div id={`phase-panel-${i}`} class="phase-panel"><p class="phase-subtitle">{phase.subtitle}</p><p>{phase.description}</p></div>
     </article>)}
   </div>
@@ -69,20 +70,10 @@ const layouts=[{name:'ultranarrow',media:'(max-width: 399px)',width:304},{name:'
   .phase-card[data-active='true']:has(:focus-visible) { outline-color:#4b09f5; }
   .phase-panel { margin-top:16px; font-size:16px; line-height:32px; }
   .phase-subtitle { font-size:20px; line-height:36px; margin-bottom:16px; }
-  .phase-toggle { display:none; position:absolute; right:24px; top:50%; transform:translateY(-50%); width:40px; height:40px; border-radius:4px; align-items:center; justify-content:center; background:#474747; }
-  .phase-toggle img { width:16px; height:16px; }
-  [data-ready] .phase-toggle { display:flex; }
+  .process :global(.phase-toggle) { display:none; position:absolute; right:24px; top:50%; transform:translateY(-50%); }
+  [data-ready] :global(.phase-toggle) { display:flex; }
   [data-active='false'] { background:#303030; color:#fff; }
-  [data-active='true'] .phase-toggle { background:#c5fa00; }
-  [data-active='true'] .plus,[data-active='false'] .minus { display:none; }
-  [data-active='false'] .plus { filter:brightness(0) invert(1); }
-  .phase-toggle { transition:background var(--primitive-animation-duration-fast); }
-  [data-ready] .phase-trigger:focus-visible .phase-toggle { background:var(--color-text-accent); }
-  [data-ready] .phase-trigger:focus-visible .phase-toggle img { filter:none; }
-  @media(hover:hover) {
-    [data-ready] .phase-card:hover .phase-toggle { background:var(--color-text-accent); }
-    [data-ready] .phase-card:hover .phase-toggle img { filter:none; }
-  }
+
   @media(max-width:399px) { .process { padding-block:48px; } .phase-card { padding-right:72px; } }
   @media(min-width:400px) { .phase-cards { margin-top:8px; } .process-intro p { font:var(--text-display-medium); } }
   @media(min-width:640px) { .process-art { width:100%; } .process-intro { margin-bottom:120px; } .process-intro p { font:400 40px/64px var(--font-family-secondary); } }
@@ -91,7 +82,7 @@ const layouts=[{name:'ultranarrow',media:'(max-width: 399px)',width:304},{name:'
     .phase-cards { display:grid; grid-template-columns:var(--phase-columns,repeat(5,minmax(0,1fr))); margin-top:40px; transition:grid-template-columns var(--primitive-animation-duration-standard) var(--primitive-animation-easing-standard); }
     .phase-card { flex:1; padding:24px 24px 80px; min-height:600px; border-radius:24px; transition:flex var(--primitive-animation-duration-standard),background var(--primitive-animation-duration-standard); }
     [data-active='true'] { flex:1.7333; }
-    .phase-toggle { top:auto; bottom:24px; left:24px; transform:none; }
+    .process :global(.phase-toggle) { top:auto; bottom:24px; left:24px; transform:none; }
     .process-art .prototype-marker:not([hidden]) { display:block; }
   }
 </style>

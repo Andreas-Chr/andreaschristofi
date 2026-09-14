@@ -1,4 +1,5 @@
 ---
+import ButtonIcon from './ButtonIcon.astro';
 import ParagraphLink from './ParagraphLink.astro';
 import SocialLinks from './SocialLinks.astro';
 import { site } from '../data/site';
@@ -11,7 +12,7 @@ const phrases = ['Meaningful Experiences', 'Intuitive Products', 'Delightful Int
     <div class="contact-disclosure" data-contact>
       <button class="contact-trigger" type="button" aria-label="Get in touch" aria-expanded="true" aria-controls="contact-panel" hidden><img src="/assets/icons/arrow-up-right.svg" width="80" height="80" alt="" /></button>
       <div class="contact-panel" id="contact-panel">
-        <button class="icon-button contact-close" type="button" aria-label="Close contact details" hidden><img src="/assets/icons/close.svg" width="16" height="16" alt="" /></button>
+        <ButtonIcon class="contact-close" type="button" aria-label="Close contact details" hidden version="secondary" size="small" icon="/assets/icons/close.svg" />
         <p class="contact-title">Get in touch</p>
         <p>Send me an email to <ParagraphLink href={`mailto:${site.email}`}>{site.email}</ParagraphLink>. We’ll discuss your project and propose a solution. Ideas need real conversations.</p>
         <p class="eyebrow">Useful links</p><SocialLinks surface="light" menu />
@@ -64,8 +65,7 @@ const phrases = ['Meaningful Experiences', 'Intuitive Products', 'Delightful Int
   .contact-panel { --contact-panel-padding:40px; padding:var(--contact-panel-padding); position:relative; border-radius:24px; background:var(--color-surface-card-light); color:var(--color-text-dark); font:var(--text-display-small); overflow-wrap:anywhere; }
   [data-ready] .contact-panel { position:absolute; inset:0 0 auto; z-index:1; width:100%; }
   .contact-title { font:var(--text-headings-h4); margin:0 32px 24px 0; }
-  .contact-close { position:absolute; right:var(--contact-panel-padding); top:var(--contact-panel-padding); width:32px; height:32px; border:1px solid var(--color-focus-primary); border-radius:4px; background:var(--color-button-primary-hover); }
-  .contact-close img { width:16px; height:16px; filter:brightness(0) invert(1); }
+  .contact-close { position:absolute; right:var(--contact-panel-padding); top:var(--contact-panel-padding); }
   .contact-panel .eyebrow { margin:80px 0 8px; color:var(--color-text-dark); }
   .footer-info { display:flex; flex-direction:column; align-items:center; gap:40px; text-align:center; }
   .copyright { order:3; }
