@@ -2,7 +2,6 @@
 import { Picture } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import TopBackground from '../components/TopBackground.astro';
-import HeroDiamond from '../components/HeroDiamond.astro';
 import Process from '../components/Process.astro';
 import Experience from '../components/Experience.astro';
 import Tooltip from '../components/Tooltip.astro';
@@ -15,15 +14,17 @@ import { site, toolGroups, awards } from '../data/site';
     <TopBackground />
     <section class="hero top-content container" aria-labelledby="hero-heading">
       <div class="hero-copy">
-        <h1 id="hero-heading">Designer<br />Researcher<br />Pathfinder</h1>
+        <h1 id="hero-heading">
+          <h1 id="hero-heading">Building</h1>
+        </h1>
+        <h1 id="hero-heading">
+          <h1 id="hero-heading">Building</h1>
+        </h1>
         <p class="lead">{site.description}</p>
         <a class="button" href={site.cv} download>
           Download CV
           <img src="/assets/icons/download.svg" width="24" height="24" alt="" />
         </a>
-      </div>
-      <div class="hero-visual">
-        <HeroDiamond />
       </div>
     </section>
   </div>
@@ -62,8 +63,8 @@ import { site, toolGroups, awards } from '../data/site';
   </section>
 </BaseLayout>
 <style>
-  .hero { height:100%; padding-block:48px; display:grid; gap:24px; align-items:center; max-width:1440px; }
-  .hero-copy { display:flex; flex-direction:column; align-items:flex-start; gap:24px; padding-block:16px; position:relative; z-index:2; }
+  .hero { height:100%; padding-block:48px; display:flex; gap:24px; align-items:center; max-width:1440px; flex-direction:column; flex-wrap:nowrap; }
+  .hero-copy { display:flex; flex-direction:column; align-items:center; gap:24px; padding-block:16px; position:relative; z-index:2; justify-content:center; }
   .hero h1 { text-transform:uppercase; }
   .hero .lead { font-size:20px; line-height:36px; font-weight:500; }
   .hero-visual { position:absolute; inset:auto 0 0; display:flex; justify-content:center; z-index:0; }
