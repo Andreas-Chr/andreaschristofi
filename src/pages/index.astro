@@ -3,6 +3,7 @@ import { Picture } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import TopBackground from '../components/TopBackground.astro';
 import Process from '../components/Process.astro';
+import Hero from '../components/Hero.astro';
 import Experience from '../components/Experience.astro';
 import Tooltip from '../components/Tooltip.astro';
 import allAwards from '../assets/all-awards.png';
@@ -10,35 +11,21 @@ import portrait from '../assets/andreas-bw.png';
 import { site, toolGroups, awards } from '../data/site';
 ---
 <BaseLayout title="Andreas Christofi — Digital Product Designer">
-  <div class="top-region">
+  <div class="top-region home-top-region">
     <TopBackground />
-    <section class="hero top-content container" aria-labelledby="hero-heading">
-      <div class="hero-copy">
-        <h1 id="hero-heading">
-          <h1 id="hero-heading">Building</h1>
-        </h1>
-        <h1 id="hero-heading">
-          <h1 id="hero-heading">Building</h1>
-        </h1>
-        <p class="lead">{site.description}</p>
-        <a class="button" href={site.cv} download>
-          Download CV
-          <img src="/assets/icons/download.svg" width="24" height="24" alt="" />
-        </a>
-      </div>
-    </section>
+    <Hero />
   </div>
   <Process />
   <section class="section about container" id="about" aria-labelledby="about-heading">
     <Picture class="portrait" src={portrait} formats={['avif','webp']} fallbackFormat="jpg" widths={[304,448,680,896,1120]} sizes="(min-width: 900px) 48vw, 100vw" alt="Andreas Christofi walking through the city" loading="lazy" />
     <div class="about-copy">
-      <h2 id="about-heading">About me</h2>
+      <h2 id="about-heading">About</h2>
       <p class="lead">{site.description}</p>
-      <p class="body-large">For the past 2 decades, I’ve studied and worked across print, branding, web, and digital product design. I’ve learned the art of simplicity by crafting complex ideas into clear, impactful, and engaging experiences. And somewhere along the way, I’ve also had the opportunity to run my own studio, to lead creative teams, and work on SaaS digital products, and AI-powered tools.</p>
+      <p class="body-large">I’m a multidisciplinary designer that for the past 2 decades worked through traditional graphic design, print, brand strategy, web, and digital product design. I’ve learned the art of simplicity by crafting complex ideas into clear, impactful, and engaging experiences. And somewhere along the way, I’ve also had the opportunity to run my own studio, to lead creative teams, and work on SaaS digital products, and AI-powered tools.</p>
       <p class="body-large">Being a designer is only a part of who I am. I’m also a husband and father, a martial artist, an aviation geek and a custom PC builder. I make space in my life for the things I enjoy because they keep me curious, disciplined, grounded, and always eager to learn something new.</p>
       <div class="about-button">
         <a class="button secondary" href={site.cv} download>
-          Download CV
+          Resume
           <img src="/assets/icons/download.svg" width="24" height="24" alt="" />
         </a>
       </div>
@@ -63,12 +50,7 @@ import { site, toolGroups, awards } from '../data/site';
   </section>
 </BaseLayout>
 <style>
-  .hero { height:100%; padding-block:48px; display:flex; gap:24px; align-items:center; max-width:1440px; flex-direction:column; flex-wrap:nowrap; }
-  .hero-copy { display:flex; flex-direction:column; align-items:center; gap:24px; padding-block:16px; position:relative; z-index:2; justify-content:center; }
-  .hero h1 { text-transform:uppercase; }
-  .hero .lead { font-size:20px; line-height:36px; font-weight:500; }
-  .hero-visual { position:absolute; inset:auto 0 0; display:flex; justify-content:center; z-index:0; }
-  .hero-copy .button { width:100%; }
+  .home-top-region { height:auto; min-height:100svh; }
   .about { display:grid; gap:40px; align-items:start; }
   .about > :global(picture) { position:relative; width:100%; aspect-ratio:679/687; }
   .about :global(.portrait) { display:block; width:100%; height:100%; position:absolute; inset:0; aspect-ratio:679/687; object-fit:cover; object-position:bottom; border-radius:16px; }
@@ -92,23 +74,15 @@ import { site, toolGroups, awards } from '../data/site';
   .award-list li>img { width:60px; height:40px; object-fit:contain; flex-shrink:0; }
   .award-list h3 { font-size:20px; line-height:36px; margin-bottom:4px; }
   .award-list .eyebrow { display:flex; flex-wrap:wrap; gap:8px 16px; }
-  @media(min-width:640px) {  .hero-copy { gap:48px; }  .hero-copy .button { width:auto; } .hero-visual { position:relative; opacity:1; padding:0; } }
   @media(min-width:900px) { .about { grid-template-columns:1fr 1fr; } }
-  @media(min-width:400px) and (max-width:639.84px) { .hero { padding-block:80px; } .hero-copy { gap:48px; padding-block:48px; } .hero-copy .button { width:auto; } .hero-visual { bottom:80px; } }
   .certificates { display:block; width:100%; height:auto; }
-  .hero .lead { max-width:683px; }
-  @media(min-width:640px) and (max-width:1199px) { .hero { min-height:1376px; padding-block:96px 48px; align-content:space-between; } .hero-copy { padding:0; } .hero-visual { padding-bottom:0; } }
-  @media(min-width:900px) and (max-width:1199px) { .hero { min-height:1288px; padding-block:128px 80px; gap:0; } }
   @media(min-width:1200px) {
-    .hero { padding-block:80px; }
     .about .body-large { font-size:16px; line-height:32px; font-weight:400; }
     .about .lead { font-size:20px; line-height:36px; font-weight:500; }
-    .hero { grid-template-columns:minmax(0,1fr) minmax(0,1fr); }
 
-    .hero-visual { padding:0; }
     .stack-experience { grid-template-columns:1fr 1fr; }
     .awards-grid { grid-template-columns:1fr 1fr; }
   }
-  @media(max-width:399.84px) { .hero .lead { font-size:16px; line-height:32px; font-weight:400; } .hero-visual { bottom:-41.77px; } .about-button .button { width:100%; } .stack-experience,.awards { padding-block:48px; } .award-list li { flex-direction:column; align-items:flex-start; gap:24px; padding:24px; } .award-list li>img { width:60px; height:38.86px; } }
+  @media(max-width:399.84px) { .about-button .button { width:100%; } .stack-experience,.awards { padding-block:48px; } .award-list li { flex-direction:column; align-items:flex-start; gap:24px; padding:24px; } .award-list li>img { width:60px; height:38.86px; } }
   indesign { width:28; height:28; }
 </style>

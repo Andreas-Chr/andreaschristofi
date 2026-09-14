@@ -48,4 +48,3 @@ img { display:block; max-width:100%; width:16; height:16; }
 .top-content { position:relative; z-index:1; }
 @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { animation:none!important; transition:none!important; } [hidden]{ display:none; } }
 @media (forced-colors:active) { button,.button,.experience-card,.phase-card { border:1px solid ButtonText; } }
-[data-astro-cid-nen7h5rs]{ width:16; height:16; }

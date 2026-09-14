@@ -2,7 +2,7 @@ export const site = {
   name: 'Andreas Christofi',
   origin: 'https://andreaschristofi.com',
   email: 'hello@andreaschristofi.com',
-  description: 'Digital Product Designer shaping AI-powered SaaS products, simplifying complex workflows, and crafting thoughtful web experiences.',
+  description: 'Senior Web & Product Designer crafting brand-led digital experiences & shaping AI-powered SaaS products.',
   cv: '/assets/documents/andreas-christofi-cv.pdf',
 };
 export const navigation = [

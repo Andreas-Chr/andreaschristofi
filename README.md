@@ -36,6 +36,8 @@ Core content and links are rendered as HTML. Menu/contact content and all proces
 
 ## Design sources
 
+Current homepage update: [V2 changes and design decisions](docs/V2-CHANGES.md).
+
 [Figma file](https://www.figma.com/design/FXrcGSbJF7X4lbbGanlb6d/andreaschristofi.com), pages 03–05 and 07. The originally supplied node is the cover page; the handoff explicitly excludes the cover and defines V1.
 
 Desktop Home `5303:3403`, mobile Home `5314:8280`, Legal `5314:11138`, and 404 `5314:11317` were used alongside responsive references. SVG process diagrams were exported from their actual artwork nodes. No page screenshots are used as layout.

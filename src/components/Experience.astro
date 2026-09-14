@@ -2,7 +2,7 @@
 import experience from '../data/experience.json';
 ---
 <section class="experience" aria-labelledby="experience-heading" data-experience>
-  <h2 id="experience-heading">Experience &amp; education</h2>
+  <h2 id="experience-heading">Experience</h2>
   <div class="experience-cards">
     {experience.map((entry,i)=><article class="experience-card">
       <h3><button class="experience-trigger" type="button" disabled aria-expanded="true" aria-controls={`experience-panel-${i}`}><span class="experience-title">{entry.title}</span><span class="experience-meta"><span>{entry.role}</span><span class="experience-date"><span aria-hidden="true">/</span><span>{entry.year}</span></span></span><span class="experience-toggle" aria-hidden="true"><img class="plus" src="/assets/icons/plus.svg" width="16" height="16" alt="" /><img class="minus" src="/assets/icons/minus.svg" width="16" height="16" alt="" /></span></button></h3>

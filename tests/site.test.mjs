@@ -39,10 +39,23 @@ test('static output keeps the menu closed and exposes page content and native li
     panels.forEach(panel=>assert.equal(panel.hidden,false,selector));
   }
   assert.equal(document.querySelectorAll('.phase-panel').length,5);
-  assert.equal(document.querySelectorAll('.experience-panel').length,8);
+  assert.equal(document.querySelectorAll('.experience-panel').length,6);
   assert.ok(document.querySelector('a[href="mailto:hello@andreaschristofi.com"]'));
   assert.ok(document.querySelector('a[download]'));
   assert.equal(document.querySelector('a[href^="/work"]'),null);
+  w.close();
+});
+
+test('V2 homepage exposes stable hero copy, Approach and six professional entries',()=>{
+  const w=fixture();
+  assert.match(document.querySelector('#hero-heading .sr-only').textContent,/Building vision, clarity, systems, hype/);
+  assert.deepEqual([...document.querySelectorAll('.hero-word')].map(n=>n.textContent),['Vision','Clarity','Systems','Hype']);
+  assert.equal(document.querySelector('.hero-motion-control').hidden,true);
+  assert.equal(document.querySelector('[data-diamond],.hero-visual'),null);
+  assert.equal(document.querySelector('#process-heading').textContent,'Approach');
+  assert.match(document.querySelector('.process-intro p').textContent,/Complex problems require dependable outcomes/);
+  assert.equal(document.querySelector('#experience-heading').textContent,'Experience');
+  assert.deepEqual([...document.querySelectorAll('.experience-title')].map(n=>n.textContent),['Remazing','Infocredit Group','BLEND Digital Agency','Core Branding (CORB)','Cassoulides Masterprinters','Daedalus Creative Services']);
   w.close();
 });
 
