@@ -2,6 +2,7 @@
 import ButtonIcon from './ButtonIcon.astro';
 import ButtonMain from './ButtonMain.astro';
 import SocialLinks from './SocialLinks.astro';
+import ParagraphLink from './ParagraphLink.astro';
 import { site } from '../data/site';
 
 interface Props { id?: string; }
@@ -18,7 +19,7 @@ const { id = 'contact-popup' } = Astro.props;
           <ButtonIcon class="popup-close" type="submit" aria-label="Close contact popup" autofocus version="secondary" icon="/assets/icons/close.svg" />
         </form>
       </div>
-      <p id={`${id}-description`}>Send me an email to <a href={`mailto:${site.email}`}>{site.email}</a>. We’ll discuss your project and propose a solution. Ideas need real conversations.</p>
+      <p id={`${id}-description`}>Send me an email to <ParagraphLink href={`mailto:${site.email}`}>{site.email}</ParagraphLink>. We’ll discuss your project and propose a solution. Ideas need real conversations.</p>
     </div>
     <div class="popup-social">
       <p class="popup-label">Useful links</p>
@@ -31,14 +32,13 @@ const { id = 'contact-popup' } = Astro.props;
 </dialog>
 <style>
   .contact-popup { width:720px; max-width:calc(100% - 32px); max-height:calc(100dvh - 32px); margin:auto; padding:40px; border:0; border-radius:24px; background:var(--color-surface-card-light); color:var(--color-text-dark); overflow:auto; overscroll-behavior:contain; }
-  .contact-popup::backdrop { background:rgb(0 0 0 / 48%); }
+  .contact-popup::backdrop { background:rgb(0 0 0 / 80%); }
   .popup-content { display:flex; flex-direction:column; gap:80px; }
   .popup-text { display:flex; flex-direction:column; gap:24px; }
   .popup-title { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
   h2 { font:var(--text-headings-h4); text-transform:none; }
   form { margin:0; flex-shrink:0; }
   .popup-text p { font:var(--text-display-small); overflow-wrap:anywhere; }
-  .popup-text a { text-decoration:underline; text-underline-position:from-font; text-underline-offset:auto; }
   .popup-social { display:flex; flex-direction:column; gap:8px; }
   .popup-label { font:var(--text-headings-h6); text-transform:uppercase; }
   .popup-links { display:flex; align-items:flex-start; justify-content:space-between; gap:8px; }

@@ -12,8 +12,8 @@ const phrases = ['Meaningful Experiences', 'Intuitive Products', 'Delightful Int
     <div class="contact-disclosure" data-contact>
       <button class="contact-trigger" type="button" aria-label="Get in touch" aria-expanded="true" aria-controls="contact-panel" hidden><img src="/assets/icons/arrow-up-right.svg" width="80" height="80" alt="" /></button>
       <div class="contact-panel" id="contact-panel">
-        <ButtonIcon class="contact-close" type="button" aria-label="Close contact details" hidden version="secondary" size="small" icon="/assets/icons/close.svg" />
-        <p class="contact-title">Get in touch</p>
+        <ButtonIcon class="contact-close" type="button" aria-label="Close contact details" hidden version="secondary" size="large" icon="/assets/icons/close.svg" />
+        <p class="contact-title">Say hello</p>
         <p>Send me an email to <ParagraphLink href={`mailto:${site.email}`}>{site.email}</ParagraphLink>. We’ll discuss your project and propose a solution. Ideas need real conversations.</p>
         <p class="eyebrow">Useful links</p><SocialLinks surface="light" menu />
       </div>
@@ -64,7 +64,7 @@ const phrases = ['Meaningful Experiences', 'Intuitive Products', 'Delightful Int
   [data-open='true'] .contact-trigger { border-radius:12px 12px 0 0; }
   .contact-panel { --contact-panel-padding:40px; padding:var(--contact-panel-padding); position:relative; border-radius:24px; background:var(--color-surface-card-light); color:var(--color-text-dark); font:var(--text-display-small); overflow-wrap:anywhere; }
   [data-ready] .contact-panel { position:absolute; inset:0 0 auto; z-index:1; width:100%; }
-  .contact-title { font:var(--text-headings-h4); margin:0 32px 24px 0; }
+  .contact-title { font:var(--text-headings-h4); margin:0 64px 24px 0; min-height:48px; }
   .contact-close { position:absolute; right:var(--contact-panel-padding); top:var(--contact-panel-padding); }
   .contact-panel .eyebrow { margin:80px 0 8px; color:var(--color-text-dark); }
   .footer-info { display:flex; flex-direction:column; align-items:center; gap:40px; text-align:center; }

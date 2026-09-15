@@ -1,5 +1,6 @@
 ---
 import ButtonMain from './ButtonMain.astro';
+import ContactPopup from './ContactPopup.astro';
 import { site } from '../data/site';
 const words = ['Vision', 'Clarity', 'Systems', 'Hype'];
 ---
@@ -13,13 +14,20 @@ const words = ['Vision', 'Clarity', 'Systems', 'Hype'];
       </span>
     </h1>
     <p class="hero-description">{site.description}</p>
-    <ButtonMain type="button" aria-disabled="true">Curated Works</ButtonMain>
-    <ButtonMain type="button" aria-disabled="true">Curated Works</ButtonMain>
+    <div class="hero-actions">
+      <ButtonMain type="button" aria-disabled="true">Curated Works</ButtonMain>
+      <ButtonMain type="button" hierarchy="secondary" icon="/assets/icons/arrow-up-right.svg" aria-haspopup="dialog" aria-controls="contact-popup" data-contact-popup-trigger>Say Hello</ButtonMain>
+    </div>
   </div>
 </section>
+<ContactPopup />
 <script>
   import { initHeroMotion } from '../scripts/hero-motion';
   document.querySelectorAll<HTMLElement>('[data-hero]').forEach(initHeroMotion);
+  document.querySelector<HTMLButtonElement>('[data-contact-popup-trigger]')?.addEventListener('click',()=>{
+    const popup=document.getElementById('contact-popup');
+    if(popup instanceof HTMLDialogElement && !popup.open) popup.showModal();
+  });
 </script>
 <style>
   .hero { display:flex; align-items:center; justify-content:center; min-height:calc(100svh - var(--header-clearance)); padding-block:48px; }
@@ -32,6 +40,9 @@ const words = ['Vision', 'Clarity', 'Systems', 'Hype'];
   [data-motion-ready] .hero-word { animation:hero-fold 12s cubic-bezier(.4,0,.2,1) infinite; animation-delay:var(--word-delay); }
   [data-paused='true'] .hero-word { animation-play-state:paused; }
   .hero-description { font:var(--text-display-small); }
+  .hero-actions { display:flex; align-items:center; justify-content:center; gap:16px; max-width:100%; }
+  .hero-actions :global(.button) { white-space:nowrap; }
+  .hero-actions :global([data-contact-popup-trigger] img) { width:16px; height:16px; flex:0 0 16px; }
   @keyframes hero-fold {
     0%, 20% { opacity:1; transform:translateY(0) rotateX(0deg); }
     25%, 94.999% { opacity:0; transform:translateY(-35%) rotateX(90deg); }
@@ -39,6 +50,6 @@ const words = ['Vision', 'Clarity', 'Systems', 'Hype'];
     100% { opacity:1; transform:translateY(0) rotateX(0deg); }
   }
   @media(min-width:400px) { .hero { padding-block:80px; } }
-  @media(max-width:399px) { .hero-description { font:var(--text-body-medium); } .hero-copy>.button { width:100%; } }
+  @media(max-width:399px) { .hero-description { font:var(--text-body-medium); } .hero-actions :global(.button) { padding-inline:8px; } }
   @media(prefers-reduced-motion:reduce) { .hero-word { animation:none!important; transform:none; opacity:0; } .hero-word:first-child { opacity:1; } }
 </style>
