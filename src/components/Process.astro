@@ -5,7 +5,7 @@ const layouts=[{name:'ultranarrow',media:'(max-width: 399px)',width:304},{name:'
 ---
 <section class="section process container" id="process" aria-labelledby="process-heading" data-process>
   <div class="process-intro">
-    <p>Great design comes from research, experimentation, and a willingness to do the work others often avoid. Every project is an opportunity to learn, refine, and create meaningful experiences that connect brand, culture, technology, and business. Creating something from nothing, embracing ambiguity, and collaborating with the right people, helps me uncover new ideas that move creativity, innovation, and progress forward. Complex problems require dependable outcomes.</p>
+    <p data-process-intro-text>Great design comes from research, experimentation, and a willingness to do the work others often avoid. Every project is an opportunity to learn, refine, and create meaningful experiences that connect brand, culture, technology, and business. Creating something from nothing, embracing ambiguity, and collaborating with the right people, helps me uncover new ideas that move creativity, innovation, and progress forward. Complex problems require dependable outcomes.</p>
   </div>
   <div class="process-art" aria-hidden="true">
     {phases.map((phase,i)=><picture data-phase-art={i} hidden={i!==0}>
@@ -50,10 +50,36 @@ const layouts=[{name:'ultranarrow',media:'(max-width: 399px)',width:304},{name:'
     root.dataset.ready='true';select(0,false);
   }
 </script>
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import { SplitText } from 'gsap/SplitText';
+
+  gsap.registerPlugin(ScrollTrigger, SplitText);
+
+  const text=document.querySelector<HTMLElement>('[data-process-intro-text]');
+  const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if(text && !text.dataset.revealReady && !reducedMotion) {
+    text.dataset.revealReady='true';
+    const split=SplitText.create(text,{type:'words'});
+    gsap.set(split.words,{color:'rgba(255,255,255,0.15)'});
+    gsap.to(split.words,{
+      color:'#fff',
+      stagger:0.1,
+      scrollTrigger:{
+        trigger:text,
+        start:'top center',
+        end:'bottom center',
+        scrub:true
+      }
+    });
+  }
+</script>
 <style>
   .process { display:grid; gap:40px; }
   .process-intro { display:grid; gap:40px; }
-  .process-intro p { font:var(--text-display-small); }
+  .process-intro p { font:600 32px/48px var(--font-family-secondary); }
   .process-art { position:relative; width:304px; max-width:100%; margin-inline:auto; }
   .process-art picture:not([hidden]) { display:block; }
   @media(max-width:639px) { .process-art picture { aspect-ratio:304/656; } .process-art picture[data-phase-art="2"],.process-art picture[data-phase-art="3"],.process-art picture[data-phase-art="4"] { aspect-ratio:304/648; } .process-art picture img { height:100%; object-fit:fill; } }
@@ -74,8 +100,8 @@ const layouts=[{name:'ultranarrow',media:'(max-width: 399px)',width:304},{name:'
   [data-active='false'] { background:#303030; color:#fff; }
 
   @media(max-width:399px) { .process { padding-block:48px; } .phase-card { padding-right:72px; } }
-  @media(min-width:400px) { .phase-cards { margin-top:8px; } .process-intro p { font:var(--text-display-medium); } }
-  @media(min-width:640px) { .process-art { width:100%; } .process-intro { margin-bottom:120px; } .process-intro p { font:400 40px/64px var(--font-family-secondary); } }
+  @media(min-width:400px) { .phase-cards { margin-top:8px; } }
+  @media(min-width:640px) { .process-art { width:100%; } .process-intro { margin-bottom:120px; } }
   @media(min-width:1200px) {
     .process-intro { margin-bottom:40px; }
     .phase-cards { display:grid; grid-template-columns:var(--phase-columns,repeat(5,minmax(0,1fr))); margin-top:40px; transition:grid-template-columns var(--primitive-animation-duration-standard) var(--primitive-animation-easing-standard); }

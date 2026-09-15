@@ -46,6 +46,15 @@ test('static output keeps the menu closed and exposes page content and native li
   w.close();
 });
 
+test('process intro reveal stays scoped and keeps the requested typography at every breakpoint',()=>{
+  const source=readFileSync(new URL('../src/components/Process.astro',import.meta.url),'utf8');
+  assert.match(source,/<p data-process-intro-text>Great design comes from research/);
+  assert.match(source,/\.process-intro p \{ font:600 32px\/48px var\(--font-family-secondary\); \}/);
+  assert.match(source,/SplitText\.create\(text,\{type:'words'\}\)/);
+  assert.match(source,/trigger:text,[\s\S]*start:'top center',[\s\S]*end:'bottom center',[\s\S]*scrub:true/);
+  assert.doesNotMatch(source,/querySelector<HTMLElement>\('\.text'\)/);
+});
+
 test('V2 homepage exposes stable hero copy, Approach and six professional entries',()=>{
   const w=fixture();
   assert.match(document.querySelector('#hero-heading .sr-only').textContent,/Building vision, clarity, systems, hype/);
