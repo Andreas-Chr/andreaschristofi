@@ -5,7 +5,7 @@ const layouts=[{name:'ultranarrow',media:'(max-width: 399px)',width:304},{name:'
 ---
 <section class="section process container" id="process" aria-labelledby="process-heading" data-process>
   <div class="process-intro">
-    <p data-process-intro-text>Great design comes from research, experimentation, and a willingness to do the work others often avoid. Every project is an opportunity to learn, refine, and create meaningful experiences that connect brand, culture, technology, and business. Creating something from nothing, embracing ambiguity, and collaborating with the right people, helps me uncover new ideas that move creativity, innovation, and progress forward. Complex problems require dependable outcomes.</p>
+    <p data-scroll-reveal-text>Great design comes from research, experimentation, and a willingness to do the work others often avoid. Every project is an opportunity to learn, refine, and create meaningful experiences that connect brand, culture, technology, and business. Creating something from nothing, embracing ambiguity, and collaborating with the right people, helps me uncover new ideas that move creativity, innovation, and progress forward. Complex problems require dependable outcomes.</p>
   </div>
   <div class="process-art" aria-hidden="true">
     {phases.map((phase,i)=><picture data-phase-art={i} hidden={i!==0}>
@@ -57,10 +57,10 @@ const layouts=[{name:'ultranarrow',media:'(max-width: 399px)',width:304},{name:'
 
   gsap.registerPlugin(ScrollTrigger, SplitText);
 
-  const text=document.querySelector<HTMLElement>('[data-process-intro-text]');
   const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  if(text && !text.dataset.revealReady && !reducedMotion) {
+  document.querySelectorAll<HTMLElement>('[data-scroll-reveal-text]').forEach(text=>{
+    if(text.dataset.revealReady || reducedMotion) return;
     text.dataset.revealReady='true';
     const split=SplitText.create(text,{type:'words'});
     gsap.set(split.words,{color:'rgba(255,255,255,0.15)'});
@@ -74,7 +74,7 @@ const layouts=[{name:'ultranarrow',media:'(max-width: 399px)',width:304},{name:'
         scrub:true
       }
     });
-  }
+  });
 </script>
 <style>
   .process { display:grid; gap:40px; }

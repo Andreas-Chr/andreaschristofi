@@ -46,13 +46,18 @@ test('static output keeps the menu closed and exposes page content and native li
   w.close();
 });
 
-test('process intro reveal stays scoped and keeps the requested typography at every breakpoint',()=>{
-  const source=readFileSync(new URL('../src/components/Process.astro',import.meta.url),'utf8');
-  assert.match(source,/<p data-process-intro-text>Great design comes from research/);
-  assert.match(source,/\.process-intro p \{ font:600 32px\/48px var\(--font-family-secondary\); \}/);
-  assert.match(source,/SplitText\.create\(text,\{type:'words'\}\)/);
-  assert.match(source,/trigger:text,[\s\S]*start:'top center',[\s\S]*end:'bottom center',[\s\S]*scrub:true/);
-  assert.doesNotMatch(source,/querySelector<HTMLElement>\('\.text'\)/);
+test('scroll reveal stays scoped and About keeps its Figma typography at every breakpoint',()=>{
+  const processSource=readFileSync(new URL('../src/components/Process.astro',import.meta.url),'utf8');
+  const pageSource=readFileSync(new URL('../src/pages/index.astro',import.meta.url),'utf8');
+  assert.match(processSource,/<p data-scroll-reveal-text>Great design comes from research/);
+  assert.match(processSource,/\.process-intro p \{ font:600 32px\/48px var\(--font-family-secondary\); \}/);
+  assert.match(processSource,/querySelectorAll<HTMLElement>\('\[data-scroll-reveal-text\]'\)/);
+  assert.match(processSource,/SplitText\.create\(text,\{type:'words'\}\)/);
+  assert.match(processSource,/trigger:text,[\s\S]*start:'top center',[\s\S]*end:'bottom center',[\s\S]*scrub:true/);
+  assert.equal((pageSource.match(/data-scroll-reveal-text/g) ?? []).length,0);
+  assert.match(pageSource,/\.about-copy \.lead \{ font:var\(--text-display-small\); text-align:left; font-variation-settings:'opsz' 14; \}/);
+  assert.match(pageSource,/\.about-copy \.body-large \{ font:var\(--text-body-medium\); font-variation-settings:'opsz' 9; \}/);
+  assert.doesNotMatch(pageSource,/@media[^}]*\.about(?:-copy)? \.(?:lead|body-large)/);
 });
 
 test('V2 homepage exposes stable hero copy, Approach and six professional entries',()=>{
