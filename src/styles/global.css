@@ -8,7 +8,6 @@
 *, *::before, *::after { box-sizing:border-box; }
 html { background:var(--color-background-canvas); color:var(--color-text-light); scroll-behavior:smooth; scroll-padding-top:calc(var(--header-clearance) + 16px); overflow-x:clip; }
 body { margin:0; font:400 16px/32px var(--font-family-secondary); font-feature-settings:'liga' 0; }
-[data-site-shell] { position:relative; isolation:isolate; }
 h1,h2,h3,p { margin:0; }
 h1,h2,.display { font-family:var(--font-family-primary); font-weight:900; }
 h1 { font-size:var(--heading-size); line-height:var(--heading-line); }
