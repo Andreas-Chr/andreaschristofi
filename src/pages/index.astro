@@ -42,7 +42,7 @@ import { site, toolGroups, awards } from '../data/site';
     <div class="awards-grid">
       <Picture class="certificates" src={allAwards} formats={['avif','webp']} fallbackFormat="png" widths={[304,448,684,992,1392]} sizes="(min-width: 1200px) 684px, calc(100vw - 32px)" alt="CSS Design Awards certificates for Innovation, Special Kudos, UI and UX" loading="lazy" />
       <ul class="award-list">
-        {awards.map(award=><li><img src={`/assets/awards/${award.icon}.svg`} width="60" height="40" alt="" loading="lazy" /><div><h3>{award.title}</h3><p class="eyebrow">{award.detail}<span>{award.year}</span></p></div></li>)}
+        {awards.map(award=><li><img src={`/assets/awards/${award.icon}.svg`} width="60" height="40" alt="" loading="lazy" /><div><h3>{award.title}</h3><p class="eyebrow"><span>{award.detail}</span><span class="award-date"><span aria-hidden="true">/</span><span>{award.year}</span></span></p></div></li>)}
       </ul>
     </div>
   </section>
@@ -73,7 +73,9 @@ import { site, toolGroups, awards } from '../data/site';
   .award-list li { display:flex; gap:24px; align-items:center; padding:24px; background:#303030; border-radius:8px; }
   .award-list li>img { width:60px; height:40px; object-fit:contain; flex-shrink:0; }
   .award-list h3 { font-size:20px; line-height:36px; margin-bottom:4px; }
-  .award-list .eyebrow { display:flex; flex-wrap:wrap; gap:8px 16px; }
+  .award-list .eyebrow { display:flex; align-items:center; flex-wrap:wrap; gap:8px 16px; }
+  .award-date { display:inline-flex; align-items:center; gap:16px; flex-shrink:0; white-space:nowrap; }
+  .award-date > span { display:block; width:auto; height:auto; flex:0 0 auto; background:none; transform:none; }
   @media(min-width:900px) { .about { grid-template-columns:1fr 1fr; } }
   .certificates { display:block; width:100%; height:auto; }
   @media(min-width:1200px) {
