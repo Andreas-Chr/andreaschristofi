@@ -19,7 +19,7 @@ const { id = 'contact-popup' } = Astro.props;
           <ButtonIcon class="popup-close" type="submit" aria-label="Close contact popup" autofocus version="secondary" icon="/assets/icons/close.svg" />
         </form>
       </div>
-      <p id={`${id}-description`}>Send me an email to <ParagraphLink href={`mailto:${site.email}`}>{site.email}</ParagraphLink>. We’ll discuss your project and propose a solution. Ideas need real conversations.</p>
+      <p id={`${id}-description`}>Send me an email to <ParagraphLink mode="dark" size="large" href={`mailto:${site.email}`}>{site.email}</ParagraphLink>. We’ll discuss your project and propose a solution. Ideas need real conversations.</p>
     </div>
     <div class="popup-social">
       <p class="popup-label">Useful links</p>

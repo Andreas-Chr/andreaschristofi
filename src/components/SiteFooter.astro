@@ -14,7 +14,7 @@ const phrases = ['Meaningful Experiences', 'Intuitive Products', 'Delightful Int
       <div class="contact-panel" id="contact-panel">
         <ButtonIcon class="contact-close" type="button" aria-label="Close contact details" hidden version="secondary" size="large" icon="/assets/icons/close.svg" />
         <p class="contact-title">Say hello</p>
-        <p>Send me an email to <ParagraphLink href={`mailto:${site.email}`}>{site.email}</ParagraphLink>. We’ll discuss your project and propose a solution. Ideas need real conversations.</p>
+        <p>Send me an email to <ParagraphLink mode="dark" size="inherit" href={`mailto:${site.email}`}>{site.email}</ParagraphLink>. We’ll discuss your project and propose a solution. Ideas need real conversations.</p>
         <p class="eyebrow">Useful links</p><SocialLinks surface="light" menu />
       </div>
     </div>
@@ -22,7 +22,7 @@ const phrases = ['Meaningful Experiences', 'Intuitive Products', 'Delightful Int
   <div class="footer-info container">
     <p class="copyright">© {new Date().getFullYear()} Andreas Christofi. All rights reserved.</p>
     <img class="footer-mark" src="/assets/logo/logo-light.svg" width="45" height="80" alt="" />
-    <div class="footer-links"><ParagraphLink class="legal-link" href="/legal/">Privacy &amp; Cookie Policy</ParagraphLink><SocialLinks /></div>
+    <div class="footer-links"><ParagraphLink mode="light" size="medium" class="legal-link" href="/legal/">Privacy &amp; Cookie Policy</ParagraphLink><SocialLinks /></div>
   </div>
 </footer>
 <script>
@@ -71,7 +71,6 @@ const phrases = ['Meaningful Experiences', 'Intuitive Products', 'Delightful Int
   .copyright { order:3; }
   .footer-mark { order:1; width:45px; height:80px; }
   .footer-links { order:2; display:flex; flex-direction:column-reverse; align-items:center; gap:16px; }
-  .footer-links :global(.legal-link) { font-size:16px; line-height:24px; }
   @media(max-width:399px) { .contact-panel { --contact-panel-padding:16px; font:var(--text-body-medium); } .contact-title { margin-bottom:16px; } .contact-panel :global(.paragraph-link) { font-weight:400; } .contact-panel .eyebrow { margin-top:40px; } }
   @media(min-width:400px) { .footer-contact { max-width:calc(448px + 2 * var(--page-gutter)); } .footer-contact h2 { font-size:48px; line-height:64px; } .contact-disclosure { --contact-trigger-height:144px; } .contact-trigger img { width:64px; height:64px; } }
   @media(min-width:1024px) { .footer-contact { max-width:1440px; } .footer-contact h2 { text-box-trim:none; font-size:64px; line-height:72px; } .contact-disclosure { --contact-trigger-height:160px; } .contact-trigger img { width:80px; height:80px; } }

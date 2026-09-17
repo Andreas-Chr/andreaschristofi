@@ -20,7 +20,7 @@ function parts(line:string) {
 }
 ---
 <div class:list={['legal-block',{'lead-copy':size===20}]}>
-  {blocks.map(block=>block.list==='SPACE'?<div class="paragraph-space" aria-hidden="true" />:block.list==='UNORDERED'||block.list==='ORDERED'?<ul>{block.lines.map(line=><li>{parts(line).map(part=>part.href?<ParagraphLink href={part.href} target={part.href.startsWith('mailto:')?undefined:'_blank'} rel={part.href.startsWith('mailto:')?undefined:'noopener noreferrer'}>{part.value}</ParagraphLink>:part.value)}</li>)}</ul>:<p>{block.lines.map((line,i)=><Fragment>{i>0&&<br />}{parts(line).map(part=>part.href?<ParagraphLink href={part.href} target={part.href.startsWith('mailto:')?undefined:'_blank'} rel={part.href.startsWith('mailto:')?undefined:'noopener noreferrer'}>{part.value}</ParagraphLink>:part.value)}</Fragment>)}</p>)}
+  {blocks.map(block=>block.list==='SPACE'?<div class="paragraph-space" aria-hidden="true" />:block.list==='UNORDERED'||block.list==='ORDERED'?<ul>{block.lines.map(line=><li>{parts(line).map(part=>part.href?<ParagraphLink mode="light" size="inherit" href={part.href} target={part.href.startsWith('mailto:')?undefined:'_blank'} rel={part.href.startsWith('mailto:')?undefined:'noopener noreferrer'}>{part.value}</ParagraphLink>:part.value)}</li>)}</ul>:<p>{block.lines.map((line,i)=><Fragment>{i>0&&<br />}{parts(line).map(part=>part.href?<ParagraphLink mode="light" size="inherit" href={part.href} target={part.href.startsWith('mailto:')?undefined:'_blank'} rel={part.href.startsWith('mailto:')?undefined:'noopener noreferrer'}>{part.value}</ParagraphLink>:part.value)}</Fragment>)}</p>)}
 </div>
 <style>
   p,ul { margin:0; } ul { padding-left:24px; } .paragraph-space { height:32px; }

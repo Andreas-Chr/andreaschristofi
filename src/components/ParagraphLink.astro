@@ -1,12 +1,53 @@
 ---
 import type { HTMLAttributes } from 'astro/types';
-interface Props extends HTMLAttributes<'a'> { disabled?: boolean; }
-const { disabled=false, class:className, href, ...attributes }=Astro.props;
+
+/** Figma: 02 - Components / Typography/ParagraphLink (5044:4232).
+ * Mode names describe text color, not the background. See docs/PARAGRAPH-LINK.md.
+ */
+interface Props extends HTMLAttributes<'a'> {
+  mode?: 'dark' | 'light';
+  size?: 'large' | 'medium' | 'small' | 'inherit';
+  disabled?: boolean;
+}
+const {
+  mode = 'dark', size = 'large', disabled = false,
+  class: className, href, 'aria-disabled': ariaDisabled, ...attributes
+} = Astro.props;
+const unavailable = disabled || ariaDisabled === true || ariaDisabled === 'true';
+// Preserve IDs, ARIA/data attributes and Astro scope attributes on disabled text.
+const disabledAttributes = Object.fromEntries(Object.entries(attributes).filter(([key]) =>
+  ['id', 'title', 'lang', 'dir', 'hidden', 'style'].includes(key) || key.startsWith('aria-') || key.startsWith('data-')
+));
+const classes = ['paragraph-link', `paragraph-link--${mode}`, `paragraph-link--${size}`, className];
 ---
-{disabled ? <span class:list={['paragraph-link',className]} role="link" aria-disabled="true"><slot /></span> : <a {...attributes} class:list={['paragraph-link',className]} href={href}><slot /></a>}
+{unavailable ? (
+  <span {...disabledAttributes} class:list={classes} role="link" aria-disabled="true"><slot /></span>
+) : (
+  <a {...attributes} class:list={classes} href={href}><slot /></a>
+)}
 <style>
-  .paragraph-link { color:inherit; font-weight:500; text-decoration:underline; text-decoration-thickness:from-font; text-decoration-skip-ink:none; text-underline-position:from-font; text-underline-offset:auto; overflow-wrap:anywhere; transition:color var(--primitive-animation-duration-fast) var(--primitive-animation-easing-fast); }
+  .paragraph-link {
+    color:var(--paragraph-link-color);
+    font:var(--text-navigation-large-paragraph-link);
+    letter-spacing:0;
+    font-variation-settings:'opsz' 14;
+    font-feature-settings:'liga' 0;
+    text-transform:none;
+    text-decoration:underline;
+    text-decoration-thickness:from-font;
+    text-decoration-skip-ink:none;
+    text-underline-position:from-font;
+    text-underline-offset:auto;
+    overflow-wrap:anywhere;
+    transition:color var(--primitive-animation-duration-fast) var(--primitive-animation-easing-fast);
+  }
+  .paragraph-link--dark { --paragraph-link-color:var(--color-text-dark); }
+  .paragraph-link--light { --paragraph-link-color:var(--color-text-light); }
+  .paragraph-link--medium { font:var(--text-navigation-medium-paragraph-link); }
+  .paragraph-link--small { font:var(--text-navigation-small-paragraph-link); }
+  .paragraph-link--inherit { font-size:inherit; line-height:inherit; }
   a.paragraph-link:hover,a.paragraph-link:active { color:var(--color-text-hover); }
   a.paragraph-link:focus-visible { outline:3px solid currentColor; outline-offset:5px; }
   .paragraph-link[aria-disabled='true'] { color:var(--color-text-disabled); cursor:default; }
+  @media(prefers-reduced-motion:reduce) { .paragraph-link { transition:none; } }
 </style>
