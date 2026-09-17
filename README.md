@@ -18,11 +18,11 @@ npm test
 npm run preview
 ```
 
-Tests read the production output, so build before running them. Astro generates `dist/index.html`, `dist/legal/index.html`, and `dist/404.html`. The canonical origin is `https://andreaschristofi.com` and routes use trailing slashes.
+Tests read the production output, so build before running them. Astro generates `dist/index.html`, `dist/legal/index.html`, `dist/404.html`, and `dist/design-system/index.html`. The canonical origin is `https://andreaschristofi.com` and routes use trailing slashes.
 
 ## Structure
 
-- `src/pages/`: the three V1 routes.
+- `src/pages/`: Home, Legal, 404, and the [Design System](/design-system/) component catalog.
 - `src/components/`: shared header/footer, Process, Experience, hero and decorative background.
 - `src/data/`: site destinations, exact Figma process/experience/legal copy.
 - `src/styles/`: local fonts, semantic design tokens, shared styles.

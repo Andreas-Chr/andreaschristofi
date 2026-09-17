@@ -1,0 +1,188 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ButtonMain from '../components/ButtonMain.astro';
+import ButtonIcon from '../components/ButtonIcon.astro';
+import ButtonAccordion from '../components/ButtonAccordion.astro';
+import ParagraphLink from '../components/ParagraphLink.astro';
+import Tooltip from '../components/Tooltip.astro';
+import SocialLinks from '../components/SocialLinks.astro';
+import ContactPopup from '../components/ContactPopup.astro';
+import LegalText from '../components/LegalText.astro';
+
+import foundations from '../data/foundations.json';
+const figmaLink = (id:string) => `https://www.figma.com/design/${foundations.source.fileKey}?node-id=${id.replace(':','-')}`;
+const typeClass = (name:string) => `text-${name.toLowerCase().replaceAll('/', '-').replaceAll(' ', '-')}`;
+const palettes = foundations.palette.map(group => ({name:group.name, colors:group.labels.slice(1).filter((_,i)=>i%2===0).map((name,i)=>({name,hex:group.labels[i*2+2]}))}));
+
+---
+<BaseLayout title="Design System — Andreas Christofi" description="Foundations and components used across Andreas Christofi’s website." showFooter={false}>
+  <div class="design-system container">
+    <header class="catalog-intro">
+      <p class="eyebrow">The website, in parts</p>
+      <h1>Design System</h1>
+      <p class="intro-copy">A shared language for meaningful experiences. Explore the foundations, components, and how they work together.</p>
+      <div class="catalog-meta"><span>5 foundation groups</span><span>Interactive components</span></div>
+    </header>
+
+    <nav class="section-nav" aria-label="Design system sections">
+      <a href="#foundations">Foundations</a><a href="#components">Components</a><a href="#controls">Controls</a><a href="#text-feedback">Text &amp; feedback</a><a href="#patterns">Patterns</a><a href="#site-shell">Site shell</a>
+    </nav>
+
+    <section id="foundations" class="catalog-section" aria-labelledby="foundations-heading">
+      <div class="section-heading"><p class="eyebrow">01 / Foundations</p><h2 id="foundations-heading">Foundations</h2><p>The complete set of specimens on <a href={figmaLink('5030:2820')}>01 - Foundations in Figma</a>.</p></div>
+      <nav class="foundation-nav" aria-label="Foundation groups"><a href="#iconography">Iconography</a><a href="#palette">Primitive Palette</a><a href="#type-styles">Text Styles</a><a href="#grid-system">Grid System</a><a href="#spacing-scale">CSS Spacing Scale</a></nav>
+
+      <article id="iconography" class="specimen"><div class="specimen-heading"><h3>Iconography</h3><p>All 30 families, including each size and Grey / Color variation.</p></div>
+        <div class="foundation-icons">{foundations.icons.map(icon => <div class="icon-family"><h4><a href={figmaLink(icon.id)}>{icon.name}</a></h4><div class="icon-variants">{icon.variants.map(variant => <figure><span class="icon-stage" style={{width:`${Math.max(48,variant.width)}px`,height:'88px'}}><img src={variant.src} width={variant.artWidth} height={variant.artHeight} style={{width:`${variant.artWidth}px`,height:`${variant.artHeight}px`}} alt="" loading="lazy" /></span><figcaption>{variant.name.split('=')[1]}<br />{variant.width}px</figcaption></figure>)}</div></div>)}</div>
+      </article>
+
+      <article id="palette" class="specimen"><div class="specimen-heading"><h3>Primitive Palette</h3><p>Neutral, State and Accent colors. White 12% is shown over the dark canvas to make its opacity visible.</p></div><div class="palette-groups">{palettes.map(group => <div><h4>{group.name}</h4><ul class="swatch-list">{group.colors.map(color=><li><span class="color-swatch" style={{background:color.name==='White 12%'?'rgb(255 255 255 / 12%)':color.hex}} aria-hidden="true" /><span>{color.name}<code>{color.hex}{color.name==='White 12%'?' / 12% opacity':''}</code></span></li>)}</ul></div>)}</div></article>
+
+      <article id="type-styles" class="specimen"><div class="specimen-heading"><h3>Text Styles</h3><p>All 17 specimens, labelled by their linked Figma style. The final four layers are named “Body/Small” in Figma but reference Navigation styles.</p></div>
+        <div class="type-list">{foundations.typography.map(type => <div class="type-row"><div class="type-meta"><a href={figmaLink(type.id)}>{type.name}</a><p>{type.font.family} · {type.font.variationSettings.wght}<br />{type.size}px / {type.lineHeight.value}px · {type.case==='UPPER'?'Uppercase':'Original case'}{type.decoration==='UNDERLINE'?' · Underlined':''}</p></div><div class="type-sample"><p class={typeClass(type.name)} style={{lineHeight:`${type.lineHeight.value}px`}}>{type.name}</p></div></div>)}</div>
+      </article>
+
+      <article id="grid-system" class="specimen"><div class="specimen-heading"><h3>Grid System</h3><p>Five centered column grids. Diagrams scale to fit; the table gives exact Figma dimensions in pixels.</p></div><div class="grid-specimens">{foundations.grids.map(frame=>{const grid=frame.grids[0];const content=grid.count*grid.sectionSize+(grid.count-1)*grid.gutterSize;return <div><h4>{frame.name}</h4><div class="grid-diagram" style={{gridTemplateColumns:`repeat(${grid.count}, minmax(0,1fr))`,gap:`${grid.gutterSize/frame.width*100}%`,paddingInline:`${(frame.width-content)/2/frame.width*100}%`}} aria-hidden="true">{Array.from({length:grid.count},()=> <span />)}</div></div>;})}</div><div class="table-scroll" tabindex="0" role="region" aria-label="Grid measurements"><table><thead><tr><th scope="col">Viewport</th><th scope="col">Columns</th><th scope="col">Column</th><th scope="col">Gutter</th><th scope="col">Margin</th><th scope="col">Content</th><th scope="col">Frame height</th></tr></thead><tbody>{foundations.grids.map(frame=>{const grid=frame.grids[0];const content=grid.count*grid.sectionSize+(grid.count-1)*grid.gutterSize;return <tr><th scope="row">{frame.width}px</th><td>{grid.count}</td><td>{grid.sectionSize}px</td><td>{grid.gutterSize}px</td><td>{(frame.width-content)/2}px</td><td>{content}px</td><td>{frame.height}px</td></tr>;})}</tbody></table></div></article>
+
+      <article id="spacing-scale" class="specimen"><div class="specimen-heading"><h3>CSS Spacing Scale</h3><p>All 20 values from the Figma scale, shown at their actual CSS width.</p></div><ul class="spacing-list">{foundations.spacing.slice(1).map(value=><li><code>{value}</code><span style={{width:value}} aria-hidden="true" /></li>)}</ul></article>
+    </section>
+
+    <div id="components" class="catalog-section section-heading"><p class="eyebrow">02 / Components</p><h2>Components</h2><p>Explore the reusable controls and patterns used across the website.</p></div>
+
+    <section id="controls" class="catalog-section" aria-labelledby="controls-heading">
+      <div class="section-heading"><p class="eyebrow">02 / Interaction</p><h2 id="controls-heading">Controls</h2><p>Hover, press, or use Tab to inspect native states. Disabled examples cannot be activated.</p></div>
+      <article id="button-main" class="specimen"><div class="specimen-heading"><h3>ButtonMain</h3><p>Primary · Secondary · Icon left / right · Disabled</p></div>
+        <div class="preview row"><ButtonMain href="#components">Primary</ButtonMain><ButtonMain hierarchy="secondary" href="#components">Secondary</ButtonMain><ButtonMain href="#components" icon="/assets/icons/arrow-up-right.svg">Trailing icon</ButtonMain><ButtonMain href="#components" icon="/assets/icons/arrow-up-right.svg" iconPosition="left">Leading icon</ButtonMain><ButtonMain disabled>Disabled</ButtonMain><ButtonMain hierarchy="secondary" disabled>Disabled</ButtonMain></div>
+        <pre><code>{'<ButtonMain hierarchy="primary" href="/">Return Home</ButtonMain>'}</code></pre>
+      </article>
+      <article id="button-icon" class="specimen"><div class="specimen-heading"><h3>ButtonIcon</h3><p>Primary · Secondary · Tertiary / Large 48px · Small 32px</p></div>
+        <div class="preview icon-groups">{(['primary','secondary','tertiary'] as const).map(version => <div><p class="preview-label">{version}</p><div class="row">{(['large','small'] as const).map(size => <ButtonIcon version={version} size={size} href="#components" icon="/assets/icons/arrow-up-right.svg" aria-label={`${version}, ${size}: go to components`} />)}<ButtonIcon version={version} disabled icon="/assets/icons/arrow-up-right.svg" aria-label={`${version}: unavailable action`} /></div></div>)}</div>
+        <pre><code>{'<ButtonIcon version="tertiary" size="large" aria-label="Go to components" href="#components" icon="/assets/icons/arrow-up-right.svg" />'}</code></pre>
+      </article>
+      <article id="button-accordion" class="specimen"><div class="specimen-heading"><h3>ButtonAccordion</h3><p>The owning component controls the panel and expanded state.</p></div>
+        <div class="preview"><ButtonAccordion class="demo-disclosure" id="ds-accordion" aria-expanded="true" aria-controls="ds-panel">How does this component work?</ButtonAccordion><div id="ds-panel" class="demo-panel" role="region" aria-labelledby="ds-accordion">A single button controls this panel. Activate it with a click, Enter, or Space. The content stays readable when JavaScript is unavailable.</div><ButtonAccordion class="demo-disclosure disabled-disclosure" disabled aria-expanded="false">Unavailable section</ButtonAccordion></div>
+        <pre><code>{'<ButtonAccordion aria-expanded="true" aria-controls="panel">Section title</ButtonAccordion>'}</code></pre>
+      </article>
+    </section>
+
+    <section id="text-feedback" class="catalog-section" aria-labelledby="text-heading">
+      <div class="section-heading"><p class="eyebrow">03 / Detail</p><h2 id="text-heading">Text &amp; feedback</h2></div>
+      <article id="paragraph-link" class="specimen"><div class="specimen-heading"><h3>ParagraphLink</h3><p>Mode describes text color. Each surface shows large, medium, small and disabled links.</p></div>
+        <div class="surface-grid">{(['light','dark'] as const).map(mode => <div class:list={['preview', 'link-samples', {'light-surface':mode==='dark'}]}><p class="preview-label">{mode} text</p>{(['large','medium','small'] as const).map(size => <ParagraphLink mode={mode} size={size} href="#components">{size} paragraph link</ParagraphLink>)}<ParagraphLink mode={mode} disabled>Disabled link</ParagraphLink></div>)}</div>
+        <pre><code>{'<ParagraphLink mode="light" size="medium" href="/legal/">Privacy & Cookie Policy</ParagraphLink>'}</code></pre>
+      </article>
+      <article id="tooltip" class="specimen"><div class="specimen-heading"><h3>Tooltip</h3><p>Hover or focus the example to reveal its label.</p></div>
+        <div class="preview tooltip-preview"><span class="tool tooltip-owner" tabindex="0" data-tooltip-owner aria-describedby="ds-tooltip">Figma<Tooltip id="ds-tooltip" title="Design and prototyping" /></span></div>
+        <pre><code>{'<span class="tool" tabindex="0" data-tooltip-owner aria-describedby="tip">Figma<Tooltip id="tip" title="Design and prototyping" /></span>'}</code></pre>
+      </article>
+      <article id="legal-text" class="specimen"><div class="specimen-heading"><h3>LegalText</h3><p>Paragraph content with automatic links for the policy’s known destinations.</p></div><div class="preview"><LegalText text="Read more at andreaschristofi.com or contact hello@andreaschristofi.com." /></div><pre><code>{'<LegalText text="Contact hello@andreaschristofi.com." size={16} />'}</code></pre></article>
+    </section>
+
+    <section id="patterns" class="catalog-section" aria-labelledby="patterns-heading">
+      <div class="section-heading"><p class="eyebrow">04 / Together</p><h2 id="patterns-heading">Patterns</h2></div>
+      <article id="social-links" class="specimen"><div class="specimen-heading"><h3>SocialLinks</h3><p>Profile destinations open in a new tab. Surface selects the matching icon-button style.</p></div><div class="surface-grid"><div class="preview"><p class="preview-label">Dark surface</p><SocialLinks /></div><div class="preview light-surface"><p class="preview-label">Light surface · Menu order</p><SocialLinks surface="light" menu /></div></div><pre><code>{'<SocialLinks surface="dark" />'}</code></pre></article>
+      <article id="contact-popup-preview" class="specimen"><div class="specimen-heading"><h3>ContactPopup</h3><p>Open the dialog, then close it with its close button or Escape. Focus returns to the trigger.</p></div><div class="preview"><ButtonMain id="ds-open-dialog" aria-haspopup="dialog" aria-controls="ds-contact-dialog" hidden>Open contact popup</ButtonMain><noscript><ParagraphLink mode="light" href="mailto:hello@andreaschristofi.com">Email Andreas</ParagraphLink><p>The dialog preview requires JavaScript.</p></noscript></div><ContactPopup id="ds-contact-dialog" /><pre><code>{'<ContactPopup id="contact-dialog" />\n// Open the native dialog with showModal().'}</code></pre></article>
+    </section>
+
+    <section id="site-shell" class="catalog-section" aria-labelledby="shell-heading">
+      <div class="section-heading"><p class="eyebrow">05 / Structure</p><h2 id="shell-heading">Site shell</h2><p>This page uses Header and PageLoader through BaseLayout. Open the menu above to explore it. The footer is omitted on this page.</p></div>
+      <div class="shell-grid"><article class="specimen shell-card"><h3>BaseLayout</h3><p>The shared document, metadata, fonts, skip link, header, main content and optional footer.</p><code>src/layouts/BaseLayout.astro</code><pre><code>{'<BaseLayout title="Page title" description="Page summary" showFooter={false}>\n  <!-- Page content -->\n</BaseLayout>'}</code></pre></article><article class="specimen shell-card"><h3>AgentationDev</h3><p>Development-only React tooling for annotating the interface. It is excluded from the production page.</p><code>src/components/dev/AgentationDev.jsx</code><p class="preview-label">Loaded automatically by BaseLayout in development.</p></article></div>
+      <p class="section-note">Hero, Process and Experience are composed homepage sections. Explore them on the <a href="/">homepage</a>.</p>
+    </section>
+  </div>
+</BaseLayout>
+<script>
+  const disclosure = document.querySelector<HTMLButtonElement>('#ds-accordion');
+  const panel = document.querySelector<HTMLElement>('#ds-panel');
+  disclosure?.addEventListener('click', () => {
+    if (!panel) return;
+    const expanded = disclosure.getAttribute('aria-expanded') !== 'true';
+    disclosure.setAttribute('aria-expanded', String(expanded));
+    panel.hidden = !expanded;
+  });
+  const trigger = document.querySelector<HTMLButtonElement>('#ds-open-dialog');
+  const dialog = document.querySelector<HTMLDialogElement>('#ds-contact-dialog');
+  if (trigger && dialog) {
+    trigger.hidden = false;
+    trigger.addEventListener('click', () => dialog.showModal());
+  }
+</script>
+<style>
+  .design-system { padding-top:calc(var(--header-clearance) + 64px); padding-bottom:80px; }
+  .catalog-intro { max-width:960px; display:grid; gap:24px; }
+  h1 { font-size:clamp(36px,6vw,80px); line-height:1.15; letter-spacing:-.035em; }
+  .intro-copy { max-width:680px; font-size:clamp(18px,2vw,24px); line-height:1.6; color:#c9c9c9; }
+  .catalog-meta { display:flex; flex-wrap:wrap; gap:12px 24px; font-size:14px; color:#c9c9c9; }
+  .catalog-meta span + span::before { content:'·'; margin-right:24px; color:var(--color-text-accent); }
+  .section-nav { display:flex; flex-wrap:wrap; gap:12px 24px; padding:24px 0; margin-top:48px; border-block:1px solid #474747; }
+  .section-nav a { text-decoration:none; font-size:14px; }
+  .section-nav a:hover { color:var(--color-text-accent); }
+  .catalog-section { padding-top:80px; scroll-margin-top:32px; }
+  .section-heading { display:grid; gap:16px; margin-bottom:32px; max-width:780px; }
+  h2 { font-size:clamp(24px,3vw,40px); line-height:1.25; }
+  h3 { font-size:24px; line-height:1.4; overflow-wrap:anywhere; }
+  .section-heading > p:not(.eyebrow), .specimen-heading p, .section-note { color:#bdbdbd; }
+  code { font-size:12px; overflow-wrap:anywhere; color:#bdbdbd; }
+  .specimen { border:1px solid #474747; border-radius:16px; margin-top:24px; scroll-margin-top:32px; min-width:0; }
+  .specimen-heading { padding:24px; border-bottom:1px solid #474747; }
+  .specimen-heading p { margin-top:8px; font-size:14px; line-height:24px; }
+  .preview { padding:32px; min-width:0; }
+  .row { display:flex; align-items:center; flex-wrap:wrap; gap:16px; }
+  .icon-groups { display:flex; flex-wrap:wrap; gap:32px 64px; }
+  .preview-label { font-size:12px; text-transform:uppercase; letter-spacing:.08em; margin-bottom:16px; }
+  pre { margin:0; padding:20px 24px; border-top:1px solid #474747; white-space:pre-wrap; overflow-wrap:anywhere; line-height:1.8; }
+  .surface-grid, .shell-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .light-surface { background:var(--color-surface-card-light); color:var(--color-text-dark); }
+  .link-samples { display:flex; flex-direction:column; align-items:flex-start; gap:16px; }
+  .link-samples .preview-label { margin-bottom:0; }
+  .demo-disclosure { width:100%; justify-content:space-between; gap:24px; text-align:left; }
+  .demo-panel { margin-top:24px; padding:24px; background:var(--color-surface-card-dark); border-radius:8px; }
+  .demo-panel[hidden] { display:none; }
+  .disabled-disclosure { margin-top:32px; }
+  .tooltip-preview { padding-top:80px; }
+  .tooltip-owner { position:relative; display:inline-flex; padding:8px 16px; border:1px solid #676767; border-radius:8px; }
+  .shell-grid { gap:24px; }
+  .shell-card { padding:24px; margin-top:0; display:flex; flex-direction:column; gap:16px; }
+  .shell-card pre { padding:16px 0 0; }
+  .section-note { margin-top:24px; }
+  @media(max-width:639px) {
+    .design-system { padding-top:calc(var(--header-clearance) + 40px); }
+    .surface-grid, .shell-grid { grid-template-columns:1fr; }
+    .preview,.specimen-heading { padding:24px 16px; }
+    .tooltip-preview { padding-top:80px; }
+    .catalog-section { padding-top:56px; }
+    .catalog-meta span + span::before { display:none; }
+  }
+
+  .foundation-nav { display:flex; flex-wrap:wrap; gap:12px 24px; font-size:14px; }
+  h4 { margin:0 0 16px; font-size:16px; font-weight:500; }
+  .foundation-icons { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr)); gap:1px; background:#474747; }
+  .icon-family { padding:24px; background:var(--color-background-canvas); min-width:0; }
+  .icon-family:first-child { grid-column:1/-1; }
+  .icon-family h4 a { text-decoration:none; }
+  .icon-variants { display:flex; flex-wrap:wrap; gap:16px; background:white; color:#303030; border-radius:8px; padding:16px; }
+  .icon-variants figure { margin:0; text-align:center; }
+  .icon-stage { display:flex; align-items:center; justify-content:center; }
+  figcaption { font-size:12px; line-height:20px; }
+  .palette-groups { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:32px; padding:24px; }
+  .swatch-list,.spacing-list { list-style:none; padding:0; margin:0; }
+  .swatch-list li { display:flex; gap:16px; align-items:center; margin-top:16px; font-size:14px; line-height:24px; }
+  .swatch-list code { display:block; }
+  .color-swatch { flex:0 0 64px; height:48px; border:1px solid #676767; border-radius:8px; }
+  .type-row { padding:24px; border-top:1px solid #474747; display:grid; gap:24px; grid-template-columns:240px minmax(0,1fr); }
+  .type-row:first-child { border-top:0; }
+  .type-meta p { font-size:12px; line-height:22px; color:#bdbdbd; margin-top:8px; }
+  .type-sample { min-width:0; overflow-wrap:anywhere; padding:24px; border-radius:8px; background:white; color:var(--color-text-dark); }
+  .grid-specimens { padding:24px; display:grid; gap:24px; }
+  .grid-diagram { display:grid; height:80px; background:white; }
+  .grid-diagram span { background:rgb(0 133 255 / 20%); }
+  .table-scroll { overflow-x:auto; padding:0 24px 24px; }
+  table { width:100%; border-collapse:collapse; font-size:14px; text-align:left; white-space:nowrap; }
+  th,td { padding:12px; border-bottom:1px solid #474747; }
+  .spacing-list { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px 32px; padding:24px; }
+  .spacing-list li { display:flex; gap:16px; align-items:center; }
+  .spacing-list code { width:48px; flex-shrink:0; }
+  .spacing-list span { height:24px; background:var(--color-text-accent); }
+  @media(max-width:899px) { .palette-groups { grid-template-columns:1fr; } .type-row { grid-template-columns:1fr; } }
+  @media(max-width:399px) { .type-row,.palette-groups,.icon-family { padding:16px; } .type-sample { padding:12px; } .spacing-list { grid-template-columns:1fr; padding:16px; } }
+</style>
