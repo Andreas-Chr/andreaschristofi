@@ -10,7 +10,7 @@ const words = ['Vision', 'Clarity', 'Systems', 'Hype'];
       <span class="sr-only">Building vision, clarity, systems, hype.</span>
       <span aria-hidden="true" class="hero-static">Building</span>
       <span aria-hidden="true" class="hero-words">
-        {words.map((word, index) => <span class="hero-word" style={`--word-delay:${index === 0 ? 0 : (index - words.length) * 3}s`}>{word}</span>)}
+        {words.map(word => <span class="hero-word">{word}</span>)}
       </span>
     </h1>
     <p class="hero-description">{site.description}</p>
@@ -34,21 +34,13 @@ const words = ['Vision', 'Clarity', 'Systems', 'Hype'];
   .hero-copy { position:relative; display:flex; flex-direction:column; align-items:center; width:100%; max-width:684px; gap:48px; text-align:center; }
   h1 { width:100%; text-transform:uppercase; }
   .hero-static { display:block; }
-  .hero-words { display:grid; perspective:600px; color:var(--color-text-accent); }
-  .hero-word { grid-area:1 / 1; display:block; white-space:nowrap; backface-visibility:hidden; transform-origin:50% 50%; opacity:0; }
+  .hero-words { display:grid; color:var(--color-text-accent); }
+  .hero-word { grid-area:1 / 1; display:block; white-space:nowrap; opacity:0; }
   .hero-word:first-child { opacity:1; }
-  [data-motion-ready] .hero-word { animation:hero-fold 12s cubic-bezier(.4,0,.2,1) infinite; animation-delay:var(--word-delay); }
-  [data-paused='true'] .hero-word { animation-play-state:paused; }
   .hero-description { font:var(--text-display-small); }
   .hero-actions { display:flex; align-items:center; justify-content:center; gap:16px; max-width:100%; }
   .hero-actions :global(.button) { white-space:nowrap; }
   .hero-actions :global([data-contact-popup-trigger] img) { width:16px; height:16px; flex:0 0 16px; }
-  @keyframes hero-fold {
-    0%, 20% { opacity:1; transform:translateY(0) rotateX(0deg); }
-    25%, 94.999% { opacity:0; transform:translateY(-35%) rotateX(90deg); }
-    95% { opacity:0; transform:translateY(35%) rotateX(-90deg); }
-    100% { opacity:1; transform:translateY(0) rotateX(0deg); }
-  }
   @media(min-width:400px) { .hero { padding-block:80px; } }
   @media(max-width:399px) { .hero-description { font:var(--text-body-medium); } .hero-actions :global(.button) { padding-inline:8px; } }
   @media(prefers-reduced-motion:reduce) { .hero-word { animation:none!important; transform:none; opacity:0; } .hero-word:first-child { opacity:1; } }

@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Window } from 'happy-dom';
+import { gsap } from 'gsap';
 import { initHeroMotion } from '../src/scripts/hero-motion.ts';
 
 test('hero motion initializes without a control and follows reduced motion and page visibility', () => {
@@ -28,5 +29,6 @@ test('hero motion initializes without a control and follows reduced motion and p
   Object.defineProperty(document, 'hidden', { configurable: true, value: false });
   document.dispatchEvent(new window.Event('visibilitychange'));
   assert.equal(root.dataset.paused, 'false');
+  gsap.ticker.sleep();
   window.close();
 });
