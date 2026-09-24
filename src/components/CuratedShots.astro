@@ -1,0 +1,18 @@
+---
+import CuratedShotCard from './CuratedShotCard.astro';
+import CuratedShotOverlay from './CuratedShotOverlay.astro';
+import { curatedShots } from '../data/curated-shots';
+---
+{curatedShots.length > 0 && <>
+  <section id="curated-shots" class="section container curated-shots" aria-label="Curated shots">
+    <div class="curated-grid">{curatedShots.map(shot => <CuratedShotCard shot={shot} />)}</div>
+    <noscript><p>Enable JavaScript to open curated shots.</p></noscript>
+  </section>
+  <CuratedShotOverlay shots={curatedShots} />
+</>}
+<style>
+  .curated-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:4px; }
+  .curated-grid :global(.curated-card) { aspect-ratio:1; }
+  @media(max-width:1023px) { .curated-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+  @media(max-width:599px) { .curated-grid { grid-template-columns:minmax(0,1fr); } }
+</style>

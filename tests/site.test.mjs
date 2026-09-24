@@ -118,7 +118,8 @@ test('menu is non-modal; Escape restores focus and links retain navigation',()=>
   assert.equal(panel.hidden,true);assert.equal(trigger.getAttribute('aria-expanded'),'false');
   trigger.focus();trigger.click();
   assert.equal(panel.hidden,false);assert.equal(document.activeElement,trigger);
-  assert.equal(document.querySelector('[aria-modal],dialog,[role="menu"]'),null);
+  assert.equal(panel.querySelector('[aria-modal],dialog,[role="menu"]'),null);
+  assert.equal(document.querySelector('dialog[open]'),null);
   panel.querySelector('a').focus();
   document.dispatchEvent(new w.KeyboardEvent('keydown',{key:'Escape',bubbles:true}));
   assert.equal(panel.hidden,true);assert.equal(document.activeElement,trigger);

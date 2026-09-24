@@ -1,0 +1,47 @@
+// Copy into the Payload app, rename to .ts, and register both collections.
+// Assumes all authenticated users are trusted editors.
+import type { Access, CollectionConfig } from 'payload';
+
+const editor: Access = ({ req }) => Boolean(req.user);
+
+export const Media: CollectionConfig = {
+  slug: 'media',
+  access: { read: () => true, create: editor, update: editor, delete: editor },
+  upload: { mimeTypes: ['image/*', 'video/mp4', 'video/webm', 'text/vtt'] },
+  fields: [{ name: 'alt', type: 'text' }],
+};
+
+export const CuratedShots: CollectionConfig = {
+  slug: 'curated-shots',
+  admin: { useAsTitle: 'title', defaultColumns: ['title', 'slug', 'order', '_status'] },
+  versions: { drafts: true },
+  access: {
+    read: ({ req }) => req.user ? true : { _status: { equals: 'published' } },
+    create: editor, update: editor, delete: editor, readVersions: editor,
+  },
+  fields: [
+    { name: 'slug', type: 'text', required: true, unique: true,
+      validate: value => typeof value === 'string' && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value) || 'Use lowercase words separated by hyphens.' },
+    { name: 'title', type: 'text' },
+    { name: 'order', type: 'number', required: true, defaultValue: 1 },
+    { name: 'content', type: 'select', required: true, defaultValue: 'long', options: ['long', 'short'] },
+    { name: 'thumbnail', type: 'upload', relationTo: 'media', filterOptions: { mimeType: { contains: 'image/' } } },
+    { name: 'thumbnailAlt', type: 'text' },
+    { name: 'overview', type: 'textarea' },
+    { name: 'media', type: 'array', fields: [
+      { name: 'type', type: 'select', required: true, defaultValue: 'image', options: ['image', 'video', 'youtube', 'vimeo'] },
+      { name: 'file', type: 'upload', relationTo: 'media',
+        admin: { condition: (_, row) => ['image', 'video'].includes(row.type) } },
+      { name: 'src', type: 'text', admin: { description: 'HTTPS YouTube/Vimeo URL or external media URL. An uploaded file takes priority.' } },
+      { name: 'alt', type: 'text' },
+      { name: 'description', type: 'textarea' },
+      { name: 'visible', type: 'checkbox', defaultValue: true },
+      { name: 'showDescription', type: 'checkbox', defaultValue: true },
+      { name: 'posterImage', type: 'upload', relationTo: 'media', filterOptions: { mimeType: { contains: 'image/' } },
+        admin: { condition: (_, row) => row.type === 'video' } },
+      { name: 'captionFile', type: 'upload', relationTo: 'media', filterOptions: { mimeType: { equals: 'text/vtt' } },
+        admin: { condition: (_, row) => row.type === 'video' } },
+      { name: 'captionsLanguage', type: 'text', defaultValue: 'en', admin: { condition: (_, row) => row.type === 'video' } },
+    ] },
+  ],
+};

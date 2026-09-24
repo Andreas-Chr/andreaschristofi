@@ -1,0 +1,64 @@
+---
+import ButtonIcon from './ButtonIcon.astro';
+import ParagraphLink from './ParagraphLink.astro';
+import CuratedShotCard from './CuratedShotCard.astro';
+import CuratedShotMedia from './CuratedShotMedia.astro';
+import { shotMedia, shotText, shotTitle, type CuratedShot } from '../lib/curated-shots';
+import { site } from '../data/site';
+interface Props { shots: CuratedShot[]; }
+const { shots } = Astro.props;
+---
+<dialog id="curated-shot-overlay" class="shot-overlay" aria-labelledby="active-shot-title" data-shot-dialog>
+  <div class="shot-container">
+    <div class="shot-close-bar"><ButtonIcon version="secondary" size="large" icon="/assets/icons/close.svg" aria-label="Close curated shot" data-shot-close /></div>
+    <div data-shot-content></div>
+  </div>
+</dialog>
+{shots.map((shot, index) => {
+  const media = shotMedia(shot);
+  const related = [...shots.slice(index + 1), ...shots.slice(0, index)].slice(0, 3);
+  return <template data-shot-template={shot.slug}>
+    <article data-shot={shot.slug} data-content={shot.content}>
+      <div class="shot-body">
+        <h2 id="active-shot-title" tabindex="-1">{shotTitle(shot)}</h2>
+        {media[0].visible !== false && <CuratedShotMedia media={media[0]} title={shotTitle(shot)} />}
+        <p>{shotText(shot.overview)}</p>
+        {media.slice(1).map(item => <>
+          {item.visible !== false && <CuratedShotMedia media={item} title={shotTitle(shot)} />}
+          {item.showDescription !== false && <p>{shotText(item.description)}</p>}
+        </>)}
+      </div>
+      {related.length > 0 && <section class="shot-related" aria-label="Other curated shots">
+        <h3>Other Curated Shots</h3>
+        <div class="shot-related-grid">{related.map(other => <CuratedShotCard shot={other} />)}</div>
+      </section>}
+      <footer class="shot-contact">
+        <h3>Get in touch</h3>
+        <p>Submit a request to <ParagraphLink mode="dark" href={`mailto:${site.email}`}>{site.email}</ParagraphLink>. We’ll discuss your project and propose a solution.</p>
+      </footer>
+    </article>
+  </template>;
+})}
+<script>
+  import { initCuratedShots } from '../scripts/curated-shots';
+  initCuratedShots();
+  document.addEventListener('astro:page-load', initCuratedShots);
+</script>
+<style>
+  .shot-overlay { position:fixed; inset:50px 0 0; margin:0 auto; padding:0; width:100%; max-width:1440px; height:calc(100dvh - 50px); max-height:calc(100dvh - 50px); border:0; border-radius:24px 24px 0 0; background:var(--color-surface-card-light,#fff); color:var(--color-text-dark); overflow:auto; overscroll-behavior:contain; }
+  .shot-overlay:not([open]) { display:none; }
+  .shot-overlay::backdrop { background:rgb(0 0 0 / 60%); }
+  .shot-container { width:100%; max-width:1024px; margin-inline:auto; padding-inline:16px; }
+  .shot-close-bar { position:sticky; top:0; z-index:2; display:flex; justify-content:flex-end; padding-block:16px; background:var(--color-surface-card-light,#fff); }
+  .shot-body { display:flex; flex-direction:column; gap:24px; }
+  .shot-body h2,.shot-contact h3 { font:900 32px/48px var(--font-family-primary); text-transform:none; overflow-wrap:anywhere; }
+  .shot-body h2 { scroll-margin-top:80px; outline:none; }
+  .shot-body p { font:var(--text-body-medium); font-variation-settings:'opsz' 9; white-space:pre-line; overflow-wrap:anywhere; }
+  .shot-related,.shot-contact { display:flex; flex-direction:column; gap:24px; padding-block:40px; }
+  .shot-related h3 { font:900 24px/36px var(--font-family-primary); text-transform:uppercase; overflow-wrap:anywhere; }
+  .shot-related-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:4px; }
+  .shot-related-grid :global(.curated-card) { height:328px; aspect-ratio:auto; }
+  .shot-contact p { font:var(--text-display-small); font-variation-settings:'opsz' 14; overflow-wrap:anywhere; }
+  @media(max-width:1023px) { .shot-related-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .shot-related-grid :global(.curated-card:nth-child(n+3)) { display:none; } }
+  @media(max-width:599px) { .shot-container { padding-inline:8px; } .shot-related-grid { grid-template-columns:minmax(0,1fr); } .shot-related-grid :global(.curated-card:nth-child(n+2)) { display:none; } }
+</style>

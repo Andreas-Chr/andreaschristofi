@@ -1,0 +1,36 @@
+{
+  "slug": "shot-06",
+  "title": "",
+  "order": 6,
+  "published": true,
+  "content": "long",
+  "thumbnail": "",
+  "thumbnailAlt": "",
+  "overview": "",
+  "media": [
+    {
+      "type": "image",
+      "src": "",
+      "alt": "",
+      "description": "",
+      "visible": true,
+      "showDescription": true
+    },
+    {
+      "type": "image",
+      "src": "",
+      "alt": "",
+      "description": "",
+      "visible": true,
+      "showDescription": true
+    },
+    {
+      "type": "image",
+      "src": "",
+      "alt": "",
+      "description": "",
+      "visible": true,
+      "showDescription": true
+    }
+  ]
+}

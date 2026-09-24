@@ -4,6 +4,7 @@ import { Picture } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Process from '../components/Process.astro';
 import Hero from '../components/Hero.astro';
+import CuratedShots from '../components/CuratedShots.astro';
 import SocialLinks from '../components/SocialLinks.astro';
 import Experience from '../components/Experience.astro';
 import Tooltip from '../components/Tooltip.astro';
@@ -15,6 +16,7 @@ import { site, toolGroups, awards } from '../data/site';
   <div class="top-region home-top-region">
     <Hero />
   </div>
+  <CuratedShots />
   <Process />
   <section class="section about container" id="about" aria-labelledby="about-heading">
     <Picture class="portrait" src={portrait} formats={['avif','webp']} fallbackFormat="jpg" widths={[304,448,680,896,1120]} sizes="(min-width: 900px) 48vw, 100vw" alt="Andreas Christofi walking through the city" loading="lazy" />
@@ -48,7 +50,7 @@ import { site, toolGroups, awards } from '../data/site';
   </section>
 </BaseLayout>
 <style>
-  .home-top-region { height:auto; min-height:100svh; }
+  .home-top-region { height:auto; min-height:80svh; }
   .about { display:grid; gap:40px; align-items:start; }
   .about > :global(picture) { position:relative; width:100%; aspect-ratio:679/687; }
   .about :global(.portrait) { display:block; width:100%; height:100%; position:absolute; inset:0; aspect-ratio:679/687; object-fit:cover; object-position:bottom; border-radius:16px; }
