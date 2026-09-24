@@ -181,10 +181,11 @@ test('closing panels become inert immediately and hide when the animation finish
 });
 
 test('routes, canonical URLs, policy anchors, and every local asset resolve in the build',()=>{
-  const routes=['index.html','legal/index.html','404.html'];
+  const routes=['index.html','legal/index.html','404.html','design-system/index.html'];
   for(const file of routes) {
     const w=fixture(readFileSync(new URL(`../dist/${file}`,import.meta.url),'utf8'));
-    assert.equal(document.querySelector('.top-background'),null,`${file}: gradient waves must not render`);
+    assert.equal(document.querySelectorAll('[data-hero-background]').length,1,`${file}: one shared hero background`);
+    assert.equal(document.querySelector('[data-hero-background]').getAttribute('aria-hidden'),'true');
     assert.equal(document.querySelectorAll('h1').length,1,file);
     const ids=[...document.querySelectorAll('[id]')].map(n=>n.id);
     assert.equal(new Set(ids).size,ids.length,`duplicate IDs: ${file}`);

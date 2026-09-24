@@ -21,4 +21,6 @@ Images carry intrinsic dimensions. Portrait/certificate composition have context
 
 The repository's existing license remains unchanged. Third-party code, fonts and brand marks retain their respective rights and notices.
 
+Hero backgrounds use the [React Bits Gradient Waves JS/CSS registry source](https://reactbits.dev/r/GradientWaves-JS-CSS.json), retrieved 24 September 2026 and stored in `src/components/vendor/` with `LICENSE.react-bits`. Local additions provide a WebGL fallback and reduced-motion support. `HeroBackground.astro` supplies the requested shader settings, rotates the renderer 180 degrees, and fades it to the canvas at each page's hero boundary. The shared layout includes it on all four routes. Animation pauses while offscreen or while the tab is hidden; reduced motion renders a still frame. Without JavaScript or WebGL, the solid canvas remains.
+
 Current 404 artwork exports: desktop `5314:11498`, tablet `5314:12000`, 480 `5314:12557`, 320 `5314:12961`. The supplied full `404 Visual.svg` remains the 1024 source. Vector geometry is preserved; the shared embedded texture was reassembled only after matching its length and hash against the original supplied SVG. No vector artwork was hand-drawn.

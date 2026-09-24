@@ -1,0 +1,50 @@
+---
+import GradientWaves from './vendor/GradientWaves.jsx';
+---
+<div class="hero-background" data-hero-background aria-hidden="true">
+  <div class="hero-waves">
+    <GradientWaves
+      client:load
+      horizonColor="#121212"
+      waveColor="#303030"
+      crestColor="#FFFFFF"
+      speed={0.4}
+      amplitude={3.6}
+      waveScale={1}
+      waveRatio={0.6}
+      swell={0}
+      turbulence={40}
+      tilt={0.9}
+      zoom={1}
+      height={4}
+      fogDepth={15}
+      detail="high"
+      brightness={1}
+      opacity={1}
+      grain
+      grainIntensity={0.1}
+      mouseInteraction={false}
+      parallaxStrength={0.5}
+    />
+  </div>
+</div>
+<script>
+  const background = document.querySelector<HTMLElement>('[data-hero-background]');
+  const hero = document.querySelector<HTMLElement>('.top-region, .catalog-intro');
+  const shell = document.querySelector<HTMLElement>('[data-site-shell]');
+  if (background && hero && shell) {
+    const resize = () => {
+      const bottom = hero.getBoundingClientRect().bottom - shell.getBoundingClientRect().top;
+      background.style.height = `${Math.max(1, bottom)}px`;
+    };
+    new ResizeObserver(resize).observe(hero);
+    window.addEventListener('resize', resize, { passive: true });
+    resize();
+  }
+</script>
+<style>
+  .hero-background { position:absolute; inset:0 0 auto; height:100svh; z-index:-1; pointer-events:none; overflow:hidden; mask-image:linear-gradient(to bottom, #000 0%, #000 45%, transparent 100%); }
+  .hero-waves { width:100%; height:100%; transform:rotate(180deg); }
+  .hero-waves :global(astro-island) { display:block; width:100%; height:100%; }
+  @media (forced-colors:active) { .hero-background { display:none; } }
+</style>

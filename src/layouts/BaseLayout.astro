@@ -2,6 +2,7 @@
 import AgentationDev from '../components/dev/AgentationDev.jsx';
 const isDev = import.meta.env.DEV;
 import '../styles/global.css';
+import HeroBackground from '../components/HeroBackground.astro';
 import PageLoader from '../components/PageLoader.astro';
 import Header from '../components/Header.astro';
 import SiteFooter from '../components/SiteFooter.astro';
@@ -80,6 +81,7 @@ const canonical = new URL(Astro.url.pathname, site.origin);
   </head>
   <body>
     <div data-site-shell>
+      <HeroBackground />
       <a class="skip-link" href="#main">Skip to content</a>
       <Header />
       <main id="main" tabindex="-1"><slot /></main>
