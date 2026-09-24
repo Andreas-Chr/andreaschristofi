@@ -67,7 +67,8 @@ test('V2 homepage exposes stable hero copy, Approach and six professional entrie
   assert.equal(document.querySelector('.hero-motion-control'),null);
   const curatedWorks=document.querySelector('.hero-copy .button');
   assert.equal(curatedWorks.textContent.trim(),'Curated Works');
-  assert.equal(curatedWorks.hasAttribute('href'),false);
+  assert.equal(curatedWorks.getAttribute('href'),'#curated-shots');
+  assert.ok(document.querySelector(curatedWorks.getAttribute('href')));
   assert.equal(curatedWorks.querySelector('img'),null);
   assert.equal(document.querySelector('[data-diamond],.hero-visual'),null);
   assert.equal(document.querySelector('#process-heading').textContent,'Approach');
