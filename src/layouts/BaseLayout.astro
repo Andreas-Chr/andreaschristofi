@@ -1,6 +1,4 @@
 ---
-import AgentationDev from '../components/dev/AgentationDev.jsx';
-const isDev = import.meta.env.DEV;
 import '../styles/global.css';
 import HeroBackground from '../components/HeroBackground.astro';
 import PageLoader from '../components/PageLoader.astro';
@@ -88,6 +86,5 @@ const canonical = new URL(Astro.url.pathname, site.origin);
       {showFooter && <SiteFooter />}
     </div>
     <PageLoader />
-    {isDev && <AgentationDev client:load />}
   </body>
 </html>
