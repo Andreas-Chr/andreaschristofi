@@ -3,7 +3,7 @@ import ButtonIcon from './ButtonIcon.astro';
 import ParagraphLink from './ParagraphLink.astro';
 import CuratedShotCard from './CuratedShotCard.astro';
 import CuratedShotMedia from './CuratedShotMedia.astro';
-import { shotMedia, shotText, shotTitle, type CuratedShot } from '../lib/curated-shots';
+import { shotMedia, shotParagraphs, shotTitle, type CuratedShot } from '../lib/curated-shots';
 import { site } from '../data/site';
 interface Props { shots: CuratedShot[]; }
 const { shots } = Astro.props;
@@ -15,17 +15,19 @@ const { shots } = Astro.props;
   </div>
 </dialog>
 {shots.map((shot, index) => {
-  const media = shotMedia(shot);
+  const [firstMedia, ...remainingMedia] = shotMedia(shot);
+  const overview = shotParagraphs(shot.overview);
   const related = [...shots.slice(index + 1), ...shots.slice(0, index)].slice(0, 3);
   return <template data-shot-template={shot.slug}>
-    <article data-shot={shot.slug} data-content={shot.content}>
+    <article data-shot={shot.slug}>
       <div class="shot-body">
         <h2 id="active-shot-title" tabindex="-1">{shotTitle(shot)}</h2>
-        {media[0].visible !== false && <CuratedShotMedia media={media[0]} title={shotTitle(shot)} />}
-        <p>{shotText(shot.overview)}</p>
-        {media.slice(1).map(item => <>
-          {item.visible !== false && <CuratedShotMedia media={item} title={shotTitle(shot)} />}
-          {item.showDescription !== false && <p>{shotText(item.description)}</p>}
+        {firstMedia && <CuratedShotMedia media={firstMedia} title={shotTitle(shot)} />}
+        {overview.map(paragraph => <p>{paragraph}</p>)}
+        {firstMedia?.showDescription !== false && shotParagraphs(firstMedia?.description).map(paragraph => <p>{paragraph}</p>)}
+        {remainingMedia.map(item => <>
+          <CuratedShotMedia media={item} title={shotTitle(shot)} />
+          {item.showDescription !== false && shotParagraphs(item.description).map(paragraph => <p>{paragraph}</p>)}
         </>)}
       </div>
       {related.length > 0 && <section class="shot-related" aria-label="Other curated shots">

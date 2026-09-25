@@ -2,19 +2,20 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { Window } from 'happy-dom';
-import { embedURL, mediaURL, shotMedia, validateShots, shotTitle, shotText } from '../src/lib/curated-shots.ts';
+import { embedURL, mediaURL, shotMedia, validateShots, shotTitle, shotParagraphs } from '../src/lib/curated-shots.ts';
 import { fromPayload, fetchPayloadShots } from '../src/lib/payload-curated-shots.ts';
 import { initCuratedShots } from '../src/scripts/curated-shots.ts';
 
-test('all eight editable entries are distinct long shots; fallbacks and short content work', () => {
+test('shots use one layout and omit blank content without losing populated media', () => {
   const dir = new URL('../src/content/curated-shots/', import.meta.url);
   const entries = readdirSync(dir).filter(f => f.endsWith('.json')).map(f => JSON.parse(readFileSync(new URL(f, dir))));
   assert.equal(validateShots(entries).length, 8);
-  assert.ok(entries.every(e => e.content === 'long' && shotMedia(e).length === 3));
-  assert.equal(shotTitle({ title: ' ' }), 'Lorem Ipsum');
-  assert.match(shotText(' '), /^Lorem ipsum/);
-  assert.equal(shotMedia({ content: 'short', media: [] }).length, 1);
-  assert.equal(shotMedia({ content: 'long', media: Array(5).fill({type:'image'}) }).length, 5);
+  assert.ok(entries.every(e => shotMedia(e).length === 0));
+  assert.equal(shotTitle({ title: ' ', slug: 'shot-01' }), 'shot 01');
+  assert.deepEqual(shotParagraphs('   '), []);
+  assert.deepEqual(shotParagraphs('First paragraph.\n\nSecond paragraph.'), ['First paragraph.', 'Second paragraph.']);
+  assert.equal(shotMedia({ media: [{ type: 'image', src: '/first.jpg' }, { type: 'image', src: '' }, { type: 'image', src: '/second.jpg' }] }).length, 2);
+  assert.equal(shotMedia({ media: null }).length, 0);
   assert.throws(() => validateShots([entries[0], entries[0]]), /duplicate/);
 });
 
@@ -26,10 +27,12 @@ test('video URLs allow supported providers, preserve private Vimeo hashes and re
   assert.equal(mediaURL('javascript:alert(1)'), undefined);
   assert.equal(mediaURL('//evil.test/image'), undefined);
   assert.equal(mediaURL('/assets/curated-shots/art.webp'), '/assets/curated-shots/art.webp');
+  assert.equal(mediaURL('http://localhost:3000/api/media/file/test.jpg'), 'http://localhost:3000/api/media/file/test.jpg');
+  assert.equal(mediaURL('http://example.com/test.jpg'), undefined);
 });
 
 test('Payload adapter maps uploads and excludes drafts, paginates, and fails on outages', async () => {
-  const doc = { slug:'art', order:1, content:'long', _status:'published', thumbnail:{url:'/media/cover.webp',alt:'Cover'}, media:[{type:'video',file:{url:'/media/movie.webm'},posterImage:{url:'/media/poster.webp'}}] };
+  const doc = { slug:'art', order:1, _status:'published', thumbnail:{url:'/media/cover.webp',alt:'Cover'}, media:[{type:'video',file:{url:'/media/movie.webm'},posterImage:{url:'/media/poster.webp'}}] };
   const mapped = fromPayload(doc, 'https://cms.example.com');
   assert.equal(mapped.thumbnail, 'https://cms.example.com/media/cover.webp');
   assert.equal(mapped.media[0].src, 'https://cms.example.com/media/movie.webm');
@@ -44,6 +47,14 @@ test('Payload adapter maps uploads and excludes drafts, paginates, and fails on 
   assert.equal(result.length,1);
   await assert.rejects(fetchPayloadShots('https://cms.example.com', async () => ({ok:false,status:503})), /503/);
 });
+
+function addMediaFixture(template, markup) {
+  const media = document.createElement('div');
+  media.className = 'shot-media';
+  media.setAttribute('data-shot-media', '');
+  media.innerHTML = markup;
+  template.content.querySelector('.shot-body').append(media);
+}
 
 function fixture() {
   const window = new Window({url:'https://andreaschristofi.com',settings:{disableJavaScriptEvaluation:true,disableCSSFileLoading:true,disableJavaScriptFileLoading:true,disableIframePageLoading:true}});
@@ -74,7 +85,7 @@ test('homepage cards open their own content; related navigation retains original
       card.click();
       assert.equal(dialog.open,true);
       assert.equal(dialog.querySelector('article').dataset.shot,card.dataset.shotOpen);
-      assert.equal(dialog.querySelectorAll('.shot-media').length,3);
+      assert.equal(dialog.querySelectorAll('.shot-media').length,0);
       assert.equal(document.documentElement.style.overflow,'hidden');
       assert.equal(document.activeElement.id,'active-shot-title');
       dialog.querySelector('[data-shot-open]').click();
@@ -91,7 +102,7 @@ test('media activation is deferred, muted and stopped on close; image errors use
   const {window,dialog,observers} = fixture();
   try {
     const template = document.querySelector('[data-shot-template]');
-    template.content.querySelector('.shot-media').innerHTML = '<video data-shot-video data-src="/test.webm"></video><iframe data-shot-embed data-src="https://player.vimeo.com/video/123?autoplay=1"></iframe>';
+    addMediaFixture(template, '<video data-shot-video data-src="/test.webm"></video><iframe data-shot-embed data-src="https://player.vimeo.com/video/123?autoplay=1"></iframe><img data-image-fallback="/fallback.png" src="/test.jpg">');
     document.querySelector('.curated-grid button').click();
     const video=dialog.querySelector('video'), iframe=dialog.querySelector('iframe');
     assert.equal(video.getAttribute('src'),null);
@@ -115,7 +126,7 @@ test('reduced motion leaves autoplay off but makes player controls available', (
   const {window,dialog,observers} = fixture();
   try {
     globalThis.matchMedia = () => ({matches:true});
-    document.querySelector('[data-shot-template]').content.querySelector('.shot-media').innerHTML = '<video data-shot-video data-src="/test.mp4" controls></video><iframe data-shot-embed data-src="https://player.vimeo.com/video/123?autoplay=1"></iframe>';
+    addMediaFixture(document.querySelector('[data-shot-template]'), '<video data-shot-video data-src="/test.mp4" controls></video><iframe data-shot-embed data-src="https://player.vimeo.com/video/123?autoplay=1"></iframe>');
     document.querySelector('.curated-grid button').click();
     const video=dialog.querySelector('video'), iframe=dialog.querySelector('iframe');
     video.play=()=>{assert.fail('Reduced motion must not autoplay');};

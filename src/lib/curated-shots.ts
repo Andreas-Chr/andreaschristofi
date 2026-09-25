@@ -1,6 +1,5 @@
 export const CARD_FALLBACK = '/assets/curated-shots/card-fallback.png';
 export const MEDIA_FALLBACK = '/assets/curated-shots/media-fallback.png';
-export const LOREM_IPSUM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eleifend aliquam massa eget suscipit. Morbi eleifend interdum lectus, ut commodo felis rhoncus nec. Sed non semper neque, et rhoncus felis. Nunc vitae nisi dictum, scelerisque quam pharetra.';
 
 export interface ShotMedia {
   type: 'image' | 'video' | 'youtube' | 'vimeo';
@@ -19,21 +18,26 @@ export interface CuratedShot {
   title?: string;
   order: number;
   published?: boolean;
-  content: 'long' | 'short';
   thumbnail?: string;
   thumbnailAlt?: string;
   overview?: string;
-  media: ShotMedia[];
+  media?: ShotMedia[] | null;
 }
-export const shotTitle = (shot: Pick<CuratedShot, 'title'>) => shot.title?.trim() || 'Lorem Ipsum';
-export const shotText = (text?: string) => text?.trim() || LOREM_IPSUM;
+export const shotTitle = (shot: Pick<CuratedShot, 'title' | 'slug'>) => shot.title?.trim() || shot.slug.replaceAll('-', ' ');
+export const shotParagraphs = (text?: string | null): string[] =>
+  (text ?? '').trim().split(/\n\s*\n/).map(paragraph => paragraph.trim()).filter(Boolean);
 
 /** Allow local public assets and HTTPS media; never render arbitrary embed HTML. */
 export function mediaURL(value?: string): string | undefined {
   const url = value?.trim();
   if (!url) return undefined;
   if (url.startsWith('/') && !url.startsWith('//') && !url.includes('\\')) return url;
-  try { return new URL(url).protocol === 'https:' ? url : undefined; } catch { return undefined; }
+  try {
+    const parsed = new URL(url);
+    if (parsed.protocol === 'https:') return url;
+    if (parsed.protocol === 'http:' && ['localhost', '127.0.0.1'].includes(parsed.hostname)) return url;
+    return undefined;
+  } catch { return undefined; }
 }
 
 export function embedURL(type: ShotMedia['type'], source?: string, autoplay = true): string | undefined {
@@ -67,16 +71,19 @@ export function validateShots(entries: CuratedShot[]): CuratedShot[] {
   for (const shot of entries) {
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(shot.slug) || slugs.has(shot.slug)) throw new Error(`Invalid or duplicate curated shot slug: ${shot.slug}`);
     slugs.add(shot.slug);
-    if (!['long', 'short'].includes(shot.content) || !Number.isFinite(shot.order) || !Array.isArray(shot.media)) throw new Error(`Invalid curated shot: ${shot.slug}`);
-    for (const media of shot.media) {
+    if (!Number.isFinite(shot.order) || (shot.media != null && !Array.isArray(shot.media))) throw new Error(`Invalid curated shot: ${shot.slug}`);
+    for (const media of shot.media ?? []) {
       if (!['image', 'video', 'youtube', 'vimeo'].includes(media.type)) throw new Error(`Invalid media type in ${shot.slug}`);
     }
   }
   return entries.filter(shot => shot.published !== false).sort((a, b) => a.order - b.order || a.slug.localeCompare(b.slug));
 }
 
-/** The first slot always exists; empty Long entries reproduce Figma's three slots. */
+/** Only media with a usable source appears in the opened shot. */
 export function shotMedia(shot: CuratedShot): ShotMedia[] {
-  const media = shot.media.length ? shot.media : Array.from({ length: shot.content === 'long' ? 3 : 1 }, () => ({ type: 'image' as const }));
-  return shot.content === 'short' ? media.slice(0, 1) : media;
+  return (shot.media ?? []).filter(item => item.visible !== false && (
+    item.type === 'image' || item.type === 'video'
+      ? Boolean(mediaURL(item.src))
+      : Boolean(embedURL(item.type, item.src))
+  ));
 }

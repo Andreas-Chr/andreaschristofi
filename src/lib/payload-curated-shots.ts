@@ -15,7 +15,7 @@ function uploadURL(upload: Upload | undefined, base: string): string | undefined
 /** Map populated Payload upload relationships into the source-independent UI model. */
 export function fromPayload(doc: PayloadShot, base: string): CuratedShot {
   return {
-    slug: doc.slug, title: doc.title, order: doc.order, content: doc.content,
+    slug: doc.slug, title: doc.title, order: doc.order,
     published: doc.published !== false && doc._status !== 'draft',
     thumbnail: uploadURL(doc.thumbnail, base),
     thumbnailAlt: doc.thumbnailAlt || (typeof doc.thumbnail === 'object' ? doc.thumbnail?.alt : ''),
