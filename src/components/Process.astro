@@ -88,7 +88,8 @@ const layouts=[{name:'ultranarrow',media:'(max-width: 399px)',width:304},{name:'
   .phase-cards { display:grid; gap:4px; }
   .phase-card { position:relative; min-width:0; padding:24px 64px 24px 24px; border-radius:24px; background:#fff; color:#303030; transition:background var(--primitive-animation-duration-standard),color var(--primitive-animation-duration-standard); }
   .phase-number { display:block; font:400 12px/16px var(--font-family-primary); margin-bottom:16px; }
-  .phase-trigger { font:900 24px/36px var(--font-family-primary); text-transform:uppercase; color:inherit; border:0; background:none; padding:0; text-align:left; }
+  /* Keep the section typography above ButtonAccordion's reset in every CSS bundle order. */
+  .process .phase-trigger { font:900 24px/36px var(--font-family-primary); text-transform:uppercase; color:inherit; border:0; background:none; padding:0; text-align:left; }
   .phase-trigger::after { content:''; position:absolute; inset:0; border-radius:inherit; }
   .phase-trigger:focus-visible { outline:none; }
   .phase-card:has(:focus-visible) { outline:3px solid #c5fa00; outline-offset:4px; }
