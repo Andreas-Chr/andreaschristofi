@@ -34,6 +34,7 @@
   --heading-size: 32px;
   --heading-line: 48px;
 }
+@media (max-width: 479px) { :root { --header-clearance: 112px; } }
 @media (min-width: 400px) { :root { --page-gutter: 16px; --heading-size: 40px; --heading-line:64px; } }
 @media (min-width: 640px) { :root { --heading-size: 64px; --heading-line: 72px; --header-padding: 24px; --header-clearance: 112px; } }
 @media (min-width: 1200px) { :root { --page-gutter: 24px; --section-space: 160px; } }

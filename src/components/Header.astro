@@ -13,6 +13,7 @@ import SocialLinks from './SocialLinks.astro';
         <img class="dark-mark" src="/assets/logo/header-logo-dark.svg" width="20" height="36" alt="" />
       </span>
       <img class="wordmark" src="/assets/logo/header-wordmark.svg" width="188" height="15" alt="" />
+      <img class="wordmark-smallest" src="/assets/logo/header-wordmark-smallest.svg" width="86.4498" height="31.5" alt="" />
     </a>
     <ButtonIcon class="menu-trigger" type="button" aria-label="Open main menu" aria-expanded="false" aria-controls="main-navigation" hidden version="tertiary">
       <span class="menu-label-mask" aria-hidden="true"><span class="menu-label text-headings-h5">Menu</span></span>
@@ -77,13 +78,12 @@ import SocialLinks from './SocialLinks.astro';
   .logo-link:hover .light-mark,.logo-link:focus-visible .light-mark { opacity:0; }
   .logo-link:hover .dark-mark,.logo-link:focus-visible .dark-mark { opacity:1; }
   .wordmark { width:188px; height:15px; flex-shrink:0; }
+  .wordmark-smallest { display:none; width:86.4498px; height:31.5px; flex-shrink:0; }
   .menu-trigger { position:relative; z-index:2; }
   .menu-label-mask { position:absolute; right:calc(100% + 24px); top:50%; transform:translateY(-50%); overflow:hidden; pointer-events:none; }
   .menu-label { display:block; color:var(--color-text-light); white-space:nowrap; opacity:0; transform:translateY(-100%); transition:transform 300ms cubic-bezier(.22,1,.36,1),opacity 240ms ease; }
   [data-open='false'] .menu-trigger:focus-visible .menu-label { opacity:1; transform:translateY(0); }
   @media(hover:hover) { [data-open='false'] .menu-trigger:hover .menu-label { opacity:1; transform:translateY(0); } }
-  /* Reserve room for the label when the wordmark would otherwise overlap it. */
-  @media(min-width:400px) and (max-width:459px) { .wordmark { display:none; } }
   .menu-icon { position:relative; display:block; width:16px; height:16px; color:inherit; pointer-events:none; }
   /* Match the original burger's 16px-wide, 1.75px strokes and 5.75px spacing. */
   .menu-icon-line { position:absolute; left:0; top:calc(50% - .875px); width:16px; height:1.75px; background:currentColor; transform:translateY(-2.875px) rotate(0deg); transform-origin:center; clip-path:inset(0 0 0 0); }
@@ -104,7 +104,15 @@ import SocialLinks from './SocialLinks.astro';
   .menu-useful-links { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px 16px; }
   .menu-useful-links .button { flex-shrink:0; }
   .menu-panel a:focus-visible { outline-color:#4b09f5; }
-  @media(max-width:479px) { .menu-useful-links .button { width:100%; } }
+  @media(max-width:479px) {
+    /* Site/Header, Layout=Smallest (5314:5959). */
+    .site-header { padding-block:24px; border-radius:16px; -webkit-backdrop-filter:blur(5px); backdrop-filter:blur(5px); filter:drop-shadow(0 2px 5px #00000012); }
+    .header-row { padding-inline:24px; }
+    .logo-link { gap:8px; }
+    .wordmark { display:none; }
+    .wordmark-smallest { display:block; }
+    .menu-label-mask { display:none; }
+    .menu-useful-links .button { width:100%; }
+  }
   @media(min-width:700px) { nav { padding-right:48px; } }
-  @media(max-width:399px) { .wordmark { display:none; } }
 </style>
