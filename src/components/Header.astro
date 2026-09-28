@@ -104,9 +104,12 @@ import SocialLinks from './SocialLinks.astro';
   .menu-useful-links { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px 16px; }
   .menu-useful-links .button { flex-shrink:0; }
   .menu-panel a:focus-visible { outline-color:#4b09f5; }
+  @media(width < 615px) {
+    [data-ready] .menu-panel { right:5px; left:5px; width:auto; }
+  }
   @media(max-width:479px) {
     /* Site/Header, Layout=Smallest (5314:5959). */
-    .site-header { padding-block:24px; border-radius:16px; -webkit-backdrop-filter:blur(5px); backdrop-filter:blur(5px); filter:drop-shadow(0 2px 5px #00000012); }
+    .site-header { padding-block:24px; }
     .header-row { padding-inline:24px; }
     .logo-link { gap:8px; }
     .wordmark { display:none; }
