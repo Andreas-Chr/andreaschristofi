@@ -1,17 +1,30 @@
 ---
 import { CARD_FALLBACK, mediaURL, shotTitle, type CuratedShot } from '../lib/curated-shots';
+import '../styles/buttons.css';
 interface Props { shot: CuratedShot; state?: 'default' | 'hover'; }
 const { shot, state = 'default' } = Astro.props;
 ---
 <button type="button" class="curated-card" data-shot-open={shot.slug} data-state={state}
   aria-haspopup="dialog" aria-controls="curated-shot-overlay" aria-label={`Open ${shotTitle(shot)}${shot.title?.trim() ? '' : ` (${shot.slug})`}`}>
-  <img src={mediaURL(shot.thumbnail) || CARD_FALLBACK} alt={shot.thumbnailAlt || ''}
+  <img class="curated-card-thumbnail" src={mediaURL(shot.thumbnail) || CARD_FALLBACK} alt={shot.thumbnailAlt || ''}
     width="445" height="455" loading="lazy" data-image-fallback={CARD_FALLBACK} />
+  <span class="curated-card-content" aria-hidden="true">
+    {shot.title?.trim() && <span class="curated-card-title">{shot.title}</span>}
+    <!-- The whole card is the action; share Button/Icon styling without nesting buttons. -->
+    <span class="curated-card-action icon-button primary large">
+      <img src="/assets/icons/curated-card-arrow-up-right.svg" width="16" height="16" alt="" />
+    </span>
+  </span>
 </button>
 <style>
   .curated-card { position:relative; display:block; padding:0; border:0; width:100%; min-width:0; aspect-ratio:445/455; border-radius:var(--primitive-border-radius-24,24px); overflow:hidden; isolation:isolate; background:var(--color-surface-card-dark); }
-  .curated-card img { display:block; width:100%; height:100%; object-fit:cover; }
+  .curated-card-thumbnail { display:block; width:100%; height:100%; object-fit:cover; }
   .curated-card::after { content:''; position:absolute; inset:0; background:rgb(0 0 0 / 30%); mix-blend-mode:multiply; opacity:0; pointer-events:none; transition:opacity 160ms ease; }
   .curated-card:is(:hover,:focus-visible)::after,.curated-card[data-state='hover']::after { opacity:1; }
+  .curated-card-content { position:absolute; inset:24px; z-index:1; display:flex; align-items:flex-end; gap:16px; opacity:0; pointer-events:none; transition:opacity 160ms ease; }
+  .curated-card-title { flex:1; min-width:0; color:var(--color-text-light); text-align:left; overflow-wrap:anywhere; font:var(--text-headings-h3); letter-spacing:0; font-feature-settings:'liga' 0; font-optical-sizing:none; }
+  .curated-card-action { margin-left:auto; }
+  .curated-card:is(:hover,:focus-visible) .curated-card-content,.curated-card[data-state='hover'] .curated-card-content { opacity:1; }
   .curated-card:focus-visible { outline:3px solid var(--color-text-accent); outline-offset:3px; }
+  @media(prefers-reduced-motion:reduce) { .curated-card::after,.curated-card-content { transition:none; } }
 </style>
