@@ -8,6 +8,7 @@ import Tooltip from '../components/Tooltip.astro';
 import SocialLinks from '../components/SocialLinks.astro';
 import ContactPopup from '../components/ContactPopup.astro';
 import LegalText from '../components/LegalText.astro';
+import ProcessStep from '../components/ProcessStep.astro';
 
 import foundations from '../data/foundations.json';
 const figmaLink = (id:string) => `https://www.figma.com/design/${foundations.source.fileKey}?node-id=${id.replace(':','-')}`;
@@ -80,6 +81,10 @@ const palettes = foundations.palette.map(group => ({name:group.name, colors:grou
 
     <section id="patterns" class="catalog-section" aria-labelledby="patterns-heading">
       <div class="section-heading"><p class="eyebrow">04 / Together</p><h2 id="patterns-heading">Patterns</h2></div>
+      <article id="process-step" class="specimen"><div class="specimen-heading"><h3>Process/Step</h3><p>Explore, Design, Build and Ship. Select any card to view its details. <a href={figmaLink('5053:861')}>View in Figma</a>.</p></div>
+        <div class="process-step-preview"><ProcessStep id="ds-process" /></div>
+        <pre><code>{'<ProcessStep id="process-example" />'}</code></pre>
+      </article>
       <article id="social-links" class="specimen"><div class="specimen-heading"><h3>SocialLinks</h3><p>Profile destinations open in a new tab. Surface selects the matching icon-button style.</p></div><div class="surface-grid"><div class="preview"><p class="preview-label">Dark surface</p><SocialLinks /></div><div class="preview light-surface"><p class="preview-label">Light surface · Menu order</p><SocialLinks surface="light" menu /></div></div><pre><code>{'<SocialLinks surface="dark" />'}</code></pre></article>
       <article id="contact-popup-preview" class="specimen"><div class="specimen-heading"><h3>ContactPopup</h3><p>Open the dialog, then close it with its close button or Escape. Focus returns to the trigger.</p></div><div class="preview"><ButtonMain id="ds-open-dialog" aria-haspopup="dialog" aria-controls="ds-contact-dialog" hidden>Open contact popup</ButtonMain><noscript><ParagraphLink mode="light" href="mailto:hello@andreaschristofi.com">Email Andreas</ParagraphLink><p>The dialog preview requires JavaScript.</p></noscript></div><ContactPopup id="ds-contact-dialog" /><pre><code>{'<ContactPopup id="contact-dialog" />\n// Open the native dialog with showModal().'}</code></pre></article>
     </section>
@@ -126,6 +131,7 @@ const palettes = foundations.palette.map(group => ({name:group.name, colors:grou
   .specimen { border:1px solid #474747; border-radius:16px; margin-top:24px; scroll-margin-top:32px; min-width:0; }
   .specimen-heading { padding:24px; border-bottom:1px solid #474747; }
   .specimen-heading p { margin-top:8px; font-size:14px; line-height:24px; }
+  .process-step-preview { padding-block:24px; }
   .preview { padding:32px; min-width:0; }
   .row { display:flex; align-items:center; flex-wrap:wrap; gap:16px; }
   .icon-groups { display:flex; flex-wrap:wrap; gap:32px 64px; }

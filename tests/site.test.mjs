@@ -38,7 +38,7 @@ test('static output keeps the menu closed and exposes page content and native li
     const panels=[...document.querySelectorAll(selector)];assert.ok(panels.length);
     panels.forEach(panel=>assert.equal(panel.hidden,false,selector));
   }
-  assert.equal(document.querySelectorAll('.phase-panel').length,5);
+  assert.equal(document.querySelectorAll('.phase-panel').length,4);
   assert.equal(document.querySelectorAll('.experience-panel').length,6);
   assert.ok(document.querySelector('a[href="mailto:hello@andreaschristofi.com"]'));
   assert.ok(document.querySelector('a[download]'));
@@ -131,15 +131,52 @@ test('menu is non-modal; Escape restores focus and links retain navigation',()=>
   w.close();
 });
 
-test('process always has exactly one selected phase and matching artwork',()=>{
-  const w=fixture();enhance('Process');
+test('process always has exactly one selected phase without illustrations',()=>{
+  const w=fixture();enhance('ProcessStep');
   const buttons=[...document.querySelectorAll('.phase-trigger')];
-  for(const index of [0,1,2,3,4,4,0]) {
+  for(const index of [0,1,2,3,3,0]) {
     buttons[index].click();
     assert.equal(document.querySelectorAll('.phase-trigger[aria-expanded="true"]').length,1);
     assert.equal(document.querySelectorAll('.phase-panel:not([hidden])').length,1);
     assert.equal(document.querySelector(`.phase-panel:not([hidden])`).id,`phase-panel-${index}`);
-    assert.equal(document.querySelector('[data-phase-art]:not([hidden])').dataset.phaseArt,String(index));
+    assert.equal(document.querySelector('#process picture, #process .process-art, #process [data-phase-marker]'),null);
+  }
+  w.close();
+});
+
+test('process reveals content after opening completes and ignores superseded selections',async()=>{
+  const w=fixture();enhance('ProcessStep');
+  globalThis.matchMedia=()=>({matches:false});
+  const root=document.querySelector('[data-process-step]');
+  const buttons=[...root.querySelectorAll('.phase-trigger')];
+  const panels=[...root.querySelectorAll('.phase-panel')];
+  const finishes=[];
+  root.getAnimations=()=>[{finished:new Promise(resolve=>finishes.push(resolve))}];
+  buttons[1].click();
+  assert.equal(panels[1].hasAttribute('data-reveal-pending'),true);
+  buttons[2].click();
+  finishes[0]();
+  await new Promise(resolve=>setImmediate(resolve));
+  assert.equal(panels[1].hidden,true);
+  assert.equal(panels[2].hasAttribute('data-reveal-pending'),true);
+  finishes[1]();
+  await new Promise(resolve=>setImmediate(resolve));
+  assert.equal(panels[2].hasAttribute('data-reveal-pending'),false);
+  assert.equal(panels[2].hidden,false);
+  assert.equal(buttons[2].getAttribute('aria-expanded'),'true');
+  w.close();
+});
+
+test('design system Process/Step works independently without artwork',()=>{
+  const w=fixture(readFileSync(new URL('../dist/design-system/index.html',import.meta.url),'utf8'));
+  enhance('ProcessStep');
+  const buttons=[...document.querySelectorAll('.phase-trigger')];
+  assert.deepEqual(buttons.map(button=>button.textContent.trim()),['Explore','Design','Build','Ship']);
+  for(const index of [1,2,3,0,0]) {
+    buttons[index].click();
+    assert.equal(document.querySelectorAll('.phase-panel:not([hidden])').length,1);
+    assert.equal(document.querySelector('.phase-panel:not([hidden])').id,`ds-process-panel-${index}`);
+    assert.equal(buttons[index].getAttribute('aria-expanded'),'true');
   }
   w.close();
 });

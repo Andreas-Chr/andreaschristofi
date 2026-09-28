@@ -1,26 +1,21 @@
 [
   {
-    "title": "Define",
+    "title": "Explore",
     "subtitle": "Research, Planning & Strategy",
     "description": "Understanding the problem starts with research, analysis and strategic planning, aligning user needs, business goals and project requirements around a clear direction."
   },
   {
     "title": "Design",
     "subtitle": "Ideation, UX & Visual Design",
-    "description": "Insights take shape through concepts, user flows and intuitive interfaces, balancing usability, visual craft and business objectives."
+    "description": "Insights take shape through concepts, user flows and intuitive interfaces that balance usability, visual craft and business objectives. Interactive prototypes bring key ideas to life, allowing flows, behaviours and assumptions to be tested and refined before development begins. From there, design moves into implementation through close collaboration and careful attention to responsive behaviour, interaction details and the overall quality of the experience."
   },
   {
-    "title": "Prototype",
-    "subtitle": "Interaction, Testing & Refinement",
-    "description": "Design moves into implementation through close collaboration, careful refinement and attention to responsive behaviour, interaction details and overall experience quality. Ideas become tangible through interactive prototypes, allowing key flows, behaviours and assumptions to be tested and refined before development begins."
-  },
-  {
-    "title": "Develop",
+    "title": "Build",
     "subtitle": "Web Development & Implementation",
     "description": "Approved designs and prototypes are translated into responsive, production-ready experiences using modern web technologies, with careful attention to performance, accessibility, interactions and design fidelity."
   },
   {
-    "title": "Deliver",
+    "title": "Ship",
     "subtitle": "Launch, Measure & Improve",
     "description": "The final experience is prepared for release through quality assurance, final refinements and implementation checks. After launch, feedback, performance insights and real-world usage help identify opportunities for optimisation, iteration and continuous improvement."
   }

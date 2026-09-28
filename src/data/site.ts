@@ -23,7 +23,7 @@ export const toolGroups = [
   { label: 'Development', tools: [
     ['Claude','claude'], ['Codex','codex'], ['Webflow','webflow'],
     ['Visual Studio Code','vscode'], ['HTML5','html5'], ['CSS3','css3'],
-    ['JavaScript','js'], ['Astro','astro'], ['GitHub','github'],
+    ['JavaScript','js'], ['Astro','astro'], ['GitHub','github'], ['Payload CMS','payload'],
     ['Cloudflare','cloudflare'], ['WordPress','wp'], ['Elementor','elementor'],
     ['WooCommerce','woocommerce'],
   ] },
