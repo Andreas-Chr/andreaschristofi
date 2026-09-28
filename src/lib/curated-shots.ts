@@ -49,7 +49,7 @@ export function embedURL(type: ShotMedia['type'], source?: string, autoplay = tr
     if (type === 'youtube' && ['youtube.com', 'youtube-nocookie.com', 'youtu.be'].includes(host)) {
       const id = host === 'youtu.be' ? url.pathname.slice(1) : url.searchParams.get('v') || url.pathname.match(/^\/(?:embed|shorts)\/([^/]+)$/)?.[1];
       if (!id || !/^[\w-]{11}$/.test(id)) return undefined;
-      return `https://www.youtube-nocookie.com/embed/${id}?autoplay=${Number(autoplay)}&mute=1&playsinline=1&rel=0`;
+      return `https://www.youtube-nocookie.com/embed/${id}?autoplay=${Number(autoplay)}&mute=1&playsinline=1&rel=0&loop=1&playlist=${id}`;
     }
     if (type === 'vimeo' && ['vimeo.com', 'player.vimeo.com'].includes(host)) {
       const match = url.pathname.match(/^\/(?:video\/)?(\d+)(?:\/([a-zA-Z0-9]+))?\/?$/);
@@ -60,6 +60,7 @@ export function embedURL(type: ShotMedia['type'], source?: string, autoplay = tr
       embed.searchParams.set('autoplay', String(Number(autoplay)));
       embed.searchParams.set('muted', '1');
       embed.searchParams.set('playsinline', '1');
+      embed.searchParams.set('loop', '1');
       return embed.href;
     }
   } catch { /* Invalid content uses the artwork fallback. */ }

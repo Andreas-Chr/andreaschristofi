@@ -7,7 +7,7 @@ const embed = embedURL(media.type, media.src);
 ---
 <div class="shot-media" data-shot-media>
   {media.type === 'video' && src ? (
-    <video data-shot-video data-src={src} muted playsinline controls preload="none"
+    <video data-shot-video data-src={src} muted playsinline loop controls preload="none"
       poster={mediaURL(media.poster) || MEDIA_FALLBACK} aria-label={media.alt || title}>
       {mediaURL(media.captions) && <track kind="captions" src={mediaURL(media.captions)} srclang={media.captionsLanguage || 'en'} label="Captions" />}
     </video>
