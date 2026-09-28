@@ -42,6 +42,7 @@ const words = ['Vision', 'Clarity', 'Systems', 'Hype'];
   .hero-actions :global(.button) { white-space:nowrap; }
   .hero-actions :global([data-contact-popup-trigger] img) { width:16px; height:16px; flex:0 0 16px; }
   @media(min-width:400px) { .hero { padding-block:80px; } }
+  @media(max-width:639px) { h1 { line-height:calc(var(--heading-size) + 6px); } }
   @media(max-width:399px) { .hero-description { font:var(--text-body-medium); } .hero-actions :global(.button) { padding-inline:8px; } }
   @media(prefers-reduced-motion:reduce) { .hero-word { animation:none!important; transform:none; opacity:0; } .hero-word:first-child { opacity:1; } }
 </style>
