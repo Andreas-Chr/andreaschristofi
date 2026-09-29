@@ -47,7 +47,7 @@ test('video URLs allow YouTube and reject unsafe inputs', () => {
 test('Payload adapter maps uploads and excludes drafts, paginates, and fails on outages', async () => {
   const doc = { slug:'art', order:1, _status:'published', thumbnail:{url:'/media/cover.webp',alt:'Cover'}, media:[{type:'video',file:{url:'/media/movie.webm'},posterImage:{url:'/media/poster.webp'}}] };
   const mapped = fromPayload(doc, 'https://cms.example.com');
-  assert.equal(mapped.thumbnail, 'https://cms.example.com/media/cover.webp');
+  assert.deepEqual(mapped.thumbnail, { url: 'https://cms.example.com/media/cover.webp', alt: 'Cover' });
   assert.equal(mapped.media[0].src, 'https://cms.example.com/media/movie.webm');
   let count = 0;
   const result = await fetchPayloadShots('https://cms.example.com', async url => {
@@ -161,5 +161,61 @@ test('only a complete backdrop click closes the modal; internal clicks do not', 
     dialog.dispatchEvent(new window.PointerEvent('pointerdown',{clientX:100,clientY:20,bubbles:true}));
     dialog.dispatchEvent(new window.MouseEvent('click',{clientX:100,clientY:20,bubbles:true}));
     assert.equal(dialog.open,false);
+  } finally { window.close(); }
+});
+
+
+test('thumbnail alt comes only from Media, with safe empty and unresolved relationships', () => {
+  const doc = { slug: 'alt-check', order: 1, thumbnailAlt: 'Legacy override', media: [] };
+  const base = 'https://cms.example.com';
+  assert.equal(fromPayload({ ...doc, thumbnail: { url: '/cover.webp', alt: 'Media description' } }, base).thumbnail.alt, 'Media description');
+  for (const alt of ['', null, undefined]) {
+    assert.equal(fromPayload({ ...doc, thumbnail: { url: '/cover.webp', alt } }, base).thumbnail.alt, '');
+  }
+  for (const thumbnail of [null, undefined, 42, '42']) {
+    assert.deepEqual(fromPayload({ ...doc, thumbnail }, base).thumbnail, { url: undefined, alt: '' });
+  }
+});
+
+
+test('all shot media use asset alt only and ignore legacy block overrides', () => {
+  const map = (item) => fromPayload({ slug: 'asset-alt', order: 1, media: [item] }, 'https://cms.example.com').media[0];
+  for (const type of ['image', 'gif', 'video']) {
+    assert.equal(map({ type, alt: 'Old override', file: { url: '/asset', alt: 'Asset description' } }).alt, 'Asset description');
+    for (const alt of ['', null, undefined]) {
+      assert.equal(map({ type, alt: 'Old override', file: { url: '/asset', alt } }).alt, '');
+    }
+    for (const file of [null, undefined, 42, '42']) {
+      assert.equal(map({ type, alt: 'Old override', file }).alt, '');
+    }
+  }
+  assert.equal(map({ type: 'youtube', src: 'https://youtu.be/dQw4w9WgXcQ', alt: 'Old override' }).alt, '');
+});
+
+
+test('description links remain anchors after modal mounting and clicks are not intercepted', () => {
+  const { window, dialog } = fixture();
+  try {
+    const description = { root: { type: 'root', children: [{ type: 'paragraph', children: [
+      { type: 'link', fields: { url: 'http://decol24.com/', newTab: true }, children: [{ type: 'text', text: 'decol24.com' }] },
+    ] }] } };
+    const block = document.createElement('div');
+    block.className = 'shot-rich-text';
+    block.innerHTML = shotRichTextHTML(description);
+    document.querySelector('[data-shot-template]').content.querySelector('.shot-body').append(block);
+    document.querySelector('.curated-grid button').click();
+    const link = dialog.querySelector('.shot-rich-text a');
+    assert.equal(link.getAttribute('href'), 'http://decol24.com/');
+    assert.equal(link.target, '_blank');
+    let reachedDocument = false;
+    document.addEventListener('click', event => {
+      assert.equal(event.defaultPrevented, false);
+      reachedDocument = true;
+      event.preventDefault(); // Avoid external navigation from the test environment.
+    }, { once: true });
+    link.click();
+    assert.equal(reachedDocument, true);
+    assert.equal(dialog.open, true);
+    assert.equal(link.isConnected, true);
   } finally { window.close(); }
 });

@@ -6,7 +6,7 @@ The homepage uses one reusable Card and one native modal, located between Hero a
 
 1. Put artwork in `public/assets/curated-shots/your-project/`. Example: `public/assets/curated-shots/your-project/cover.webp`.
 2. Open the corresponding JSON file. The first homepage row is `shot-01`–`shot-04`; the second is `shot-05`–`shot-08` at 1440px. `order` controls this sequence.
-3. Set `title`, `thumbnail`, `thumbnailAlt` and `overview`.
+3. Set `title`, `thumbnail` and `overview`.
 4. Edit the `media` array in display order. The first item is the main artwork, followed by `overview`. Subsequent items have their own `description` below them.
 5. Run `npm run dev`, open the homepage and click the card. Check desktop and mobile, long text, close/Escape and each video.
 
@@ -20,12 +20,10 @@ Use URLs beginning `/assets/...` for local files. Do not include `public` in URL
 | `published` | `false` hides the entry from the homepage and related cards. |
 | `content` | `long` renders all media; `short` renders the first media item and overview. All eight starters use `long`. |
 | `thumbnail` | Card image URL. Blank, unsafe or failed image uses the Figma card fallback. |
-| `thumbnailAlt` | Describe the thumbnail when it provides information beyond the title. |
 | `overview` | Text below the first media item. Blank uses the Figma Lorem Ipsum paragraph. |
 | `media` | Ordered list of media blocks. Add as many as needed. An empty list supplies three fallback blocks for Long, one for Short. |
 | `media[].type` | `image`, `video`, `youtube` or `vimeo`. |
 | `media[].src` | Image/video file URL or YouTube/Vimeo video URL. Never paste iframe HTML. |
-| `media[].alt` | Image description or accessible video title. |
 | `media[].description` | Paragraph below this item, starting with the second item. Blank uses Lorem Ipsum. |
 | `media[].visible` | `false` hides that media slot. Its description is controlled independently, matching Figma. |
 | `media[].showDescription` | `false` hides the paragraph for that additional media item. |
@@ -45,25 +43,21 @@ Images use Figma’s 4:3 crop inside the overlay; cards use a square crop on the
   "published": true,
   "content": "long",
   "thumbnail": "/assets/curated-shots/brand-exploration/cover.webp",
-  "thumbnailAlt": "Blue and white brand identity composition",
   "overview": "A visual identity exploring clarity, movement and contrast.",
   "media": [
     {
       "type": "image",
-      "src": "/assets/curated-shots/brand-exploration/hero.webp",
-      "alt": "Brand identity overview"
+      "src": "/assets/curated-shots/brand-exploration/hero.webp"
     },
     {
       "type": "video",
       "src": "/assets/curated-shots/brand-exploration/motion.webm",
       "poster": "/assets/curated-shots/brand-exploration/motion-poster.webp",
-      "alt": "Animated brand mark",
       "description": "The mark transitions between the primary shapes."
     },
     {
       "type": "image",
       "src": "/assets/curated-shots/brand-exploration/details.webp",
-      "alt": "Typography and colour details",
       "description": "Type and colour system applications."
     }
   ]
@@ -84,6 +78,8 @@ Videos autoplay muted with controls when visible in the open overlay. They stop 
 Related shots are the next entries in display order, wrapping around and excluding the current entry. The overlay shows up to three on desktop, two on tablet and one on mobile. When no entries are published, the entire section is omitted.
 
 ## Payload integration
+
+Thumbnail and media-block alternative text comes only from the selected Media item’s `alt` field. Edit it in Media; Curated Shots has no separate thumbnail or media-block override. Image/GIF alt text falls back to an empty string; video and YouTube labels fall back to the shot title when asset alt is unavailable. The adapter keeps the Media URL and alt together in `thumbnail`. Missing/empty alt renders as `alt=""`; missing or invalid image URLs use decorative fallback artwork. Local thumbnail URL strings remain supported with empty alt. Cards retain their accessible shot title.
 
 Payload is a good match for this structured model: a Curated Shots collection, an ordered media array and upload relationships. Astro remains the public frontend. Payload runs as a separate application with its admin interface, database and persistent media storage. This repository does not install or host that backend.
 

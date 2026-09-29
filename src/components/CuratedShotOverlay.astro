@@ -3,7 +3,8 @@ import ButtonIcon from './ButtonIcon.astro';
 import ParagraphLink from './ParagraphLink.astro';
 import CuratedShotCard from './CuratedShotCard.astro';
 import CuratedShotMedia from './CuratedShotMedia.astro';
-import { shotMedia, shotRichTextHTML, shotTitle, type CuratedShot } from '../lib/curated-shots';
+import { shotMedia, shotTitle, type CuratedShot } from '../lib/curated-shots';
+import { richTextHTML } from '../lib/rich-text';
 import { site } from '../data/site';
 interface Props { shots: CuratedShot[]; }
 const { shots } = Astro.props;
@@ -16,7 +17,7 @@ const { shots } = Astro.props;
 </dialog>
 {shots.map((shot, index) => {
   const [firstMedia, ...remainingMedia] = shotMedia(shot);
-  const overview = shotRichTextHTML(shot.overview);
+  const overview = richTextHTML(shot.overview);
   const related = [...shots.slice(index + 1), ...shots.slice(0, index)].slice(0, 3);
   return <template data-shot-template={shot.slug}>
     <article data-shot={shot.slug}>
@@ -24,10 +25,10 @@ const { shots } = Astro.props;
         <h2 id="active-shot-title" tabindex="-1">{shotTitle(shot)}</h2>
         {firstMedia && <CuratedShotMedia media={firstMedia} title={shotTitle(shot)} />}
         {overview && <div class="shot-rich-text" set:html={overview} />}
-        {firstMedia?.description && <div class="shot-rich-text" set:html={shotRichTextHTML(firstMedia.description)} />}
+        {firstMedia?.description && <div class="shot-rich-text" set:html={richTextHTML(firstMedia.description)} />}
         {remainingMedia.map(item => <>
           <CuratedShotMedia media={item} title={shotTitle(shot)} />
-          {item.description && <div class="shot-rich-text" set:html={shotRichTextHTML(item.description)} />}
+          {item.description && <div class="shot-rich-text" set:html={richTextHTML(item.description)} />}
         </>)}
       </div>
       {related.length > 0 && <section class="shot-related" aria-label="Other curated shots">

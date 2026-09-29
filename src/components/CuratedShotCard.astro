@@ -3,10 +3,12 @@ import { CARD_FALLBACK, mediaURL, shotTitle, type CuratedShot } from '../lib/cur
 import '../styles/buttons.css';
 interface Props { shot: CuratedShot; state?: 'default' | 'hover'; }
 const { shot, state = 'default' } = Astro.props;
+const thumbnail = typeof shot.thumbnail === 'string' ? { url: shot.thumbnail } : shot.thumbnail;
+const thumbnailURL = mediaURL(thumbnail?.url);
 ---
 <button type="button" class="curated-card" data-shot-open={shot.slug} data-state={state}
   aria-haspopup="dialog" aria-controls="curated-shot-overlay" aria-label={`Open ${shotTitle(shot)}${shot.title?.trim() ? '' : ` (${shot.slug})`}`}>
-  <img class="curated-card-thumbnail" src={mediaURL(shot.thumbnail) || CARD_FALLBACK} alt={shot.thumbnailAlt || ''}
+  <img class="curated-card-thumbnail" src={thumbnailURL || CARD_FALLBACK} alt={thumbnailURL ? thumbnail?.alt || '' : ''}
     width="445" height="455" loading="lazy" data-image-fallback={CARD_FALLBACK} />
   <span class="curated-card-content" aria-hidden="true">
     {shot.title?.trim() && <span class="curated-card-title">{shot.title}</span>}

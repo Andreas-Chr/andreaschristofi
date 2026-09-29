@@ -1,10 +1,10 @@
 import { validateShots, type CuratedShot, type ShotMedia } from './curated-shots.ts';
 
-type Upload = string | number | { url?: string; alt?: string } | null;
+type Upload = string | number | { url?: string; alt?: string | null } | null;
 export interface PayloadShot extends Omit<CuratedShot, 'thumbnail' | 'media'> {
   _status?: 'draft' | 'published';
   thumbnail?: Upload;
-  media: (ShotMedia & { file?: Upload; posterImage?: Upload })[];
+  media: (Omit<ShotMedia, 'alt'> & { file?: Upload; posterImage?: Upload })[];
 }
 
 function uploadURL(upload: Upload | undefined, base: string): string | undefined {
@@ -17,12 +17,14 @@ export function fromPayload(doc: PayloadShot, base: string): CuratedShot {
   return {
     slug: doc.slug, title: doc.title, order: doc.order,
     published: doc.published !== false && doc._status !== 'draft',
-    thumbnail: uploadURL(doc.thumbnail, base),
-    thumbnailAlt: doc.thumbnailAlt || (typeof doc.thumbnail === 'object' ? doc.thumbnail?.alt : ''),
+    thumbnail: {
+      url: uploadURL(doc.thumbnail, base),
+      alt: typeof doc.thumbnail === 'object' ? doc.thumbnail?.alt ?? '' : '',
+    },
     overview: doc.overview,
     media: (doc.media || []).map(item => ({
       type: item.type, src: uploadURL(item.file, base) || item.src,
-      alt: item.alt || (typeof item.file === 'object' ? item.file?.alt : ''),
+      alt: typeof item.file === 'object' ? item.file?.alt ?? '' : '',
       poster: uploadURL(item.posterImage, base) || item.poster,
       description: item.description,
     })),
