@@ -20,11 +20,15 @@ const { shot, state = 'default' } = Astro.props;
   .curated-card { position:relative; display:block; padding:0; border:0; width:100%; min-width:0; aspect-ratio:445/455; border-radius:var(--primitive-border-radius-24,24px); overflow:hidden; isolation:isolate; background:var(--color-surface-card-dark); }
   .curated-card-thumbnail { display:block; width:100%; height:100%; object-fit:cover; }
   .curated-card::after { content:''; position:absolute; inset:0; background:rgb(0 0 0 / 30%); mix-blend-mode:multiply; opacity:0; pointer-events:none; transition:opacity 160ms ease; }
-  .curated-card:is(:hover,:focus-visible)::after,.curated-card[data-state='hover']::after { opacity:1; }
+  .curated-card:focus-visible::after { opacity:1; }
   .curated-card-content { position:absolute; inset:24px; z-index:1; display:flex; align-items:flex-end; gap:16px; opacity:0; pointer-events:none; transition:opacity 160ms ease; }
   .curated-card-title { flex:1; min-width:0; color:var(--color-text-light); text-align:left; overflow-wrap:anywhere; font:var(--text-headings-h3); letter-spacing:0; font-feature-settings:'liga' 0; font-optical-sizing:none; }
   .curated-card-action { margin-left:auto; }
-  .curated-card:is(:hover,:focus-visible) .curated-card-content,.curated-card[data-state='hover'] .curated-card-content { opacity:1; }
+  .curated-card:focus-visible .curated-card-content { opacity:1; }
   .curated-card:focus-visible { outline:3px solid var(--color-text-accent); outline-offset:3px; }
+  @media(min-width:1024px) and (hover:hover) {
+    .curated-card:hover::after,.curated-card[data-state='hover']::after { opacity:1; }
+    .curated-card:hover .curated-card-content,.curated-card[data-state='hover'] .curated-card-content { opacity:1; }
+  }
   @media(prefers-reduced-motion:reduce) { .curated-card::after,.curated-card-content { transition:none; } }
 </style>
