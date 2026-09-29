@@ -4,7 +4,7 @@ type Upload = string | number | { url?: string; alt?: string } | null;
 export interface PayloadShot extends Omit<CuratedShot, 'thumbnail' | 'media'> {
   _status?: 'draft' | 'published';
   thumbnail?: Upload;
-  media: (ShotMedia & { file?: Upload; posterImage?: Upload; captionFile?: Upload })[];
+  media: (ShotMedia & { file?: Upload; posterImage?: Upload })[];
 }
 
 function uploadURL(upload: Upload | undefined, base: string): string | undefined {
@@ -24,9 +24,7 @@ export function fromPayload(doc: PayloadShot, base: string): CuratedShot {
       type: item.type, src: uploadURL(item.file, base) || item.src,
       alt: item.alt || (typeof item.file === 'object' ? item.file?.alt : ''),
       poster: uploadURL(item.posterImage, base) || item.poster,
-      captions: uploadURL(item.captionFile, base) || item.captions,
-      captionsLanguage: item.captionsLanguage,
-      description: item.description, visible: item.visible, showDescription: item.showDescription,
+      description: item.description,
     })),
   };
 }

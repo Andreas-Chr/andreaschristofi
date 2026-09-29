@@ -9,12 +9,11 @@ const embed = embedURL(media.type, media.src);
   {media.type === 'video' && src ? (
     <video data-shot-video data-src={src} muted playsinline loop controls preload="none"
       poster={mediaURL(media.poster) || MEDIA_FALLBACK} aria-label={media.alt || title}>
-      {mediaURL(media.captions) && <track kind="captions" src={mediaURL(media.captions)} srclang={media.captionsLanguage || 'en'} label="Captions" />}
     </video>
   ) : embed ? (
     <iframe data-shot-embed data-src={embed} title={media.alt || title} allow="autoplay; fullscreen; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" />
   ) : (
-    <img src={media.type === 'image' && src ? src : MEDIA_FALLBACK} alt={media.alt || ''}
+    <img src={['image', 'gif'].includes(media.type) && src ? src : MEDIA_FALLBACK} alt={media.alt || ''}
       width="1600" height="1200" loading="lazy" data-image-fallback={MEDIA_FALLBACK} />
   )}
   {media.type === 'video' && <img data-video-fallback hidden src={MEDIA_FALLBACK} alt="Video unavailable" width="1600" height="1200" />}

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { Window } from 'happy-dom';
-import { embedURL, mediaURL, shotMedia, validateShots, shotTitle, shotParagraphs } from '../src/lib/curated-shots.ts';
+import { embedURL, mediaURL, shotMedia, validateShots, shotTitle, shotParagraphs, shotRichTextHTML } from '../src/lib/curated-shots.ts';
 import { fromPayload, fetchPayloadShots } from '../src/lib/payload-curated-shots.ts';
 import { initCuratedShots } from '../src/scripts/curated-shots.ts';
 
@@ -16,13 +16,26 @@ test('shots use one layout and omit blank content without losing populated media
   assert.deepEqual(shotParagraphs('First paragraph.\n\nSecond paragraph.'), ['First paragraph.', 'Second paragraph.']);
   assert.equal(shotMedia({ media: [{ type: 'image', src: '/first.jpg' }, { type: 'image', src: '' }, { type: 'image', src: '/second.jpg' }] }).length, 2);
   assert.equal(shotMedia({ media: null }).length, 0);
+  assert.equal(shotMedia({ media: [{ type: 'gif', src: '/animated.gif' }] }).length, 1);
   assert.throws(() => validateShots([entries[0], entries[0]]), /duplicate/);
 });
 
-test('video URLs allow supported providers, preserve private Vimeo hashes and reject unsafe inputs', () => {
+test('rich text renders formatting and safe links without accepting HTML from content', () => {
+  const value = { root: { type: 'root', children: [{ type: 'paragraph', children: [
+    { type: 'text', text: 'Hello <world>', format: 1 },
+    { type: 'link', fields: { url: 'javascript:alert(1)' }, children: [{ type: 'text', text: ' unsafe', format: 0 }] },
+    { type: 'link', fields: { url: 'https://example.com', newTab: true }, children: [{ type: 'text', text: ' safe', format: 0 }] },
+  ] }] } };
+  assert.match(shotRichTextHTML(value), /<strong>Hello &lt;world&gt;<\/strong>/);
+  assert.doesNotMatch(shotRichTextHTML(value), /javascript:/);
+  assert.match(shotRichTextHTML(value), /rel="noopener noreferrer"/);
+  assert.equal(shotRichTextHTML('One\n\nTwo'), '<p>One</p><p>Two</p>');
+});
+
+test('video URLs allow YouTube and reject unsafe inputs', () => {
   assert.match(embedURL('youtube', 'https://youtu.be/dQw4w9WgXcQ'), /youtube-nocookie.com\/embed\/dQw4w9WgXcQ\?autoplay=1&mute=1/);
   assert.match(embedURL('youtube', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'), /playsinline=1/);
-  assert.match(embedURL('vimeo', 'https://vimeo.com/12345678/abcdef'), /h=abcdef&autoplay=1&muted=1/);
+  assert.equal(embedURL('gif', 'https://example.com/animated.gif'), undefined);
   assert.equal(embedURL('youtube', 'https://youtube.com.evil.test/watch?v=dQw4w9WgXcQ'), undefined);
   assert.equal(mediaURL('javascript:alert(1)'), undefined);
   assert.equal(mediaURL('//evil.test/image'), undefined);
