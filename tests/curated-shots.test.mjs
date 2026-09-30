@@ -83,22 +83,38 @@ function fixture() {
   const dialog = document.querySelector('[data-shot-dialog]');
   dialog.showModal = () => { dialog.open = true; };
   dialog.close = () => { dialog.open = false; dialog.dispatchEvent(new window.Event('close')); };
+  // Preserve build-time URLs before the DOM shim's unloaded images trigger fallbacks.
+  const cardThumbnails = new Map([...document.querySelectorAll('.curated-grid button')].map(card => [card.dataset.shotOpen, card.querySelector('.curated-card-thumbnail').getAttribute('src')]));
   initCuratedShots();
-  return {window,dialog,observers};
+  return {window,dialog,observers,cardThumbnails};
 }
 
 test('homepage cards open their own content; related navigation retains original focus return', () => {
-  const {window,dialog} = fixture();
+  const {window,dialog,cardThumbnails} = fixture();
   try {
     const cards = [...document.querySelectorAll('.curated-grid button')];
-    assert.equal(cards.length,8);
+    const templates = [...document.querySelectorAll('[data-shot-template]')];
+    assert.ok(cards.length > 0);
+    assert.deepEqual(cards.map(card => card.dataset.shotOpen), templates.map(template => template.dataset.shotTemplate));
     assert.equal(document.querySelectorAll('[data-shot-dialog]').length,1);
     assert.equal(document.querySelector('[data-shot-content]').children.length,0);
     for (const card of cards) {
+      const template = templates.find(template => template.dataset.shotTemplate === card.dataset.shotOpen);
+      const expectedMediaCount = template.content.querySelectorAll('.shot-media').length;
+      assert.equal(card.querySelector('.curated-card-title').textContent.trim(), template.content.querySelector('h2').textContent.trim());
+      const relatedCards = [...template.content.querySelectorAll('.shot-related-grid button')];
+      assert.equal(relatedCards.length, Math.min(2, cards.length - 1));
+      for (const relatedCard of relatedCards) {
+        assert.notEqual(relatedCard.dataset.shotOpen, card.dataset.shotOpen);
+        const matchingCard = cards.find(other => other.dataset.shotOpen === relatedCard.dataset.shotOpen);
+        assert.ok(matchingCard);
+        assert.equal(relatedCard.querySelector('.curated-card-title').textContent, matchingCard.querySelector('.curated-card-title').textContent);
+        assert.equal(relatedCard.querySelector('.curated-card-thumbnail').getAttribute('src'), cardThumbnails.get(relatedCard.dataset.shotOpen));
+      }
       card.click();
       assert.equal(dialog.open,true);
       assert.equal(dialog.querySelector('article').dataset.shot,card.dataset.shotOpen);
-      assert.equal(dialog.querySelectorAll('.shot-media').length,0);
+      assert.equal(dialog.querySelectorAll('.shot-media').length,expectedMediaCount);
       assert.equal(document.documentElement.style.overflow,'hidden');
       assert.equal(document.activeElement.id,'active-shot-title');
       dialog.querySelector('[data-shot-open]').click();

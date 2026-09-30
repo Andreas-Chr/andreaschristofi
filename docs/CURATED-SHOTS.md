@@ -5,7 +5,7 @@ The homepage uses one reusable Card and one native modal, located between Hero a
 ## Edit an existing shot
 
 1. Put artwork in `public/assets/curated-shots/your-project/`. Example: `public/assets/curated-shots/your-project/cover.webp`.
-2. Open the corresponding JSON file. The first homepage row is `shot-01`–`shot-04`; the second is `shot-05`–`shot-08` at 1440px. `order` controls this sequence.
+2. Open the corresponding JSON file. The homepage uses two columns on desktop/tablet and one on mobile. `order` controls the sequence, read left to right and then down.
 3. Set `title`, `thumbnail` and `overview`.
 4. Edit the `media` array in display order. The first item is the main artwork, followed by `overview`. Subsequent items have their own `description` below them.
 5. Run `npm run dev`, open the homepage and click the card. Check desktop and mobile, long text, close/Escape and each video.
@@ -15,7 +15,7 @@ Use URLs beginning `/assets/...` for local files. Do not include `public` in URL
 | Field | What to enter |
 | --- | --- |
 | `slug` | Unique stable identifier, lowercase words separated by hyphens. Connects the card and modal; creates no page. |
-| `title` | Shot title, also used for accessible button/player labels. Blank becomes “Lorem Ipsum”. |
+| `title` | Visible homepage title, also used for modal headings and accessible button/player labels. Blank falls back to the slug with spaces. |
 | `order` | Number controlling homepage order, ascending. |
 | `published` | `false` hides the entry from the homepage and related cards. |
 | `content` | `long` renders all media; `short` renders the first media item and overview. All eight starters use `long`. |
@@ -31,7 +31,7 @@ Use URLs beginning `/assets/...` for local files. Do not include `public` in URL
 | `media[].captions` | Optional `.vtt` caption file URL for uploaded videos with speech. |
 | `media[].captionsLanguage` | Caption language code; defaults to `en`. |
 
-Images use Figma’s 4:3 crop inside the overlay; cards use a square crop on the homepage. Keep essential details away from the edges and prepare a dedicated cover image. Uploaded video keeps its intrinsic aspect ratio; embedded players use 16:9.
+Homepage thumbnails use a locked 4:3 crop with `object-fit: cover`, 24px corners, and a title below the image. Keep essential details away from the edges and prepare a dedicated cover image. Uploaded video keeps its intrinsic aspect ratio; embedded players use 16:9.
 
 ## Complete example
 
@@ -75,7 +75,7 @@ Videos autoplay muted with controls when visible in the open overlay. They stop 
 3. Replace its fields and media blocks. Keep `content: "long"` for a multi-media shot.
 4. Save. The grid and related-shot links update automatically; no component editing is required.
 
-Related shots are the next entries in display order, wrapping around and excluding the current entry. The overlay shows up to three on desktop, two on tablet and one on mobile. When no entries are published, the entire section is omitted.
+Related shots are the next entries in display order, wrapping around and excluding the current entry. The overlay shows up to two on desktop/tablet and one below 644px. When no entries are published, the entire section is omitted.
 
 ## Payload integration
 
@@ -106,10 +106,12 @@ References: [Astro’s Payload guide](https://docs.astro.build/en/guides/cms/pay
 | Overlay / Curated Shot `5184:2223` | `CuratedShotOverlay.astro`, responsive Desktop/Tablet/Mobile for Long and Short content. Layout follows viewport width rather than an editorial setting. |
 | Title, Overview, Media 01 | `title`, `overview`, `media[0]`. |
 | Media 02/03 and descriptions | `media[1]` / `media[2]`, `description`, `visible`, `showDescription`; the array extends the same pattern for additional blocks. |
-| Homepage `5492:1725` | `CuratedShots.astro`, eight cards at 1440px in four columns, 4px gaps and 24px corners. |
+| Homepage `5492:1725`, `5547:7239`, `5547:7285`, `5547:7321`, `5547:7357` | `CuratedShots.astro` and the Card's `layout="caption"`: two columns at 1440/1024/768px, one at 480/320px, 4px column gaps, 32px row gaps, and 16px between thumbnail and title. |
 
-The modal sits 50px below the viewport top with a black 60% backdrop and a sticky large (48px) close control. Native dialog supplies modal focus containment and Escape dismissal. Closing returns focus to the original homepage card, including after related-shot navigation. Desktop content is capped at 1024px with 16px gutters (992px artwork); tablet uses 16px gutters, mobile 8px. The responsive homepage grid uses two columns below 1024px and one below 600px as an implementation choice; only the 1440px homepage section was supplied for this change.
+The modal sits 50px below the viewport top with a black 60% backdrop and a sticky large (48px) close control. Native dialog supplies modal focus containment and Escape dismissal. Closing returns focus to the original homepage card, including after related-shot navigation. Desktop content is capped at 1024px with 16px gutters (992px artwork); tablet uses 16px gutters, mobile 8px. Related cards use the same caption layout as the homepage with dark titles on the light modal background, locked 4:3 thumbnails, 24px corners, and a 16px title gap. The two columns have a 4px gap; below 644px only the first related card is shown. The existing heading, 24px heading-to-grid gap, and 40px section padding match Figma nodes `5185:2289`, `5193:2121`, and `5193:2163`. Keyboard focus uses the purple focus token for contrast on white.
 
-Browser visual QA remains unverified because the available browser tool reported no browser. Automated checks are not visual sign-off.
+The homepage switches to two columns at 644px, the minimum width for two 304px cards, their 4px gap, and 16px page gutters. Existing page gutters are 24px from 1200px, 16px from 400px, and 8px below 400px. The section has 160px top and bottom padding at every size. Titles use 24px/36px, changing to 18px/24px below 400px. Desktop hover (from 1200px with a hover-capable pointer) and keyboard focus reveal a centered 48px lime arrow over a 35% black thumbnail overlay. Titles remain visible in every state; touch/tablet hover stays disabled. Titles, thumbnails, and modal content come from the same shot record and are connected by its slug.
 
-Validation: Astro check and production build pass. Focused tests exercise all eight card connections, related navigation, focus restoration, deferred/muted video activation, reduced motion, backdrop dismissal, image fallback, input URL restrictions and Payload mapping/pagination. The full suite has two existing failures outside this change: an assertion for the removed Process “Approach” heading and an assertion that rejects the Contact Popup’s intentional `method="dialog"` submit button. Those source components were unchanged.
+The September 30, 2026 homepage replacement was checked in Chrome at 1440, 1024, 768, 480, and 320px, with additional checks at the 643/644px column boundary and 1920px. Screenshots and rendered measurements verified the 4:3 thumbnails, gutters, gaps, typography, desktop hover, and keyboard focus. All eight published CMS records were checked against the rendered title/thumbnail and their modal media; related navigation, Escape, and focus return passed. This verification covers the homepage replacement and its existing modal connections.
+
+Validation for the homepage replacement: Astro check, the CMS-backed production build, and all 11 focused Curated Shots tests pass. The card-connection test checks the current built records instead of assuming the local starter count or empty media. The full suite was not run for this scoped change. No deployment was performed.

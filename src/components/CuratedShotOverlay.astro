@@ -18,7 +18,7 @@ const { shots } = Astro.props;
 {shots.map((shot, index) => {
   const [firstMedia, ...remainingMedia] = shotMedia(shot);
   const overview = richTextHTML(shot.overview);
-  const related = [...shots.slice(index + 1), ...shots.slice(0, index)].slice(0, 3);
+  const related = [...shots.slice(index + 1), ...shots.slice(0, index)].slice(0, 2);
   return <template data-shot-template={shot.slug}>
     <article data-shot={shot.slug}>
       <div class="shot-body">
@@ -33,7 +33,7 @@ const { shots } = Astro.props;
       </div>
       {related.length > 0 && <section class="shot-related" aria-label="Other curated shots">
         <h3>Other Curated Shots</h3>
-        <div class="shot-related-grid">{related.map(other => <CuratedShotCard shot={other} />)}</div>
+        <div class="shot-related-grid">{related.map(other => <CuratedShotCard shot={other} layout="caption" />)}</div>
       </section>}
       <footer class="shot-contact">
         <h3>Get in touch</h3>
@@ -62,9 +62,10 @@ const { shots } = Astro.props;
   .shot-body :global(.shot-rich-text ul),.shot-body :global(.shot-rich-text ol) { padding-left:1.5em; }
   .shot-related,.shot-contact { display:flex; flex-direction:column; gap:24px; padding-block:40px; }
   .shot-related h3 { font:900 24px/36px var(--font-family-primary); text-transform:uppercase; overflow-wrap:anywhere; }
-  .shot-related-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:4px; }
-  .shot-related-grid :global(.curated-card) { height:328px; aspect-ratio:auto; }
+  .shot-related-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); align-items:start; gap:4px; }
+  .shot-related-grid :global(.curated-card-title) { color:var(--color-text-dark); }
+  .shot-related-grid :global(.curated-card:focus-visible) { outline-color:var(--color-focus-secondary); }
   .shot-contact p { font:var(--text-display-small); font-variation-settings:'opsz' 14; overflow-wrap:anywhere; }
-  @media(max-width:1023px) { .shot-related-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .shot-related-grid :global(.curated-card:nth-child(n+3)) { display:none; } }
-  @media(max-width:599px) { .shot-container { padding-inline:8px; } .shot-related-grid { grid-template-columns:minmax(0,1fr); } .shot-related-grid :global(.curated-card:nth-child(n+2)) { display:none; } }
+  @media(max-width:643px) { .shot-related-grid { grid-template-columns:minmax(0,1fr); } .shot-related-grid :global(.curated-card:nth-child(n+2)) { display:none; } }
+  @media(max-width:599px) { .shot-container { padding-inline:8px; } }
 </style>
