@@ -21,9 +21,9 @@ import { site, toolGroups, awards } from '../data/site';
   <section class="section about container" id="about" aria-labelledby="about-heading">
     <Picture class="portrait" src={portrait} formats={['avif','webp']} fallbackFormat="jpg" widths={[304,448,680,896,1120]} sizes="(min-width: 900px) 48vw, 100vw" alt="Andreas Christofi walking through the city" loading="lazy" />
     <div class="about-copy">
-      <h2 id="about-heading">About</h2>
+      <h2 id="about-heading">About Me</h2>
       <p class="lead">{site.description}</p>
-      <p class="body-large">I’m a multidisciplinary designer that for the past 2 decades worked through traditional graphic design, print, brand strategy, web, and digital product design. I’ve learned the art of simplicity by crafting complex ideas into clear, impactful, and engaging experiences. And somewhere along the way, I’ve also had the opportunity to run my own studio, to lead creative teams, and work on AI-powered SaaS digital products.</p>
+      <p class="body-large">For the past 2 decades I've worked through traditional graphic design, print, brand strategy, web, and digital product design. I’ve learned the art of simplicity by crafting complex ideas into clear, impactful, and engaging experiences. And somewhere along the way, I’ve also had the opportunity to run my own studio, to lead creative teams, and work on AI-powered SaaS digital products.</p>
       <p class="body-large">Being a designer is only a part of me. I’m also a husband and father, a martial artist, an aviation enthusiast and a custom PC builder. I make space in my life for the things I enjoy because they keep me curious, disciplined, grounded, and always eager to learn something new.</p>
       <div class="about-button">
         <ButtonMain href={site.cv} download icon="/assets/icons/download.svg" hierarchy="secondary">Resume</ButtonMain>
@@ -35,7 +35,35 @@ import { site, toolGroups, awards } from '../data/site';
     <section class="stack" aria-labelledby="stack-heading">
       <h2 id="stack-heading">Stack</h2>
       <p class="body-large">Tools I’ve learned to design, prototype, animate and build cool projects with.</p>
-      {toolGroups.map(group=><div class="tool-group"><h3 class="eyebrow">{group.label}</h3><ul>{group.tools.map(([label,slug])=><li class="tool" tabindex="0" aria-label={label} aria-describedby={`tool-${slug}-tooltip`} data-tooltip-owner>{slug==='payload' ? <span class="payload-logo" aria-hidden="true"><img class="tool-grey" src="/assets/tools/payload-grey.svg" width="22.38" height="26" alt="" loading="lazy" /><img class="tool-color" src="/assets/tools/payload-color.svg" width="22.38" height="26" alt="" loading="lazy" /></span> : <Fragment><img class="tool-grey" src={`/assets/tools/${slug}-grey.svg`} width="24" height="24" alt="" aria-hidden="true" loading="lazy" /><img class="tool-color" src={`/assets/tools/${slug}-color.svg`} width="24" height="24" alt="" aria-hidden="true" loading="lazy" /></Fragment>}<Tooltip id={`tool-${slug}-tooltip`} title={label} /></li>)}</ul></div>)}
+      {
+        toolGroups.map(group=>
+          <div class="tool-group">
+            <h3 class="eyebrow">{group.label}</h3>
+            <ul>
+              {
+                group.tools.map(([label,slug])=>
+                  <li class="tool" tabindex="0" aria-label={label} aria-describedby={`tool-${slug}-tooltip`} data-tooltip-owner>
+                    {
+                      slug==='payload' ? (
+                        <span class="payload-logo" aria-hidden="true">
+                          <img class="tool-grey" src="/assets/tools/payload-grey.svg" width="22.38" height="26" alt="" loading="lazy" />
+                          <img class="tool-color" src="/assets/tools/payload-color.svg" width="22.38" height="26" alt="" loading="lazy" />
+                        </span>
+                      ) : (
+                        <Fragment>
+                          <img class="tool-grey" src={`/assets/tools/${slug}-grey.svg`} width="24" height="24" alt="" aria-hidden="true" loading="lazy" />
+                          <img class="tool-color" src={`/assets/tools/${slug}-color.svg`} width={24} height={24} alt="" aria-hidden="true" loading="lazy" />
+                        </Fragment>
+                      )
+                    }
+                    <Tooltip id={`tool-${slug}-tooltip`} title={label} />
+                  </li>
+                )
+              }
+            </ul>
+          </div>
+        )
+      }
     </section>
     <Experience />
   </div>
