@@ -6,6 +6,7 @@ export const site = {
   cv: '/assets/documents/andreas-christofi-cv.pdf',
 };
 export const navigation = [
+  { label: 'Works', href: '/#curated-shots' },
   { label: 'Process', href: '/#process' },
   { label: 'About', href: '/#about' },
 ];
