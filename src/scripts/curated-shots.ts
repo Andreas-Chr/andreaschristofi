@@ -11,6 +11,32 @@ export function initCuratedShots() {
   let overflow = '';
   let bodyOverflow = '';
   let observer: IntersectionObserver | undefined;
+  let closeSequence = 0;
+
+  const requestClose = () => {
+    if (!dialog.open || dialog.dataset.motion === 'closing') return;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches || !dialog.getAnimations) {
+      dialog.close();
+      return;
+    }
+    // Sample the entrance frame so an early dismissal continues without a jump.
+    const current = document.defaultView!.getComputedStyle(dialog);
+    dialog.style.setProperty('--shot-exit-opacity', current.opacity);
+    dialog.style.setProperty('--shot-exit-transform', current.transform);
+    dialog.dataset.motion = 'closing';
+    const sequence = ++closeSequence;
+    observer?.disconnect();
+    content.querySelectorAll('video').forEach(video => video.pause());
+    // Keep the native top layer, backdrop, content and focus until motion finishes.
+    const animations = dialog.getAnimations();
+    if (!animations.length) {
+      dialog.close();
+      return;
+    }
+    void Promise.allSettled(animations.map(animation => animation.finished)).then(() => {
+      if (!signal.aborted && sequence === closeSequence && dialog.open && dialog.dataset.motion === 'closing') dialog.close();
+    });
+  };
 
   const stopMedia = () => {
     observer?.disconnect();
@@ -39,7 +65,7 @@ export function initCuratedShots() {
   const startMedia = () => {
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
     const activate = (element: HTMLVideoElement | HTMLIFrameElement) => {
-      if (!dialog.open || !element.isConnected) return;
+      if (!dialog.open || dialog.dataset.motion === 'closing' || !element.isConnected) return;
       if (element instanceof HTMLVideoElement) {
         if (!element.getAttribute('src')) element.src = element.dataset.src!;
         element.muted = true;
@@ -62,7 +88,7 @@ export function initCuratedShots() {
 
   document.addEventListener('click', event => {
     const target = event.target instanceof Element ? event.target.closest<HTMLElement>('[data-shot-open]') : null;
-    if (!target) return;
+    if (!target || dialog.dataset.motion === 'closing') return;
     const template = [...document.querySelectorAll<HTMLTemplateElement>('[data-shot-template]')].find(item => item.dataset.shotTemplate === target.dataset.shotOpen);
     if (!template) return;
     if (!dialog.open) {
@@ -80,7 +106,11 @@ export function initCuratedShots() {
     content.querySelector<HTMLElement>('h2')?.focus({ preventScroll: true });
     startMedia();
   }, { signal });
-  dialog.querySelector('[data-shot-close]')!.addEventListener('click', () => dialog.close(), { signal });
+  dialog.querySelector('[data-shot-close]')!.addEventListener('click', requestClose, { signal });
+  dialog.addEventListener('cancel', event => {
+    event.preventDefault();
+    requestClose();
+  }, { signal });
   let backdropDown = false;
   const outside = (event: PointerEvent | MouseEvent) => {
     // Native backdrop events target the dialog; its transparent gap and bar are also background.
@@ -88,20 +118,31 @@ export function initCuratedShots() {
   };
   dialog.addEventListener('pointerdown', event => { backdropDown = outside(event); }, { signal });
   dialog.addEventListener('click', event => {
-    if (backdropDown && outside(event)) dialog.close();
+    if (backdropDown && outside(event)) requestClose();
     backdropDown = false;
   }, { signal });
-  dialog.addEventListener('close', () => {
+  const cleanup = () => {
+    closeSequence++;
+    delete dialog.dataset.motion;
+    dialog.style.removeProperty('--shot-exit-opacity');
+    dialog.style.removeProperty('--shot-exit-transform');
+    backdropDown = false;
     stopMedia();
     content.replaceChildren();
     document.documentElement.style.overflow = overflow;
     document.body.style.overflow = bodyOverflow;
     opener?.focus({ preventScroll: true });
     opener = null;
+  };
+  dialog.addEventListener('close', () => {
+    if (!dialog.open) cleanup();
   }, { signal });
   document.addEventListener('astro:before-swap', () => {
-    if (dialog.open) dialog.close();
-    stopMedia();
+    if (dialog.open) {
+      dialog.close();
+      // The native close event is queued; restore scrolling before aborting its listener.
+      cleanup();
+    } else stopMedia();
     controller.abort();
   }, { once: true, signal });
 }

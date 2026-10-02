@@ -205,6 +205,108 @@ test('transparent close-bar space dismisses only a complete click, leaving panel
   } finally { window.close(); }
 });
 
+function pendingExit(dialog) {
+  let finish, cancel;
+  const finished = new Promise((resolve, reject) => { finish = resolve; cancel = reject; });
+  let reads = 0;
+  dialog.getAnimations = () => { reads++; return [{ finished }]; };
+  return { finish, cancel, get reads() { return reads; } };
+}
+
+test('animated dismissal retains content and scroll lock until exit, then restores original focus', async () => {
+  const { window, dialog } = fixture();
+  try {
+    document.documentElement.style.overflow = 'clip';
+    document.body.style.overflow = 'auto';
+    const card = document.querySelector('.curated-grid button');
+    card.click();
+    dialog.querySelector('[data-shot-open]').click();
+    const article = dialog.querySelector('article');
+    const exit = pendingExit(dialog);
+    dialog.querySelector('[data-shot-close]').click();
+    dialog.querySelector('[data-shot-close]').click();
+    dialog.querySelector('[data-shot-open]').click();
+    assert.equal(exit.reads, 1, 'repeated close requests do not restart the exit');
+    assert.equal(dialog.dataset.motion, 'closing');
+    assert.equal(dialog.open, true);
+    assert.equal(dialog.querySelector('article'), article, 'related navigation cannot replace closing content');
+    assert.equal(document.documentElement.style.overflow, 'hidden');
+    assert.ok(dialog.contains(document.activeElement));
+    exit.finish();
+    await new Promise(resolve => setImmediate(resolve));
+    assert.equal(dialog.open, false);
+    assert.equal(dialog.querySelector('article'), null);
+    assert.equal(dialog.dataset.motion, undefined);
+    assert.equal(document.documentElement.style.overflow, 'clip');
+    assert.equal(document.body.style.overflow, 'auto');
+    assert.equal(document.activeElement, card);
+  } finally { window.close(); }
+});
+
+test('Escape and backdrop dismissal both wait for exit; cancelled motion still closes', async () => {
+  const { window, dialog } = fixture();
+  try {
+    const card = document.querySelector('.curated-grid button');
+    for (const trigger of ['escape', 'backdrop']) {
+      card.click();
+      const exit = pendingExit(dialog);
+      if (trigger === 'escape') {
+        const event = new window.Event('cancel', { cancelable: true });
+        dialog.dispatchEvent(event);
+        assert.equal(event.defaultPrevented, true, 'native Escape must wait for the exit');
+      } else {
+        dialog.dispatchEvent(new window.PointerEvent('pointerdown', { bubbles: true }));
+        dialog.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+      }
+      assert.equal(dialog.open, true);
+      assert.equal(dialog.dataset.motion, 'closing');
+      exit.cancel(new Error('motion preference changed'));
+      await new Promise(resolve => setImmediate(resolve));
+      assert.equal(dialog.open, false);
+      assert.equal(document.activeElement, card);
+    }
+  } finally { window.close(); }
+});
+
+test('reduced motion dismisses immediately without waiting for animation', () => {
+  const { window, dialog } = fixture();
+  try {
+    globalThis.matchMedia = () => ({ matches: true });
+    const card = document.querySelector('.curated-grid button');
+    card.click();
+    const exit = pendingExit(dialog);
+    dialog.querySelector('[data-shot-close]').click();
+    assert.equal(exit.reads, 0);
+    assert.equal(dialog.open, false);
+    assert.equal(document.activeElement, card);
+    assert.equal(document.documentElement.style.overflow, '');
+  } finally { window.close(); }
+});
+
+test('an old exit cannot close a newly reopened modal; page swap cleans up immediately', async () => {
+  const { window, dialog } = fixture();
+  try {
+    const card = document.querySelector('.curated-grid button');
+    card.click();
+    const oldExit = pendingExit(dialog);
+    dialog.querySelector('[data-shot-close]').click();
+    dialog.close();
+    card.click();
+    const newExit = pendingExit(dialog);
+    dialog.querySelector('[data-shot-close]').click();
+    oldExit.finish();
+    await new Promise(resolve => setImmediate(resolve));
+    assert.equal(dialog.open, true, 'only the current exit can finish dismissal');
+    document.dispatchEvent(new window.Event('astro:before-swap'));
+    assert.equal(dialog.open, false);
+    assert.equal(document.documentElement.style.overflow, '');
+    assert.equal(dialog.querySelector('article'), null);
+    newExit.finish();
+    await new Promise(resolve => setImmediate(resolve));
+    assert.equal(dialog.open, false);
+  } finally { window.close(); }
+});
+
 
 test('thumbnail alt comes only from Media, with safe empty and unresolved relationships', () => {
   const doc = { slug: 'alt-check', order: 1, thumbnailAlt: 'Legacy override', media: [] };
