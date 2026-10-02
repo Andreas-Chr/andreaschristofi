@@ -75,7 +75,7 @@ Videos autoplay muted with controls when visible in the open overlay. They stop 
 3. Replace its fields and media blocks. Keep `content: "long"` for a multi-media shot.
 4. Save. The grid and related-shot links update automatically; no component editing is required.
 
-Related shots are the next entries in display order, wrapping around and excluding the current entry. The overlay shows up to two on desktop/tablet and one below 644px. When no entries are published, the entire section is omitted.
+Related shots are the next entries in display order, wrapping around and excluding the current entry. The overlay shows up to two at every viewport width: two columns from 644px, and both stacked below 644px. When no entries are published, the entire section is omitted.
 
 ## Payload integration
 
@@ -103,12 +103,18 @@ References: [Astro’s Payload guide](https://docs.astro.build/en/guides/cms/pay
 | Figma | Implementation |
 | --- | --- |
 | Project Media Components / Card `5529:3632` | `CuratedShotCard.astro`, Default and Hover (`state`), with hover also available on keyboard focus. |
-| Overlay / Curated Shot `5184:2223` | `CuratedShotOverlay.astro`, responsive Desktop/Tablet/Mobile for Long and Short content. Layout follows viewport width rather than an editorial setting. |
+| Overlay / Curated Shot `5184:2223` | The existing `CuratedShotOverlay.astro`, updated to Desktop `5184:2221`, Tablet `5555:1670`, and Mobile `5555:1715`. Layout follows viewport width and content length. |
 | Title, Overview, Media 01 | `title`, `overview`, `media[0]`. |
-| Media 02/03 and descriptions | `media[1]` / `media[2]`, `description`, `visible`, `showDescription`; the array extends the same pattern for additional blocks. |
+| Media 02/03 and descriptions | Subsequent usable `media[]` entries and each entry’s `description`; the array extends the same pattern for additional blocks. Blank descriptions and unusable media URLs are omitted. A first-media description is retained beneath the overview. |
+| Other Curated Shots | Next two published records, wrapping display order; each card’s title, thumbnail and modal action use that record. |
+| Footer/ContactCta | Shared `site.email` value and `ParagraphLink` mail action. |
 | Homepage `5492:1725`, `5547:7239`, `5547:7285`, `5547:7321`, `5547:7357` | `CuratedShots.astro` and the Card's `layout="caption"`: two columns at 1440/1024/768px, one at 480/320px, 4px column gaps, 32px row gaps, and 16px between thumbnail and title. |
 
-The modal sits 50px below the viewport top with a black 60% backdrop and a sticky large (48px) close control. Native dialog supplies modal focus containment and Escape dismissal. Closing returns focus to the original homepage card, including after related-shot navigation. Desktop content is capped at 1024px with 16px gutters (992px artwork); tablet uses 16px gutters, mobile 8px. Related cards use the same caption layout as the homepage with dark titles on the light modal background, locked 4:3 thumbnails, 24px corners, and a 16px title gap. The two columns have a 4px gap; below 644px only the first related card is shown. The existing heading, 24px heading-to-grid gap, and 40px section padding match Figma nodes `5185:2289`, `5193:2121`, and `5193:2163`. Keyboard focus uses the purple focus token for contrast on white.
+The modal starts 25px below the viewport top with a black 60% backdrop. A centered secondary small (32px) close control sits outside the white panel with a 16px gap. The panel has 24px top-left and top-right corners, square bottom corners, and 24px vertical padding; it scrolls independently so the close control remains available. Native dialog supplies modal focus containment and Escape dismissal. Closing returns focus to the original homepage card, including after related-shot navigation; switching shots resets panel scrolling and stops the previous media.
+
+Desktop content is capped at 1024px with 16px gutters (992px artwork); tablet uses 16px gutters, mobile below 644px uses 8px. Main media corners are 24px from 1024px, 16px from 644px, and 8px below 644px. Uploaded image/GIF/video proportions remain content-driven, and YouTube players retain 16:9. The header and media blocks have 24px gaps, and the body, related section and contact footer have 40px gaps. Related and contact sections each have 40px vertical padding and 24px internal gaps.
+
+Related cards reuse the homepage caption component with dark 24px/36px titles at every modal width, Figma’s 694:521 thumbnail ratio, 24px corners, and a 16px title gap. The grid has a 4px gap and stacks both cards below 644px. Keyboard focus uses the purple focus token for contrast on white. The modal title and contact heading use 32px/48px, rich text uses 16px/32px, and contact copy uses 20px/36px.
 
 The homepage switches to two columns at 644px, the minimum width for two 304px cards, their 4px gap, and 16px page gutters. Existing page gutters are 24px from 1200px, 16px from 400px, and 8px below 400px. The section has 160px top and bottom padding at every size. Titles use 24px/36px, changing to 18px/24px below 400px. Desktop hover (from 1200px with a hover-capable pointer) and keyboard focus reveal a centered 48px lime arrow over a 35% black thumbnail overlay. Titles remain visible in every state; touch/tablet hover stays disabled. Titles, thumbnails, and modal content come from the same shot record and are connected by its slug.
 

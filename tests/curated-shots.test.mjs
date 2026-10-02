@@ -76,7 +76,7 @@ function fixture() {
   globalThis.matchMedia = () => ({ matches:false });
   const observers = [];
   globalThis.IntersectionObserver = class {
-    constructor(callback) { this.callback=callback; this.elements=[]; observers.push(this); }
+    constructor(callback, options) { this.callback=callback; this.options=options; this.elements=[]; observers.push(this); }
     observe(element) { this.elements.push(element); }
     disconnect() { this.disconnected=true; }
   };
@@ -117,8 +117,11 @@ test('homepage cards open their own content; related navigation retains original
       assert.equal(dialog.querySelectorAll('.shot-media').length,expectedMediaCount);
       assert.equal(document.documentElement.style.overflow,'hidden');
       assert.equal(document.activeElement.id,'active-shot-title');
+      const panel = dialog.querySelector('[data-shot-scroll]');
+      panel.scrollTop = 500;
       dialog.querySelector('[data-shot-open]').click();
       assert.notEqual(dialog.querySelector('article').dataset.shot,card.dataset.shotOpen);
+      assert.equal(panel.scrollTop,0);
       dialog.querySelector('[data-shot-close]').click();
       assert.equal(document.activeElement,card);
       assert.equal(document.documentElement.style.overflow,'');
@@ -134,6 +137,7 @@ test('media activation is deferred, muted and stopped on close; image errors use
     addMediaFixture(template, '<video data-shot-video data-src="/test.webm"></video><iframe data-shot-embed data-src="https://player.vimeo.com/video/123?autoplay=1"></iframe><img data-image-fallback="/fallback.png" src="/test.jpg">');
     document.querySelector('.curated-grid button').click();
     const video=dialog.querySelector('video'), iframe=dialog.querySelector('iframe');
+    assert.equal(observers.at(-1).options.root,dialog.querySelector('[data-shot-scroll]'));
     assert.equal(video.getAttribute('src'),null);
     assert.equal(iframe.getAttribute('src'),null);
     let played=0,paused=0;
@@ -171,12 +175,33 @@ test('only a complete backdrop click closes the modal; internal clicks do not', 
   try {
     document.querySelector('.curated-grid button').click();
     dialog.getBoundingClientRect=()=>({left:0,right:1440,top:50,bottom:900});
-    dialog.dispatchEvent(new window.PointerEvent('pointerdown',{clientX:100,clientY:100,bubbles:true}));
-    dialog.dispatchEvent(new window.MouseEvent('click',{clientX:100,clientY:100,bubbles:true}));
+    const panel = dialog.querySelector('[data-shot-scroll]');
+    panel.dispatchEvent(new window.PointerEvent('pointerdown',{clientX:100,clientY:100,bubbles:true}));
+    panel.dispatchEvent(new window.MouseEvent('click',{clientX:100,clientY:100,bubbles:true}));
     assert.equal(dialog.open,true);
     dialog.dispatchEvent(new window.PointerEvent('pointerdown',{clientX:100,clientY:20,bubbles:true}));
     dialog.dispatchEvent(new window.MouseEvent('click',{clientX:100,clientY:20,bubbles:true}));
     assert.equal(dialog.open,false);
+  } finally { window.close(); }
+});
+
+test('transparent close-bar space dismisses only a complete click, leaving panel interactions open', () => {
+  const { window, dialog } = fixture();
+  try {
+    document.querySelector('.curated-grid button').click();
+    dialog.getBoundingClientRect = () => ({ left:0, right:1440, top:50, bottom:900 });
+    const bar = dialog.querySelector('.shot-close-bar');
+    const panel = dialog.querySelector('[data-shot-scroll]');
+    const pointer = (element, type) => element.dispatchEvent(new window.PointerEvent(type, { clientX:100, clientY:60, bubbles:true }));
+    pointer(panel, 'pointerdown');
+    pointer(bar, 'click');
+    assert.equal(dialog.open, true);
+    pointer(bar, 'pointerdown');
+    pointer(panel, 'click');
+    assert.equal(dialog.open, true);
+    pointer(bar, 'pointerdown');
+    pointer(bar, 'click');
+    assert.equal(dialog.open, false);
   } finally { window.close(); }
 });
 

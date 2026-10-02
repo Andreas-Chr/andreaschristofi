@@ -4,6 +4,7 @@ export function initCuratedShots() {
   if (!dialog || dialog.dataset.initialized) return;
   dialog.dataset.initialized = 'true';
   const content = dialog.querySelector<HTMLElement>('[data-shot-content]')!;
+  const scrollContainer = dialog.querySelector<HTMLElement>('[data-shot-scroll]')!;
   const controller = new AbortController();
   const { signal } = controller;
   let opener: HTMLElement | null = null;
@@ -55,7 +56,7 @@ export function initCuratedShots() {
       if (entry.isIntersecting) activate(element);
       else if (element instanceof HTMLVideoElement) element.pause();
       else element.removeAttribute('src');
-    }), { root: dialog, threshold: 0.05 });
+    }), { root: scrollContainer, threshold: 0.05 });
     content.querySelectorAll<HTMLVideoElement | HTMLIFrameElement>('[data-shot-video],[data-shot-embed]').forEach(element => observer!.observe(element));
   };
 
@@ -75,18 +76,19 @@ export function initCuratedShots() {
     content.replaceChildren(template.content.cloneNode(true));
     if (!dialog.open) dialog.showModal();
     dialog.scrollTop = 0;
+    scrollContainer.scrollTop = 0;
     content.querySelector<HTMLElement>('h2')?.focus({ preventScroll: true });
     startMedia();
   }, { signal });
   dialog.querySelector('[data-shot-close]')!.addEventListener('click', () => dialog.close(), { signal });
   let backdropDown = false;
   const outside = (event: PointerEvent | MouseEvent) => {
-    const bounds = dialog.getBoundingClientRect();
-    return event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom;
+    // Native backdrop events target the dialog; its transparent gap and bar are also background.
+    return event.target === dialog || (event.target instanceof Element && event.target.matches('.shot-close-bar'));
   };
-  dialog.addEventListener('pointerdown', event => { backdropDown = event.target === dialog && outside(event); }, { signal });
+  dialog.addEventListener('pointerdown', event => { backdropDown = outside(event); }, { signal });
   dialog.addEventListener('click', event => {
-    if (backdropDown && event.target === dialog && outside(event)) dialog.close();
+    if (backdropDown && outside(event)) dialog.close();
     backdropDown = false;
   }, { signal });
   dialog.addEventListener('close', () => {

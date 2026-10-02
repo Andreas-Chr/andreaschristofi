@@ -10,9 +10,13 @@ interface Props { shots: CuratedShot[]; }
 const { shots } = Astro.props;
 ---
 <dialog id="curated-shot-overlay" class="shot-overlay" aria-labelledby="active-shot-title" data-shot-dialog>
-  <div class="shot-container">
-    <div class="shot-close-bar"><ButtonIcon version="secondary" size="large" icon="/assets/icons/close.svg" aria-label="Close curated shot" data-shot-close /></div>
-    <div data-shot-content></div>
+  <div class="shot-close-bar">
+    <ButtonIcon version="secondary" size="small" aria-label="Close curated shot" data-shot-close>
+      <img class="shot-close-icon" src="/assets/icons/curated-shot-close.svg" width="12" height="16" alt="" />
+    </ButtonIcon>
+  </div>
+  <div class="shot-panel" data-shot-scroll>
+    <div class="shot-container" data-shot-content></div>
   </div>
 </dialog>
 {shots.map((shot, index) => {
@@ -20,16 +24,20 @@ const { shots } = Astro.props;
   const overview = richTextHTML(shot.overview);
   const related = [...shots.slice(index + 1), ...shots.slice(0, index)].slice(0, 2);
   return <template data-shot-template={shot.slug}>
-    <article data-shot={shot.slug}>
+    <article class="shot-article" data-shot={shot.slug}>
       <div class="shot-body">
-        <h2 id="active-shot-title" tabindex="-1">{shotTitle(shot)}</h2>
-        {firstMedia && <CuratedShotMedia media={firstMedia} title={shotTitle(shot)} />}
-        {overview && <div class="shot-rich-text" set:html={overview} />}
-        {firstMedia?.description && <div class="shot-rich-text" set:html={richTextHTML(firstMedia.description)} />}
-        {remainingMedia.map(item => <>
-          <CuratedShotMedia media={item} title={shotTitle(shot)} />
-          {item.description && <div class="shot-rich-text" set:html={richTextHTML(item.description)} />}
-        </>)}
+        <header class="shot-header">
+          <h2 id="active-shot-title" tabindex="-1">{shotTitle(shot)}</h2>
+          {firstMedia && <CuratedShotMedia media={firstMedia} title={shotTitle(shot)} />}
+          {overview && <div class="shot-rich-text" data-shot-overview set:html={overview} />}
+          {richTextHTML(firstMedia?.description) && <div class="shot-rich-text" data-shot-description set:html={richTextHTML(firstMedia?.description)} />}
+        </header>
+        {remainingMedia.length > 0 && <div class="shot-media-list">
+          {remainingMedia.map(item => <div class="shot-media-block">
+            <CuratedShotMedia media={item} title={shotTitle(shot)} />
+            {richTextHTML(item.description) && <div class="shot-rich-text" data-shot-description set:html={richTextHTML(item.description)} />}
+          </div>)}
+        </div>}
       </div>
       {related.length > 0 && <section class="shot-related" aria-label="Other curated shots">
         <h3>Other Curated Shots</h3>
@@ -48,14 +56,17 @@ const { shots } = Astro.props;
   document.addEventListener('astro:page-load', initCuratedShots);
 </script>
 <style>
-  .shot-overlay { position:fixed; inset:50px 0 0; margin:0 auto; padding:0; width:100%; max-width:1440px; height:calc(100dvh - 50px); max-height:calc(100dvh - 50px); border:0; border-radius:24px 24px 0 0; background:var(--color-surface-card-light,#fff); color:var(--color-text-dark); overflow:auto; overscroll-behavior:contain; }
+  .shot-overlay { position:fixed; inset:25px 0 auto; display:flex; flex-direction:column; gap:16px; margin:0 auto; padding:0; width:100%; max-width:1440px; max-height:calc(100dvh - 25px); border:0; background:transparent; color:var(--color-text-dark); overflow:visible; }
   .shot-overlay:not([open]) { display:none; }
   .shot-overlay::backdrop { background:rgb(0 0 0 / 60%); }
+  .shot-close-bar { display:flex; justify-content:center; flex-shrink:0; }
+  .shot-close-bar .shot-close-icon { width:12px; height:16px; }
+  .shot-panel { width:100%; min-height:0; padding-block:24px; border-radius:24px 24px 0 0; background:var(--color-surface-card-light,#fff); overflow:auto; overscroll-behavior:contain; }
   .shot-container { width:100%; max-width:1024px; margin-inline:auto; padding-inline:16px; }
-  .shot-close-bar { position:sticky; top:0; z-index:2; display:flex; justify-content:flex-end; padding-block:16px; background:var(--color-surface-card-light,#fff); }
-  .shot-body { display:flex; flex-direction:column; gap:24px; }
-  .shot-body h2,.shot-contact h3 { font:900 32px/48px var(--font-family-primary); text-transform:none; overflow-wrap:anywhere; }
-  .shot-body h2 { scroll-margin-top:80px; outline:none; }
+  .shot-article { display:flex; flex-direction:column; gap:40px; }
+  .shot-body,.shot-header,.shot-media-list,.shot-media-block { display:flex; flex-direction:column; gap:24px; min-width:0; }
+  .shot-body h2,.shot-contact h3 { font:var(--text-headings-h4); text-transform:none; overflow-wrap:anywhere; }
+  .shot-body h2 { outline:none; }
   .shot-body :global(.shot-rich-text) { display:flex; flex-direction:column; gap:16px; font:var(--text-body-medium); font-variation-settings:'opsz' 9; overflow-wrap:anywhere; }
   .shot-body :global(.shot-rich-text p) { white-space:pre-line; }
   .shot-body :global(.shot-rich-text a) { color:inherit; text-decoration:underline; text-underline-offset:3px; }
@@ -64,8 +75,14 @@ const { shots } = Astro.props;
   .shot-related h3 { font:900 24px/36px var(--font-family-primary); text-transform:uppercase; overflow-wrap:anywhere; }
   .shot-related-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); align-items:start; gap:4px; }
   .shot-related-grid :global(.curated-card-title) { color:var(--color-text-dark); }
+  .shot-related-grid :global(.curated-card-media) { aspect-ratio:694/521; }
+  .shot-related-grid :global(.curated-card-caption .curated-card-title) { font:var(--text-headings-h3); }
   .shot-related-grid :global(.curated-card:focus-visible) { outline-color:var(--color-focus-secondary); }
   .shot-contact p { font:var(--text-display-small); font-variation-settings:'opsz' 14; overflow-wrap:anywhere; }
-  @media(max-width:643px) { .shot-related-grid { grid-template-columns:minmax(0,1fr); } .shot-related-grid :global(.curated-card:nth-child(n+2)) { display:none; } }
-  @media(max-width:599px) { .shot-container { padding-inline:8px; } }
+  @media(max-width:1023px) { .shot-body :global(.shot-media) { border-radius:16px; } }
+  @media(max-width:643px) {
+    .shot-container { padding-inline:8px; }
+    .shot-related-grid { grid-template-columns:minmax(0,1fr); }
+    .shot-body :global(.shot-media) { border-radius:8px; }
+  }
 </style>
