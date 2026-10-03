@@ -60,7 +60,7 @@ test('scroll reveal stays scoped and About keeps its Figma typography at every b
   assert.doesNotMatch(pageSource,/@media[^}]*\.about(?:-copy)? \.(?:lead|body-large)/);
 });
 
-test('V2 homepage exposes stable hero copy, Approach and six professional entries',()=>{
+test('homepage exposes stable hero copy, an accessible Process section and six professional entries',()=>{
   const w=fixture();
   assert.match(document.querySelector('#hero-heading .sr-only').textContent,/Building vision, clarity, systems, hype/);
   assert.deepEqual([...document.querySelectorAll('.hero-word')].map(n=>n.textContent),['Vision','Clarity','Systems','Hype']);
@@ -71,7 +71,7 @@ test('V2 homepage exposes stable hero copy, Approach and six professional entrie
   assert.ok(document.querySelector(curatedWorks.getAttribute('href')));
   assert.equal(curatedWorks.querySelector('img'),null);
   assert.equal(document.querySelector('[data-diamond],.hero-visual'),null);
-  assert.equal(document.querySelector('#process-heading').textContent,'Approach');
+  assert.equal(document.querySelector('#process').getAttribute('aria-label'),'Process');
   assert.match(document.querySelector('.process-intro p').textContent,/Complex problems require dependable outcomes/);
   assert.equal(document.querySelector('#experience-heading').textContent,'Experience');
   assert.deepEqual([...document.querySelectorAll('.experience-title')].map(n=>n.textContent),['Remazing','Infocredit Group','BLEND Digital Agency','Core Branding (CORB)','Cassoulides Masterprinters','Daedalus Creative Services']);
@@ -84,7 +84,14 @@ test('shared buttons preserve native links, accessible names and single accordio
     assert.equal(document.querySelector('button button,button a,a button'),null);
     for(const button of document.querySelectorAll('[data-button]')) {
       assert.ok(button.getAttribute('aria-label') || button.textContent.trim(),'Every control has an accessible name');
-      if(button.tagName==='BUTTON') assert.equal(button.type,'button','Page actions must not accidentally submit a form');
+      if(button.tagName==='BUTTON') {
+        if(button.matches('.contact-popup .popup-close')) {
+          assert.equal(button.type,'submit','The contact close control uses native dialog submission');
+          assert.equal(button.closest('form')?.getAttribute('method'),'dialog');
+        } else {
+          assert.equal(button.type,'button','Page actions must not accidentally submit a form');
+        }
+      }
       for(const image of button.querySelectorAll('img')) assert.equal(image.getAttribute('alt'),'');
     }
     for(const link of document.querySelectorAll('[data-button][download]')) {

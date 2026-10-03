@@ -1,3 +1,5 @@
+import { mediaURL, type MediaAsset } from './media-assets.ts';
+export { mediaURL } from './media-assets.ts';
 import type { RichText } from './rich-text.ts';
 export { richTextHTML as shotRichTextHTML, richTextParagraphs as shotParagraphs } from './rich-text.ts';
 export type { LexicalNode } from './rich-text.ts';
@@ -9,9 +11,11 @@ export const MEDIA_FALLBACK = '/assets/curated-shots/media-fallback.png';
 export interface ShotMedia {
   type: 'image' | 'video' | 'youtube' | 'gif';
   src?: string;
+  asset?: MediaAsset;
   /** Resolved from the uploaded Media asset by the Payload adapter. */
   alt?: string;
   poster?: string;
+  posterAsset?: MediaAsset;
   description?: ShotText;
 }
 export interface CuratedShot {
@@ -19,24 +23,11 @@ export interface CuratedShot {
   title?: string;
   order: number;
   published?: boolean;
-  thumbnail?: string | { url?: string; alt?: string | null };
+  thumbnail?: string | (Partial<Omit<MediaAsset, 'alt'>> & { alt?: string | null });
   overview?: ShotText;
   media?: ShotMedia[] | null;
 }
 export const shotTitle = (shot: Pick<CuratedShot, 'title' | 'slug'>) => shot.title?.trim() || shot.slug.replaceAll('-', ' ');
-/** Allow local public assets and HTTPS media; never render arbitrary embed HTML. */
-export function mediaURL(value?: string): string | undefined {
-  const url = value?.trim();
-  if (!url) return undefined;
-  if (url.startsWith('/') && !url.startsWith('//') && !url.includes('\\')) return url;
-  try {
-    const parsed = new URL(url);
-    if (parsed.protocol === 'https:') return url;
-    if (parsed.protocol === 'http:' && ['localhost', '127.0.0.1'].includes(parsed.hostname)) return url;
-    return undefined;
-  } catch { return undefined; }
-}
-
 export function embedURL(type: ShotMedia['type'], source?: string, autoplay = true): string | undefined {
   if (!source) return undefined;
   try {

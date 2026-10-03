@@ -1,25 +1,25 @@
 ---
 import { CARD_FALLBACK, mediaURL, shotTitle, type CuratedShot } from '../lib/curated-shots';
 import '../styles/buttons.css';
-interface Props { shot: CuratedShot; state?: 'default' | 'hover'; layout?: 'overlay' | 'caption'; }
-const { shot, state = 'default', layout = 'overlay' } = Astro.props;
+import ResponsiveImage from './ResponsiveImage.astro';
+interface Props { shot: CuratedShot; state?: 'default' | 'hover'; layout?: 'overlay' | 'caption'; sizes?: string; }
+const { shot, state = 'default', layout = 'overlay', sizes = '(min-width: 1440px) 694px, (min-width: 1200px) calc((100vw - 52px) / 2), (min-width: 644px) calc((100vw - 36px) / 2), (min-width: 400px) calc(100vw - 32px), calc(100vw - 16px)' } = Astro.props;
 const thumbnail = typeof shot.thumbnail === 'string' ? { url: shot.thumbnail } : shot.thumbnail;
 const thumbnailURL = mediaURL(thumbnail?.url);
+const asset = thumbnailURL ? { ...thumbnail, url: thumbnailURL, alt: thumbnail?.alt ?? '' } : undefined;
 ---
 <button type="button" class:list={['curated-card', { 'curated-card-caption': layout === 'caption' }]} data-shot-open={shot.slug} data-state={state}
   aria-haspopup="dialog" aria-controls="curated-shot-overlay" aria-label={`Open ${shotTitle(shot)}${shot.title?.trim() ? '' : ` (${shot.slug})`}`}>
   {layout === 'caption' ? <>
     <span class="curated-card-media">
-      <img class="curated-card-thumbnail" src={thumbnailURL || CARD_FALLBACK} alt={thumbnailURL ? thumbnail?.alt || '' : ''}
-        width="800" height="600" loading="lazy" data-image-fallback={CARD_FALLBACK} />
+      <ResponsiveImage class="curated-card-thumbnail" asset={asset} preset="card" sizes={sizes} fallback={CARD_FALLBACK} />
       <span class="curated-card-centered-action icon-button primary large" aria-hidden="true">
         <img src="/assets/icons/curated-card-arrow-up-right.svg" width="16" height="16" alt="" />
       </span>
     </span>
     <span class="curated-card-title" aria-hidden="true">{shotTitle(shot)}</span>
   </> : <>
-  <img class="curated-card-thumbnail" src={thumbnailURL || CARD_FALLBACK} alt={thumbnailURL ? thumbnail?.alt || '' : ''}
-    width="445" height="455" loading="lazy" data-image-fallback={CARD_FALLBACK} />
+  <ResponsiveImage class="curated-card-thumbnail" asset={asset} preset="card" sizes={sizes} fallback={CARD_FALLBACK} />
   <span class="curated-card-content" aria-hidden="true">
     {shot.title?.trim() && <span class="curated-card-title">{shot.title}</span>}
     <!-- The whole card is the action; share Button/Icon styling without nesting buttons. -->
@@ -31,7 +31,7 @@ const thumbnailURL = mediaURL(thumbnail?.url);
 </button>
 <style>
   .curated-card { position:relative; display:block; padding:0; border:0; width:100%; min-width:0; aspect-ratio:445/455; border-radius:var(--primitive-border-radius-24,24px); overflow:hidden; isolation:isolate; background:var(--color-surface-card-dark); }
-  .curated-card-thumbnail { display:block; width:100%; height:100%; object-fit:cover; }
+  .curated-card :global(.curated-card-thumbnail) { display:block; width:100%; height:100%; object-fit:cover; }
   .curated-card::after { content:''; position:absolute; inset:0; background:rgb(0 0 0 / 30%); mix-blend-mode:multiply; opacity:0; pointer-events:none; transition:opacity 160ms ease; }
   .curated-card:focus-visible::after { opacity:1; }
   .curated-card-content { position:absolute; inset:24px; z-index:1; display:flex; align-items:flex-end; gap:16px; opacity:0; pointer-events:none; transition:opacity 160ms ease; }
@@ -42,7 +42,7 @@ const thumbnailURL = mediaURL(thumbnail?.url);
   .curated-card-caption { display:flex; flex-direction:column; align-items:stretch; gap:16px; aspect-ratio:auto; border-radius:0; overflow:visible; background:transparent; text-align:left; }
   .curated-card-caption::after { content:none; }
   .curated-card-media { position:relative; display:block; width:100%; aspect-ratio:4/3; border-radius:var(--primitive-border-radius-24,24px); overflow:hidden; isolation:isolate; background:var(--color-surface-card-dark); }
-  .curated-card-media .curated-card-thumbnail { position:absolute; inset:0; }
+  .curated-card-media :global(.curated-card-thumbnail) { position:absolute; inset:0; }
   .curated-card-media::after { content:''; position:absolute; inset:0; background:rgb(0 0 0 / 35%); opacity:0; pointer-events:none; transition:opacity 160ms ease; }
   .curated-card-centered-action { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); z-index:1; opacity:0; pointer-events:none; transition:opacity 160ms ease; }
   .curated-card-caption:focus-visible .curated-card-media::after,.curated-card-caption:focus-visible .curated-card-centered-action { opacity:1; }

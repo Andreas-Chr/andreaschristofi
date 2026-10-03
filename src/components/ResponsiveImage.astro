@@ -1,0 +1,27 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { getOriginalImageURL, getImageProps, type MediaAsset, type ImagePreset } from '../lib/image-delivery';
+import { mediaURL } from '../lib/media-assets';
+
+interface Props extends Omit<HTMLAttributes<'img'>, 'src' | 'srcset' | 'sizes' | 'width' | 'height' | 'alt' | 'loading' | 'decoding' | 'fetchpriority' | 'onerror'> {
+  asset?: MediaAsset;
+  preset: ImagePreset;
+  sizes: string;
+  priority?: boolean;
+  preserveResolution?: boolean;
+  /** Safe local artwork used if the original asset also fails. */
+  fallback: string;
+  enabled?: boolean;
+}
+const { asset, preset, sizes, priority = false, preserveResolution = false, fallback, enabled = import.meta.env.IMAGE_TRANSFORMATIONS_ENABLED !== 'false', ...attributes } = Astro.props;
+const fallbackURL = mediaURL(fallback);
+if (!fallbackURL) throw new Error('ResponsiveImage requires a safe fallback URL');
+const source = asset && mediaURL(asset.url) ? asset : { url: fallbackURL, alt: '' };
+const image = getImageProps(source, { preset, sizes, priority, preserveResolution, enabled });
+---
+<img {...attributes} {...image} data-responsive-image data-image-original={getOriginalImageURL(source)} data-responsive-image-fallback={fallbackURL} />
+<script>
+  import { initResponsiveImages } from '../scripts/responsive-images';
+  initResponsiveImages();
+  document.addEventListener('astro:page-load', initResponsiveImages);
+</script>

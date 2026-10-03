@@ -28,7 +28,7 @@ const { shots } = Astro.props;
       <div class="shot-body">
         <header class="shot-header">
           <h2 id="active-shot-title" tabindex="-1">{shotTitle(shot)}</h2>
-          {firstMedia && <CuratedShotMedia media={firstMedia} title={shotTitle(shot)} />}
+          {firstMedia && <CuratedShotMedia media={firstMedia} title={shotTitle(shot)} priority />}
           {overview && <div class="shot-rich-text" data-shot-overview set:html={overview} />}
           {richTextHTML(firstMedia?.description) && <div class="shot-rich-text" data-shot-description set:html={richTextHTML(firstMedia?.description)} />}
         </header>
@@ -41,7 +41,7 @@ const { shots } = Astro.props;
       </div>
       {related.length > 0 && <section class="shot-related" aria-label="Other curated shots">
         <h3>Other Curated Shots</h3>
-        <div class="shot-related-grid">{related.map(other => <CuratedShotCard shot={other} layout="caption" />)}</div>
+        <div class="shot-related-grid">{related.map(other => <CuratedShotCard shot={other} layout="caption" sizes="(min-width: 1024px) 494px, (min-width: 644px) calc((100vw - 36px) / 2), calc(100vw - 16px)" />)}</div>
       </section>}
       <footer class="shot-contact">
         <h3>Get in touch</h3>

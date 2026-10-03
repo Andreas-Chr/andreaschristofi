@@ -1,33 +1,34 @@
 import { validateShots, type CuratedShot, type ShotMedia } from './curated-shots.ts';
 
-type Upload = string | number | { url?: string; alt?: string | null } | null;
+import { normalizePayloadMedia, type PayloadUpload } from './media-assets.ts';
 export interface PayloadShot extends Omit<CuratedShot, 'thumbnail' | 'media'> {
   _status?: 'draft' | 'published';
-  thumbnail?: Upload;
-  media: (Omit<ShotMedia, 'alt'> & { file?: Upload; posterImage?: Upload })[];
-}
-
-function uploadURL(upload: Upload | undefined, base: string): string | undefined {
-  if (!upload || typeof upload !== 'object' || !upload.url) return undefined;
-  return new URL(upload.url, base).href;
+  thumbnail?: PayloadUpload;
+  media: (Omit<ShotMedia, 'alt' | 'asset' | 'posterAsset'> & { file?: PayloadUpload; posterImage?: PayloadUpload })[];
 }
 
 /** Map populated Payload upload relationships into the source-independent UI model. */
 export function fromPayload(doc: PayloadShot, base: string): CuratedShot {
+  const thumbnail = normalizePayloadMedia(doc.thumbnail, base);
   return {
     slug: doc.slug, title: doc.title, order: doc.order,
     published: doc.published !== false && doc._status !== 'draft',
     thumbnail: {
-      url: uploadURL(doc.thumbnail, base),
-      alt: typeof doc.thumbnail === 'object' ? doc.thumbnail?.alt ?? '' : '',
+      ...(thumbnail || { url: undefined, alt: '' }),
     },
     overview: doc.overview,
-    media: (doc.media || []).map(item => ({
-      type: item.type, src: uploadURL(item.file, base) || item.src,
-      alt: typeof item.file === 'object' ? item.file?.alt ?? '' : '',
-      poster: uploadURL(item.posterImage, base) || item.poster,
-      description: item.description,
-    })),
+    media: (doc.media || []).map(item => {
+      const asset = normalizePayloadMedia(item.file, base);
+      const posterAsset = normalizePayloadMedia(item.posterImage, base);
+      return {
+        type: item.type, src: asset?.url || item.src,
+        alt: asset?.alt ?? '',
+        poster: posterAsset?.url || item.poster,
+        ...(asset ? { asset } : {}),
+        ...(posterAsset ? { posterAsset } : {}),
+        description: item.description,
+      };
+    }),
   };
 }
 

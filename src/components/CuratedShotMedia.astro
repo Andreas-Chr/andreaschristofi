@@ -1,27 +1,41 @@
 ---
 import { MEDIA_FALLBACK, embedURL, mediaURL, type ShotMedia } from '../lib/curated-shots';
-interface Props { media: ShotMedia; title: string; }
-const { media, title } = Astro.props;
+import ResponsiveImage from './ResponsiveImage.astro';
+import { getImageProps, getOriginalImageURL } from '../lib/image-delivery';
+interface Props { media: ShotMedia; title: string; priority?: boolean; }
+const { media, title, priority = false } = Astro.props;
 const src = mediaURL(media.src);
 const embed = embedURL(media.type, media.src);
+const sizes = '(min-width: 1024px) 992px, (min-width: 644px) calc(100vw - 32px), calc(100vw - 16px)';
+const asset = ['image', 'gif'].includes(media.type) && src
+  ? { ...media.asset, url: src, alt: media.alt ?? '', ...(media.type === 'gif' ? { mimeType: 'image/gif' } : {}) }
+  : undefined;
+const posterURL = mediaURL(media.poster);
+const posterAsset = posterURL ? { ...media.posterAsset, url: posterURL, alt: media.posterAsset?.alt ?? '' } : undefined;
+const poster = posterAsset ? getImageProps(posterAsset, {
+  preset: 'poster', sizes, enabled: import.meta.env.IMAGE_TRANSFORMATIONS_ENABLED !== 'false',
+}).src : MEDIA_FALLBACK;
 ---
 <div class="shot-media" data-shot-media>
   {media.type === 'video' && src ? (
     <video data-shot-video data-src={src} muted playsinline loop controls preload="none"
-      poster={mediaURL(media.poster) || MEDIA_FALLBACK} aria-label={media.alt || title}>
+      poster={poster} data-responsive-poster data-poster-original={posterAsset ? getOriginalImageURL(posterAsset) : MEDIA_FALLBACK} data-poster-fallback={MEDIA_FALLBACK} aria-label={media.alt || title}>
     </video>
   ) : embed ? (
     <iframe data-shot-embed data-src={embed} title={media.alt || title} allow="autoplay; fullscreen; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" />
   ) : (
-    <img src={['image', 'gif'].includes(media.type) && src ? src : MEDIA_FALLBACK} alt={media.alt || ''}
-      width="1600" height="1200" loading="lazy" data-image-fallback={MEDIA_FALLBACK} />
+    <ResponsiveImage asset={asset} preset="content" sizes={sizes} priority={priority} fallback={MEDIA_FALLBACK} />
   )}
   {media.type === 'video' && <img data-video-fallback hidden src={MEDIA_FALLBACK} alt="Video unavailable" width="1600" height="1200" />}
 </div>
+<script>
+  import { initResponsiveImages } from '../scripts/responsive-images';
+  initResponsiveImages();
+  document.addEventListener('astro:page-load', initResponsiveImages);
+</script>
 <style>
   .shot-media { width:100%; overflow:hidden; border-radius:var(--primitive-border-radius-24,24px); background:#303030; }
-  .shot-media img { display:block; width:100%; height:auto; object-fit:contain; }
-  /* Height limits letterbox some aspect ratios inside the full-width player. */
+  .shot-media :global(img) { display:block; width:100%; height:auto; object-fit:contain; }
   .shot-media video { display:block; width:100%; height:auto; object-fit:contain; }
   .shot-media iframe { display:block; width:100%; aspect-ratio:16/9; border:0; }
   .shot-media [hidden] { display:none; }
