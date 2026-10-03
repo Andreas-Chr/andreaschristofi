@@ -14,20 +14,20 @@ import experience from '../data/experience.json';
   </div>
 </section>
 <script>
-  import { setPanel, resizeCards } from '../scripts/disclosure';
+  import { setExperiencePanel } from '../scripts/experience';
   document.querySelectorAll<HTMLElement>('[data-experience]').forEach(root=>{
     if(root.dataset.ready)return;
     const cards=Array.from(root.querySelectorAll<HTMLElement>('.experience-card'));
     let selected=0;
     const select=(index:number,animate=true)=>{
       selected=index;
-      resizeCards(cards,()=>cards.forEach((card,i)=>{
+      cards.forEach((card,i)=>{
         const trigger=card.querySelector<HTMLButtonElement>('button')!;
         const panel=card.querySelector<HTMLElement>('.experience-panel')!;
         const open=i===selected;
         card.dataset.open=String(open);
-        setPanel(panel,trigger,open,open&&animate);
-      }),animate);
+        setExperiencePanel(panel,trigger,open,animate);
+      });
     };
     cards.forEach((card,i)=>{
       const trigger=card.querySelector<HTMLButtonElement>('button')!;
@@ -36,6 +36,7 @@ import experience from '../data/experience.json';
     });
     select(0,false);
     root.dataset.ready='true';
+    matchMedia('(prefers-reduced-motion: reduce)').addEventListener?.('change',()=>select(selected,false));
   });
 </script>
 <style>
@@ -51,6 +52,8 @@ import experience from '../data/experience.json';
   .experience :global(.experience-toggle) { display:none; position:absolute; right:24px; top:50%; transform:translateY(-50%); }
   .experience-panel { margin-top:24px; }
   .experience-panel ul { padding-left:20px; margin:0; }
+  [data-ready] .experience-card { transition:background-color var(--primitive-animation-duration-standard) var(--primitive-animation-easing-standard),color var(--primitive-animation-duration-standard) var(--primitive-animation-easing-standard); }
+  [data-ready] .experience-meta { transition:color var(--primitive-animation-duration-standard) var(--primitive-animation-easing-standard); }
   [data-ready] .experience-card[data-open='false'] { background:#303030; color:#fff; }
   [data-ready] .experience-card[data-open='false'] .experience-meta { color:#c5fa00; }
   [data-ready] :global(.experience-toggle) { display:flex; }

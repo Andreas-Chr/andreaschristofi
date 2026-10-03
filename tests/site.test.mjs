@@ -5,6 +5,7 @@ import { resolve } from 'node:path';
 import { Window } from 'happy-dom';
 import ts from 'typescript';
 import { setPanel, resizeCards } from '../src/scripts/disclosure.ts';
+import { setExperiencePanel } from '../src/scripts/experience.ts';
 import { setMenuPanel } from '../src/scripts/menu.ts';
 import { animateMenuIcon } from '../src/scripts/menu-icon.ts';
 import { setContactPanel } from '../src/scripts/contact.ts';
@@ -23,8 +24,8 @@ function fixture(source=html) {
 function enhance(name) {
   const source=readFileSync(new URL(`../src/components/${name}.astro`,import.meta.url),'utf8');
   const script=source.match(/<script>([\s\S]*?)<\/script>/)[1].replace(/import\s+\{\s*setPanel(?:, resizeCards)?\s*\}\s+from\s+['"][^'"]+['"];?/, '');
-  const code=ts.transpileModule(script.replace(/import\s+\{\s*(?:setMenuPanel|animateMenuIcon|setContactPanel)\s*\}\s+from\s+['"][^'"]+['"];?/g, ''),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ESNext}}).outputText;
-  new Function('setPanel','resizeCards','setMenuPanel','animateMenuIcon','setContactPanel',code)(setPanel,resizeCards,setMenuPanel,animateMenuIcon,setContactPanel);
+  const code=ts.transpileModule(script.replace(/import\s+\{\s*(?:setMenuPanel|animateMenuIcon|setContactPanel|setExperiencePanel)\s*\}\s+from\s+['"][^'"]+['"];?/g, ''),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ESNext}}).outputText;
+  new Function('setPanel','resizeCards','setMenuPanel','animateMenuIcon','setContactPanel','setExperiencePanel',code)(setPanel,resizeCards,setMenuPanel,animateMenuIcon,setContactPanel,setExperiencePanel);
 }
 
 test('static output keeps the menu closed and exposes page content and native links',()=>{
@@ -197,6 +198,55 @@ test('experience keeps exactly one card open, including repeated selection',()=>
   assert.equal(document.querySelector('.experience-panel:not([hidden])').id,'experience-panel-3');
   [0,1,3].forEach(i=>buttons[i].click());
   assert.equal(document.querySelectorAll('.experience-panel:not([hidden])').length,1);
+  w.close();
+});
+
+test('experience collapses before hiding and ignores an interrupted closing animation',async()=>{
+  const w=fixture();enhance('Experience');
+  globalThis.matchMedia=()=>({matches:false});
+  const panel=document.querySelector('.experience-panel');
+  const trigger=document.querySelector('.experience-trigger');
+  const motions=[];
+  panel.getBoundingClientRect=()=>({height:96});
+  panel.animate=(frames)=>{
+    let finish;
+    const motion={frames,finished:new Promise(resolve=>{finish=resolve;}),cancel(){this.cancelled=true;},finish:()=>finish()};
+    motions.push(motion);return motion;
+  };
+  const link=document.createElement('a');link.href='#';panel.append(link);link.focus();
+  setExperiencePanel(panel,trigger,false);
+  assert.equal(panel.hidden,false);
+  assert.equal(panel.inert,true);
+  assert.equal(trigger.getAttribute('aria-expanded'),'false');
+  assert.equal(document.activeElement,trigger);
+  assert.equal(motions[0].frames[1].height,'0px');
+  setExperiencePanel(panel,trigger,true);
+  motions[0].finish();await Promise.resolve();
+  assert.equal(panel.hidden,false);
+  assert.equal(panel.inert,false);
+  assert.equal(motions[0].cancelled,true);
+  motions[1].finish();await Promise.resolve();
+  assert.equal(panel.hidden,false);
+  assert.equal(motions[1].cancelled,true);
+  setExperiencePanel(panel,trigger,false);
+  motions[2].finish();await Promise.resolve();
+  assert.equal(panel.hidden,true);
+  w.close();
+});
+
+test('experience settles an in-flight animation immediately when reduced motion is enabled',()=>{
+  const w=fixture();enhance('Experience');
+  globalThis.matchMedia=()=>({matches:false});
+  const panel=document.querySelector('.experience-panel');
+  const trigger=document.querySelector('.experience-trigger');
+  let cancelled=false;
+  panel.animate=()=>({finished:new Promise(()=>{}),cancel(){cancelled=true;}});
+  setExperiencePanel(panel,trigger,false);
+  globalThis.matchMedia=()=>({matches:true});
+  setExperiencePanel(panel,trigger,false,false);
+  assert.equal(cancelled,true);
+  assert.equal(panel.hidden,true);
+  assert.equal(panel.inert,true);
   w.close();
 });
 
