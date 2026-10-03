@@ -130,6 +130,45 @@ test('homepage cards open their own content; related navigation retains original
   } finally { window.close(); }
 });
 
+test('touch dismissal restores the original card without a lingering visual focus state', () => {
+  const { window, dialog } = fixture();
+  try {
+    const card = document.querySelector('.curated-grid button');
+    card.dispatchEvent(new window.PointerEvent('pointerdown', { bubbles: true, pointerType: 'touch' }));
+    card.click();
+    dialog.querySelector('[data-shot-open]').click();
+    const close = dialog.querySelector('[data-shot-close]');
+    close.dispatchEvent(new window.PointerEvent('pointerdown', { bubbles: true, pointerType: 'touch' }));
+    close.click();
+    assert.equal(dialog.open, false);
+    assert.equal(document.activeElement, card);
+    assert.equal(card.hasAttribute('data-shot-pointer-focus'), true);
+    card.dispatchEvent(new window.KeyboardEvent('keydown', { key: 'Tab', bubbles: true }));
+    assert.equal(card.hasAttribute('data-shot-pointer-focus'), false, 'keyboard interaction restores visible focus');
+
+    card.dispatchEvent(new window.PointerEvent('pointerdown', { bubbles: true, pointerType: 'touch' }));
+    card.click();
+    dialog.close();
+    assert.equal(card.hasAttribute('data-shot-pointer-focus'), true);
+    document.querySelector('.curated-grid button:nth-child(2)').focus();
+    assert.equal(card.hasAttribute('data-shot-pointer-focus'), false, 'suppression ends when focus leaves the card');
+  } finally { window.close(); }
+});
+
+test('keyboard dismissal keeps the restored card focus visible even after touch opening', () => {
+  const { window, dialog } = fixture();
+  try {
+    const card = document.querySelector('.curated-grid button');
+    card.dispatchEvent(new window.PointerEvent('pointerdown', { bubbles: true, pointerType: 'touch' }));
+    card.click();
+    dialog.dispatchEvent(new window.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    dialog.dispatchEvent(new window.Event('cancel', { cancelable: true }));
+    assert.equal(dialog.open, false);
+    assert.equal(document.activeElement, card);
+    assert.equal(card.hasAttribute('data-shot-pointer-focus'), false);
+  } finally { window.close(); }
+});
+
 test('media activation is deferred, muted and stopped on close; image errors use fallback', async () => {
   const {window,dialog,observers} = fixture();
   try {

@@ -54,6 +54,13 @@ const asset = thumbnailURL ? { ...thumbnail, url: thumbnailURL, alt: thumbnail?.
     .curated-card-caption:is(:hover,[data-state='hover']) .curated-card-media::after,
     .curated-card-caption:is(:hover,[data-state='hover']) .curated-card-centered-action { opacity:1; }
   }
+  @media(max-width:1199px), (hover:none) {
+    .curated-card[data-shot-pointer-focus]:focus-visible { outline:none; }
+    .curated-card[data-shot-pointer-focus]:focus-visible::after,
+    .curated-card[data-shot-pointer-focus]:focus-visible .curated-card-content,
+    .curated-card-caption[data-shot-pointer-focus]:focus-visible .curated-card-media::after,
+    .curated-card-caption[data-shot-pointer-focus]:focus-visible .curated-card-centered-action { opacity:0; }
+  }
   @media(max-width:399px) { .curated-card-caption .curated-card-title { font:var(--text-headings-h5); } }
   @media(prefers-reduced-motion:reduce) { .curated-card::after,.curated-card-content,.curated-card-media::after,.curated-card-centered-action { transition:none; } }
 </style>

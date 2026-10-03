@@ -12,6 +12,20 @@ export function initCuratedShots() {
   let bodyOverflow = '';
   let observer: IntersectionObserver | undefined;
   let closeSequence = 0;
+  let pointerInput = false;
+  let pointerFocusedCard: HTMLElement | null = null;
+  const clearPointerFocus = () => {
+    pointerFocusedCard?.removeAttribute('data-shot-pointer-focus');
+    pointerFocusedCard = null;
+  };
+  document.addEventListener('pointerdown', () => { pointerInput = true; }, { capture: true, signal });
+  document.addEventListener('keydown', () => {
+    pointerInput = false;
+    clearPointerFocus();
+  }, { capture: true, signal });
+  document.addEventListener('focusout', event => {
+    if (event.target === pointerFocusedCard) clearPointerFocus();
+  }, { signal });
 
   const requestClose = () => {
     if (!dialog.open || dialog.dataset.motion === 'closing') return;
@@ -131,6 +145,13 @@ export function initCuratedShots() {
     content.replaceChildren();
     document.documentElement.style.overflow = overflow;
     document.body.style.overflow = bodyOverflow;
+    // A dialog's focused heading can make restored touch focus match :focus-visible.
+    // Keep the focus return, but let touch cards display their default appearance.
+    clearPointerFocus();
+    if (pointerInput && opener) {
+      pointerFocusedCard = opener;
+      opener.setAttribute('data-shot-pointer-focus', '');
+    }
     opener?.focus({ preventScroll: true });
     opener = null;
   };
@@ -143,6 +164,7 @@ export function initCuratedShots() {
       // The native close event is queued; restore scrolling before aborting its listener.
       cleanup();
     } else stopMedia();
+    clearPointerFocus();
     controller.abort();
   }, { once: true, signal });
 }
