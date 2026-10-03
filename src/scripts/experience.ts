@@ -1,3 +1,5 @@
+import { cssTimeToMilliseconds } from './css-time.ts';
+
 import { setPanel } from './disclosure.ts';
 
 const transitions = new WeakMap<HTMLElement, Animation>();
@@ -31,7 +33,7 @@ export function setExperiencePanel(panel: HTMLElement, trigger: HTMLButtonElemen
     { ...from, overflow: 'hidden' },
     { ...target, overflow: 'hidden' },
   ], {
-    duration: parseFloat(css.getPropertyValue('--primitive-animation-duration-standard')) || 240,
+    duration: cssTimeToMilliseconds(css.getPropertyValue('--primitive-animation-duration-standard')),
     easing: css.getPropertyValue('--primitive-animation-easing-standard').trim() || 'ease-out',
     fill: 'both',
   });

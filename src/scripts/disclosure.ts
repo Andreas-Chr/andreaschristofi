@@ -1,3 +1,5 @@
+import { cssTimeToMilliseconds } from './css-time.ts';
+
 /** Shared, interruptible state transition. Focus and interactivity change immediately. */
 export function resizeCards(cards: HTMLElement[], update: () => void, animate = true) {
   const heights = cards.map(card => card.getBoundingClientRect().height);
@@ -9,7 +11,7 @@ export function resizeCards(cards: HTMLElement[], update: () => void, animate = 
     if (Math.abs(height - heights[i]) < 1 || !card.animate) return;
     const css = getComputedStyle(card);
     card.animate([{height:`${heights[i]}px`},{height:`${height}px`}], {
-      duration:parseFloat(css.getPropertyValue('--primitive-animation-duration-standard')) || 240,
+      duration:cssTimeToMilliseconds(css.getPropertyValue('--primitive-animation-duration-standard')),
       easing:css.getPropertyValue('--primitive-animation-easing-standard').trim() || 'ease-out',
     });
   });
@@ -24,7 +26,7 @@ export function setPanel(panel: HTMLElement, trigger: HTMLButtonElement, open: b
   if (!animate || reduced || !panel.animate) { panel.hidden = !open; return; }
   if (open) panel.hidden = false;
   const css = getComputedStyle(panel);
-  const duration = parseFloat(css.getPropertyValue('--primitive-animation-duration-standard')) || 240;
+  const duration = cssTimeToMilliseconds(css.getPropertyValue('--primitive-animation-duration-standard'));
   const easing = css.getPropertyValue('--primitive-animation-easing-standard').trim() || 'ease-out';
   const animation = panel.animate(open
     ? [{ opacity: 0, transform: 'translateY(-8px)' }, { opacity: 1, transform: 'translateY(0)' }]

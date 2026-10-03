@@ -201,6 +201,53 @@ test('experience keeps exactly one card open, including repeated selection',()=>
   w.close();
 });
 
+test('accordion animations use milliseconds from the production CSS token', () => {
+  const styles = readdirSync(new URL('../dist/_astro/', import.meta.url))
+    .filter(name => name.endsWith('.css'))
+    .map(name => readFileSync(new URL(`../dist/_astro/${name}`, import.meta.url), 'utf8'))
+    .join('\n');
+  const token = styles.match(/--primitive-animation-duration-standard:\s*([^;}]+)/)?.[1];
+  assert.ok(token, 'the production build must include the standard duration token');
+  for (const kind of ['experience', 'panel', 'cards']) {
+    const w = fixture();
+    try {
+      enhance('Experience');
+      globalThis.matchMedia = () => ({ matches: false });
+      const panel = document.querySelector('.experience-panel');
+      const trigger = document.querySelector('.experience-trigger');
+      const card = panel.closest('.experience-card');
+      const computedStyle = w.getComputedStyle.bind(w);
+      globalThis.getComputedStyle = element => {
+        const css = computedStyle(element);
+        return new Proxy(css, { get(target, key) {
+          if (key === 'getPropertyValue') return name => name === '--primitive-animation-duration-standard'
+            ? token : target.getPropertyValue(name);
+          const value = Reflect.get(target, key);
+          return typeof value === 'function' ? value.bind(target) : value;
+        } });
+      };
+      let duration;
+      const animate = (_frames, options) => {
+        duration = options.duration;
+        return { finished: new Promise(() => {}), cancel() {} };
+      };
+      if (kind === 'cards') {
+        let height = 100;
+        card.getBoundingClientRect = () => ({ height });
+        card.animate = animate;
+        resizeCards([card], () => { height = 200; });
+      } else {
+        panel.animate = animate;
+        if (kind === 'experience') setExperiencePanel(panel, trigger, false);
+        else setPanel(panel, trigger, false);
+      }
+      assert.equal(duration, 240, kind);
+    } finally {
+      w.close();
+    }
+  }
+});
+
 test('experience collapses before hiding and ignores an interrupted closing animation',async()=>{
   const w=fixture();enhance('Experience');
   globalThis.matchMedia=()=>({matches:false});
