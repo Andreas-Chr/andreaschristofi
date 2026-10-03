@@ -19,22 +19,19 @@ supply the actual layout sizes; the browser accounts for viewport and pixel dens
 ## Current delivery policy
 
 - Resize production CMS PNG/JPEG uploads only when valid dimensions are available.
-- PNG: width-only `fit=scale-down`, omit format and quality options. Verified PNG responses
-  retain PNG; no quality option is sent that could enable palette quantization.
-- JPEG: width-only `fit=scale-down,quality=90,format=jpeg` for smaller candidates.
-  Quality 90 is an encoding setting, not a statement of 10 percent perceptual degradation.
-  Resizing and JPEG re-encoding still require visual review.
-- The uploaded original, with its revision query, is always the largest candidate.
-  Full-width requests avoid transformation and re-encoding entirely.
-- `preserveResolution` remains an explicit original-only option, but Curated Shot detail
-  images now use responsive resolution selection by default.
-- Card/content presets include 1200px for high-density mobile screens. Smaller candidates
-  never exceed the master width. Actual uploaded aspect ratios remain authoritative;
-  CSS owns card cropping, and detail images retain their proportions.
+- All eligible PNG/JPEG `src` and `srcset` URLs use
+  `width=…,fit=scale-down,quality=90,format=auto`, including intrinsic-width candidates.
+  Cloudflare negotiates output format; quality 90 still requires visual review.
+- Card candidates: 320/480/640/800/1024, capped at 1024px.
+- Content/overlay candidates: 480/640/800/1024/1200/1440/1600, capped at 1600px.
+  Both presets stop at source width and include that exact width when below the cap.
+- `preserveResolution` selects only the largest derivative allowed by the preset,
+  still subject to source dimensions; it does not bypass transformation or the cap.
+- Intrinsic dimensions and consumer-provided sizes remain unchanged. CSS owns cropping.
 - GIF, SVG, video, existing WebP/AVIF, unknown metadata, other origins and local sources
   pass through. Native video sources, embeds and animation behavior are unchanged.
 - First detail image: eager/high priority. Other images: lazy, async decoding.
-- `updatedAt` revisions both transformed sources and direct original candidates. Revisioned original URLs remain available for recovery: derivative -> original -> placeholder.
+- `updatedAt` revisions transformed sources and recovery originals. Revisioned original URLs remain available for recovery: derivative -> original -> placeholder.
   Public CMS originals keep their revision even when resizing is disabled, the type passes
   through, or dimensions are absent.
 - `IMAGE_TRANSFORMATIONS_ENABLED=false` disables transformations at build time.
@@ -58,13 +55,13 @@ srcset. Mounted video posters have their own bounded original/placeholder recove
 
 ## Validation and release limits
 
-The earlier quality-90 AVIF/auto and quality-100 lossless WebP measurements are historical.
-They do not establish savings or visual approval for the current native-format policy.
+Previous byte measurements are historical and do not establish savings or visual approval
+for the current automatic-format policy.
 Byte savings vary by asset and candidate width; a resized image can be larger than its
 compressed original. Network byte measurements are not whole-page speed scores.
 
-Tests cover metadata, source safety, PNG/JPEG-specific policy, responsive detail candidates,
-original full-width delivery, priority, dimensions, local passthrough, the build switch,
+Tests cover metadata, source safety, PNG/JPEG automatic-format policy, responsive detail candidates,
+transformed largest candidates and preset caps, priority, dimensions, local passthrough, the build switch,
 and bounded dynamic image recovery. Inspect real desktop/mobile currentSrc and visual
 sharpness before release. Physical-device and full-page mobile performance checks remain
 separate from format/byte verification. Commit, push and deployment need release approval.
@@ -93,3 +90,28 @@ mutation is needed. The application further restricts generated transformations 
 `https://cms.andreaschristofi.com/api/media/file/`. Keep the zone restricted rather than
 switching it to arbitrary origins. `IMAGE_TRANSFORMATIONS_ENABLED` is a build-time setting;
 setting it to false requires a rebuild. Its default is enabled.
+
+## Optimization bundle verification — 2026-10-03
+
+- `npm run check`: 56 files, no errors, warnings or hints.
+- Public CMS-backed build: 4 routes and 8 published Shots; all 52 website tests pass.
+- Generated homepage HTML: 24 card instances (8 homepage + 16 related), 33 content images.
+  All responsive candidates use transformed URLs, correct caps, intrinsic dimensions and
+  existing sizes; cards remain lazy and 5 image leads retain eager/high priority inside
+  inert overlay templates. No layout or hydration changes.
+- Live ESA JPEG and EverFX PNG requests at 800/1024 return HTTP 200 AVIF when accepted;
+  fallback Accept headers return JPEG/PNG. Responses include `Vary: Accept`, ETag and
+  `Cache-Control: max-age=14400`; a repeated ESA request returned HIT.
+- Original and revision-query CMS image responses returned HTTP 200 without explicit
+  Cache-Control, ETag or Last-Modified headers in these samples. Initial Python-client
+  requests received 403; curl succeeded, so challenge responses were excluded from findings.
+- CMS R2 upload code sets content type, not cache lifetime. Reads use filename/object key;
+  the `v` query is not an immutable revision lookup. Existing CMS immutable headers apply
+  only to `/_next/static/*`. A long immutable media policy is not established as safe:
+  replacement, deletion, query-sensitive cache keys and rebuild failure/invalidation need
+  verification first. No cache policy, CMS files, storage or database changed.
+- Neither repository contains tracked hard-coded `www.andreaschristofi.com` references.
+  Astro canonicals use the apex; live www returns 301 to https://andreaschristofi.com/.
+- Visual sharpness on high-density displays and new whole-page performance scores remain
+  release checks. The 1024px card cap deliberately trades some high-DPR detail for bytes.
+  Existing WebP/AVIF passthrough and incomplete-metadata safeguards remain intact.

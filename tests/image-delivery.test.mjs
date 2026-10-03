@@ -43,10 +43,10 @@ test('adapter retains legacy URLs alongside shared detail and poster metadata', 
 
 test('responsive URLs preserve proportions and revision both source and derivative cache keys', () => {
   const result = getImageProps(asset, options);
-  assert.match(result.src, /width=800,fit=scale-down\//);
-  assert.doesNotMatch(result.srcset, /quality=|format=/);
+  assert.match(result.src, /width=800,fit=scale-down,quality=90,format=auto\//);
+  assert.ok(result.srcset.split(', ').every(candidate => candidate.includes('quality=90,format=auto/')));
   assert.match(result.src, /screen\.png\?v=2026-09-28T17%3A54%3A51\.221Z$/);
-  assert.match(result.srcset, / 320w, .* 1200w, .* 1440w, .*screen\.png\?v=.* 1600w$/);
+  assert.match(result.srcset, / 320w, .* 480w, .* 640w, .* 800w, .* 1024w$/);
   assert.equal(result.sizes, options.sizes);
   assert.equal(result.width, 1600);
   assert.equal(result.height, 1200);
@@ -57,37 +57,46 @@ test('responsive URLs preserve proportions and revision both source and derivati
   assert.notEqual(result.src, getImageProps({ ...asset, updatedAt: '2026-10-02T12:00:00Z' }, options).src);
 });
 
-test('largest candidates and explicit resolution preservation use the untouched master', () => {
+test('content caps large sources at 1600 and transforms even intrinsic-width candidates', () => {
   const result = getImageProps(asset, { preset: 'content', sizes: '992px', preserveResolution: true });
-  assert.equal(result.src, `${asset.url}?v=2026-09-28T17%3A54%3A51.221Z`);
+  assert.match(result.src, /width=1600,fit=scale-down,quality=90,format=auto\//);
   const responsive = getImageProps(asset, { preset: 'content', sizes: '374px' });
-  assert.match(responsive.srcset, /width=800,fit=scale-down\/.* 800w/);
   assert.ok(responsive.srcset.endsWith(`${result.src} 1600w`));
   assert.equal(result.srcset, `${result.src} 1600w`);
   assert.equal(result.width, 1600);
   assert.equal(result.height, 1200);
   assert.equal(getImageProps(asset, { preset: 'content', sizes: '992px', preserveResolution: true, enabled: false }).src, getOriginalImageURL(asset));
+  const large = { ...asset, width: 4000, height: 3000 };
+  for (const [preset, expected] of [['card', [320, 480, 640, 800, 1024]], ['content', [480, 640, 800, 1024, 1200, 1440, 1600]]]) {
+    const props = getImageProps(large, { ...options, preset });
+    const candidates = props.srcset.split(', ');
+    assert.deepEqual(candidates.map(candidate => Number(candidate.match(/ (\d+)w$/)[1])), expected);
+    assert.ok(candidates.every(candidate => candidate.startsWith('https://andreaschristofi.com/cdn-cgi/image/')));
+    assert.match(getImageProps(large, { ...options, preset, preserveResolution: true }).src, new RegExp(`width=${expected.at(-1)},`));
+  }
 });
 
-test('resized JPEGs stay JPEG at quality 90 while the full-size original bypasses encoding', () => {
-  const jpeg = { ...asset, url: `${base}/api/media/file/screen.jpg`, mimeType: 'image/jpeg' };
-  const result = getImageProps(jpeg, options);
-  assert.match(result.src, /width=800,fit=scale-down,quality=90,format=jpeg\//);
-  assert.doesNotMatch(result.srcset, /webp|quality=100/);
-  assert.ok(result.srcset.endsWith(`${jpeg.url}?v=2026-09-28T17%3A54%3A51.221Z 1600w`));
-  assert.equal(getImageProps(jpeg, { ...options, preserveResolution: true }).src,
-    `${jpeg.url}?v=2026-09-28T17%3A54%3A51.221Z`);
+test('JPEG and PNG candidates negotiate format at quality 90', () => {
+  for (const mimeType of ['image/jpeg', 'image/png']) {
+    const input = { ...asset, mimeType, url: `${base}/api/media/file/screen.${mimeType === 'image/jpeg' ? 'jpg' : 'png'}` };
+    const result = getImageProps(input, options);
+    assert.match(result.src, /width=800,fit=scale-down,quality=90,format=auto\//);
+    assert.ok(result.srcset.split(', ').every(candidate => candidate.includes('quality=90,format=auto/')));
+    assert.doesNotMatch(result.srcset, /format=jpeg|quality=100/);
+  }
 });
 
 test('small masters never produce overstated width descriptors or duplicate variants', () => {
-  const result = getImageProps({ ...asset, width: 500, height: 375 }, options);
-  assert.equal(result.srcset.split(', ').length, 3);
-  assert.match(result.srcset, /width=320.* 320w, .*width=480.* 480w, .*screen\.png\?v=.* 500w$/);
-  assert.ok(result.src.startsWith(asset.url));
-  assert.doesNotMatch(result.src, /cdn-cgi/);
-  const tiny = getImageProps({ ...asset, width: 200, height: 150 }, options);
-  assert.equal(tiny.srcset.split(', ').length, 1);
-  assert.match(tiny.srcset, / 200w$/);
+  for (const width of [200, 320, 500, 800, 1024]) {
+    const result = getImageProps({ ...asset, width, height: 375 }, options);
+    const candidates = result.srcset.split(', ');
+    const widths = candidates.map(candidate => Number(candidate.match(/ (\d+)w$/)[1]));
+    assert.equal(new Set(widths).size, widths.length);
+    assert.ok(widths.every(value => value <= width));
+    assert.equal(widths.at(-1), width);
+    assert.match(result.src, new RegExp(`width=${Math.min(800, width)},`));
+    assert.ok(candidates.every(candidate => candidate.startsWith('https://andreaschristofi.com/cdn-cgi/image/')));
+  }
 });
 
 test('GIFs, SVGs, videos, unknown MIME, local sources and nested transforms pass through', () => {

@@ -8,7 +8,7 @@ export interface ImageOptions {
   /** The consumer knows its layout; do not infer sizes from an asset or preset. */
   sizes: string;
   priority?: boolean;
-  /** Keep original pixels for detailed interface screenshots. */
+  /** Select only the largest allowed derivative; the preset cap still applies. */
   preserveResolution?: boolean;
   enabled?: boolean;
 }
@@ -65,14 +65,13 @@ export function getImageProps(asset: MediaAsset, options: ImageOptions): ImagePr
   if (!options.sizes.trim()) throw new Error('Responsive images require a layout sizes value');
   const preset = IMAGE_PRESETS[options.preset];
   const intrinsicWidth = asset.width!;
-  // Always include the untouched master as the largest candidate.
-  const widths = options.preserveResolution ? [intrinsicWidth]
-    : [...preset.widths.filter(width => width < intrinsicWidth), intrinsicWidth];
-  const encoding = asset.mimeType === 'image/jpeg'
-    ? `,quality=${MEDIA_DELIVERY.jpegQuality},format=jpeg` : '';
-  const url = (width: number) => width === intrinsicWidth ? source
-    : `${MEDIA_DELIVERY.transformOrigin}/cdn-cgi/image/width=${width},fit=scale-down${encoding}/${source}`;
-  result.src = url(options.preserveResolution ? intrinsicWidth : Math.min(preset.defaultWidth, intrinsicWidth));
+  // Include a smaller source's exact width, but never exceed the context's cap.
+  const maxWidth = Math.min(preset.widths[preset.widths.length - 1], intrinsicWidth);
+  const widths = options.preserveResolution ? [maxWidth]
+    : [...preset.widths.filter(width => width < maxWidth), maxWidth];
+  const url = (width: number) =>
+    `${MEDIA_DELIVERY.transformOrigin}/cdn-cgi/image/width=${width},fit=scale-down,quality=${MEDIA_DELIVERY.quality},format=auto/${source}`;
+  result.src = url(options.preserveResolution ? maxWidth : Math.min(preset.defaultWidth, maxWidth));
   result.srcset = widths.map(width => `${url(width)} ${width}w`).join(', ');
   result.sizes = options.sizes;
   return result;

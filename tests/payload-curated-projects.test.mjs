@@ -13,7 +13,8 @@ test('Project hero and thumbnail reuse media metadata and responsive delivery', 
   for (const [asset, preset] of [[project.heroMedia, 'hero'], [project.thumbnail, 'card']]) {
     const image = getImageProps(asset, { preset, sizes: '100vw' });
     assert.match(image.src, /cdn-cgi\/image/);
-    assert.ok(image.srcset.endsWith('1800w'));
+    assert.ok(image.srcset.endsWith(preset === 'card' ? '1024w' : '1800w'));
+    assert.ok(image.srcset.split(', ').every(candidate => candidate.includes('quality=90,format=auto/')));
   }
   assert.equal(fromPayloadProject({ ...doc, heroMedia: 1, thumbnail: null }, base).heroMedia, undefined);
 });
