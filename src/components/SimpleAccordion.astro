@@ -1,0 +1,69 @@
+---
+import ButtonAccordion from './ButtonAccordion.astro';
+
+/** Figma Simple Accordion — 5558:1926. Each instance toggles independently. */
+interface Props {
+  /** Unique within the page; used to associate the trigger and content. */
+  id: string;
+  title: string;
+  content?: string;
+  expanded?: boolean;
+}
+const { id, title, content, expanded = false } = Astro.props;
+---
+<article class="simple-accordion" data-simple-accordion data-accordion-card data-initial-expanded={String(expanded)} data-open="true">
+  <h4 class="simple-accordion-heading">
+    <ButtonAccordion class="simple-accordion-trigger" indicatorClass="simple-accordion-indicator" plusIcon="/assets/icons/simple-accordion-plus.svg" minusIcon="/assets/icons/simple-accordion-minus.svg" id={`${id}-trigger`} aria-expanded="true" aria-controls={`${id}-panel`} disabled>
+      <span>{title}</span>
+    </ButtonAccordion>
+  </h4>
+  <div class="simple-accordion-panel" id={`${id}-panel`} role="region" aria-labelledby={`${id}-trigger`}>
+    <slot><p>{content}</p></slot>
+  </div>
+</article>
+<script>
+  import { setExperiencePanel } from '../scripts/experience';
+
+  document.querySelectorAll<HTMLElement>('[data-simple-accordion]').forEach(card => {
+    if (card.dataset.ready) return;
+    const trigger = card.querySelector<HTMLButtonElement>('button')!;
+    const panel = card.querySelector<HTMLElement>('.simple-accordion-panel')!;
+    const toggle = (open: boolean, animate = true) => {
+      card.dataset.open = String(open);
+      setExperiencePanel(panel, trigger, open, animate);
+    };
+    toggle(card.dataset.initialExpanded === 'true', false);
+    trigger.disabled = false;
+    card.addEventListener('click', event => {
+      const target = event.target;
+      if (!(target instanceof Element) || event.defaultPrevented) return;
+      // Keep slotted links and controls usable, and allow content to be selected.
+      if (!trigger.contains(target)) {
+        if (target.closest('a, button, input, select, textarea, label, summary, audio, video, [role="button"], [role="link"], [contenteditable]:not([contenteditable="false"])')) return;
+        if (window.getSelection()?.toString()) return;
+      }
+      toggle(trigger.getAttribute('aria-expanded') !== 'true');
+    });
+    card.dataset.ready = 'true';
+    matchMedia('(prefers-reduced-motion: reduce)').addEventListener?.('change', () => {
+      toggle(trigger.getAttribute('aria-expanded') === 'true', false);
+    });
+  });
+</script>
+<style>
+  .simple-accordion { position:relative; min-width:0; width:100%; padding:24px 88px 24px 24px; border-radius:8px; background:var(--color-surface-card-light); color:var(--color-text-dark); }
+  .simple-accordion[data-ready] { cursor:pointer; transition:background-color var(--primitive-animation-duration-standard) var(--primitive-animation-easing-standard),color var(--primitive-animation-duration-standard) var(--primitive-animation-easing-standard); }
+  .simple-accordion-heading { margin:0; font:var(--text-display-small); }
+  .simple-accordion .simple-accordion-trigger { display:flex; width:100%; min-height:36px; text-align:left; font:var(--text-display-small); font-variation-settings:'opsz' 14; font-feature-settings:'liga' 0; letter-spacing:0; overflow-wrap:anywhere; }
+  .simple-accordion-trigger > span { min-width:0; }
+  .simple-accordion :global(.simple-accordion-indicator) { position:absolute; right:24px; top:50%; transform:translateY(-50%); }
+  .simple-accordion-panel { margin-top:24px; font:var(--text-body-medium); font-variation-settings:'opsz' 9; letter-spacing:0; overflow-wrap:anywhere; }
+  .simple-accordion-panel :global(p) { margin:0; }
+  .simple-accordion-panel :global(p + p) { margin-top:16px; }
+  [data-open='false'] { background:var(--color-surface-card-dark); color:var(--color-text-light); }
+  [data-open='false'] .simple-accordion-trigger { min-height:40px; }
+  .simple-accordion-trigger:focus-visible { outline:none; }
+  .simple-accordion:has(:focus-visible) { outline:3px solid var(--color-focus-secondary); outline-offset:4px; }
+  .simple-accordion[data-open='false']:has(:focus-visible) { outline-color:var(--color-text-accent); }
+  @media (forced-colors:active) { .simple-accordion { border:1px solid CanvasText; } }
+</style>

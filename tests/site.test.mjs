@@ -189,6 +189,45 @@ test('design system Process/Step works independently without artwork',()=>{
   w.close();
 });
 
+test('simple accordion shares Experience motion and settles when reduced motion changes',async()=>{
+  const w=fixture(readFileSync(new URL('../dist/design-system/index.html',import.meta.url),'utf8'));
+  try {
+    let reduced=false;
+    const listeners=[];
+    globalThis.matchMedia=()=>({matches:reduced,addEventListener(_event,listener){listeners.push(listener);}});
+    enhance('SimpleAccordion');
+    const cards=[...document.querySelectorAll('[data-simple-accordion]')];
+    const trigger=cards[0].querySelector('button');
+    const panel=cards[0].querySelector('.simple-accordion-panel');
+    const motions=[];
+    panel.getBoundingClientRect=()=>({height:96});
+    panel.animate=(frames)=>{
+      let finish;
+      const motion={frames,finished:new Promise(resolve=>{finish=resolve;}),cancel(){this.cancelled=true;},finish:()=>finish()};
+      motions.push(motion);return motion;
+    };
+    assert.equal(panel.hidden,true);
+    trigger.click();
+    assert.equal(panel.hidden,false);
+    assert.equal(motions[0].frames[0].height,'0px');
+    assert.equal(motions[0].frames[1].height,'96px');
+    trigger.click();
+    assert.equal(motions[0].cancelled,true);
+    assert.equal(panel.hidden,false,'Closing content remains visible until motion finishes');
+    assert.equal(panel.inert,true);
+    assert.equal(motions[1].frames[1].height,'0px');
+    motions[0].finish();await Promise.resolve();
+    assert.equal(panel.hidden,false,'An interrupted opening cannot hide the closing panel');
+    reduced=true;listeners.forEach(listener=>listener());
+    assert.equal(motions[1].cancelled,true);
+    assert.equal(panel.hidden,true);
+    trigger.click();
+    assert.equal(panel.hidden,false);
+    assert.equal(motions.length,2,'Reduced motion bypasses animation');
+    assert.equal(cards[1].querySelector('button').getAttribute('aria-expanded'),'true');
+  } finally {w.close();}
+});
+
 test('experience keeps exactly one card open, including repeated selection',()=>{
   const w=fixture();enhance('Experience');
   const buttons=[...document.querySelectorAll('.experience-trigger')];

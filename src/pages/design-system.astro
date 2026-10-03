@@ -9,11 +9,13 @@ import SocialLinks from '../components/SocialLinks.astro';
 import ContactPopup from '../components/ContactPopup.astro';
 import LegalText from '../components/LegalText.astro';
 import ProcessStep from '../components/ProcessStep.astro';
+import SimpleAccordion from '../components/SimpleAccordion.astro';
 
 import foundations from '../data/foundations.json';
 const figmaLink = (id:string) => `https://www.figma.com/design/${foundations.source.fileKey}?node-id=${id.replace(':','-')}`;
 const typeClass = (name:string) => `text-${name.toLowerCase().replaceAll('/', '-').replaceAll(' ', '-')}`;
 const palettes = foundations.palette.map(group => ({name:group.name, colors:group.labels.slice(1).filter((_,i)=>i%2===0).map((name,i)=>({name,hex:group.labels[i*2+2]}))}));
+const accordionContent = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut faucibus erat at augue consectetur, eget laoreet lacus dapibus. Ut volutpat erat sit amet nisl lacinia, non maximus lorem luctus.';
 
 ---
 <BaseLayout title="Design System — Andreas Christofi" description="Foundations and components used across Andreas Christofi’s website." showFooter={false}>
@@ -81,6 +83,13 @@ const palettes = foundations.palette.map(group => ({name:group.name, colors:grou
 
     <section id="patterns" class="catalog-section" aria-labelledby="patterns-heading">
       <div class="section-heading"><p class="eyebrow">04 / Together</p><h2 id="patterns-heading">Patterns</h2></div>
+      <article id="simple-accordion" class="specimen"><div class="specimen-heading"><h3>Simple Accordion</h3><p>Collapsed and expanded examples. Each item toggles independently with a click, Enter, or Space. <a href={figmaLink('5558:1926')}>View in Figma</a>.</p></div>
+        <div class="simple-accordion-preview">
+          <SimpleAccordion id="ds-simple-collapsed" title="Card title" content={accordionContent} />
+          <SimpleAccordion id="ds-simple-expanded" title="Card title" content={accordionContent} expanded />
+        </div>
+        <pre><code>{'<SimpleAccordion id="example" title="Card title" content="Your content" />\n<SimpleAccordion id="expanded-example" title="Card title" expanded>\n  <p>Rich content can go in the default slot.</p>\n</SimpleAccordion>'}</code></pre>
+      </article>
       <article id="process-step" class="specimen"><div class="specimen-heading"><h3>Process/Step</h3><p>Explore, Design, Build and Ship. Select any card to view its details. <a href={figmaLink('5053:861')}>View in Figma</a>.</p></div>
         <div class="process-step-preview"><ProcessStep id="ds-process" /></div>
         <pre><code>{'<ProcessStep id="process-example" />'}</code></pre>
@@ -132,6 +141,7 @@ const palettes = foundations.palette.map(group => ({name:group.name, colors:grou
   .specimen-heading { padding:24px; border-bottom:1px solid #474747; }
   .specimen-heading p { margin-top:8px; font-size:14px; line-height:24px; }
   .process-step-preview { padding-block:24px; }
+  .simple-accordion-preview { display:grid; gap:24px; max-width:1006px; margin-inline:auto; padding:24px; }
   .preview { padding:32px; min-width:0; }
   .row { display:flex; align-items:center; flex-wrap:wrap; gap:16px; }
   .icon-groups { display:flex; flex-wrap:wrap; gap:32px 64px; }

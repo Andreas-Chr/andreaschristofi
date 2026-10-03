@@ -4,14 +4,16 @@ import type { HTMLAttributes } from 'astro/types';
 /** Figma Button/Accordion — 5044:2837. A single button owns the label and indicator. */
 type Props = HTMLAttributes<'button'> & {
   indicatorClass?: string;
+  plusIcon?: string;
+  minusIcon?: string;
 };
-const { class: className, indicatorClass, type = 'button', ...attributes } = Astro.props;
+const { class: className, indicatorClass, plusIcon = '/assets/icons/plus.svg', minusIcon = '/assets/icons/minus.svg', type = 'button', ...attributes } = Astro.props;
 ---
 <button {...attributes} type={type} class:list={['button-accordion', className]} data-button="accordion">
   <slot />
   <span class:list={['accordion-indicator', indicatorClass]} aria-hidden="true">
-    <img class="plus" src="/assets/icons/plus.svg" width="16" height="16" alt="" />
-    <img class="minus" src="/assets/icons/minus.svg" width="16" height="16" alt="" />
+    <img class="plus" src={plusIcon} width="16" height="16" alt="" />
+    <img class="minus" src={minusIcon} width="16" height="16" alt="" />
   </span>
 </button>
 <style>
@@ -26,12 +28,12 @@ const { class: className, indicatorClass, type = 'button', ...attributes } = Ast
   [aria-expanded='true'] .minus { display:block; }
   @media(hover:hover) {
     :global([data-accordion-card]:hover) .button-accordion:not(:disabled):not(:focus-visible) .accordion-indicator, .button-accordion:not(:disabled):not(:focus-visible):hover .accordion-indicator { background:var(--color-button-accordion-hover); }
-    :global([data-accordion-card]:hover) .button-accordion:not(:disabled):not(:focus-visible) img, .button-accordion:not(:disabled):not(:focus-visible):hover img { filter:none; }
+    :global([data-accordion-card]:hover) .button-accordion:not(:disabled):not(:focus-visible) img, .button-accordion:not(:disabled):not(:focus-visible):hover img { filter:brightness(0) invert(18.8235%); }
   }
   .button-accordion:focus-visible .accordion-indicator { background:var(--color-button-accordion-default); border-color:var(--color-focus-primary); }
   .button-accordion:focus-visible img { filter:brightness(0) invert(1); }
   .button-accordion:not(:disabled):active .accordion-indicator { background:var(--color-button-accordion-hover); border-color:transparent; }
-  .button-accordion:not(:disabled):active img { filter:none; }
+  .button-accordion:not(:disabled):active img { filter:brightness(0) invert(18.8235%); }
   .button-accordion:disabled .accordion-indicator { background:var(--color-button-disabled); border-color:transparent; }
   .button-accordion:disabled img { filter:none; }
 </style>
