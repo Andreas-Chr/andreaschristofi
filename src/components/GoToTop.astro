@@ -1,0 +1,35 @@
+---
+import ButtonIcon from './ButtonIcon.astro';
+---
+
+<ButtonIcon
+  class="go-to-top"
+  version="tertiary"
+  href="#page-top"
+  aria-label="Go to top"
+  icon="/assets/icons/go-to-top.svg"
+  data-go-to-top
+/>
+
+<style>
+  :global(.go-to-top) {
+    position:fixed;
+    right:calc(20px + env(safe-area-inset-right, 0px));
+    bottom:calc(20px + env(safe-area-inset-bottom, 0px));
+    z-index:50;
+  }
+</style>
+
+<script>
+  const link = document.querySelector<HTMLAnchorElement>('[data-go-to-top]');
+  link?.addEventListener('click', (event) => {
+    // Preserve native link behavior for modified clicks.
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    document.getElementById('page-top')?.focus({ preventScroll: true });
+    window.scrollTo({
+      top: 0,
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+    });
+  });
+</script>

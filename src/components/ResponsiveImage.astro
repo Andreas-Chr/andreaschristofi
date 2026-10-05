@@ -7,6 +7,7 @@ interface Props extends Omit<HTMLAttributes<'img'>, 'src' | 'srcset' | 'sizes' |
   asset?: MediaAsset;
   preset: ImagePreset;
   sizes: string;
+  /** Opt in only for visible critical/LCP artwork; otherwise native lazy + async. */
   priority?: boolean;
   preserveResolution?: boolean;
   /** Safe local artwork used if the original asset also fails. */

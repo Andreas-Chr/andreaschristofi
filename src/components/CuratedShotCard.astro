@@ -2,8 +2,8 @@
 import { CARD_FALLBACK, mediaURL, shotTitle, type CuratedShot } from '../lib/curated-shots';
 import '../styles/buttons.css';
 import ResponsiveImage from './ResponsiveImage.astro';
-interface Props { shot: CuratedShot; state?: 'default' | 'hover'; layout?: 'overlay' | 'caption'; sizes?: string; }
-const { shot, state = 'default', layout = 'overlay', sizes = '(min-width: 1440px) 694px, (min-width: 1200px) calc((100vw - 52px) / 2), (min-width: 644px) calc((100vw - 36px) / 2), (min-width: 400px) calc(100vw - 32px), calc(100vw - 16px)' } = Astro.props;
+interface Props { shot: CuratedShot; state?: 'default' | 'hover'; layout?: 'overlay' | 'caption'; sizes?: string; priority?: boolean; }
+const { shot, state = 'default', layout = 'overlay', priority = false, sizes = '(min-width: 1440px) 694px, (min-width: 1200px) calc((100vw - 52px) / 2), (min-width: 644px) calc((100vw - 36px) / 2), (min-width: 400px) calc(100vw - 32px), calc(100vw - 16px)' } = Astro.props;
 const thumbnail = typeof shot.thumbnail === 'string' ? { url: shot.thumbnail } : shot.thumbnail;
 const thumbnailURL = mediaURL(thumbnail?.url);
 const asset = thumbnailURL ? { ...thumbnail, url: thumbnailURL, alt: thumbnail?.alt ?? '' } : undefined;
@@ -12,14 +12,14 @@ const asset = thumbnailURL ? { ...thumbnail, url: thumbnailURL, alt: thumbnail?.
   aria-haspopup="dialog" aria-controls="curated-shot-overlay" aria-label={`Open ${shotTitle(shot)}${shot.title?.trim() ? '' : ` (${shot.slug})`}`}>
   {layout === 'caption' ? <>
     <span class="curated-card-media">
-      <ResponsiveImage class="curated-card-thumbnail" asset={asset} preset="card" sizes={sizes} fallback={CARD_FALLBACK} />
+      <ResponsiveImage class="curated-card-thumbnail" asset={asset} preset="card" sizes={sizes} priority={priority} fallback={CARD_FALLBACK} />
       <span class="curated-card-centered-action icon-button primary large" aria-hidden="true">
         <img src="/assets/icons/curated-card-arrow-up-right.svg" width="16" height="16" alt="" />
       </span>
     </span>
     <span class="curated-card-title" aria-hidden="true">{shotTitle(shot)}</span>
   </> : <>
-  <ResponsiveImage class="curated-card-thumbnail" asset={asset} preset="card" sizes={sizes} fallback={CARD_FALLBACK} />
+  <ResponsiveImage class="curated-card-thumbnail" asset={asset} preset="card" sizes={sizes} priority={priority} fallback={CARD_FALLBACK} />
   <span class="curated-card-content" aria-hidden="true">
     {shot.title?.trim() && <span class="curated-card-title">{shot.title}</span>}
     <!-- The whole card is the action; share Button/Icon styling without nesting buttons. -->

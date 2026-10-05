@@ -5,6 +5,7 @@ import HeroBackground from '../components/HeroBackground.astro';
 import PageLoader from '../components/PageLoader.astro';
 import Header from '../components/Header.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import GoToTop from '../components/GoToTop.astro';
 import { site } from '../data/site';
 interface Props {
   title: string;
@@ -79,12 +80,12 @@ const canonical = new URL(Astro.url.pathname, site.origin);
     }
   </head>
   <body>
-    <div data-site-shell>
+    <div id="page-top" tabindex="-1" data-site-shell>
       <HeroBackground />
-      <a class="skip-link" href="#main">Skip to content</a>
       <Header />
-      <main id="main" tabindex="-1"><slot /></main>
+      <main><slot /></main>
       {showFooter && <SiteFooter />}
+      <GoToTop />
     </div>
     <PageLoader />
     {import.meta.env.DEV && <AgentationDev client:only="react" />}

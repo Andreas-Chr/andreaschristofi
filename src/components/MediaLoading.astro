@@ -1,9 +1,9 @@
 ---
-interface Props { width?: number; height?: number; }
-const { width, height } = Astro.props;
+interface Props { width?: number; height?: number; tone?: 'dark' | 'light'; }
+const { width, height, tone = 'dark' } = Astro.props;
 const ratio = width && height && width > 0 && height > 0 ? `${width} / ${height}` : '4 / 3';
 ---
-<div class="media-loading" data-media-loading style={`--media-ratio:${ratio}`}>
+<div class="media-loading" data-media-loading data-skeleton-tone={tone} style={`--media-ratio:${ratio}`}>
   <slot />
   <span class="media-skeleton" aria-hidden="true"></span>
   <span class="media-error" role="status" hidden>Image unavailable</span>
@@ -13,6 +13,8 @@ const ratio = width && height && width > 0 && height > 0 ? `${width} / ${height}
   .media-loading :global(img) { display:block; width:100%; height:100%; object-fit:contain; }
   .media-skeleton { position:absolute; inset:0; pointer-events:none; opacity:0; background:#151715; }
   .media-skeleton::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg,transparent 0%,#1d201e 40%,#252825 50%,#1d201e 60%,transparent 100%); transform:translateX(-100%); }
+  [data-skeleton-tone='light'] .media-skeleton { background:#e3e3e3; }
+  [data-skeleton-tone='light'] .media-skeleton::after { background:linear-gradient(90deg,transparent 0%,#f5f5f5 40%,#e3e3e3 50%,#f5f5f5 60%,transparent 100%); }
   [data-media-state='pending'] :global(img),[data-media-state='loading'] :global(img),[data-media-state='error'] :global(img) { opacity:0; }
   [data-media-state='loading'] .media-skeleton { opacity:1; }
   [data-media-state='loading'] .media-skeleton::after { animation:media-shimmer 1.6s ease-in-out infinite; }

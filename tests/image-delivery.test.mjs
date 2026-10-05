@@ -130,6 +130,12 @@ test('missing dimensions bypass responsive delivery; the kill switch and priorit
   const priority = getImageProps(asset, { ...options, priority: true });
   assert.equal(priority.loading, 'eager');
   assert.equal(priority.fetchpriority, 'high');
+  assert.equal(priority.decoding, 'async');
+  const normal = getImageProps(asset, options);
+  assert.equal(normal.fetchpriority, undefined);
+  const { loading, fetchpriority, ...priorityDelivery } = priority;
+  const { loading: normalLoading, ...normalDelivery } = normal;
+  assert.deepEqual(priorityDelivery, normalDelivery);
   assert.throws(() => getImageProps(asset, { ...options, sizes: '' }), /sizes/);
 });
 
@@ -146,6 +152,9 @@ test('all delivery presets bound their variants and require no content-specific 
     const result = getImageProps(asset, { ...options, preset });
     assert.ok(result.srcset.split(', ').length <= 9);
     assert.ok(result.srcset.split(', ').every(candidate => Number(candidate.match(/ (\d+)w$/)[1]) <= asset.width));
+    assert.equal(result.loading, 'lazy');
+    assert.equal(result.decoding, 'async');
+    assert.equal(result.fetchpriority, undefined);
   }
 });
 

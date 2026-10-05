@@ -15,6 +15,13 @@ test('Project hero and thumbnail reuse media metadata and responsive delivery', 
     assert.match(image.src, /cdn-cgi\/image/);
     assert.ok(image.srcset.endsWith(preset === 'card' ? '1024w' : '1800w'));
     assert.ok(image.srcset.split(', ').every(candidate => candidate.includes('quality=90,format=auto/')));
+    assert.equal(image.loading, 'lazy');
+    assert.equal(image.decoding, 'async');
+    assert.equal(image.fetchpriority, undefined);
+    const priority = getImageProps(asset, { preset, sizes: '100vw', priority: true });
+    assert.equal(priority.loading, 'eager');
+    assert.equal(priority.fetchpriority, 'high');
+    assert.equal(priority.srcset, image.srcset);
   }
   assert.equal(fromPayloadProject({ ...doc, heroMedia: 1, thumbnail: null }, base).heroMedia, undefined);
 });

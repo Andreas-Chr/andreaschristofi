@@ -16,6 +16,21 @@ native img attributes. Presets are card, content, hero, gallery and poster. Cons
 supply the actual layout sizes; the browser accounts for viewport and pixel density.
 `ResponsiveImage.astro` accepts the same options plus a required safe fallback.
 
+Loading is owned by `getImageProps`, independently of Cloudflare transformation eligibility.
+Every default image emits `loading="lazy" decoding="async"`, including GIFs and
+sources that pass through without transformation. Explicit `priority={true}` emits
+`loading="eager" fetchpriority="high" decoding="async"`; it does not change URLs,
+responsive candidates, sizes, dimensions or alt text. Use it intentionally for critical
+visible artwork, never based on card index or the `hero` preset alone.
+
+`CuratedShotCard` and `CuratedShotMedia` forward their optional `priority` prop to
+`ResponsiveImage`. Homepage and related thumbnails use the lazy default. The first
+modal artwork is explicitly prioritized because it is immediately visible after opening;
+its template is inert until mounted. Remaining modal artwork is lazy, with the existing
+`MediaLoading` skeleton/decode/fade lifecycle. Future Project heroes, thumbnails and
+gallery images inherit the same lazy default when rendered with `ResponsiveImage`;
+pass `priority={true}` only for a deliberately critical image on the future page.
+
 ## Current delivery policy
 
 - Resize production CMS PNG/JPEG uploads only when valid dimensions are available.

@@ -25,7 +25,7 @@ const poster = posterAsset ? getImageProps(posterAsset, {
   ) : embed ? (
     <iframe data-shot-embed data-src={embed} title={media.alt || title} allow="autoplay; fullscreen; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" />
   ) : (
-    <MediaLoading width={asset?.width} height={asset?.height}>
+    <MediaLoading width={asset?.width} height={asset?.height} tone="light">
       <ResponsiveImage asset={asset} preset="content" sizes={sizes} priority={priority} fallback={MEDIA_FALLBACK} />
     </MediaLoading>
   )}

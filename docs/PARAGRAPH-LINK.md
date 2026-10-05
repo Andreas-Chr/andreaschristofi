@@ -42,7 +42,7 @@ import ParagraphLink from './ParagraphLink.astro';
 | `LegalText.astro` | All detected inline URLs and email addresses, in paragraphs and lists | light / inherit | Legal |
 | `ContactPopup.astro` | Email | dark / large | Home, mounted by `Hero.astro` |
 
-All matching website instances already imported ParagraphLink; each now declares its mode and sizing. The footer's previous one-off legal-link size rule is owned by `size="medium"`. The footer contact owner retains its existing below-400px font weight override and responsive text sizing. Logo links, primary navigation, social icon buttons, the skip link, and CTA buttons remain separate components.
+All matching website instances already imported ParagraphLink; each now declares its mode and sizing. The footer's previous one-off legal-link size rule is owned by `size="medium"`. The footer contact owner retains its existing below-400px font weight override and responsive text sizing. Logo links, primary navigation, social icon buttons, and CTA buttons remain separate components.
 
 ## Edge cases and accessibility
 
