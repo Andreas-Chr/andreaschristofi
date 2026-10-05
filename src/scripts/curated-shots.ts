@@ -1,3 +1,5 @@
+import { initMediaLoading } from './media-loading.ts';
+
 /** One native dialog, with only the active shot mounted. Closed shots never play. */
 export function initCuratedShots() {
   const dialog = document.querySelector<HTMLDialogElement>('[data-shot-dialog]');
@@ -11,6 +13,7 @@ export function initCuratedShots() {
   let overflow = '';
   let bodyOverflow = '';
   let observer: IntersectionObserver | undefined;
+  let disposeMediaLoading: (() => void) | undefined;
   let closeSequence = 0;
   let pointerInput = false;
   let pointerFocusedCard: HTMLElement | null = null;
@@ -53,6 +56,8 @@ export function initCuratedShots() {
   };
 
   const stopMedia = () => {
+    disposeMediaLoading?.();
+    disposeMediaLoading = undefined;
     observer?.disconnect();
     content.querySelectorAll('video').forEach(video => { video.pause(); video.removeAttribute('src'); video.load(); });
     content.querySelectorAll('iframe').forEach(frame => frame.removeAttribute('src'));
@@ -114,6 +119,7 @@ export function initCuratedShots() {
     }
     stopMedia();
     content.replaceChildren(template.content.cloneNode(true));
+    disposeMediaLoading = initMediaLoading(content, scrollContainer);
     if (!dialog.open) dialog.showModal();
     dialog.scrollTop = 0;
     scrollContainer.scrollTop = 0;

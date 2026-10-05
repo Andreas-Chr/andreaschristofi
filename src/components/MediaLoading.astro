@@ -1,0 +1,27 @@
+---
+interface Props { width?: number; height?: number; }
+const { width, height } = Astro.props;
+const ratio = width && height && width > 0 && height > 0 ? `${width} / ${height}` : '4 / 3';
+---
+<div class="media-loading" data-media-loading style={`--media-ratio:${ratio}`}>
+  <slot />
+  <span class="media-skeleton" aria-hidden="true"></span>
+  <span class="media-error" role="status" hidden>Image unavailable</span>
+</div>
+<style>
+  .media-loading { position:relative; width:100%; aspect-ratio:var(--media-ratio); overflow:hidden; }
+  .media-loading :global(img) { display:block; width:100%; height:100%; object-fit:contain; }
+  .media-skeleton { position:absolute; inset:0; pointer-events:none; opacity:0; background:#151715; }
+  .media-skeleton::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg,transparent 0%,#1d201e 40%,#252825 50%,#1d201e 60%,transparent 100%); transform:translateX(-100%); }
+  [data-media-state='pending'] :global(img),[data-media-state='loading'] :global(img),[data-media-state='error'] :global(img) { opacity:0; }
+  [data-media-state='loading'] .media-skeleton { opacity:1; }
+  [data-media-state='loading'] .media-skeleton::after { animation:media-shimmer 1.6s ease-in-out infinite; }
+  [data-media-state='revealed'] :global(img),[data-media-state='revealed'] .media-skeleton { transition:opacity 200ms ease; }
+  .media-error { position:absolute; inset:0; align-items:center; justify-content:center; background:#151715; color:#ddd; }
+  .media-error:not([hidden]) { display:flex; }
+  @keyframes media-shimmer { to { transform:translateX(100%); } }
+  @media(prefers-reduced-motion:reduce) {
+    [data-media-state] .media-skeleton::after { animation:none; transform:none; }
+    [data-media-state] :global(img),[data-media-state] .media-skeleton { transition:none; }
+  }
+</style>
