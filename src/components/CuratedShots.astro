@@ -5,14 +5,14 @@ import { curatedShots } from '../data/curated-shots';
 ---
 {curatedShots.length > 0 && <>
   <section id="curated-shots" class="section container curated-shots" aria-label="Curated shots">
-    <div class="curated-grid">{curatedShots.map(shot => <CuratedShotCard shot={shot} layout="caption" />)}</div>
+    <div class="curated-grid">{curatedShots.map(shot => <CuratedShotCard shot={shot} layout="caption" sizes="(min-width: 1440px) 680px, (min-width: 1200px) calc((100vw - 80px) / 2), (min-width: 672px) calc((100vw - 64px) / 2), (min-width: 400px) calc(100vw - 32px), calc(100vw - 16px)" />)}</div>
     <noscript><p>Enable JavaScript to open curated shots.</p></noscript>
   </section>
   <CuratedShotOverlay shots={curatedShots} />
 </>}
 <style>
   .curated-shots { padding-block:160px; }
-  .curated-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); align-items:start; gap:32px 4px; }
-  /* Two 304px cards plus the gap and compact page gutters need 644px. */
-  @media(max-width:643px) { .curated-grid { grid-template-columns:minmax(0,1fr); } }
+  .curated-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); align-items:start; gap:32px; }
+  /* Two 304px cards plus the gap and compact page gutters need 672px. */
+  @media(max-width:671px) { .curated-grid { grid-template-columns:minmax(0,1fr); } }
 </style>
