@@ -1,4 +1,5 @@
 import { initMediaLoading } from './media-loading.ts';
+import { initVimeoPlayback } from './vimeo-playback.ts';
 
 /** One native dialog, with only the active shot mounted. Closed shots never play. */
 export function initCuratedShots() {
@@ -15,6 +16,7 @@ export function initCuratedShots() {
   let observer: IntersectionObserver | undefined;
   let disposeMediaLoading: (() => void) | undefined;
   let disposeMotionPreference: (() => void) | undefined;
+  const vimeoPlayers = new Map<HTMLIFrameElement, NonNullable<ReturnType<typeof initVimeoPlayback>>>();
   let closeSequence = 0;
   let pointerInput = false;
   let pointerFocusedCard: HTMLElement | null = null;
@@ -42,6 +44,7 @@ export function initCuratedShots() {
     dialog.style.setProperty('--shot-exit-opacity', current.opacity);
     dialog.style.setProperty('--shot-exit-transform', current.transform);
     dialog.dataset.motion = 'closing';
+    vimeoPlayers.forEach(player => { player.preventResume(); player.setVisible(false); });
     const sequence = ++closeSequence;
     observer?.disconnect();
     content.querySelectorAll('video').forEach(video => video.pause());
@@ -64,6 +67,8 @@ export function initCuratedShots() {
     observer?.disconnect();
     content.querySelectorAll('video').forEach(video => { video.pause(); video.removeAttribute('src'); video.load(); });
     content.querySelectorAll('iframe').forEach(frame => frame.removeAttribute('src'));
+    vimeoPlayers.forEach(player => player.dispose());
+    vimeoPlayers.clear();
   };
   const fixImage = (image: HTMLImageElement) => {
     const fallback = image.dataset.imageFallback;
@@ -86,6 +91,7 @@ export function initCuratedShots() {
 
   const startMedia = () => {
     const motionPreference = matchMedia('(prefers-reduced-motion: reduce)');
+    const isVimeo = (frame: HTMLIFrameElement) => new URL(frame.dataset.src!).hostname === 'player.vimeo.com';
     const playerURL = (element: HTMLIFrameElement) => {
       const url = new URL(element.dataset.src!);
       if (motionPreference.matches) {
@@ -103,15 +109,27 @@ export function initCuratedShots() {
         if (!element.getAttribute('src')) element.src = element.dataset.src!;
         element.muted = true;
         if (!motionPreference.matches) void element.play().catch(() => { /* Native controls remain available. */ });
-      } else if (!element.getAttribute('src')) {
-        element.src = playerURL(element);
+      } else {
+        if (!element.getAttribute('src')) {
+          element.src = playerURL(element);
+          if (isVimeo(element)) {
+            const playback = initVimeoPlayback(element, {
+              isActive: () => dialog.open && !signal.aborted,
+              reducedMotion: () => motionPreference.matches || dialog.dataset.motion === 'closing',
+            });
+            if (playback) vimeoPlayers.set(element, playback);
+          }
+        }
+        vimeoPlayers.get(element)?.setVisible(true);
       }
     };
-    // Load only in the modal viewport. Vimeo owns playback settings except under reduced motion.
+    // Initialize in the modal viewport; retain Vimeo documents until the shot is released.
     observer = new IntersectionObserver(entries => entries.forEach(entry => {
       const element = entry.target as HTMLVideoElement | HTMLIFrameElement;
+      if (!dialog.open || dialog.dataset.motion === 'closing' || !element.isConnected) return;
       if (entry.isIntersecting) activate(element);
       else if (element instanceof HTMLVideoElement) element.pause();
+      else if (isVimeo(element)) vimeoPlayers.get(element)?.setVisible(false);
       else element.removeAttribute('src');
     }), { root: scrollContainer, threshold: 0.05 });
     content.querySelectorAll<HTMLVideoElement | HTMLIFrameElement>('[data-shot-video],[data-shot-embed]').forEach(element => observer!.observe(element));
@@ -123,8 +141,9 @@ export function initCuratedShots() {
         return;
       }
       content.querySelectorAll<HTMLVideoElement>('[data-shot-video]').forEach(video => video.pause());
-      // Only reload mounted players that already have a source, keeping offscreen embeds inert.
+      // Never-loaded embeds stay inert; loaded Vimeo players retain the manual controls override.
       content.querySelectorAll<HTMLIFrameElement>('[data-shot-embed][src]').forEach(frame => {
+        vimeoPlayers.get(frame)?.preventResume();
         const source = playerURL(frame);
         if (frame.getAttribute('src') !== source) frame.src = source;
       });

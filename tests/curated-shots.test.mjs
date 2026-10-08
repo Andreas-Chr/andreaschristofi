@@ -455,9 +455,11 @@ test(`Vimeo respects reduced motion and preserves other preferences through acti
     assert.equal(frame.dataset.src, source, 'activation never mutates the original embed URL');
     assert.equal(actual.searchParams.get('h'), 'abc123');
     observer.callback([{ target: frame, isIntersecting: false }]);
-    assert.equal(frame.getAttribute('src'), null);
+    assert.equal(frame.src, activated, 'leaving the viewport retains the Vimeo document');
+    assert.equal(frame.isConnected, true);
     observer.callback([{ target: frame, isIntersecting: true }]);
-    assert.equal(frame.src, activated, 're-entry reapplies the same playback preferences');
+    assert.equal(dialog.querySelector('[data-shot-embed]'), frame, 're-entry retains the same iframe');
+    assert.equal(frame.src, activated, 're-entry does not navigate the player');
     dialog.querySelector('[data-shot-close]').click();
     assert.equal(observer.disconnected, true);
     assert.equal(frame.getAttribute('src'), null);
@@ -508,7 +510,7 @@ test('enabling reduced motion updates active Vimeo settings and future activatio
     assert.equal(frame.src,reducedSource,'disabling reduced motion does not restart playback');
     observer.callback([{target:frame,isIntersecting:false}]);
     observer.callback([{target:frame,isIntersecting:true}]);
-    assert.equal(frame.src,source,'later activation can use the original settings again');
+    assert.equal(frame.src,reducedSource,'scrolling must not undo the reduced-motion manual controls override');
   } finally { window.close(); }
 });
 

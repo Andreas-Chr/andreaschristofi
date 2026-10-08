@@ -17,6 +17,7 @@
   "dependencies": {
     "@astrojs/react": "^6.0.5",
     "@astrojs/sitemap": "3.7.4",
+    "@vimeo/player": "^2.30.4",
     "astro": "7.3.2",
     "gsap": "^3.15.0",
     "ogl": "^1.0.11",
