@@ -14,6 +14,7 @@ export function initCuratedShots() {
   let bodyOverflow = '';
   let observer: IntersectionObserver | undefined;
   let disposeMediaLoading: (() => void) | undefined;
+  let disposeMotionPreference: (() => void) | undefined;
   let closeSequence = 0;
   let pointerInput = false;
   let pointerFocusedCard: HTMLElement | null = null;
@@ -56,6 +57,8 @@ export function initCuratedShots() {
   };
 
   const stopMedia = () => {
+    disposeMotionPreference?.();
+    disposeMotionPreference = undefined;
     disposeMediaLoading?.();
     disposeMediaLoading = undefined;
     observer?.disconnect();
@@ -82,20 +85,29 @@ export function initCuratedShots() {
   });
 
   const startMedia = () => {
-    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const motionPreference = matchMedia('(prefers-reduced-motion: reduce)');
+    const playerURL = (element: HTMLIFrameElement) => {
+      const url = new URL(element.dataset.src!);
+      if (motionPreference.matches) {
+        url.searchParams.set('autoplay', '0');
+        if (url.hostname === 'player.vimeo.com') {
+          url.searchParams.set('background', '0');
+          url.searchParams.set('controls', '1');
+        }
+      }
+      return url.href;
+    };
     const activate = (element: HTMLVideoElement | HTMLIFrameElement) => {
       if (!dialog.open || dialog.dataset.motion === 'closing' || !element.isConnected) return;
       if (element instanceof HTMLVideoElement) {
         if (!element.getAttribute('src')) element.src = element.dataset.src!;
         element.muted = true;
-        if (!reduced) void element.play().catch(() => { /* Native controls remain available. */ });
+        if (!motionPreference.matches) void element.play().catch(() => { /* Native controls remain available. */ });
       } else if (!element.getAttribute('src')) {
-        const url = new URL(element.dataset.src!);
-        if (reduced) url.searchParams.set('autoplay', '0');
-        element.src = url.href;
+        element.src = playerURL(element);
       }
     };
-    // Autoplay only as media enters the modal viewport, avoiding concurrent offscreen playback.
+    // Load only in the modal viewport. Vimeo owns playback settings except under reduced motion.
     observer = new IntersectionObserver(entries => entries.forEach(entry => {
       const element = entry.target as HTMLVideoElement | HTMLIFrameElement;
       if (entry.isIntersecting) activate(element);
@@ -103,6 +115,22 @@ export function initCuratedShots() {
       else element.removeAttribute('src');
     }), { root: scrollContainer, threshold: 0.05 });
     content.querySelectorAll<HTMLVideoElement | HTMLIFrameElement>('[data-shot-video],[data-shot-embed]').forEach(element => observer!.observe(element));
+    const reducePlayback = () => {
+      // Enabling reduced motion takes effect now; disabling it must not restart media.
+      if (!motionPreference.matches || !dialog.open) return;
+      if (dialog.dataset.motion === 'closing') {
+        dialog.close();
+        return;
+      }
+      content.querySelectorAll<HTMLVideoElement>('[data-shot-video]').forEach(video => video.pause());
+      // Only reload mounted players that already have a source, keeping offscreen embeds inert.
+      content.querySelectorAll<HTMLIFrameElement>('[data-shot-embed][src]').forEach(frame => {
+        const source = playerURL(frame);
+        if (frame.getAttribute('src') !== source) frame.src = source;
+      });
+    };
+    motionPreference.addEventListener?.('change', reducePlayback);
+    disposeMotionPreference = () => motionPreference.removeEventListener?.('change', reducePlayback);
   };
 
   document.addEventListener('click', event => {

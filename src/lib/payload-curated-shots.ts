@@ -18,7 +18,8 @@ export function fromPayload(doc: PayloadShot, base: string): CuratedShot {
     },
     overview: doc.overview,
     media: (doc.media || []).map(item => {
-      const asset = normalizePayloadMedia(item.file, base);
+      // Switching an upload row to an embed can leave a hidden file relationship.
+      const asset = ['image', 'video', 'gif'].includes(item.type) ? normalizePayloadMedia(item.file, base) : undefined;
       const posterAsset = normalizePayloadMedia(item.posterImage, base);
       return {
         type: item.type, src: asset?.url || item.src,

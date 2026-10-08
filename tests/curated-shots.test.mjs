@@ -73,7 +73,9 @@ function fixture() {
   const window = new Window({url:'https://andreaschristofi.com',settings:{disableJavaScriptEvaluation:true,disableCSSFileLoading:true,disableJavaScriptFileLoading:true,disableIframePageLoading:true}});
   window.document.write(readFileSync(new URL('../dist/index.html', import.meta.url),'utf8'));
   for (const name of ['document','Element','HTMLElement','HTMLImageElement','HTMLVideoElement','HTMLIFrameElement']) globalThis[name] = name === 'document' ? window.document : window[name];
-  globalThis.matchMedia = () => ({ matches:false });
+  const motionPreference = new window.EventTarget();
+  motionPreference.matches = false;
+  globalThis.matchMedia = () => motionPreference;
   const observers = [];
   globalThis.IntersectionObserver = class {
     constructor(callback, options) { this.callback=callback; this.options=options; this.elements=[]; observers.push(this); }
@@ -86,7 +88,7 @@ function fixture() {
   // Preserve build-time URLs before the DOM shim's unloaded images trigger fallbacks.
   const cardThumbnails = new Map([...document.querySelectorAll('.curated-grid button')].map(card => [card.dataset.shotOpen, card.querySelector('.curated-card-thumbnail').getAttribute('src')]));
   initCuratedShots();
-  return {window,dialog,observers,cardThumbnails};
+  return {window,dialog,observers,cardThumbnails,motionPreference};
 }
 
 test('homepage cards open their own content; related navigation retains original focus return', () => {
@@ -194,13 +196,13 @@ test('media activation is deferred, muted and stopped on close; image errors use
   } finally { window.close(); }
 });
 
-test('reduced motion leaves autoplay off but makes player controls available', () => {
+test('reduced motion leaves native and YouTube autoplay off but makes player controls available', () => {
   const {window,dialog,observers} = fixture();
   try {
     globalThis.matchMedia = () => ({matches:true});
-    addMediaFixture(document.querySelector('[data-shot-template]'), '<video data-shot-video data-src="/test.mp4" controls></video><iframe data-shot-embed data-src="https://player.vimeo.com/video/123?autoplay=1"></iframe>');
+    addMediaFixture(document.querySelector('[data-shot-template]'), '<video data-shot-video data-src="/test.mp4" controls></video><iframe data-shot-embed data-src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1"></iframe>');
     document.querySelector('.curated-grid button').click();
-    const video=dialog.querySelector('video'), iframe=dialog.querySelector('iframe');
+    const video=dialog.querySelector('video[data-src="/test.mp4"]'), iframe=dialog.querySelector('iframe[data-src^="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ"]');
     video.play=()=>{assert.fail('Reduced motion must not autoplay');};
     observers.at(-1).callback([{target:video,isIntersecting:true},{target:iframe,isIntersecting:true}]);
     assert.equal(video.controls,true);
@@ -399,5 +401,184 @@ test('description links remain anchors after modal mounting and clicks are not i
     assert.equal(reachedDocument, true);
     assert.equal(dialog.open, true);
     assert.equal(link.isConnected, true);
+  } finally { window.close(); }
+});
+
+test('Vimeo embeds preserve unlisted hashes and reject unsafe or non-video links', () => {
+  for (const source of ['https://vimeo.com/76979871/abc123', 'https://player.vimeo.com/video/76979871?h=abc123&controls=0']) {
+    const url = new URL(embedURL('vimeo', source));
+    assert.equal(url.origin, 'https://player.vimeo.com');
+    assert.equal(url.pathname, '/video/76979871');
+    assert.equal(url.searchParams.get('h'), 'abc123');
+    assert.equal(url.searchParams.get('muted'), null);
+    assert.equal(url.searchParams.get('loop'), null);
+    assert.equal(url.searchParams.get('controls'), source.includes('controls=0') ? '0' : null);
+  }
+  assert.equal(embedURL('vimeo', 'https://vimeo.com/76979871', false), 'https://player.vimeo.com/video/76979871');
+  for (const source of ['http://vimeo.com/76979871', 'https://vimeo.com.evil.test/76979871', 'https://vimeo.com', 'https://user:pass@vimeo.com/76979871', 'https://vimeo.com:8443/76979871', 'https://player.vimeo.com/video/76979871?h=bad%20hash']) {
+    assert.equal(embedURL('vimeo', source), undefined);
+  }
+});
+
+test('published Vimeo rows survive Payload mapping even with a stale upload relationship', async () => {
+  const doc = { slug: 'vimeo', order: 1, _status: 'published', media: [{ type: 'vimeo', src: 'https://vimeo.com/76979871/abc123', file: { url: '/old-image.jpg' } }] };
+  const shots = await fetchPayloadShots('https://cms.example.com', async () => ({ ok: true, json: async () => ({ docs: [doc], hasNextPage: false }) }));
+  assert.equal(shots.length, 1);
+  assert.equal(shotMedia(shots[0]).length, 1);
+  assert.equal(shots[0].media[0].src, doc.media[0].src);
+  assert.equal(shots[0].media[0].asset, undefined);
+});
+
+for (const reduced of [false, true]) for (const preferences of ['', '&autoplay=1&muted=0&loop=1&playsinline=0', '&autoplay=false&muted=true&loop=false', '&background=1&controls=0&muted=1&loop=1&color=00adef&title=0#t=1m2s']) {
+test(`Vimeo respects reduced motion and preserves other preferences through activation and cleanup (reduced=${reduced}, ${preferences || 'defaults'})`, () => {
+  const { window, dialog, observers } = fixture();
+  try {
+    globalThis.matchMedia = () => ({ matches: reduced });
+    const source = embedURL('vimeo', `https://player.vimeo.com/video/76979871?h=abc123${preferences}`);
+    addMediaFixture(document.querySelector('[data-shot-template]'), `<iframe data-shot-embed data-src="${source}" title="Vimeo video"></iframe>`);
+    document.querySelector('.curated-grid button').click();
+    const frame = dialog.querySelector('[data-shot-embed]');
+    assert.equal(frame.getAttribute('src'), null);
+    const observer = observers.find(item => item.elements.includes(frame));
+    observer.callback([{ target: frame, isIntersecting: true }]);
+    const activated = frame.src;
+    const original = new URL(source), actual = new URL(activated);
+    if (reduced) {
+      assert.equal(actual.searchParams.get('autoplay'), '0');
+      assert.equal(actual.searchParams.get('background'), '0');
+      assert.equal(actual.searchParams.get('controls'), '1');
+      for (const name of ['muted', 'loop', 'playsinline', 'color', 'title', 'h']) {
+        assert.equal(actual.searchParams.get(name), original.searchParams.get(name), name);
+      }
+      assert.equal(actual.hash, original.hash);
+    } else assert.equal(activated, source);
+    assert.equal(frame.dataset.src, source, 'activation never mutates the original embed URL');
+    assert.equal(actual.searchParams.get('h'), 'abc123');
+    observer.callback([{ target: frame, isIntersecting: false }]);
+    assert.equal(frame.getAttribute('src'), null);
+    observer.callback([{ target: frame, isIntersecting: true }]);
+    assert.equal(frame.src, activated, 're-entry reapplies the same playback preferences');
+    dialog.querySelector('[data-shot-close]').click();
+    assert.equal(observer.disconnected, true);
+    assert.equal(frame.getAttribute('src'), null);
+    assert.equal(frame.isConnected, false);
+    observer.callback([{ target: frame, isIntersecting: true }]);
+    assert.equal(frame.getAttribute('src'), null, 'a stale observer cannot reactivate closed media');
+  } finally { window.close(); }
+});
+}
+
+test('Payload playback fields cannot override Vimeo sources, and native uploads still map correctly', () => {
+  for (const autoplay of [false, true]) {
+    const source = 'https://player.vimeo.com/video/76979871?autoplay=0&muted=0&loop=0';
+    const mapped = fromPayload({ slug: 'playback', order: 1, media: [
+      { type: 'vimeo', src: source, autoplay, muted: true, loop: true },
+      { type: 'video', file: { url: '/native.mp4' }, autoplay, posterImage: { url: '/poster.jpg' } },
+    ] }, 'https://cms.example.com');
+    assert.equal(embedURL('vimeo', mapped.media[0].src, autoplay), source);
+    assert.equal('autoplay' in mapped.media[0], false);
+    assert.equal(mapped.media[1].src, 'https://cms.example.com/native.mp4');
+    assert.equal(mapped.media[1].poster, 'https://cms.example.com/poster.jpg');
+  }
+});
+
+
+test('enabling reduced motion updates active Vimeo settings and future activations without changing the original URL', () => {
+  const {window,dialog,observers,motionPreference} = fixture();
+  try {
+    const source = 'https://player.vimeo.com/video/76979871?h=abc123&autoplay=1&background=1&controls=0&muted=0&loop=1&color=00adef#t=1m2s';
+    addMediaFixture(document.querySelector('[data-shot-template]'), `<iframe data-shot-embed data-src="${source}" title="Motion preference test"></iframe>`);
+    document.querySelector('.curated-grid button').click();
+    const frame = dialog.querySelector('iframe[data-src^="https://player.vimeo.com/video/76979871"]');
+    const observer = observers.find(item => item.elements.includes(frame));
+    observer.callback([{target:frame,isIntersecting:true}]);
+    assert.equal(frame.src,source);
+    motionPreference.matches = true;
+    motionPreference.dispatchEvent(new window.Event('change'));
+    const reducedSource = frame.src;
+    const url = new URL(reducedSource);
+    for (const [name,value] of [['autoplay','0'],['background','0'],['controls','1'],['h','abc123'],['muted','0'],['loop','1'],['color','00adef']]) assert.equal(url.searchParams.get(name),value,name);
+    assert.equal(url.hash,'#t=1m2s');
+    assert.equal(frame.dataset.src,source);
+    observer.callback([{target:frame,isIntersecting:false}]);
+    observer.callback([{target:frame,isIntersecting:true}]);
+    assert.equal(frame.src,reducedSource,'re-entry reads the current preference');
+    motionPreference.matches = false;
+    motionPreference.dispatchEvent(new window.Event('change'));
+    assert.equal(frame.src,reducedSource,'disabling reduced motion does not restart playback');
+    observer.callback([{target:frame,isIntersecting:false}]);
+    observer.callback([{target:frame,isIntersecting:true}]);
+    assert.equal(frame.src,source,'later activation can use the original settings again');
+  } finally { window.close(); }
+});
+
+test('live reduced motion pauses native video, disables YouTube autoplay, and leaves offscreen iframes unloaded', () => {
+  const {window,dialog,observers,motionPreference} = fixture();
+  try {
+    addMediaFixture(document.querySelector('[data-shot-template]'), '<video data-shot-video data-src="/motion-test.mp4" controls></video><iframe data-shot-embed data-src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&loop=1"></iframe><iframe data-shot-embed data-src="https://player.vimeo.com/video/76979871?autoplay=1"></iframe>');
+    document.querySelector('.curated-grid button').click();
+    const video = dialog.querySelector('video[data-src="/motion-test.mp4"]');
+    const youtube = dialog.querySelector('iframe[data-src^="https://www.youtube-nocookie.com"]');
+    const offscreen = dialog.querySelector('iframe[data-src^="https://player.vimeo.com/video/76979871"]');
+    let plays=0,pauses=0;
+    video.play=async()=>{plays++;}; video.pause=()=>{pauses++;};
+    const observer=observers.find(item=>item.elements.includes(video));
+    observer.callback([{target:video,isIntersecting:true},{target:youtube,isIntersecting:true}]);
+    assert.equal(plays,1);
+    motionPreference.matches=true;
+    motionPreference.dispatchEvent(new window.Event('change'));
+    assert.equal(pauses,1);
+    assert.equal(new URL(youtube.src).searchParams.get('autoplay'),'0');
+    assert.equal(new URL(youtube.src).searchParams.get('loop'),'1');
+    assert.equal(video.controls,true);
+    assert.equal(offscreen.getAttribute('src'),null);
+    observer.callback([{target:video,isIntersecting:true},{target:offscreen,isIntersecting:true}]);
+    assert.equal(plays,1,'native re-entry must not autoplay after the preference changes');
+    assert.equal(new URL(offscreen.src).searchParams.get('autoplay'),'0');
+    motionPreference.matches=false;
+    motionPreference.dispatchEvent(new window.Event('change'));
+    assert.equal(plays,1,'disabling reduced motion does not restart native playback');
+  } finally { window.close(); }
+});
+
+test('enabling reduced motion during dismissal finishes cleanup immediately and ignores the old exit', async () => {
+  const {window,dialog,motionPreference}=fixture();
+  try {
+    const card=document.querySelector('.curated-grid button');
+    card.click();
+    const exit=pendingExit(dialog);
+    dialog.querySelector('[data-shot-close]').click();
+    assert.equal(dialog.open,true);
+    motionPreference.matches=true;
+    motionPreference.dispatchEvent(new window.Event('change'));
+    assert.equal(dialog.open,false);
+    assert.equal(dialog.querySelector('article'),null);
+    assert.equal(document.documentElement.style.overflow,'');
+    assert.equal(document.activeElement,card);
+    card.click();
+    exit.finish();
+    await new Promise(resolve=>setImmediate(resolve));
+    assert.equal(dialog.open,true,'a settled prior exit must not close reopened content');
+  } finally { window.close(); }
+});
+
+test('motion preference listeners are removed on replacement, close, and page swap', () => {
+  const {window,dialog,motionPreference}=fixture();
+  try {
+    const listeners=new Set();
+    const add=motionPreference.addEventListener.bind(motionPreference);
+    const remove=motionPreference.removeEventListener.bind(motionPreference);
+    motionPreference.addEventListener=(type,listener,...args)=>{if(type==='change')listeners.add(listener);add(type,listener,...args);};
+    motionPreference.removeEventListener=(type,listener,...args)=>{if(type==='change')listeners.delete(listener);remove(type,listener,...args);};
+    const card=document.querySelector('.curated-grid button');
+    card.click();assert.equal(listeners.size,1);
+    dialog.querySelector('[data-shot-open]').click();assert.equal(listeners.size,1);
+    dialog.close();assert.equal(listeners.size,0);
+    card.click();assert.equal(listeners.size,1);
+    document.dispatchEvent(new window.Event('astro:before-swap'));assert.equal(listeners.size,0);
+    motionPreference.matches=true;
+    motionPreference.dispatchEvent(new window.Event('change'));
+    assert.equal(dialog.open,false);
+    assert.equal(dialog.querySelector('article'),null);
   } finally { window.close(); }
 });

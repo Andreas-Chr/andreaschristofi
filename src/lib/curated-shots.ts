@@ -1,3 +1,4 @@
+import { parseVimeoURL } from './vimeo-url.ts';
 import { mediaURL, type MediaAsset } from './media-assets.ts';
 export { mediaURL } from './media-assets.ts';
 import type { RichText } from './rich-text.ts';
@@ -9,7 +10,7 @@ export const CARD_FALLBACK = '/assets/curated-shots/card-fallback.png';
 export const MEDIA_FALLBACK = '/assets/curated-shots/media-fallback.png';
 
 export interface ShotMedia {
-  type: 'image' | 'video' | 'youtube' | 'gif';
+  type: 'image' | 'video' | 'youtube' | 'vimeo' | 'gif';
   src?: string;
   asset?: MediaAsset;
   /** Resolved from the uploaded Media asset by the Payload adapter. */
@@ -30,6 +31,10 @@ export interface CuratedShot {
 export const shotTitle = (shot: Pick<CuratedShot, 'title' | 'slug'>) => shot.title?.trim() || shot.slug.replaceAll('-', ' ');
 export function embedURL(type: ShotMedia['type'], source?: string, autoplay = true): string | undefined {
   if (!source) return undefined;
+  if (type === 'vimeo') {
+    // The autoplay argument applies to YouTube only; Vimeo owns its preferences.
+    return parseVimeoURL(source)?.playerURL;
+  }
   try {
     const url = new URL(source);
     if (url.protocol !== 'https:') return undefined;
@@ -50,7 +55,7 @@ export function validateShots(entries: CuratedShot[]): CuratedShot[] {
     slugs.add(shot.slug);
     if (!Number.isFinite(shot.order) || (shot.media != null && !Array.isArray(shot.media))) throw new Error(`Invalid curated shot: ${shot.slug}`);
     for (const media of shot.media ?? []) {
-      if (!['image', 'video', 'youtube', 'gif'].includes(media.type)) throw new Error(`Invalid media type in ${shot.slug}`);
+      if (!['image', 'video', 'youtube', 'vimeo', 'gif'].includes(media.type)) throw new Error(`Invalid media type in ${shot.slug}`);
     }
   }
   return entries.filter(shot => shot.published !== false).sort((a, b) => a.order - b.order || a.slug.localeCompare(b.slug));
