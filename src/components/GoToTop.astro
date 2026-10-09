@@ -20,15 +20,58 @@ import ButtonIcon from './ButtonIcon.astro';
     z-index:50;
   }
   :global(.go-to-top[hidden]) { display:none; }
+  @media (prefers-reduced-motion:no-preference) {
+    :global(.go-to-top:not([hidden])) {
+      animation:go-to-top-enter 350ms cubic-bezier(0.16, 1, 0.3, 1);
+      transform-origin:bottom right;
+    }
+    :global(.go-to-top[data-exiting]) {
+      animation:go-to-top-exit 350ms cubic-bezier(0.7, 0, 0.84, 0) both;
+    }
+  }
+  @keyframes go-to-top-enter {
+    from { opacity:0; transform:translateY(8px) scale(0.8); }
+    to { opacity:1; transform:translateY(0) scale(1); }
+  }
+  @keyframes go-to-top-exit {
+    from { opacity:1; transform:translateY(0) scale(1); }
+    to { opacity:0; transform:translateY(8px) scale(0.8); }
+  }
 </style>
 
 <script>
   const link = document.querySelector<HTMLAnchorElement>('[data-go-to-top]');
   if (link) {
     const topRegion = document.querySelector<HTMLElement>('.top-region');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let hideTimer: number | undefined;
+    const cancelExit = () => {
+      window.clearTimeout(hideTimer);
+      hideTimer = undefined;
+      link.removeAttribute('data-exiting');
+      link.inert = false;
+    };
+    const hide = () => {
+      link.hidden = true;
+      cancelExit();
+    };
     const updateVisibility = () => {
       const heroBottom = topRegion ? topRegion.getBoundingClientRect().bottom + window.scrollY : 0;
-      link.hidden = window.scrollY < Math.max(window.innerHeight, heroBottom);
+      const shouldShow = window.scrollY >= Math.max(window.innerHeight, heroBottom);
+      if (shouldShow) {
+        cancelExit();
+        link.hidden = false;
+      } else if (reducedMotion.matches) {
+        hide();
+      } else if (!link.hidden && hideTimer === undefined) {
+        // Keep the button rendered for its outro, but stop accepting interaction.
+        if (document.activeElement === link) {
+          document.getElementById('page-top')?.focus({ preventScroll: true });
+        }
+        link.inert = true;
+        link.setAttribute('data-exiting', '');
+        hideTimer = window.setTimeout(hide, 350);
+      }
     };
     let frame = 0;
     const scheduleUpdate = () => {
@@ -41,6 +84,7 @@ import ButtonIcon from './ButtonIcon.astro';
     window.addEventListener('scroll', scheduleUpdate, { passive: true });
     window.addEventListener('resize', scheduleUpdate);
     window.addEventListener('pageshow', scheduleUpdate);
+    reducedMotion.addEventListener('change', scheduleUpdate);
     if (topRegion) new ResizeObserver(scheduleUpdate).observe(topRegion);
     updateVisibility();
   }
