@@ -1,4 +1,5 @@
 import { normalizePayloadMedia, type MediaAsset, type PayloadUpload } from './media-assets.ts';
+import type { RichText } from './rich-text.ts';
 
 /** Existing CMS metadata contract; page blocks and galleries are intentionally not invented. */
 export interface CuratedProject {
@@ -8,7 +9,7 @@ export interface CuratedProject {
   client: string;
   year?: string | null;
   role?: string | null;
-  summary?: string | null;
+  summary?: RichText | null;
   collaborations?: { name: string }[] | null;
   stack?: { name: string }[] | null;
   order: number;

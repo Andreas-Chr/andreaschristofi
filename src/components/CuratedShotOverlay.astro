@@ -85,6 +85,7 @@ const { shots } = Astro.props;
   .shot-body h2 { outline:none; }
   .shot-body :global(.shot-rich-text) { display:flex; flex-direction:column; gap:16px; font:var(--text-body-medium); font-variation-settings:'opsz' 9; overflow-wrap:anywhere; }
   .shot-body :global(.shot-rich-text p) { white-space:pre-line; }
+  .shot-body :global(.shot-rich-text :is(h2,h3,h4,h5,h6)) { margin:0; }
   .shot-body :global(.shot-rich-text a) { color:inherit; text-decoration:underline; text-underline-offset:3px; }
   .shot-body :global(.shot-rich-text ul),.shot-body :global(.shot-rich-text ol) { padding-left:1.5em; }
   .shot-related,.shot-contact { display:flex; flex-direction:column; gap:24px; padding-block:40px; }

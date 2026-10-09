@@ -1,3 +1,7 @@
+import { websiteTextStyles } from './website-text-styles.ts';
+
+const styleClasses = new Map<string, string>(websiteTextStyles.map(style => [style.id, style.className]));
+
 export interface LexicalNode {
   type: string;
   text?: string;
@@ -7,6 +11,7 @@ export interface LexicalNode {
   url?: string;
   fields?: { url?: string; newTab?: boolean; linkType?: string };
   children?: LexicalNode[];
+  $?: { websiteTypography?: unknown };
 }
 export type RichText = string | { root: LexicalNode };
 
@@ -31,6 +36,9 @@ export function richTextHTML(value?: RichText | null): string {
   if (typeof value === 'string') return richTextParagraphs(value).map(text => `<p>${escapeHTML(text)}</p>`).join('');
   const render = (node: LexicalNode): string => {
     const inner = (node.children || []).map(render).join('');
+    const style = node.$?.websiteTypography;
+    const className = typeof style === 'string' ? styleClasses.get(style) : undefined;
+    const classAttribute = className ? ` class="${className}"` : '';
     switch (node.type) {
       case 'root': return inner;
       case 'text': {
@@ -44,17 +52,18 @@ export function richTextHTML(value?: RichText | null): string {
         return text;
       }
       case 'linebreak': return '<br>';
-      case 'paragraph': return `<p>${inner}</p>`;
+      case 'paragraph': return `<p${classAttribute}>${inner}</p>`;
       case 'heading': {
         const tag = /^h[2-6]$/.test(node.tag || '') ? node.tag : 'h3';
-        return `<${tag}>${inner}</${tag}>`;
+        const headingClass = className || `text-headings-${tag}`;
+        return `<${tag} class="${headingClass}">${inner}</${tag}>`;
       }
-      case 'quote': return `<blockquote>${inner}</blockquote>`;
+      case 'quote': return `<blockquote${classAttribute}>${inner}</blockquote>`;
       case 'list': {
         const tag = node.listType === 'number' ? 'ol' : 'ul';
         return `<${tag}>${inner}</${tag}>`;
       }
-      case 'listitem': return `<li>${inner}</li>`;
+      case 'listitem': return `<li${classAttribute}>${inner}</li>`;
       case 'link': case 'autolink': {
         const href = safeLink(node.fields?.url || node.url);
         return href ? `<a href="${escapeHTML(href)}"${node.fields?.newTab ? ' target="_blank" rel="noopener noreferrer"' : ''}>${inner}</a>` : inner;
