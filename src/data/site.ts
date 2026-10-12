@@ -21,6 +21,9 @@ export const toolGroups = [
     ['Figma','figma'], ['Adobe Photoshop','ps'], ['Adobe Illustrator','ai'],
     ['Adobe After Effects','ae'], ['Adobe InDesign','id'], ['Adobe XD','xd'],
   ] },
+  { label: 'Research & Prototype', tools: [
+    ['Figma','figma'], ['Claude','research-claude'], ['ChatGPT','chatgpt'], ['Miro','miro'],
+  ] },
   { label: 'Development', tools: [
     ['Claude','claude'], ['Codex','codex'], ['Webflow','webflow'],
     ['Visual Studio Code','vscode'], ['HTML5','html5'], ['CSS3','css3'],

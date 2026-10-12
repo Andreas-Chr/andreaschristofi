@@ -36,13 +36,13 @@ import { site, toolGroups, awards } from '../data/site';
       <h2 id="stack-heading">Stack</h2>
       <p class="body-large">Tools I’ve learned to design, prototype, animate and build cool projects with.</p>
       {
-        toolGroups.map(group=>
-          <div class="tool-group">
+        toolGroups.map((group, groupIndex)=>
+          <div class:list={['tool-group', { 'tool-group-research': group.label === 'Research & Prototype' }]}>
             <h3 class="eyebrow">{group.label}</h3>
             <ul>
               {
                 group.tools.map(([label,slug])=>
-                  <li class="tool" tabindex="0" aria-label={label} aria-describedby={`tool-${slug}-tooltip`} data-tooltip-owner>
+                  <li class="tool" data-tool={slug} tabindex="0" aria-label={label} aria-describedby={`tool-${groupIndex}-${slug}-tooltip`} data-tooltip-owner>
                     {
                       slug==='payload' ? (
                         <span class="payload-logo" aria-hidden="true">
@@ -56,7 +56,7 @@ import { site, toolGroups, awards } from '../data/site';
                         </Fragment>
                       )
                     }
-                    <Tooltip id={`tool-${slug}-tooltip`} title={label} />
+                    <Tooltip id={`tool-${groupIndex}-${slug}-tooltip`} title={label} />
                   </li>
                 )
               }
@@ -90,15 +90,24 @@ import { site, toolGroups, awards } from '../data/site';
   .stack h2 { margin-bottom:16px; }
   .tool-group { margin-top:40px; }
   .tool-group h3 { margin-bottom:16px; }
+  .tool-group-research h3 { margin-bottom:12px; }
   .tool-group ul { display:flex; gap:4px; flex-wrap:wrap; list-style:none; padding:0; margin:0; }
   .tool { position:relative; display:flex; justify-content:center; align-items:center; width:80px; height:80px; background:#303030; border-radius:8px; }
   .tool img { transition:opacity var(--primitive-animation-duration-fast); width:24px; height:24px; object-fit:contain; }
+  .tool[data-tool="ae"] img,
+  .tool[data-tool="xd"] img { width:28.8px; height:28.8px; }
+  .tool[data-tool="id"] img { width:19.2px; height:19.2px; }
+  .tool[data-tool="research-claude"] .tool-grey { width:36px; height:36px; }
+  .tool[data-tool="research-claude"] .tool-color { width:28px; height:28px; }
+  .tool[data-tool="chatgpt"] img { width:26px; height:26px; }
+  .tool[data-tool="miro"] img { width:26px; height:30px; }
   .tool:hover, .tool:focus-visible { background:#fff; }
   .tool:focus-visible { outline:3px solid var(--color-text-accent); outline-offset:2px; }
   .payload-logo { position:absolute; inset:0; }
   .payload-logo .tool-grey, .payload-logo .tool-color { position:absolute; left:50%; top:50%; width:22.3803px; height:26px; max-width:none; transform:translate(-50%,-50%); }
   .tool-color { opacity:0; overflow:clip; position:absolute; }
   .tool:is(:hover,:focus-visible) .tool-color { opacity:1; } .tool:is(:hover,:focus-visible) .tool-grey { opacity:0; }
+  @media (prefers-reduced-motion:reduce) { .tool img { transition:none; } }
   .awards h2 { margin-bottom:40px; }
   .awards-grid { display:grid; gap:40px 24px; align-items:start; }
   .award-list { display:grid; gap:4px; padding:0; margin:0; list-style:none; }
