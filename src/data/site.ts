@@ -1,9 +1,10 @@
 export const site = {
-  name: 'Andreas Christofi',
-  origin: 'https://andreaschristofi.com',
-  email: 'hello@andreaschristofi.com',
-  description: 'Senior Web & Product Designer crafting brand-led digital experiences & shaping AI-powered SaaS products.',
-  cv: '/assets/documents/andreas-christofi-cv.pdf',
+  name: "Andreas Christofi",
+  origin: "https://andreaschristofi.com",
+  email: "hello@andreaschristofi.com",
+  description:
+    "Senior Product & Web Designer crafting brand-led digital experiences & shaping AI-powered SaaS products.",
+  cv: "/assets/documents/andreas-christofi-cv.pdf",
 };
 export const navigation = [
   { label: 'Works', href: '/#curated-shots' },
