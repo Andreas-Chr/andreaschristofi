@@ -71,23 +71,24 @@ const copies = 6;
   @keyframes marquee-menu-drift-reverse { from { transform:translateX(-15%); } to { transform:translateX(-35%); } }
 
   /* Without JavaScript, CSS reveals the overlay from below. */
-  @media (hover:hover) {
+  @media (hover:hover) and (pointer:fine) {
     .marquee:not([data-ready]) .marquee-line:hover :is(.marquee-overlay,.marquee-overlay-inner) { transform:translateY(0); }
     .marquee:not([data-ready]) .marquee-line:hover .marquee-track { animation-play-state:running; }
   }
-  @media (hover:hover) and (prefers-reduced-motion:no-preference) {
+  @media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
     .marquee:not([data-ready]) :is(.marquee-overlay,.marquee-overlay-inner) { transition:transform 600ms cubic-bezier(.16,1,.3,1); }
   }
 
-  /* Touch screens have no hover state; the repeated text drifts with page scroll. */
-  @media (hover:none) {
+  /* Touch screens (phones and tablets, including those reporting hover) drift the repeated text with page scroll. */
+  @media (hover:none), (pointer:coarse) {
     .marquee-overlay { display:none; }
     .marquee-default { width:max-content; justify-content:flex-start; }
     .marquee-default > [aria-hidden] { display:block; }
   }
   @supports (animation-timeline: view()) {
-    @media (hover:none) and (prefers-reduced-motion:no-preference) {
-      .marquee-default { animation:marquee-menu-drift linear both; animation-timeline:view(); }
+    @media ((hover:none) or (pointer:coarse)) and (prefers-reduced-motion:no-preference) {
+      /* Longhands: the minifier folds a shorthand + timeline into an invalid `animation: … view()`. */
+      .marquee-default { animation-name:marquee-menu-drift; animation-timing-function:linear; animation-fill-mode:both; animation-timeline:view(); }
       .marquee-line:nth-child(even) .marquee-default { animation-name:marquee-menu-drift-reverse; }
     }
   }

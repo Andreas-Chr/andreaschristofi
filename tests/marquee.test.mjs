@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Window } from 'happy-dom';
-import { PILLS_PER_LINE, closestEdge, driftOffset, initMarquee, loopDurations, pickThumbnails, shuffle, viewProgress } from '../src/scripts/marquee.ts';
+import { readFileSync, readdirSync } from 'node:fs';
+import { HOVER_QUERY, PILLS_PER_LINE, TOUCH_QUERY, closestEdge, driftOffset, initMarquee, loopDurations, pickThumbnails, shuffle, viewProgress } from '../src/scripts/marquee.ts';
 
 const sequence = values => { let i = 0; return () => values[i++ % values.length]; };
 
@@ -95,7 +96,7 @@ function setup({ hover = true, pool = [] } = {}) {
   globalThis.CSS = { supports: () => true };
   globalThis.getComputedStyle = element => window.getComputedStyle(element);
   const queries = {};
-  globalThis.matchMedia = query => (queries[query] ??= Object.assign(new window.EventTarget(), { matches: query === '(hover: hover)' ? hover : query === '(hover: none)' ? !hover : false }));
+  globalThis.matchMedia = query => (queries[query] ??= Object.assign(new window.EventTarget(), { matches: query === HOVER_QUERY ? hover : query === TOUCH_QUERY ? !hover : false }));
   const observers = [];
   globalThis.IntersectionObserver = class { constructor(callback) { this.callback = callback; observers.push(this); } observe() {} disconnect() { this.disconnected = true; } };
   const line = label => `<li class="marquee-line"><div class="marquee-default"><span>${label}</span></div><div class="marquee-overlay"><div class="marquee-overlay-inner"><div class="marquee-track"><span class="marquee-pill" data-pill="0"><img alt=""></span><span>${label}</span><span class="marquee-pill" data-pill="1"><img alt=""></span><span>${label}</span><span class="marquee-pill" data-pill="0"><img alt=""></span><span>${label}</span><span class="marquee-pill" data-pill="1"><img alt=""></span><span>${label}</span></div></div></div></li>`;
@@ -143,4 +144,13 @@ test('touch-only devices and empty pools load no thumbnails', () => {
   const empty = setup({ pool: [] });
   empty.observers[0].callback([{ isIntersecting: true }]);
   assert.ok([...empty.root.querySelectorAll('img')].every(image => !image.getAttribute('src')));
+});
+
+test('built CSS keeps the touch drift on a valid scroll timeline for every touch screen', () => {
+  const dir = new URL('../dist/_astro/', import.meta.url);
+  const css = readdirSync(dir).filter(name => name.endsWith('.css')).map(name => readFileSync(new URL(name, dir), 'utf8')).join('\n');
+  assert.match(css, /animation-timeline:view\(\)/);
+  // A timeline inside the `animation` shorthand is invalid and drops the whole declaration.
+  assert.doesNotMatch(css, /animation:[^;}]*view\(\)/);
+  assert.match(css, /\(hover:none\)( or |,\s*)\(pointer:coarse\)/);
 });

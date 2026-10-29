@@ -7,6 +7,9 @@ const DURATION = 600;
 // GSAP expo (out), as used by the Codrops demo.
 const EXPO_OUT = 'cubic-bezier(.16,1,.3,1)';
 const HIDDEN = 101;
+/** Fine pointers get the hover reveal; every touch screen gets the scroll drift, even tablets that report hover. */
+export const HOVER_QUERY = '(hover: hover) and (pointer: fine)';
+export const TOUCH_QUERY = '(hover: none), (pointer: coarse)';
 /** Each line alternates two thumbnails: Pill, Text, Pill, Text… */
 export const PILLS_PER_LINE = 2;
 
@@ -74,7 +77,7 @@ function loadThumbnail(image: HTMLImageElement, thumbnail: MarqueeThumbnail) {
 export function initMarquee(root: HTMLElement) {
   if (root.dataset.ready) return;
   const lines = [...root.querySelectorAll<HTMLElement>('.marquee-line')];
-  const hover = matchMedia('(hover: hover)');
+  const hover = matchMedia(HOVER_QUERY);
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 
   lines.forEach(line => {
@@ -163,7 +166,7 @@ export function initMarquee(root: HTMLElement) {
       });
     };
     const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
-    const touch = matchMedia('(hover: none)');
+    const touch = matchMedia(TOUCH_QUERY);
     let active = false;
     const sync = () => {
       const next = touch.matches && !reduced.matches;
