@@ -34,7 +34,8 @@ const copies = 6;
         <div class="marquee-overlay" aria-hidden="true">
           <div class="marquee-overlay-inner">
             <div class="marquee-track">
-              {Array.from({ length: groups }, () => <><span class="marquee-text">{item.label}</span><span class="marquee-pill"><img alt="" decoding="async" /></span></>)}
+              {/* Pills alternate between the line's two thumbnails, so each phrase sits between both. */}
+              {Array.from({ length: groups }, (_, i) => <><span class="marquee-pill" data-pill={i % 2}><img alt="" decoding="async" /></span><span class="marquee-text">{item.label}</span></>)}
             </div>
           </div>
         </div>
@@ -47,7 +48,7 @@ const copies = 6;
   document.querySelectorAll<HTMLElement>('[data-marquee]').forEach(initMarquee);
 </script>
 <style>
-  .marquee { color:var(--color-text-light); font:900 var(--heading-size,32px)/var(--heading-line,48px) var(--font-family-primary); letter-spacing:0; text-transform:uppercase; font-feature-settings:'liga' 0; }
+  .marquee { --marquee-loop-duration:15s; color:var(--color-text-light); font:900 var(--heading-size,32px)/var(--heading-line,48px) var(--font-family-primary); letter-spacing:0; text-transform:uppercase; font-feature-settings:'liga' 0; }
   .marquee-list { margin:0; padding:0; list-style:none; }
   /* clip, not hidden: a scroll container would capture the view() timeline. */
   .marquee-line { position:relative; overflow:clip; padding-block:24px; border-bottom:1px solid var(--color-border-subtle,#474747); }
@@ -58,10 +59,11 @@ const copies = 6;
   .marquee-overlay { position:absolute; inset:0; overflow:hidden; pointer-events:none; background:var(--primitive-color-neutral-white,#fff); color:var(--color-text-dark,#303030); transform:translateY(101%); }
   .marquee-overlay-inner { display:flex; align-items:center; height:100%; transform:translateY(-101%); }
   /* Per-item margins keep both halves identical, so the -50% loop is seamless. */
-  .marquee-track { display:flex; align-items:center; width:max-content; animation:marquee-menu-loop 15s linear infinite paused; }
+  .marquee-track { display:flex; align-items:center; width:max-content; animation:marquee-menu-loop var(--marquee-line-duration,var(--marquee-loop-duration)) linear infinite paused; }
   .marquee-track > * { flex-shrink:0; margin-inline-end:16px; }
+  .marquee-track .marquee-text { font-weight:500; }
   .marquee-line[data-active] .marquee-track { animation-play-state:running; }
-  .marquee-pill { display:block; width:2.5em; height:calc(63em / 64); border-radius:var(--primitive-border-radius-pill,999px); overflow:hidden; background:#d9d9d9; }
+  .marquee-pill { display:block; width:2.5em; height:calc(63em / 64); border:1px solid var(--primitive-color-neutral-200,#e3e3e3); border-radius:var(--primitive-border-radius-pill,999px); overflow:hidden; background:#d9d9d9; }
   .marquee-pill img { display:block; width:100%; height:100%; object-fit:cover; visibility:hidden; }
   .marquee-pill img[data-loaded] { visibility:visible; }
   @keyframes marquee-menu-loop { to { transform:translateX(-50%); } }
