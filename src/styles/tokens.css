@@ -21,6 +21,7 @@
   --color-focus-secondary: #4b09f5;
   --font-family-primary: 'Zalando Sans Expanded', Arial, sans-serif;
   --font-family-secondary: 'DM Sans', Arial, sans-serif;
+  --font-family-secondary-semibold: 'DM Sans Medium', 'DM Sans', Arial, sans-serif;
   --primitive-animation-duration-fast: 160ms;
   --primitive-animation-duration-standard: 240ms;
   --primitive-animation-duration-slow: 360ms;

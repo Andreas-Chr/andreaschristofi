@@ -11,6 +11,7 @@ import LegalText from '../components/LegalText.astro';
 import ProcessStep from '../components/ProcessStep.astro';
 import SimpleAccordion from '../components/SimpleAccordion.astro';
 import Marquee from '../components/Marquee.astro';
+import HeroBackground from '../components/HeroBackground.astro';
 
 import foundations from '../data/foundations.json';
 const figmaLink = (id:string) => `https://www.figma.com/design/${foundations.source.fileKey}?node-id=${id.replace(':','-')}`;
@@ -20,13 +21,18 @@ const accordionContent = 'Lorem ipsum dolor sit amet, consectetur adipiscing eli
 
 ---
 <BaseLayout title="Design System — Andreas Christofi" description="Foundations and components used across Andreas Christofi’s website." showFooter={false}>
+  <div class="top-region catalog-top-region">
+    <HeroBackground />
+    <div class="container top-content">
+      <header class="catalog-intro">
+        <p class="eyebrow">The website, in parts</p>
+        <h1>Design System</h1>
+        <p class="intro-copy">A shared language for meaningful experiences. Explore the foundations, components, and how they work together.</p>
+        <div class="catalog-meta"><span>5 foundation groups</span><span>Interactive components</span></div>
+      </header>
+    </div>
+  </div>
   <div class="design-system container">
-    <header class="catalog-intro">
-      <p class="eyebrow">The website, in parts</p>
-      <h1>Design System</h1>
-      <p class="intro-copy">A shared language for meaningful experiences. Explore the foundations, components, and how they work together.</p>
-      <div class="catalog-meta"><span>5 foundation groups</span><span>Interactive components</span></div>
-    </header>
 
     <nav class="section-nav" aria-label="Design system sections">
       <a href="#foundations">Foundations</a><a href="#components">Components</a><a href="#controls">Controls</a><a href="#text-feedback">Text &amp; feedback</a><a href="#patterns">Patterns</a><a href="#site-shell">Site shell</a>
@@ -127,7 +133,8 @@ const accordionContent = 'Lorem ipsum dolor sit amet, consectetur adipiscing eli
   }
 </script>
 <style>
-  .design-system { padding-top:calc(var(--header-clearance) + 64px); padding-bottom:80px; }
+  .catalog-top-region { height:auto; padding-top:calc(var(--header-clearance) + 64px); }
+  .design-system { padding-bottom:80px; }
   .catalog-intro { max-width:960px; display:grid; gap:24px; }
   h1 { font-size:clamp(36px,6vw,80px); line-height:1.15; letter-spacing:-.035em; }
   .intro-copy { max-width:680px; font-size:clamp(18px,2vw,24px); line-height:1.6; color:#c9c9c9; }
@@ -169,7 +176,7 @@ const accordionContent = 'Lorem ipsum dolor sit amet, consectetur adipiscing eli
   .shell-card pre { padding:16px 0 0; }
   .section-note { margin-top:24px; }
   @media(max-width:639px) {
-    .design-system { padding-top:calc(var(--header-clearance) + 40px); }
+    .catalog-top-region { padding-top:calc(var(--header-clearance) + 40px); }
     .surface-grid, .shell-grid { grid-template-columns:1fr; }
     .preview,.specimen-heading { padding:24px 16px; }
     .tooltip-preview { padding-top:80px; }

@@ -41,13 +41,13 @@ import experience from '../data/experience.json';
 </script>
 <style>
   .experience { min-width:0; }
-  h2 { margin-bottom:40px; }
+  h2 { margin-bottom:32px; }
   .experience-cards { display:grid; gap:4px; }
   .experience-card { position:relative; background:#fff; color:#303030; border-radius:8px; padding:24px; }
   /* Override ButtonAccordion's inline-flex layout regardless of CSS chunk order. */
   .experience .experience-trigger { display:block; width:100%; position:static; color:inherit; background:none; border:0; padding:0; text-align:left; }
   .experience-title { margin-bottom:8px; font-size:20px; line-height:36px; display:block; overflow-wrap:anywhere; }
-  .experience-meta { font:400 12px/16px var(--font-family-primary); display:flex; flex-wrap:wrap; gap:8px 16px; }
+  .experience-meta { font:400 12px/16px var(--font-family-primary); text-transform:uppercase; display:flex; flex-wrap:wrap; gap:8px 16px; }
   .experience-date { display:inline-flex; align-items:center; gap:16px; white-space:nowrap; }
   .experience :global(.experience-toggle) { display:none; position:absolute; right:24px; top:50%; transform:translateY(-50%); }
   .experience-panel { margin-top:24px; }

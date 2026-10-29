@@ -1,7 +1,6 @@
 ---
 import '../styles/global.css';
 import AgentationDev from '../components/dev/AgentationDev';
-import HeroBackground from '../components/HeroBackground.astro';
 import PageLoader from '../components/PageLoader.astro';
 import Header from '../components/Header.astro';
 import SiteFooter from '../components/SiteFooter.astro';
@@ -81,7 +80,6 @@ const canonical = new URL(Astro.url.pathname, site.origin);
   </head>
   <body>
     <div id="page-top" tabindex="-1" data-site-shell>
-      <HeroBackground />
       <Header />
       <main><slot /></main>
       {showFooter && <SiteFooter />}

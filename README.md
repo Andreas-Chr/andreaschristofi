@@ -43,7 +43,7 @@ Current homepage update: [V2 changes and design decisions](docs/V2-CHANGES.md).
 
 Desktop Home `5303:3403`, mobile Home `5314:8280`, Legal `5314:11138`, and 404 `5314:11317` were used alongside responsive references. SVG process diagrams were exported from their actual artwork nodes. No page screenshots are used as layout.
 
-[Astro React integration](https://docs.astro.build/en/guides/integrations-guide/react/) and [React Bits Gradient Waves source](https://github.com/DavidHDev/react-bits/tree/main/src/content/Backgrounds/GradientWaves) informed the isolated wave integration. Vendored code includes its upstream license; fonts retain their supplied OFL notices. See `docs/ASSETS.md` and `docs/RELEASE-REVIEW.md` for provenance and remaining launch checks.
+Fonts retain their supplied OFL notices. See `docs/ASSETS.md` and `docs/RELEASE-REVIEW.md` for provenance and remaining launch checks.
 
 ## Static hosting
 

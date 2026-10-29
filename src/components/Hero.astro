@@ -6,17 +6,18 @@ const words = ['Vision', 'Clarity', 'Systems', 'Hype'];
 ---
 <section class="hero top-content container" aria-labelledby="hero-heading" data-hero>
   <div class="hero-copy">
-    <h1 id="hero-heading">
+    <h1 id="hero-heading" class="hero-name"><span>andreas</span> <span class="hero-last-name">christofi</span></h1>
+    <p class="hero-headline">
       <span class="sr-only">Building vision, clarity, systems, hype.</span>
       <span aria-hidden="true" class="hero-static">Building</span>
       <span aria-hidden="true" class="hero-words">
         {words.map(word => <span class="hero-word">{word}</span>)}
       </span>
-    </h1>
-    <p class="hero-description">{site.description}</p>
+    </p>
+    <p class="hero-description"><span>{site.descriptionLines[0]}</span> <span>{site.descriptionLines[1]}</span></p>
     <div class="hero-actions">
-      <ButtonMain href="#curated-shots">Curated Works</ButtonMain>
-      <ButtonMain type="button" hierarchy="secondary" icon="/assets/icons/hero-arrow-up-right.svg" aria-haspopup="dialog" aria-controls="contact-popup" data-contact-popup-trigger>Say Hello</ButtonMain>
+      <ButtonMain href="#curated-shots">Explore Work</ButtonMain>
+      <ButtonMain type="button" hierarchy="secondary" icon="/assets/icons/hero-arrow-up-right.svg" aria-haspopup="dialog" aria-controls="contact-popup" data-contact-popup-trigger>Book a Call</ButtonMain>
     </div>
   </div>
 </section>
@@ -30,19 +31,24 @@ const words = ['Vision', 'Clarity', 'Systems', 'Hype'];
   });
 </script>
 <style>
-  .hero { display:flex; align-items:center; justify-content:center; min-height:calc(80svh - var(--header-clearance)); padding-block:48px; }
-  .hero-copy { position:relative; display:flex; flex-direction:column; align-items:center; width:100%; max-width:684px; gap:48px; text-align:center; }
-  h1 { width:100%; text-transform:uppercase; }
+  .hero { display:flex; align-items:center; justify-content:center; min-height:calc(90svh - var(--header-clearance)); padding-block:48px; }
+  .hero-copy { position:relative; display:flex; flex-direction:column; align-items:center; width:100%; max-width:684px; gap:32px; text-align:center; }
+  /* Figma H1 (5717:851): DM Sans 32/40, bold first name, light grey last name. */
+  /* word-spacing narrows the space to Figma's 4px gap. */
+  .hero-name { font:700 32px/40px var(--font-family-secondary); font-variation-settings:'opsz' 9; word-spacing:-.11em; }
+  .hero-last-name { font-weight:300; color:#acacac; }
+  .hero-headline { width:100%; font:900 var(--heading-size)/var(--heading-line) var(--font-family-primary); text-transform:uppercase; }
   .hero-static { display:block; }
   .hero-words { display:grid; color:var(--color-text-accent); }
   .hero-word { grid-area:1 / 1; display:block; white-space:nowrap; opacity:0; }
   .hero-word:first-child { opacity:1; }
   .hero-description { font:var(--text-display-small); }
+  @media(min-width:640px) { .hero-description span { display:block; } }
   .hero-actions { display:flex; align-items:center; justify-content:center; gap:16px; max-width:100%; }
   .hero-actions :global(.button) { white-space:nowrap; }
   .hero-actions :global([data-contact-popup-trigger] img) { width:14px; height:14px; flex:0 0 14px; }
   @media(min-width:400px) { .hero { padding-block:80px; } }
-  @media(max-width:639px) { h1 { line-height:calc(var(--heading-size) + 6px); } }
+  @media(max-width:639px) { .hero-headline { line-height:calc(var(--heading-size) + 6px); } }
   @media(width < 479px) {
     .hero-actions { flex-direction:column; width:100%; }
     .hero-actions :global(.button) { width:100%; }

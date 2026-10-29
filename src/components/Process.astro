@@ -1,11 +1,7 @@
----
-import ProcessStep from './ProcessStep.astro';
----
 <section class="section process container" id="process" aria-label="Process" data-process>
   <div class="process-intro">
     <p data-scroll-reveal-text>Great design comes from research, experimentation, and a willingness to do the work others often avoid. Every project is an opportunity to learn, refine, and create meaningful experiences that connect brand, culture, technology, and business. Creating something from nothing, embracing ambiguity, and collaborating with the right people, helps me uncover new ideas that move creativity, innovation, and progress forward. Complex problems require dependable outcomes.</p>
   </div>
-  <div class="process-steps"><ProcessStep /></div>
 </section>
 
 <script>
@@ -35,14 +31,7 @@ import ProcessStep from './ProcessStep.astro';
   });
 </script>
 <style>
-  .process { display:grid; gap:40px; }
   .process-intro { display:grid; gap:40px; }
-  .process-intro p { font:600 32px/48px var(--font-family-secondary); }
+  .process-intro p { font:600 32px/48px var(--font-family-secondary-semibold); }
   @media(max-width:399px) { .process { padding-block:48px; } }
-  @media(min-width:400px) { .process-steps { margin-top:8px; } }
-  @media(min-width:640px) { .process-intro { margin-bottom:120px; } }
-  @media(min-width:1200px) {
-    .process-intro { margin-bottom:40px; }
-    .process-steps { margin-top:40px; }
-  }
 </style>

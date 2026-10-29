@@ -53,3 +53,22 @@ These were raised during implementation; no owner answer had arrived when the de
 - Chrome UI inspection after the header repair: logo, wordmark and menu button render at the correct desktop positions. Responsive header dimensions were checked against all five Figma references; a fresh mobile screenshot of the repaired header remains outstanding.
 - At 320 × 320 px, the hero grows with its content and the download/pause controls remain reachable. The new Approach section renders below it.
 - No deployment performed.
+
+## Homepage v2 update — 29 October 2026
+
+Source: Desktop `03.1 - Homepage v2 - 1440` (`5303:3403`) and Components `Site/Header` (`5314:5958`). 
+| Area | Change | Source |
+| --- | --- | --- |
+| Order | Hero → Process → Marquee → Curated Shots → About → Stack & Experience → Awards → Footer. About is not in v2; kept after Curated Shots by owner decision. | `5303:3403` |
+| Hero | `andreas christofi` (DM Sans 32/40) is the H1; the rotating “Building …” line follows. New copy “Senior Product & UX Designer shaping AI-powered SaaS products & crafting brand-led experiences.” (also the site description). Buttons “Explore Work” and “Book a Call” (opens the contact popup, owner decision). 32 px gaps. | `5303:3406` |
+| Hero background | Gradient Waves, the vendored React Bits code and `ogl` removed. `hero_bg` image, lighten at 50%, in every page's top region (owner decision: same pages as the waves). | `5709:5266` |
+| Header | Wordmarks removed. Logo is a bare 28 × 48 mark; the lime surface appears only on hover/focus. | `5069:1030`, `5314:5958` |
+| Marquee | Homepage carries the Marquee component after Process. The footer marquee is removed from every page (homepage per v2, Legal and 404 by owner decision). | `5730:1865`, `5709:5507` |
+| Curated Shots | Visible “Curated shots” H2, 40 px above the grid. | `5722:2128` |
+| Process | The Process/Step accordion is removed from the homepage (owner decision); only the intro paragraph remains. The component stays on the Design System page. | `5303:3434` |
+| Stack | “Research & Prototyping” label; Figma removed from that group. 8 px title gap, 32 px group spacing, 12 px label gap. | `5303:3454` |
+| Experience | Updated Remazing copy; uppercase role/year line; 32 px heading gap. | `5303:3484` |
+
+| Fonts | Added DM Sans Bold (`dmsans-bold.woff2`, owner-supplied `_exports/WOFF2/DMSans-Bold.woff2`) for the hero name. There is no SemiBold file: 600 text uses `--font-family-secondary-semibold`, a Medium-only alias, so the browser keeps synthesising it rather than switching to Bold. | `5717:852` |
+
+Not changed: the home hero height, set to 90svh (owner decision; Figma shows a 1024 px top region), the open menu (owner decision) and the FAQ menu link (no FAQ section yet, owner decision). Tablet and mobile Figma frames predate v2; the new structure applies at every breakpoint.

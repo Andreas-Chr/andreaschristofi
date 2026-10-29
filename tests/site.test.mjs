@@ -35,11 +35,11 @@ test('static output keeps the menu closed and exposes page content and native li
   assert.equal(document.querySelector('.menu-panel').hidden,true);
   assert.equal(document.querySelector('.menu-panel').inert,true);
   assert.equal(document.querySelector('.menu-trigger').getAttribute('aria-expanded'),'false');
-  for(const selector of ['.contact-panel','.phase-panel','.experience-panel']) {
+  for(const selector of ['.contact-panel','.experience-panel']) {
     const panels=[...document.querySelectorAll(selector)];assert.ok(panels.length);
     panels.forEach(panel=>assert.equal(panel.hidden,false,selector));
   }
-  assert.equal(document.querySelectorAll('.phase-panel').length,4);
+  assert.equal(document.querySelector('#process [data-process-step]'),null,'Process/Step is not on the homepage');
   assert.equal(document.querySelectorAll('.experience-panel').length,6);
   assert.ok(document.querySelector('a[href="mailto:hello@andreaschristofi.com"]'));
   assert.ok(document.querySelector('a[download]'));
@@ -51,7 +51,7 @@ test('scroll reveal stays scoped and About keeps its Figma typography at every b
   const processSource=readFileSync(new URL('../src/components/Process.astro',import.meta.url),'utf8');
   const pageSource=readFileSync(new URL('../src/pages/index.astro',import.meta.url),'utf8');
   assert.match(processSource,/<p data-scroll-reveal-text>Great design comes from research/);
-  assert.match(processSource,/\.process-intro p \{ font:600 32px\/48px var\(--font-family-secondary\); \}/);
+  assert.match(processSource,/\.process-intro p \{ font:600 32px\/48px var\(--font-family-secondary-semibold\); \}/);
   assert.match(processSource,/querySelectorAll<HTMLElement>\('\[data-scroll-reveal-text\]'\)/);
   assert.match(processSource,/SplitText\.create\(text,\{type:'words'\}\)/);
   assert.match(processSource,/trigger:text,[\s\S]*start:'top center',[\s\S]*end:'bottom center',[\s\S]*scrub:true/);
@@ -63,14 +63,18 @@ test('scroll reveal stays scoped and About keeps its Figma typography at every b
 
 test('homepage exposes stable hero copy, an accessible Process section and six professional entries',()=>{
   const w=fixture();
-  assert.match(document.querySelector('#hero-heading .sr-only').textContent,/Building vision, clarity, systems, hype/);
+  assert.equal(document.querySelector('h1#hero-heading').textContent,'andreas christofi');
+  assert.match(document.querySelector('.hero-headline .sr-only').textContent,/Building vision, clarity, systems, hype/);
   assert.deepEqual([...document.querySelectorAll('.hero-word')].map(n=>n.textContent),['Vision','Clarity','Systems','Hype']);
   assert.equal(document.querySelector('.hero-motion-control'),null);
-  const curatedWorks=document.querySelector('.hero-copy .button');
-  assert.equal(curatedWorks.textContent.trim(),'Curated Works');
-  assert.equal(curatedWorks.getAttribute('href'),'#curated-shots');
-  assert.ok(document.querySelector(curatedWorks.getAttribute('href')));
-  assert.equal(curatedWorks.querySelector('img'),null);
+  const exploreWork=document.querySelector('.hero-copy .button');
+  assert.equal(exploreWork.textContent.trim(),'Explore Work');
+  assert.equal(exploreWork.getAttribute('href'),'#curated-shots');
+  assert.ok(document.querySelector(exploreWork.getAttribute('href')));
+  assert.equal(exploreWork.querySelector('img'),null);
+  assert.equal(document.querySelector('[data-contact-popup-trigger]').textContent.trim(),'Book a Call');
+  const order=['#process','[data-marquee]','#curated-shots','#about','.stack-experience','.awards'].map(selector=>document.querySelector(selector));
+  order.slice(1).forEach((node,i)=>assert.ok(order[i].compareDocumentPosition(node) & window.Node.DOCUMENT_POSITION_FOLLOWING,`section ${i+1} out of order`));
   assert.equal(document.querySelector('[data-diamond],.hero-visual'),null);
   assert.equal(document.querySelector('#process').getAttribute('aria-label'),'Process');
   assert.match(document.querySelector('.process-intro p').textContent,/Complex problems require dependable outcomes/);
@@ -139,21 +143,23 @@ test('menu is non-modal; Escape restores focus and links retain navigation',()=>
   w.close();
 });
 
+const designSystemHtml=()=>readFileSync(new URL('../dist/design-system/index.html',import.meta.url),'utf8');
+
 test('process always has exactly one selected phase without illustrations',()=>{
-  const w=fixture();enhance('ProcessStep');
+  const w=fixture(designSystemHtml());enhance('ProcessStep');
   const buttons=[...document.querySelectorAll('.phase-trigger')];
   for(const index of [0,1,2,3,3,0]) {
     buttons[index].click();
     assert.equal(document.querySelectorAll('.phase-trigger[aria-expanded="true"]').length,1);
     assert.equal(document.querySelectorAll('.phase-panel:not([hidden])').length,1);
-    assert.equal(document.querySelector(`.phase-panel:not([hidden])`).id,`phase-panel-${index}`);
-    assert.equal(document.querySelector('#process picture, #process .process-art, #process [data-phase-marker]'),null);
+    assert.equal(document.querySelector(`.phase-panel:not([hidden])`).id,`ds-process-panel-${index}`);
+    assert.equal(document.querySelector('[data-process-step] picture, [data-process-step] .process-art, [data-process-step] [data-phase-marker]'),null);
   }
   w.close();
 });
 
 test('process reveals content after opening completes and ignores superseded selections',async()=>{
-  const w=fixture();enhance('ProcessStep');
+  const w=fixture(designSystemHtml());enhance('ProcessStep');
   globalThis.matchMedia=()=>({matches:false});
   const root=document.querySelector('[data-process-step]');
   const buttons=[...root.querySelectorAll('.phase-trigger')];
@@ -369,6 +375,7 @@ test('routes, canonical URLs, policy anchors, and every local asset resolve in t
     assert.equal(document.querySelectorAll('[data-hero-background]').length,1,`${file}: one shared hero background`);
     assert.equal(document.querySelector('[data-hero-background]').getAttribute('aria-hidden'),'true');
     assert.equal(document.querySelectorAll('h1').length,1,file);
+    assert.equal(document.querySelector('.site-footer .marquee'),null,`${file}: footer has no marquee`);
     const ids=[...document.querySelectorAll('[id]')].map(n=>n.id);
     assert.equal(new Set(ids).size,ids.length,`duplicate IDs: ${file}`);
     for(const el of document.querySelectorAll('[src],[href],source[srcset]')) {

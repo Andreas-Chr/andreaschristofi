@@ -1,9 +1,11 @@
+// The hero sets each line on its own row (Figma 5303:3411); elsewhere they read as one sentence.
+const descriptionLines = ['Senior Product & UX Designer shaping AI-powered SaaS products', '& crafting brand-led experiences.'] as const;
 export const site = {
   name: "Andreas Christofi",
   origin: "https://andreaschristofi.com",
   email: "hello@andreaschristofi.com",
-  description:
-    "Senior Product & Web Designer crafting brand-led digital experiences & shaping AI-powered SaaS products.",
+  description: descriptionLines.join(' '),
+  descriptionLines,
   cv: "/assets/documents/andreas-christofi-cv.pdf",
 };
 export const navigation = [
@@ -22,8 +24,8 @@ export const toolGroups = [
     ['Figma','figma'], ['Adobe Photoshop','ps'], ['Adobe Illustrator','ai'],
     ['Adobe After Effects','ae'], ['Adobe InDesign','id'], ['Adobe XD','xd'],
   ] },
-  { label: 'Research & Prototype', tools: [
-    ['Figma','figma'], ['Claude','research-claude'], ['ChatGPT','chatgpt'], ['Miro','miro'],
+  { label: 'Research & Prototyping', tools: [
+    ['Claude','research-claude'], ['ChatGPT','chatgpt'], ['Miro','miro'],
   ] },
   { label: 'Development', tools: [
     ['Claude','claude'], ['Codex','codex'], ['Webflow','webflow'],

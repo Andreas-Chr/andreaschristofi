@@ -4,9 +4,11 @@ import { Picture } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Process from '../components/Process.astro';
 import Hero from '../components/Hero.astro';
+import HeroBackground from '../components/HeroBackground.astro';
 import CuratedShots from '../components/CuratedShots.astro';
 import SocialLinks from '../components/SocialLinks.astro';
 import Experience from '../components/Experience.astro';
+import Marquee from '../components/Marquee.astro';
 import Tooltip from '../components/Tooltip.astro';
 import allAwards from '../assets/all-awards.png';
 import portrait from '../assets/andreas-bw.png';
@@ -14,10 +16,12 @@ import { site, toolGroups, awards } from '../data/site';
 ---
 <BaseLayout title="Andreas Christofi — Digital Product Designer">
   <div class="top-region home-top-region">
+    <HeroBackground />
     <Hero />
   </div>
-  <CuratedShots />
   <Process />
+  <Marquee items={[{ label: 'Intuitive Products' }, { label: 'Delightful Interactions' }, { label: 'Meaningful Experiences' }]} />
+  <CuratedShots />
   <section class="section about container" id="about" aria-labelledby="about-heading">
     <Picture class="portrait" src={portrait} formats={['avif','webp']} fallbackFormat="jpg" widths={[304,448,680,896,1120]} sizes="(min-width: 900px) 48vw, 100vw" alt="Andreas Christofi walking through the city" loading="lazy" />
     <div class="about-copy">
@@ -37,7 +41,7 @@ import { site, toolGroups, awards } from '../data/site';
       <p class="body-large">Tools I’ve learned to design, prototype, animate and build cool projects with.</p>
       {
         toolGroups.map((group, groupIndex)=>
-          <div class:list={['tool-group', { 'tool-group-research': group.label === 'Research & Prototype' }]}>
+          <div class="tool-group">
             <h3 class="eyebrow">{group.label}</h3>
             <ul>
               {
@@ -78,7 +82,7 @@ import { site, toolGroups, awards } from '../data/site';
   </section>
 </BaseLayout>
 <style>
-  .home-top-region { height:auto; min-height:80svh; }
+  .home-top-region { height:auto; min-height:90svh; }
   .about { display:grid; gap:40px; align-items:start; }
   .about > :global(picture) { position:relative; width:100%; aspect-ratio:679/687; }
   .about :global(.portrait) { display:block; width:100%; height:100%; position:absolute; inset:0; aspect-ratio:679/687; object-fit:cover; object-position:bottom; border-radius:16px; }
@@ -87,10 +91,9 @@ import { site, toolGroups, awards } from '../data/site';
   .about-copy .body-large { font:var(--text-body-medium); font-variation-settings:'opsz' 9; }
   .about-button { display:flex; flex-wrap:wrap; align-items:center; gap:32px; padding-block:32px; }
   .stack-experience { display:grid; gap:80px 24px; align-items:start; }
-  .stack h2 { margin-bottom:16px; }
-  .tool-group { margin-top:40px; }
-  .tool-group h3 { margin-bottom:16px; }
-  .tool-group-research h3 { margin-bottom:12px; }
+  .stack h2 { margin-bottom:8px; }
+  .tool-group { margin-top:32px; }
+  .tool-group h3 { margin-bottom:12px; }
   .tool-group ul { display:flex; gap:4px; flex-wrap:wrap; list-style:none; padding:0; margin:0; }
   .tool { position:relative; display:flex; justify-content:center; align-items:center; width:80px; height:80px; background:#303030; border-radius:8px; }
   .tool img { transition:opacity var(--primitive-animation-duration-fast); width:24px; height:24px; object-fit:contain; }
