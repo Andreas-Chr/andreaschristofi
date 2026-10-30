@@ -63,8 +63,10 @@ test('scroll reveal stays scoped and About keeps its Figma typography at every b
 
 test('homepage exposes stable hero copy, an accessible Process section and six professional entries',()=>{
   const w=fixture();
-  assert.equal(document.querySelector('h1#hero-heading').textContent,'andreas christofi');
-  assert.match(document.querySelector('.hero-headline .sr-only').textContent,/Building vision, clarity, systems, hype/);
+  assert.equal(document.querySelector('h1#hero-heading.hero-headline .sr-only').textContent,'Building vision, clarity, systems, hype.');
+  assert.match(document.querySelector('.hero-description').textContent,/^I’m Andreas, an independent Product & UX Designer/);
+  assert.equal(document.querySelector('#about-heading').textContent,'andreas christofi');
+  assert.match(document.querySelector('.curated-intro').textContent,/^A curated gallery of my latest interface designs/);
   assert.deepEqual([...document.querySelectorAll('.hero-word')].map(n=>n.textContent),['Vision','Clarity','Systems','Hype']);
   assert.equal(document.querySelector('.hero-motion-control'),null);
   const exploreWork=document.querySelector('.hero-copy .button');
@@ -73,7 +75,7 @@ test('homepage exposes stable hero copy, an accessible Process section and six p
   assert.ok(document.querySelector(exploreWork.getAttribute('href')));
   assert.equal(exploreWork.querySelector('img'),null);
   assert.equal(document.querySelector('[data-contact-popup-trigger]').textContent.trim(),'Book a Call');
-  const order=['#process','[data-marquee]','#curated-shots','#about','.stack-experience','.awards'].map(selector=>document.querySelector(selector));
+  const order=['#process','#curated-shots','#about','.stack-experience','[data-marquee]','.awards'].map(selector=>document.querySelector(selector));
   order.slice(1).forEach((node,i)=>assert.ok(order[i].compareDocumentPosition(node) & window.Node.DOCUMENT_POSITION_FOLLOWING,`section ${i+1} out of order`));
   assert.equal(document.querySelector('[data-diamond],.hero-visual'),null);
   assert.equal(document.querySelector('#process').getAttribute('aria-label'),'Process');
@@ -372,8 +374,9 @@ test('routes, canonical URLs, policy anchors, and every local asset resolve in t
   const routes=['index.html','legal/index.html','404.html','design-system/index.html'];
   for(const file of routes) {
     const w=fixture(readFileSync(new URL(`../dist/${file}`,import.meta.url),'utf8'));
-    assert.equal(document.querySelectorAll('[data-hero-background]').length,1,`${file}: one shared hero background`);
-    assert.equal(document.querySelector('[data-hero-background]').getAttribute('aria-hidden'),'true');
+    // The hero video belongs to the homepage only (owner decision, 30 October 2026).
+    assert.equal(document.querySelectorAll('[data-hero-background]').length,file==='index.html'?1:0,`${file}: hero background only on the homepage`);
+    if(file==='index.html') assert.equal(document.querySelector('[data-hero-background]').getAttribute('aria-hidden'),'true');
     assert.equal(document.querySelectorAll('h1').length,1,file);
     assert.equal(document.querySelector('.site-footer .marquee'),null,`${file}: footer has no marquee`);
     const ids=[...document.querySelectorAll('[id]')].map(n=>n.id);

@@ -12,6 +12,7 @@ import SocialLinks from './SocialLinks.astro';
         <img class="light-mark" src="/assets/logo/header-logo-light.svg" width="28" height="48" alt="" />
         <img class="dark-mark" src="/assets/logo/header-logo-dark.svg" width="27" height="48" alt="" />
       </span>
+      <span class="logo-wordmark" aria-hidden="true"><span class="logo-first-name">andreas</span><span class="logo-last-name">christofi</span></span>
     </a>
     <ButtonIcon class="menu-trigger" type="button" aria-label="Open main menu" aria-expanded="false" aria-controls="main-navigation" hidden version="tertiary">
       <span class="menu-label-mask" aria-hidden="true"><span class="menu-label text-headings-h5">Menu</span></span>
@@ -66,7 +67,10 @@ import SocialLinks from './SocialLinks.astro';
   .site-header[data-ready] { position:fixed; inset:0 0 auto; pointer-events:none; }
   .header-row { display:flex; justify-content:space-between; align-items:center; gap:16px; max-width:none; }
   .header-row>* { pointer-events:auto; }
-  .logo-link { display:flex; align-items:center; flex-shrink:0; text-decoration:none; }
+  /* logo_div (5069:1016): mark and wordmark form one home link, so hovering either half drives the mark state. */
+  .logo-link { display:flex; align-items:center; gap:16px; flex-shrink:0; color:var(--color-text-light); text-decoration:none; }
+  .logo-wordmark { display:flex; align-items:center; gap:8px; font:var(--text-headings-h5); letter-spacing:0; text-transform:uppercase; white-space:nowrap; }
+  .logo-last-name { font-weight:300; }
   /* Site/LogoLink (5069:1030): a bare mark by default; the surface appears on hover. */
   .logo-surface { position:relative; display:grid; place-items:center; flex-shrink:0; width:48px; height:64px; border:1px solid transparent; border-radius:8px; transition:background var(--primitive-animation-duration-fast),border-color var(--primitive-animation-duration-fast); }
   /* Figma “lumi card”: 10px blur radius maps to a 5px CSS blur. */
@@ -109,6 +113,8 @@ import SocialLinks from './SocialLinks.astro';
     /* Site/Header, Layout=Smallest (5314:5959). */
     .site-header { padding-block:24px; }
     .header-row { padding-inline:24px; }
+    .logo-link { gap:8px; }
+    .logo-wordmark { flex-direction:column; align-items:flex-start; gap:0; }
     .menu-label-mask { display:none; }
     .menu-useful-links .button { width:100%; }
   }

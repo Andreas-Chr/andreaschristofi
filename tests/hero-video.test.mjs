@@ -1,0 +1,32 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { Window } from 'happy-dom';
+import { initHeroVideo } from '../src/scripts/hero-video.ts';
+
+test('hero video plays only while visible and motion is allowed', () => {
+  const window = new Window();
+  globalThis.window = window;
+  globalThis.document = window.document;
+  const preference = new window.EventTarget();
+  preference.matches = false;
+  window.matchMedia = () => preference;
+  let observe;
+  window.IntersectionObserver = class { constructor(callback) { observe = visible => callback([{ isIntersecting: visible }]); } observe() {} };
+  document.body.innerHTML = '<div data-hero-background><video muted loop></video></div>';
+  const root = document.querySelector('div');
+  const video = root.querySelector('video');
+  const calls = [];
+  video.play = () => { calls.push('play'); return Promise.resolve(); };
+  video.pause = () => calls.push('pause');
+  initHeroVideo(root);
+  initHeroVideo(root);
+  assert.deepEqual(calls, ['play']);
+  observe(false);
+  assert.equal(calls.at(-1), 'pause');
+  observe(true);
+  assert.equal(calls.at(-1), 'play');
+  preference.matches = true;
+  preference.dispatchEvent(new window.Event('change'));
+  assert.equal(calls.at(-1), 'pause');
+  window.close();
+});

@@ -20,14 +20,13 @@ import { site, toolGroups, awards } from '../data/site';
     <Hero />
   </div>
   <Process />
-  <Marquee items={[{ label: 'Intuitive Products' }, { label: 'Delightful Interactions' }, { label: 'Meaningful Experiences' }]} />
   <CuratedShots />
   <section class="section about container" id="about" aria-labelledby="about-heading">
-    <Picture class="portrait" src={portrait} formats={['avif','webp']} fallbackFormat="jpg" widths={[304,448,680,896,1120]} sizes="(min-width: 900px) 48vw, 100vw" alt="Andreas Christofi walking through the city" loading="lazy" />
+    <Picture class="portrait" src={portrait} formats={['avif','webp']} fallbackFormat="jpg" widths={[304,448,672,896,1120]} sizes="(min-width: 1440px) 448px, (min-width: 900px) 31vw, min(448px, 100vw)" alt="Andreas Christofi walking through the city" loading="lazy" />
     <div class="about-copy">
-      <h2 id="about-heading">About Me</h2>
+      <h2 id="about-heading">andreas <span class="about-last-name">christofi</span></h2>
       <p class="lead">{site.description}</p>
-      <p class="body-large">For the past 2 decades I've worked through traditional graphic design, print, brand strategy, web, and digital product design. I’ve learned the art of simplicity by crafting complex ideas into clear, impactful, and engaging experiences. And somewhere along the way, I’ve also had the opportunity to run my own studio, to lead creative teams, and work on AI-powered SaaS digital products.</p>
+      <p class="body-large">For the past 2 decades I’ve worked through traditional graphic design, print, brand strategy, web, and digital product design. I’ve learned the art of simplicity by crafting complex ideas into clear, impactful, and engaging experiences. And somewhere along the way, I’ve also had the opportunity to run my own studio, to lead creative teams, and work on AI-powered SaaS digital products.</p>
       <p class="body-large">Being a designer is only a part of me. I’m also a husband and father, a martial artist, an aviation enthusiast and a custom PC builder. I make space in my life for the things I enjoy because they keep me curious, disciplined, grounded, and always eager to learn something new.</p>
       <div class="about-button">
         <ButtonMain href={site.cv} download icon="/assets/icons/download.svg" hierarchy="secondary">Resume</ButtonMain>
@@ -71,6 +70,7 @@ import { site, toolGroups, awards } from '../data/site';
     </section>
     <Experience />
   </div>
+  <Marquee items={[{ label: 'Intuitive Products' }, { label: 'Delightful Interactions' }, { label: 'Meaningful Experiences' }]} />
   <section class="section awards container" aria-labelledby="awards-heading">
     <h2 id="awards-heading">Awards</h2>
     <div class="awards-grid">
@@ -83,10 +83,12 @@ import { site, toolGroups, awards } from '../data/site';
 </BaseLayout>
 <style>
   .home-top-region { height:auto; min-height:90svh; }
+  /* Figma img-text_component (5734:4594): a 448 × 527 portrait, 80px from the copy. */
   .about { display:grid; gap:40px; align-items:start; }
-  .about > :global(picture) { position:relative; width:100%; aspect-ratio:679/687; }
-  .about :global(.portrait) { display:block; width:100%; height:100%; position:absolute; inset:0; aspect-ratio:679/687; object-fit:cover; object-position:bottom; border-radius:16px; }
-  .about-copy { display:grid; gap:32px; min-width:0; }
+  .about > :global(picture) { position:relative; width:100%; max-width:448px; aspect-ratio:448/527; }
+  .about :global(.portrait) { display:block; width:100%; height:100%; position:absolute; inset:0; object-fit:cover; border-radius:16px; }
+  .about-copy { display:grid; gap:24px; min-width:0; }
+  .about-last-name { font-weight:300; }
   .about-copy .lead { font:var(--text-display-small); text-align:left; font-variation-settings:'opsz' 14; }
   .about-copy .body-large { font:var(--text-body-medium); font-variation-settings:'opsz' 9; }
   .about-button { display:flex; flex-wrap:wrap; align-items:center; gap:32px; padding-block:32px; }
@@ -120,7 +122,7 @@ import { site, toolGroups, awards } from '../data/site';
   .award-list .eyebrow { display:flex; align-items:center; flex-wrap:wrap; gap:8px 16px; }
   .award-date { display:inline-flex; align-items:center; gap:16px; flex-shrink:0; white-space:nowrap; }
   .award-date > span { display:block; width:auto; height:auto; flex:0 0 auto; background:none; transform:none; }
-  @media(min-width:900px) { .about { grid-template-columns:1fr 1fr; } }
+  @media(min-width:900px) { .about { grid-template-columns:minmax(0,448fr) minmax(0,864fr); column-gap:80px; } }
   .certificates { display:block; width:100%; height:auto; }
   @media(min-width:1200px) {
     .stack-experience { grid-template-columns:1fr 1fr; }

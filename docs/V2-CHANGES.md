@@ -72,3 +72,20 @@ Source: Desktop `03.1 - Homepage v2 - 1440` (`5303:3403`) and Components `Site/H
 | Fonts | Added DM Sans Bold (`dmsans-bold.woff2`, owner-supplied `_exports/WOFF2/DMSans-Bold.woff2`) for the hero name. There is no SemiBold file: 600 text uses `--font-family-secondary-semibold`, a Medium-only alias, so the browser keeps synthesising it rather than switching to Bold. | `5717:852` |
 
 Not changed: the home hero height, set to 90svh (owner decision; Figma shows a 1024 px top region), the open menu (owner decision) and the FAQ menu link (no FAQ section yet, owner decision). Tablet and mobile Figma frames predate v2; the new structure applies at every breakpoint.
+
+## Homepage v2 update — 30 October 2026
+
+Source: Desktop `03.1 - Homepage v2 - 1440` (`5303:3403`). Tablet and mobile frames still predate v2; the desktop structure applies at every breakpoint.
+
+| Area | Change | Source |
+| --- | --- | --- |
+| Order | Hero → Process → Curated Shots → About → Stack & Experience → Marquee → Awards → Footer. The Marquee moves below Stack & Experience. | `5303:3403`, `5730:1865` |
+| Hero | The `andreas christofi` H1 is removed; the rotating “Building …” line is now the page H1. New copy “I’m Andreas, an independent Product & UX Designer that builds AI-powered SaaS products & brand-led web experiences.” on a 600 px measure. | `5303:3406`, `5303:3411` |
+| Hero background | Looping video replaces the `hero_bg` image: color dodge at 50%, fading into the canvas. Seamless loop: the clip's end dissolves into its start over 2.5 s instead of cutting. Homepage only (owner decision); Legal, 404 and the Design System page have no hero background, matching Figma. See `ASSETS.md`. | `5734:4924` |
+| Process | No vertical padding (owner confirmed), matching the 288 px section; the hero and Curated Shots supply the spacing. | `5303:3434` |
+| Curated Shots | New Display/Small intro paragraph, 40 px below the H2 and above the grid. | `5734:2132` |
+| About | H2 `andreas christofi` (Black + Light). New 448 × 527 portrait crop, 80 px from the copy (proportional columns from 900 px; capped at 448 px when stacked). 24 px copy rhythm. Introduction now “… that builds AI-powered SaaS products & brand-led web experiences.” (also the site description). | `5734:4592` |
+| Header | Wordmark `andreas christofi` restored beside the mark (Black + Light, 18/24); stacked below 480 px. The whole logo is one home link. | `5314:5958` |
+| Fonts | Added Zalando Sans Expanded Light (`zalandosansexpanded-light.woff2`, Google Fonts latin subset, OFL) for the wordmark and About H2. | `5734:4804`, `5734:4598` |
+
+Not changed (owner decisions): the 90svh home hero height (Figma shows 1024 px) and the footer contact block, which stays top-aligned with the heading rather than centered as in Figma. At 1440 × 900 every other section matches the Figma section heights. Tablet and mobile Figma frames will be updated by the owner; until then the desktop structure applies at every width.

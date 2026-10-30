@@ -1,11 +1,10 @@
-// The hero sets each line on its own row (Figma 5303:3411); elsewhere they read as one sentence.
-const descriptionLines = ['I’m an independent Product & UX Designer that shapes AI-powered SaaS products & crafts brand-led web experiences.'] as const;
 export const site = {
   name: "Andreas Christofi",
   origin: "https://andreaschristofi.com",
   email: "hello@andreaschristofi.com",
-  description: descriptionLines.join(' '),
-  descriptionLines,
+  // About introduction (Figma 5734:4599), also the default meta description.
+  description: 'I’m an independent Product & UX Designer that builds AI-powered SaaS products & brand-led web experiences.',
+  heroDescription: 'I’m Andreas, an independent Product & UX Designer that builds AI-powered SaaS products & brand-led web experiences.',
   cv: "/assets/documents/andreas-christofi-cv.pdf",
 };
 export const navigation = [

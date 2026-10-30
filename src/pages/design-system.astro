@@ -11,7 +11,6 @@ import LegalText from '../components/LegalText.astro';
 import ProcessStep from '../components/ProcessStep.astro';
 import SimpleAccordion from '../components/SimpleAccordion.astro';
 import Marquee from '../components/Marquee.astro';
-import HeroBackground from '../components/HeroBackground.astro';
 
 import foundations from '../data/foundations.json';
 const figmaLink = (id:string) => `https://www.figma.com/design/${foundations.source.fileKey}?node-id=${id.replace(':','-')}`;
@@ -22,7 +21,6 @@ const accordionContent = 'Lorem ipsum dolor sit amet, consectetur adipiscing eli
 ---
 <BaseLayout title="Design System — Andreas Christofi" description="Foundations and components used across Andreas Christofi’s website." showFooter={false}>
   <div class="top-region catalog-top-region">
-    <HeroBackground />
     <div class="container top-content">
       <header class="catalog-intro">
         <p class="eyebrow">The website, in parts</p>
