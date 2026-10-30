@@ -1,5 +1,5 @@
 // The hero sets each line on its own row (Figma 5303:3411); elsewhere they read as one sentence.
-const descriptionLines = ['Senior Product & UX Designer shaping AI-powered SaaS products', '& crafting brand-led experiences.'] as const;
+const descriptionLines = ['I’m an independent Product & UX Designer that shapes AI-powered SaaS products & crafts brand-led web experiences.'] as const;
 export const site = {
   name: "Andreas Christofi",
   origin: "https://andreaschristofi.com",
