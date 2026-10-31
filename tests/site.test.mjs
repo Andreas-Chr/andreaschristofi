@@ -75,7 +75,7 @@ test('homepage exposes stable hero copy, an accessible Process section and six p
   assert.ok(document.querySelector(exploreWork.getAttribute('href')));
   assert.equal(exploreWork.querySelector('img'),null);
   assert.equal(document.querySelector('[data-contact-popup-trigger]').textContent.trim(),'Book a Call');
-  const order=['#process','#curated-shots','#about','.stack-experience','[data-marquee]','.awards'].map(selector=>document.querySelector(selector));
+  const order=['#process','#curated-shots','#about','.stack-experience','.awards'].map(selector=>document.querySelector(selector));
   order.slice(1).forEach((node,i)=>assert.ok(order[i].compareDocumentPosition(node) & window.Node.DOCUMENT_POSITION_FOLLOWING,`section ${i+1} out of order`));
   assert.equal(document.querySelector('[data-diamond],.hero-visual'),null);
   assert.equal(document.querySelector('#process').getAttribute('aria-label'),'Process');
@@ -378,7 +378,7 @@ test('routes, canonical URLs, policy anchors, and every local asset resolve in t
     assert.equal(document.querySelectorAll('[data-hero-background]').length,file==='index.html'?1:0,`${file}: hero background only on the homepage`);
     if(file==='index.html') assert.equal(document.querySelector('[data-hero-background]').getAttribute('aria-hidden'),'true');
     assert.equal(document.querySelectorAll('h1').length,1,file);
-    assert.equal(document.querySelector('.site-footer .marquee'),null,`${file}: footer has no marquee`);
+    assert.equal(document.querySelector('[data-marquee],.marquee'),null,`${file}: no marquee`);
     const ids=[...document.querySelectorAll('[id]')].map(n=>n.id);
     assert.equal(new Set(ids).size,ids.length,`duplicate IDs: ${file}`);
     for(const el of document.querySelectorAll('[src],[href],source[srcset]')) {

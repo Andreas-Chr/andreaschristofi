@@ -1,6 +1,6 @@
 # Editing curated shots
 
-The homepage uses one reusable Card and one native modal, located between Hero and Process. There are no shot pages. Eight independent starter entries live in `src/content/curated-shots/shot-01.json` through `shot-08.json`. Figma contains placeholder artwork for all eight, so these entries deliberately use fallback artwork and Lorem Ipsum until populated.
+The homepage uses one reusable Card and one native modal, located between Process and About. There are no shot pages. Eight independent starter entries live in `src/content/curated-shots/shot-01.json` through `shot-08.json`. Figma contains placeholder artwork for all eight, so these entries deliberately use fallback artwork and Lorem Ipsum until populated.
 
 ## Edit an existing shot
 

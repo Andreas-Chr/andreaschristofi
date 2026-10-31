@@ -8,7 +8,6 @@ import HeroBackground from '../components/HeroBackground.astro';
 import CuratedShots from '../components/CuratedShots.astro';
 import SocialLinks from '../components/SocialLinks.astro';
 import Experience from '../components/Experience.astro';
-import Marquee from '../components/Marquee.astro';
 import Tooltip from '../components/Tooltip.astro';
 import allAwards from '../assets/all-awards.webp';
 import portrait from '../assets/andreas-bw.webp';
@@ -70,7 +69,6 @@ import { site, toolGroups, awards } from '../data/site';
     </section>
     <Experience />
   </div>
-  <Marquee items={[{ label: 'Intuitive Products' }, { label: 'Delightful Interactions' }, { label: 'Meaningful Experiences' }]} />
   <section class="section awards container" aria-labelledby="awards-heading">
     <h2 id="awards-heading">Awards</h2>
     <div class="awards-grid">
@@ -82,7 +80,9 @@ import { site, toolGroups, awards } from '../data/site';
   </section>
 </BaseLayout>
 <style>
-  .home-top-region { height:auto; min-height:90svh; }
+  .home-top-region { height:auto; min-height:100svh; }
+  /* Owner decision: a fixed 80px above and below these sections at every width. */
+  .about,.stack-experience,.awards { padding-block:80px; }
   /* Figma img-text_component (5734:4594): a 448 × 527 portrait, 80px from the copy. */
   .about { display:grid; gap:40px; align-items:start; }
   .about > :global(picture) { position:relative; width:100%; max-width:448px; aspect-ratio:448/527; }
@@ -128,6 +128,5 @@ import { site, toolGroups, awards } from '../data/site';
     .stack-experience { grid-template-columns:1fr 1fr; }
     .awards-grid { grid-template-columns:1fr 1fr; }
   }
-  @media(max-width:399.84px) { .about-button .button { width:100%; } .stack-experience,.awards { padding-block:48px; } .award-list li { flex-direction:column; align-items:flex-start; gap:24px; padding:24px; } .award-list li>img { width:60px; height:38.86px; } }
-  indesign { width:28; height:28; }
+  @media(max-width:399.84px) { .about-button .button { width:100%; } .award-list li { flex-direction:column; align-items:flex-start; gap:24px; padding:24px; } .award-list li>img { width:60px; height:38.86px; } }
 </style>

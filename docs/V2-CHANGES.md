@@ -89,3 +89,19 @@ Source: Desktop `03.1 - Homepage v2 - 1440` (`5303:3403`). Tablet and mobile fra
 | Fonts | Added Zalando Sans Expanded Light (`zalandosansexpanded-light.woff2`, Google Fonts latin subset, OFL) for the wordmark and About H2. | `5734:4804`, `5734:4598` |
 
 Not changed (owner decisions): the 90svh home hero height (Figma shows 1024 px) and the footer contact block, which stays top-aligned with the heading rather than centered as in Figma. At 1440 × 900 every other section matches the Figma section heights. Tablet and mobile Figma frames will be updated by the owner; until then the desktop structure applies at every width.
+
+## Homepage v2 update — 31 October 2026
+
+Owner requests; no new Figma source.
+
+| Area | Change |
+| --- | --- |
+| Order | Hero → Process → Curated Shots → About → Stack & Experience → Awards → Footer. |
+| Hero | The home hero fills the viewport: `100svh`, replacing the earlier 90svh owner decision. |
+| Marquee | Removed from the homepage, the Design System page and the codebase (component, script and tests). |
+| Header | The logo no longer has the lumi card backdrop blur; the menu button keeps it. |
+| Go to top | Gains the lumi card treatment: 5 px backdrop blur and the shared soft shadow. |
+| Cleanup | Removed assets nothing referenced (the V1 Process illustrations and three unused logo files), the V1 browser QA scripts and their `docs/qa/` results, which targeted markup that no longer exists, and the superseded V1 audit documents (`FIGMA-AUDIT.md`, `RELEASE-REVIEW.md`, `LOCAL-PRODUCTION-AUDIT.md`). They remain in git history. |
+| Dev tooling | Removed the Agentation toolbar and React, its only user: `agentation`, `@astrojs/react`, `react`, `react-dom` and their type packages. |
+| Section spacing | About, Stack & Experience and Awards have 80 px top and bottom padding at every width (previously 80 px, 160 px from 1200 px, and 48 px below 400 px for Stack & Experience and Awards). |
+| Footer contact | `Footer/Contact` (`5104:1642`) has 160 px top and bottom padding, down from 320 px. |
