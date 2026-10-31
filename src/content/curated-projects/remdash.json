@@ -1,0 +1,2606 @@
+{
+  "slug": "remdash",
+  "title": "Remdash",
+  "subtitle": "Product Design, Research & Prototyping",
+  "order": 1,
+  "featured": true,
+  "published": true,
+  "role": "Product Designer",
+  "client": "Remazing",
+  "clientLabel": "Employer",
+  "year": "2022–2026",
+  "collaborations": [
+    {
+      "name": "CTO"
+    },
+    {
+      "name": "PM"
+    },
+    {
+      "name": "Engineering"
+    }
+  ],
+  "industry": "E-Commerce / Data Intelligence",
+  "status": "Live platform",
+  "heroMedia": {
+    "url": "/assets/curated-projects/remdash/hero.webp",
+    "alt": "Remdash Market Insights dashboard shown on a desktop monitor beside the Remdash by Remazing logo",
+    "filename": "hero.webp",
+    "mimeType": "image/webp",
+    "width": 1440,
+    "height": 960,
+    "filesize": 119228
+  },
+  "thumbnail": {
+    "url": "/assets/curated-projects/remdash/hero.webp",
+    "alt": "Remdash Market Insights dashboard shown on a desktop monitor beside the Remdash by Remazing logo",
+    "filename": "hero.webp",
+    "mimeType": "image/webp",
+    "width": 1440,
+    "height": 960,
+    "filesize": 119228
+  },
+  "summary": {
+    "root": {
+      "type": "root",
+      "version": 1,
+      "format": "",
+      "indent": 0,
+      "direction": "ltr",
+      "children": [
+        {
+          "type": "paragraph",
+          "version": 1,
+          "format": "",
+          "indent": 0,
+          "direction": "ltr",
+          "textFormat": 0,
+          "textStyle": "",
+          "$": {
+            "websiteTypography": "display-medium"
+          },
+          "children": [
+            {
+              "type": "text",
+              "version": 1,
+              "text": "In 2022, I joined Remazing as its first dedicated Product Designer, becoming a design team of one, responsible for shaping Remdash, a platform rich in Amazon data but whose value was often difficult to discover and use.",
+              "format": 0,
+              "detail": 0,
+              "mode": "normal",
+              "style": ""
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "version": 1,
+          "format": "",
+          "indent": 0,
+          "direction": "ltr",
+          "textFormat": 0,
+          "textStyle": "",
+          "$": {
+            "websiteTypography": "display-medium"
+          },
+          "children": [
+            {
+              "type": "text",
+              "version": 1,
+              "text": "Over the next four years, I worked alongside Product and Engineering to establish a consistent design language, improve complex workflows, and help evolve Remdash into an AI-powered platform. This retrospective captures that journey, from individual usability improvements to product-wide thinking, alongside a 2.6× revenue growth driven by the team.",
+              "format": 0,
+              "detail": 0,
+              "mode": "normal",
+              "style": ""
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "challenge": {
+    "navLabel": "Overview",
+    "eyebrow": "The challenge",
+    "heading": "from fragmented data to connected intelligence",
+    "body": {
+      "root": {
+        "type": "root",
+        "version": 1,
+        "format": "",
+        "indent": 0,
+        "direction": "ltr",
+        "children": [
+          {
+            "type": "paragraph",
+            "version": 1,
+            "format": "",
+            "indent": 0,
+            "direction": "ltr",
+            "textFormat": 0,
+            "textStyle": "",
+            "$": {
+              "websiteTypography": "display-small"
+            },
+            "children": [
+              {
+                "type": "text",
+                "version": 1,
+                "text": "Remazing is a Hamburg-based, full-service e-commerce agency that helps brands such as Samsung, Henkel, Beiersdorf (NIVEA) and Kellanova sell on Amazon and other marketplaces, through strategy, Amazon SEO, advertising, content and its own software. That software is Remdash: one platform to track Amazon performance, monitor content and competitors, and manage product listings at scale, used both by brands and by Remazing’s own teams. Alongside the agency services, it grew into one of the company’s core revenue streams.",
+                "format": 0,
+                "detail": 0,
+                "mode": "normal",
+                "style": ""
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "version": 1,
+            "format": "",
+            "indent": 0,
+            "direction": "ltr",
+            "textFormat": 0,
+            "textStyle": "",
+            "$": {
+              "websiteTypography": "display-small"
+            },
+            "children": [
+              {
+                "type": "text",
+                "version": 1,
+                "text": "Remdash began as an internal Remazing tool for Amazon content and reporting, and grew into a platform used by enterprise brand teams across 18 Amazon marketplaces. When I joined in 2022, six engineers and a CTO knew it inside out, but no one owned the user experience. Each capability arrived with its own patterns, flows carried heavy friction, and powerful features went unused, sometimes right under the user’s nose.",
+                "format": 0,
+                "detail": 0,
+                "mode": "normal",
+                "style": ""
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "version": 1,
+            "format": "",
+            "indent": 0,
+            "direction": "ltr",
+            "textFormat": 0,
+            "textStyle": "",
+            "$": {
+              "websiteTypography": "display-small"
+            },
+            "children": [
+              {
+                "type": "text",
+                "version": 1,
+                "text": "After private equity firm IK Partners invested in 2022, Remazing set out to grow its software business, and the pressure fell on Global Sales and Customer Success, who found leads and demoed Remdash, to win new clients and grow existing accounts. While Sales and Customer Success focused on growing Remdash's client base, recurring usability issues limited how effectively customers could discover and use its existing capabilities. Improving that experience became an important part of supporting the platform's growth.",
+                "format": 0,
+                "detail": 0,
+                "mode": "normal",
+                "style": ""
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "stackDetails": {
+    "eyebrow": "product design, research & prototyping",
+    "heading": "Stack",
+    "intro": "Core tools across UI, research, prototyping and motion."
+  },
+  "stack": [
+    {
+      "tool": "figma",
+      "name": "Figma"
+    },
+    {
+      "tool": "miro",
+      "name": "Miro"
+    },
+    {
+      "tool": "claude",
+      "name": "Claude"
+    },
+    {
+      "tool": "chatgpt",
+      "name": "ChatGPT"
+    },
+    {
+      "tool": "ps",
+      "name": "Adobe Photoshop"
+    },
+    {
+      "tool": "ai",
+      "name": "Adobe Illustrator"
+    },
+    {
+      "tool": "ae",
+      "name": "Adobe After Effects"
+    }
+  ],
+  "audience": {
+    "heading": "four types of users, one product",
+    "tiles": [
+      {
+        "eyebrow": "Run accounts",
+        "title": "Internal teams",
+        "body": "Remazing’s content managers, consultants and power users, running client accounts in Remdash every day."
+      },
+      {
+        "eyebrow": "Report & monitor",
+        "title": "Client teams",
+        "body": "Client e-commerce, key account and content managers, using Remdash for reporting, monitoring and content."
+      },
+      {
+        "eyebrow": "Execute tasks",
+        "title": "Freelancers",
+        "body": "External specialists working inside the client accounts they are assigned to, either translating or creating content."
+      },
+      {
+        "eyebrow": "Manage access",
+        "title": "Admins",
+        "body": "Managing organisations, operations and access, including impersonating users to support and troubleshoot by seeing exactly what they see."
+      }
+    ]
+  },
+  "sections": [
+    {
+      "blockType": "tiles",
+      "navLabel": "Impact",
+      "heading": "Impact / at a glance",
+      "variant": "stat",
+      "intro": {
+        "root": {
+          "type": "root",
+          "version": 1,
+          "format": "",
+          "indent": 0,
+          "direction": "ltr",
+          "children": [
+            {
+              "type": "paragraph",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "textFormat": 0,
+              "textStyle": "",
+              "$": {
+                "websiteTypography": "display-medium"
+              },
+              "children": [
+                {
+                  "type": "text",
+                  "version": 1,
+                  "text": "As Remdash became an AI-powered growth platform, I designed its product language, analytics and AI tools. Between 2022 and 2026, its revenue grew 2.6×, a shared result by the whole team.",
+                  "format": 0,
+                  "detail": 0,
+                  "mode": "normal",
+                  "style": ""
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "tiles": [
+        {
+          "eyebrow": "Remdash revenue, 2022–2026",
+          "title": "2.6×",
+          "body": "Grown with minimal marketing support: a team result across Product, Engineering and our commercial teams."
+        },
+        {
+          "eyebrow": "Content AI hours saved",
+          "title": "400+",
+          "body": "Reported by Beiersdorf (NIVEA) using Content AI, the workflow I designed from single product to bulk creation and translation."
+        },
+        {
+          "eyebrow": "OMR Reviews",
+          "title": "4.5/5",
+          "body": "From 37 public reviews, with users highlighting its interface experience, ease of use and customisable dashboards."
+        }
+      ]
+    },
+    {
+      "blockType": "visual",
+      "caption": "description / share of voice",
+      "layout": "stack",
+      "spacing": "default",
+      "gap": "default",
+      "bleed": "none",
+      "images": [
+        {
+          "image": {
+            "url": "/assets/curated-projects/remdash/impact-share-of-voice.webp",
+            "alt": "Remdash Share of Voice dashboard on a Pro Display XDR monitor",
+            "filename": "impact-share-of-voice.webp",
+            "mimeType": "image/webp",
+            "width": 1412,
+            "height": 968,
+            "filesize": 72032
+          },
+          "width": 100,
+          "offsetX": 0,
+          "offsetY": 0,
+          "radius": "small"
+        }
+      ]
+    },
+    {
+      "blockType": "tiles",
+      "navLabel": "Progression",
+      "heading": "From isolated improvements to a cohesive platform",
+      "variant": "phase",
+      "intro": {
+        "root": {
+          "type": "root",
+          "version": 1,
+          "format": "",
+          "indent": 0,
+          "direction": "ltr",
+          "children": [
+            {
+              "type": "paragraph",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "textFormat": 0,
+              "textStyle": "",
+              "$": {
+                "websiteTypography": "display-medium"
+              },
+              "children": [
+                {
+                  "type": "text",
+                  "version": 1,
+                  "text": "I joined Remazing after more than a decade in agency and Creative Director roles, in my first in-house product role. Over four years my scope grew from designing individual functionalities, to owning complete features, to designing what Remdash eventually became.",
+                  "format": 0,
+                  "detail": 0,
+                  "mode": "normal",
+                  "style": ""
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "textFormat": 0,
+              "textStyle": "",
+              "$": {
+                "websiteTypography": "display-small"
+              },
+              "children": [
+                {
+                  "type": "text",
+                  "version": 1,
+                  "text": "For my first year and a half there was no Product Manager: the CTO doubled as product owner, and I worked directly with the CTO and engineers. From late 2023, a Product Manager owned the roadmap. User requests came in through an in-app Feature Request tool feeding our Asana backlog, and every request involving UX, flows or feature design was assigned to me. My closest research partners were Remazing’s own content managers and power users, in recurring review sessions, alongside direct client feedback.",
+                  "format": 0,
+                  "detail": 0,
+                  "mode": "normal",
+                  "style": ""
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "tiles": [
+        {
+          "eyebrow": "2022 · Remdash 1.0",
+          "title": "Refine",
+          "body": "Learning the product, its data and the Amazon workflows behind every feature. Dozens of shipped fixes across navigation, headers, login, alerts and A+ Content, plus the Home Cockpit: our first attempt at a single starting point for Remdash."
+        },
+        {
+          "eyebrow": "2023–2024 · Remdash 2.0",
+          "title": "reDesign",
+          "body": "Owning whole features end to end: Performance, Dashboards, Product Variations, Share of Voice, Reports, Market Insights, Catalogue, Imports and the Bulk Editor. Design System 2.0 gave design and engineering one shared language."
+        },
+        {
+          "eyebrow": "2025–2026 · AI rollout + 3.0 concept",
+          "title": "Rethink",
+          "body": "Shipped: Content AI expanded from single-product to bulk workflows, with background batch tracking and cost tracking, alongside an AI chat for reporting. Prioritised for release: a second Share of Voice redesign. Concept only: a prompt-first Remdash 3.0 Home screen with the AI chat at it’s core."
+        }
+      ]
+    },
+    {
+      "blockType": "visual",
+      "caption": "description / early home cockpit concept",
+      "layout": "stack",
+      "spacing": "default",
+      "gap": "default",
+      "bleed": "none",
+      "images": [
+        {
+          "image": {
+            "url": "/assets/curated-projects/remdash/home-cockpit.webp",
+            "alt": "Early Home Cockpit concept: a single Remdash starting screen with key account metrics",
+            "filename": "home-cockpit.webp",
+            "mimeType": "image/webp",
+            "width": 1920,
+            "height": 1440,
+            "filesize": 138210
+          },
+          "width": 100,
+          "offsetX": 0,
+          "offsetY": 0,
+          "radius": "small"
+        }
+      ]
+    },
+    {
+      "blockType": "story",
+      "spacing": "default",
+      "navLabel": "Design system",
+      "eyebrow": "01 · Design System 2.0",
+      "heading": "One language before more features",
+      "intro": {
+        "root": {
+          "type": "root",
+          "version": 1,
+          "format": "",
+          "indent": 0,
+          "direction": "ltr",
+          "children": [
+            {
+              "type": "paragraph",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "textFormat": 0,
+              "textStyle": "",
+              "$": {
+                "websiteTypography": "display-small"
+              },
+              "children": [
+                {
+                  "type": "text",
+                  "version": 1,
+                  "text": "Before I joined, no designer owned Remdash, and every capability shipped with its own controls. I built Design System 2.0 component by component, then turned it into ready-to-build templates, so analytics, operations and AI share one way of working.",
+                  "format": 0,
+                  "detail": 0,
+                  "mode": "normal",
+                  "style": ""
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "items": [
+        {
+          "label": "The decision",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "Standardise behaviour, not only appearance. Every interactive component ships with the same five states (default, hover, focused, active, disabled), so focus and disabled logic work the same everywhere. Checkboxes included an indeterminate state for bulk selection, and tables came in five styles (lines, striped, vertical lines, condensed, grouped rows) with options for sticky headers and columns, search, filters, expandable rows and images.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "The trade-off",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "One table model risked forcing analysis and content editing into the same interaction. I kept one visual language but let task-specific grids diverge where the job demanded it, and included the high performance data AG Grid so table designs mapped to a real implementation pattern.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "Templates and handoff",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "Design Templates turned the system into layouts engineers could build directly: a new expanded and collapsed side menu bringing 15 product modules into one structure, a profile header with clear navigation, and an Input Map spec documenting every field’s type, values, defaults and restrictions.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "What changed",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "Design System 2.0 established 270+ component variants, 102 colour tokens, 25 text styles and 5 elevation styles, including a dedicated 21-colour chart palette. Engineers adopted its components and templates, reducing repeated design and implementation work and UI inconsistencies. I maintained and evolved the system alongside new features, making cross-team handoff and product development faster and easier.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "blockType": "visual",
+      "caption": "description / remdash design system",
+      "layout": "stack",
+      "spacing": "compact",
+      "gap": "default",
+      "bleed": "none",
+      "images": [
+        {
+          "image": {
+            "url": "/assets/curated-projects/remdash/design-system-foundations.webp",
+            "alt": "Design System 2.0 overview, from colour, type and elevation foundations to components",
+            "filename": "design-system-foundations.webp",
+            "mimeType": "image/webp",
+            "width": 2880,
+            "height": 1530,
+            "filesize": 197342
+          },
+          "width": 100,
+          "offsetX": 0,
+          "offsetY": 0,
+          "radius": "small"
+        },
+        {
+          "image": {
+            "url": "/assets/curated-projects/remdash/design-system-handoff.webp",
+            "alt": "Design System 2.0 header templates and Input Map specification built for engineering handoff",
+            "filename": "design-system-handoff.webp",
+            "mimeType": "image/webp",
+            "width": 2880,
+            "height": 1661,
+            "filesize": 189404
+          },
+          "width": 100,
+          "offsetX": 0,
+          "offsetY": 0,
+          "radius": "small"
+        }
+      ]
+    },
+    {
+      "blockType": "story",
+      "spacing": "default",
+      "navLabel": "Market intelligence",
+      "eyebrow": "02 · Market intelligence",
+      "heading": "Show the scope before the result",
+      "intro": {
+        "root": {
+          "type": "root",
+          "version": 1,
+          "format": "",
+          "indent": 0,
+          "direction": "ltr",
+          "children": [
+            {
+              "type": "paragraph",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "textFormat": 0,
+              "textStyle": "",
+              "$": {
+                "websiteTypography": "display-small"
+              },
+              "children": [
+                {
+                  "type": "text",
+                  "version": 1,
+                  "text": "A chart is only as trustworthy as its scope. Across Performance, Share of Voice and Reports, I designed each view so its scope and data freshness are visible before anyone reads the result.",
+                  "format": 0,
+                  "detail": 0,
+                  "mode": "normal",
+                  "style": ""
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "items": [
+        {
+          "label": "The decision",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "Make scope part of the interface, not an assumption. Every view shows the latest date with available data and the selected retailers (plus, in Share of Voice, the branded keywords being tracked), and an empty result explains why: a missing connection or a filter that returns nothing.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "The trade-off",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "Specialists needed dense, configurable controls, so I kept them and made the active context easier to read instead. In scheduled reports, I exposed a rule users easily missed: aggregation could stretch the reporting period beyond the selected dates.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "What changed",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "Users can now tell whether to change the query or fix the data source. Share of Voice shows how this evolved: long-standing clients like Kellanova built it into their business reviews, but newer clients struggled to see how it worked. I redesigned it twice: first with templates and new chart and table views, after our PM joined in late 2023; then, as my final project, replacing the template logic entirely. The CTO and PM prioritised it for release after I left the company.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "blockType": "visual",
+      "caption": "description / share of voice 2.0 / share of voice 3.0",
+      "layout": "overlap",
+      "spacing": "default",
+      "gap": "default",
+      "bleed": "none",
+      "images": [
+        {
+          "image": {
+            "url": "/assets/curated-projects/remdash/share-of-voice-2.webp",
+            "alt": "Share of Voice 2.0 with expanded templates",
+            "filename": "share-of-voice-2.webp",
+            "mimeType": "image/webp",
+            "width": 1350,
+            "height": 960,
+            "filesize": 96316
+          },
+          "width": 64.57,
+          "offsetX": 0,
+          "offsetY": 0,
+          "radius": "large"
+        },
+        {
+          "image": {
+            "url": "/assets/curated-projects/remdash/share-of-voice-3.webp",
+            "alt": "Share of Voice 3.0 redesign without template logic",
+            "filename": "share-of-voice-3.webp",
+            "mimeType": "image/webp",
+            "width": 1440,
+            "height": 960,
+            "filesize": 86316
+          },
+          "width": 64.57,
+          "offsetX": 35.43,
+          "offsetY": 11.929,
+          "radius": "large"
+        }
+      ]
+    },
+    {
+      "blockType": "visual",
+      "caption": "description / performance page",
+      "layout": "stack",
+      "spacing": "default",
+      "gap": "default",
+      "bleed": "none",
+      "images": [
+        {
+          "image": {
+            "url": "/assets/curated-projects/remdash/performance-page.webp",
+            "alt": "Remdash Performance page with KPI shortcuts and charts",
+            "filename": "performance-page.webp",
+            "mimeType": "image/webp",
+            "width": 1801,
+            "height": 1252,
+            "filesize": 205030
+          },
+          "width": 100,
+          "offsetX": 0,
+          "offsetY": 0,
+          "radius": "none"
+        }
+      ]
+    },
+    {
+      "blockType": "story",
+      "spacing": "default",
+      "navLabel": "Analytics",
+      "eyebrow": "03 · Analytics",
+      "heading": "Protect what clients depend on",
+      "intro": {
+        "root": {
+          "type": "root",
+          "version": 1,
+          "format": "",
+          "indent": 0,
+          "direction": "ltr",
+          "children": [
+            {
+              "type": "paragraph",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "textFormat": 0,
+              "textStyle": "",
+              "$": {
+                "websiteTypography": "display-small"
+              },
+              "children": [
+                {
+                  "type": "text",
+                  "version": 1,
+                  "text": "Dashboards is the most used feature of Remdash. The place where they built their own reporting for all their Amazon products, often across dozens of dashboards. I have improved them on two levels: how teams organise and share their dashboards, and how they set up each of the widgets inside them. When engineering migrated the entire analytics environment from React to Vue, I led the quality control that kept every one of the 80 widgets in full working condition for all clients and users.",
+                  "format": 0,
+                  "detail": 0,
+                  "mode": "normal",
+                  "style": ""
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "items": [
+        {
+          "label": "The problem",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "Clients built dozens of dashboards, but had no way to sort or group them. Inside each dashboard, widgets were set up through a legacy modal that couldn’t handle the variety of widget types, so users couldn’t tell which steps had worked, failed or changed.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "The decision",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "Make structure visible on both levels. In early 2024, I redesigned the setup for all 80 Highcharts widgets as one templated, step-by-step guide that shows what succeeded, what failed and what changed. In early 2026, I also added a dashboard folder structure so teams could organise their dashboards and share them between their account users.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "The migration",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "Analytics was built in React, while the rest of Remdash ran on Vue.js. In early 2026, engineering rebuilt it in Vue.js with AI-assisted tools. It was fast, but it reintroduced UI and UX inconsistencies across every widget and the entire dashboard environment, placing the previous setup redesign at risk.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "My role",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "I led quality control: a checklist for every widget, checked one by one against the original, and a fix plan carried out with two engineers. Clients had access to different widgets depending on their plan, so any miss could break someone’s daily reporting.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "The trade-off",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "Checking every widget by hand took almost two months. We accepted the time because a broken widget meant a broken client dashboard.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "the result",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "The migration fully completed with only a few minor discrepancies, and nothing that broke a client’s dashboard. On OMR Reviews, users single out Remdash’s customisable dashboards as one of its strengths.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "blockType": "visual",
+      "caption": "description / dashboard widgets",
+      "layout": "stack",
+      "spacing": "default",
+      "gap": "default",
+      "bleed": "none",
+      "images": [
+        {
+          "image": {
+            "url": "/assets/curated-projects/remdash/dashboard-widgets.webp",
+            "alt": "Step-by-step dashboard widget setup shown on laptop and desktop mockups",
+            "filename": "dashboard-widgets.webp",
+            "mimeType": "image/webp",
+            "width": 2880,
+            "height": 2025,
+            "filesize": 400770
+          },
+          "width": 100,
+          "offsetX": 0,
+          "offsetY": -2.356,
+          "radius": "none"
+        }
+      ]
+    },
+    {
+      "blockType": "visual",
+      "caption": "description / adding custom colors in widgets",
+      "layout": "stack",
+      "spacing": "default",
+      "gap": "default",
+      "bleed": "none",
+      "images": [
+        {
+          "image": {
+            "url": "/assets/curated-projects/remdash/dashboard-custom-colors.webp",
+            "alt": "Widget setup step for choosing custom chart colours",
+            "filename": "dashboard-custom-colors.webp",
+            "mimeType": "image/webp",
+            "width": 1919,
+            "height": 1047,
+            "filesize": 71104
+          },
+          "width": 100,
+          "offsetX": 0,
+          "offsetY": 0,
+          "radius": "none"
+        }
+      ]
+    },
+    {
+      "blockType": "visual",
+      "caption": "description / dashboard folders",
+      "layout": "stack",
+      "spacing": "default",
+      "gap": "default",
+      "bleed": "bottom",
+      "images": [
+        {
+          "image": {
+            "url": "/assets/curated-projects/remdash/dashboard-folders.webp",
+            "alt": "Dashboards overview with shared folders, pinned dashboards and free dashboards",
+            "filename": "dashboard-folders.webp",
+            "mimeType": "image/webp",
+            "width": 1440,
+            "height": 912,
+            "filesize": 82376
+          },
+          "width": 100,
+          "offsetX": 0,
+          "offsetY": 0,
+          "radius": "small"
+        }
+      ]
+    },
+    {
+      "blockType": "story",
+      "spacing": "default",
+      "navLabel": "Operations",
+      "eyebrow": "04 · Content Operations",
+      "heading": "Make every change transparent",
+      "intro": {
+        "root": {
+          "type": "root",
+          "version": 1,
+          "format": "",
+          "indent": 0,
+          "direction": "ltr",
+          "children": [
+            {
+              "type": "paragraph",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "textFormat": 0,
+              "textStyle": "",
+              "$": {
+                "websiteTypography": "display-small"
+              },
+              "children": [
+                {
+                  "type": "text",
+                  "version": 1,
+                  "text": "Content managers ran client catalogues through three tools: Imports to bring product data in, Monitoring automations to keep it correct on Amazon, and A+ Content to build the premium content beneath it. Each needed to show what would happen before it happened, and how to fix what didn’t.",
+                  "format": 0,
+                  "detail": 0,
+                  "mode": "normal",
+                  "style": ""
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "items": [
+        {
+          "label": "My role",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "Three projects, three ways of working. Imports were my own initiative in 2024: I led discovery, scope and rollout, and designed the Bulk Editor behind them. Monitoring automations were PM-led: the PM ran discovery and owned scope and rollout, and I designed them. A+ Content had no PM: the engineer who had built it owned scope and rollout, and we ran discovery together.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "Imports",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "Teams imported spreadsheets of product details across hundreds of products at once, through a flow that was clunky and opaque. I redesigned it as three steps (upload, preview, import) with column mapping and row-level validation, and product images follow the same flow. Rows that fail open straight in a modified version of the Bulk Editor, adapted to accommodate this feature, so users could catch errors and fix them directly, instead of starting over. The result indicated a smoother, more transparent flow, with fewer failed imports.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "Monitoring automations",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "When content on Amazon drifted from the approved version in Remdash, teams fixed it with a Case Upload: sending the corrected content back to Amazon. In 2025, automations made that process run on its own. Users connect a vendor code and choose which fields to watch, and before anything runs, a summary shows what was validated and what still needs confirmation. Products missing required data are skipped, and changing a vendor code warns that it affects every automation on that account. Afterwards, notifications report what was uploaded, what failed and what was excluded.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "A+ Content",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "A+ Content is the premium, branded content beneath an Amazon product’s details. Content managers build it in Remdash from modules, like building blocks: a standard set, and a Premium tier that unlocks every module. In late 2022, discovery with senior content managers showed where building could be faster and smoother. I designed custom modules, custom iconography and the many module combinations, plus clear states for when Amazon approves, rejects or flags a page. Content managers were enthusiastic about the result, reporting that A+ Content became easier to create.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "blockType": "visual",
+      "caption": "description / Keyword research",
+      "layout": "stack",
+      "spacing": "default",
+      "gap": "default",
+      "bleed": "none",
+      "images": [
+        {
+          "image": {
+            "url": "/assets/curated-projects/remdash/keyword-research.webp",
+            "alt": "Keyword Research flow from setup to keyword clusters and results",
+            "filename": "keyword-research.webp",
+            "mimeType": "image/webp",
+            "width": 1807,
+            "height": 955,
+            "filesize": 93772
+          },
+          "width": 100,
+          "offsetX": 0,
+          "offsetY": 0,
+          "radius": "none"
+        }
+      ]
+    },
+    {
+      "blockType": "visual",
+      "caption": "description / Imports",
+      "layout": "overlap",
+      "spacing": "default",
+      "gap": "default",
+      "bleed": "none",
+      "images": [
+        {
+          "image": {
+            "url": "/assets/curated-projects/remdash/imports-update-product-versions.webp",
+            "alt": "Imports step for updating product versions",
+            "filename": "imports-update-product-versions.webp",
+            "mimeType": "image/webp",
+            "width": 1440,
+            "height": 1080,
+            "filesize": 62368
+          },
+          "width": 61.07,
+          "offsetX": 0,
+          "offsetY": 0,
+          "radius": "small"
+        },
+        {
+          "image": {
+            "url": "/assets/curated-projects/remdash/imports-select-import-type.webp",
+            "alt": "Imports step for selecting the import type, with row-level validation",
+            "filename": "imports-select-import-type.webp",
+            "mimeType": "image/webp",
+            "width": 1440,
+            "height": 1080,
+            "filesize": 89444
+          },
+          "width": 61.07,
+          "offsetX": 38.93,
+          "offsetY": 12.958,
+          "radius": "small"
+        }
+      ]
+    },
+    {
+      "blockType": "visual",
+      "caption": "description / automations",
+      "layout": "stack",
+      "spacing": "default",
+      "gap": "default",
+      "bleed": "none",
+      "images": [
+        {
+          "image": {
+            "url": "/assets/curated-projects/remdash/monitoring-automations.webp",
+            "alt": "Monitoring automations overview with validation status per product",
+            "filename": "monitoring-automations.webp",
+            "mimeType": "image/webp",
+            "width": 1818,
+            "height": 1160,
+            "filesize": 124222
+          },
+          "width": 100,
+          "offsetX": 0,
+          "offsetY": 0,
+          "radius": "small"
+        }
+      ]
+    },
+    {
+      "blockType": "visual",
+      "caption": "description / a+ content",
+      "layout": "stack",
+      "spacing": "default",
+      "gap": "default",
+      "bleed": "none",
+      "images": [
+        {
+          "image": {
+            "url": "/assets/curated-projects/remdash/a-plus-comparison-table.webp",
+            "alt": "A+ Content builder editing a comparison table module",
+            "filename": "a-plus-comparison-table.webp",
+            "mimeType": "image/webp",
+            "width": 1920,
+            "height": 1080,
+            "filesize": 65072
+          },
+          "width": 100,
+          "offsetX": 0,
+          "offsetY": 0,
+          "radius": "small"
+        },
+        {
+          "image": {
+            "url": "/assets/curated-projects/remdash/a-plus-layout-switch.webp",
+            "alt": "A+ Content builder switching a module between column layouts",
+            "filename": "a-plus-layout-switch.webp",
+            "mimeType": "image/webp",
+            "width": 1920,
+            "height": 1080,
+            "filesize": 87908
+          },
+          "width": 100,
+          "offsetX": 0,
+          "offsetY": 0,
+          "radius": "small"
+        }
+      ]
+    },
+    {
+      "blockType": "story",
+      "spacing": "default",
+      "navLabel": "Bulk Content AI",
+      "eyebrow": "05 · Bulk Content AI",
+      "heading": "Gate quality before scale",
+      "intro": {
+        "root": {
+          "type": "root",
+          "version": 1,
+          "format": "",
+          "indent": 0,
+          "direction": "ltr",
+          "children": [
+            {
+              "type": "paragraph",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "textFormat": 0,
+              "textStyle": "",
+              "$": {
+                "websiteTypography": "display-small"
+              },
+              "children": [
+                {
+                  "type": "text",
+                  "version": 1,
+                  "text": "The brief was to generate more content, faster: whole catalogues at once instead of one product at a time. Discovery showed that speed wasn’t the real risk. At catalogue scale, one weak instruction becomes thousands of weak listings, so clients needed a quality gate first. I designed that checkpoint before applying the AI multiplier: teams approve one templated example, and only then does Content AI scale it across every related product.",
+                  "format": 0,
+                  "detail": 0,
+                  "mode": "normal",
+                  "style": ""
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "items": [
+        {
+          "label": "How it evolved",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "Content AI started as a single-product tool: users generated a title, description and bullet points for one product with AI agents, and translated them. After several rounds of improvements, clients asked for more: generating and translating many products in one go. Bulk Creation reshaped the whole feature, not just the bulk flow, into an integrated part of the platform where teams generate and translate at scale, track what was generated, what it cost and what failed, and give feedback before content fills empty product fields.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "My role",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "The first version was built by a small team: our PM, one engineer and me, shaped through multiple discovery sessions we ran together. For Bulk Creation, the PM owned the scope and I owned everything else: I led discovery on my own across two sessions with experienced content managers, turned the findings into the example-first flow, designed how batches are tracked, reviewed and handed off to clients.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "What discovery showed",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "Discovery surfaced four gaps: keyword research lived outside the flow, brand guidance was too generic, related products needed a consistent structure, and every output still needed fact-checking and client approval, often in spreadsheets outside Remdash.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "The decision",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "Approve an example first, then scale. Teams shape a representative parent product with marketplace, brand style guide and instructions; related products inherit that standard. Single-product and bulk generation share one entry point inside the Catalogue.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "The trade-off",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "Preparation adds effort up front. We accepted it because a mistake caught on one example isn’t repeated across thousands of products, or paid for twice in AI usage and client rework.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "What we deferred",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "A global AI entry point across Remdash, and keyword-research integration. Carrying product context across the whole platform added complexity the first release didn’t need, so the first path stayed inside the Catalogue, close to the products, with the rest documented as next directions.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "blockType": "visual",
+      "caption": "description / ai content modal",
+      "layout": "stack",
+      "spacing": "default",
+      "gap": "default",
+      "bleed": "none",
+      "images": [
+        {
+          "image": {
+            "url": "/assets/curated-projects/remdash/content-ai-get-inspired.webp",
+            "alt": "Content AI templates screen with the Get Inspired panel expanded",
+            "filename": "content-ai-get-inspired.webp",
+            "mimeType": "image/webp",
+            "width": 1440,
+            "height": 1080,
+            "filesize": 48432
+          },
+          "width": 100,
+          "offsetX": 0,
+          "offsetY": 0,
+          "radius": "small"
+        },
+        {
+          "image": {
+            "url": "/assets/curated-projects/remdash/content-ai-styleguide-comparison.webp",
+            "alt": "Content AI translation panel comparing source content with a style guide applied",
+            "filename": "content-ai-styleguide-comparison.webp",
+            "mimeType": "image/webp",
+            "width": 1346,
+            "height": 1084,
+            "filesize": 153480
+          },
+          "width": 99.116,
+          "offsetX": 0,
+          "offsetY": 0,
+          "radius": "none"
+        },
+        {
+          "image": {
+            "url": "/assets/curated-projects/remdash/content-ai-translation.webp",
+            "alt": "Content AI inspiration sources, instructions and generated product copy",
+            "filename": "content-ai-translation.webp",
+            "mimeType": "image/webp",
+            "width": 1436,
+            "height": 1065,
+            "filesize": 151590
+          },
+          "width": 105.744,
+          "offsetX": 0,
+          "offsetY": 0,
+          "radius": "none"
+        }
+      ]
+    },
+    {
+      "blockType": "story",
+      "spacing": "default",
+      "heading": "Generated does not mean approved",
+      "intro": {
+        "root": {
+          "type": "root",
+          "version": 1,
+          "format": "",
+          "indent": 0,
+          "direction": "ltr",
+          "children": [
+            {
+              "type": "paragraph",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "textFormat": 0,
+              "textStyle": "",
+              "$": {
+                "websiteTypography": "display-small"
+              },
+              "children": [
+                {
+                  "type": "text",
+                  "version": 1,
+                  "text": "A long-running AI job needs more than a spinner. Generation runs in the background; review and approval are designed as the gatekeeper.",
+                  "format": 0,
+                  "detail": 0,
+                  "mode": "normal",
+                  "style": ""
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "items": [
+        {
+          "label": "The decision",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "Track batches outside the modal, each showing what was generated, what it cost and what failed. Then review in a spreadsheet-speed grid: product fields, backend keywords, character-limit validation and inline editing, plus proofreader assignment and a client-review hand-off where clients give feedback directly on generated products before the content fills empty fields.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "Unhappy paths",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "Outputs that break marketplace character limits are flagged per field, products without source data are surfaced before generation, and partial-failure and retry states keep a batch recoverable when some products fail. Work moves between proofreader and client without leaving the batch.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "What changed",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "“Generated” and “ready” became separate states, keeping human judgement (and the client) in the loop at catalogue scale. Over a six-month rollout to most Remdash clients, users reported saving thousands of hours of manual content work.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "blockType": "visual",
+      "caption": "description / bulk ai content generation",
+      "layout": "overlap",
+      "spacing": "default",
+      "gap": "default",
+      "bleed": "none",
+      "images": [
+        {
+          "image": {
+            "url": "/assets/curated-projects/remdash/bulk-generation-step.webp",
+            "alt": "Bulk Create modal at the Generate step for 519 products",
+            "filename": "bulk-generation-step.webp",
+            "mimeType": "image/webp",
+            "width": 976,
+            "height": 953,
+            "filesize": 31880
+          },
+          "width": 71.87,
+          "offsetX": 4.934,
+          "offsetY": 0,
+          "radius": "small"
+        },
+        {
+          "image": {
+            "url": "/assets/curated-projects/remdash/bulk-generation-modal.webp",
+            "alt": "Background generation progress modal for a 519-product batch",
+            "filename": "bulk-generation-modal.webp",
+            "mimeType": "image/webp",
+            "width": 616,
+            "height": 469,
+            "filesize": 23270
+          },
+          "width": 45.361,
+          "offsetX": 49.705,
+          "offsetY": 17.774,
+          "radius": "none"
+        }
+      ]
+    },
+    {
+      "blockType": "visual",
+      "caption": "description / bulk ai content generation",
+      "layout": "stack",
+      "spacing": "default",
+      "gap": "large",
+      "bleed": "none",
+      "images": [
+        {
+          "image": {
+            "url": "/assets/curated-projects/remdash/ai-generation-batches.webp",
+            "alt": "AI Generation Batches dashboard tracking progress, cost and failures per batch",
+            "filename": "ai-generation-batches.webp",
+            "mimeType": "image/webp",
+            "width": 1440,
+            "height": 1370,
+            "filesize": 115510
+          },
+          "width": 100,
+          "offsetX": 0,
+          "offsetY": 0,
+          "radius": "small"
+        }
+      ]
+    },
+    {
+      "blockType": "story",
+      "spacing": "compact",
+      "navLabel": "Body of work",
+      "heading": "Body of work",
+      "intro": {
+        "root": {
+          "type": "root",
+          "version": 1,
+          "format": "",
+          "indent": 0,
+          "direction": "ltr",
+          "children": [
+            {
+              "type": "paragraph",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "textFormat": 0,
+              "textStyle": "",
+              "$": {
+                "websiteTypography": "display-medium"
+              },
+              "children": [
+                {
+                  "type": "text",
+                  "version": 1,
+                  "text": "24 projects across four years, grouped into 8 themes. The stages above show how I worked; this is the full scope of what I designed.",
+                  "format": 0,
+                  "detail": 0,
+                  "mode": "normal",
+                  "style": ""
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "textFormat": 0,
+              "textStyle": "",
+              "$": {
+                "websiteTypography": "display-small"
+              },
+              "children": [
+                {
+                  "type": "text",
+                  "version": 1,
+                  "text": "Remdash grew one module at a time, and so did my work. Some projects were fixes to parts engineers had built before I joined; some I shaped alongside a PM or an engineer; others I initiated and owned from discovery to rollout; a few redefined the whole product.",
+                  "format": 0,
+                  "detail": 0,
+                  "mode": "normal",
+                  "style": ""
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "textFormat": 0,
+              "textStyle": "",
+              "$": {
+                "websiteTypography": "display-small"
+              },
+              "children": [
+                {
+                  "type": "text",
+                  "version": 1,
+                  "text": "Features, concepts and deprecated designs all count here: the dead ends shaped the final direction as much as the releases did. Home/Cockpit, Keyword Monitoring and Advertising remained explorations: documented options the team could return to.",
+                  "format": 0,
+                  "detail": 0,
+                  "mode": "normal",
+                  "style": ""
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "items": [
+        {
+          "label": "01  /  Foundations",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "Improvements, login, admin tools and two design system redesigns. The leaner 3.0 system cut text styles from 25 to 17 and colours from 102 to 53.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "02  /  Market intelligence",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "Performance, Reports 2.0, Market Insights (Market Share and Category Insights) and Share of Voice, which I redesigned twice, the second time as my final project.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "03  /  Analytics",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "The most iterated area: a guided setup for all 80 Highcharts widgets (2024), dashboard folders for organising and sharing (2026), and two months of quality control when engineering rebuilt the environment in Vue.js. 36 delivered specs in total.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "04  /  Monitoring & alerts",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "Monitoring automations (2025) that run Case Uploads on their own, with pre-flight checks and alerts. Keyword Monitoring was explored, then deprecated.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "05  /  Catalogue & bulk operations",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "Product pages, variations, the product and image imports redesign I initiated (2024), and a spreadsheet-style Bulk Editor where failed imports are fixed in place.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "06  /  products, SEO & AI content",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "A+ Content’s modular builder with standard and Premium modules (late 2022), Keyword Research, and Content AI, from one product to bulk creation and translation.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "07  /  AI tools",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "An AI chat for reporting (early 2026) with data contexts, a prompt library and scheduled prompts, plus AI content generation batches with per-batch cost tracking.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "08  /  Remdash 3.0",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "A concept for one integrated workspace, and the end goal my work was building towards: Catalogue, Performance, Monitoring, Share of Voice, Market Insights and Dashboards in one 8-item navigation, with a prompt-first Home and the AI chat at its core, no longer behind a floating button. Answers lead straight into the workflow that acts on them, and every existing tool keeps its full value. It was still a concept when I left.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "blockType": "visual",
+      "caption": "description / Remdash 3.0 concept",
+      "layout": "stack",
+      "spacing": "default",
+      "gap": "default",
+      "bleed": "none",
+      "images": [
+        {
+          "image": {
+            "url": "/assets/curated-projects/remdash/version-3-concept.webp",
+            "alt": "Remdash 3.0 concept with a prompt-first Home and the AI chat at its core",
+            "filename": "version-3-concept.webp",
+            "mimeType": "image/webp",
+            "width": 1440,
+            "height": 1080,
+            "filesize": 68884
+          },
+          "width": 100,
+          "offsetX": 0,
+          "offsetY": 0,
+          "radius": "small"
+        }
+      ]
+    },
+    {
+      "blockType": "story",
+      "spacing": "default",
+      "navLabel": "Learnings",
+      "heading": "Learnings /\nmeasure first, then execute",
+      "intro": {
+        "root": {
+          "type": "root",
+          "version": 1,
+          "format": "",
+          "indent": 0,
+          "direction": "ltr",
+          "children": [
+            {
+              "type": "paragraph",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "textFormat": 0,
+              "textStyle": "",
+              "$": {
+                "websiteTypography": "display-medium"
+              },
+              "children": [
+                {
+                  "type": "text",
+                  "version": 1,
+                  "text": "I joined Remazing with a focus on improving individual features, but my work evolved into shaping the platform as a whole. Not every decision delivered the outcome we hoped for, yet those challenges offered some of the most valuable lessons: understand the people you're designing for before defining solutions, and look beyond individual features to create experiences that address the bigger picture.",
+                  "format": 0,
+                  "detail": 0,
+                  "mode": "normal",
+                  "style": ""
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "items": [
+        {
+          "label": "Make value visible",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "Remdash’s problem was never capability. Engineering kept the data accurate and on time, even when Amazon changed its APIs, and that made Remdash powerful. But as a product it felt fragmented, with a steep learning curve. Making existing features easier to discover and use was often worth more than building something new.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "Designing the connections",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "An AI generator is only as good as its prompts, a report only as clear as its date range, an automation only as safe as its scope. Designing those relationships changed how I shaped functionality and argued for priorities.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "AI codes faster, but not always better",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "An AI-assisted migration moved Analytics to Vue.js quickly, but making sure nothing had broken took almost two months, one widget at a time. AI made the rebuild fast; knowing how every widget should behave is what made it right.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "What I’d do differently",
+          "body": {
+            "root": {
+              "type": "root",
+              "version": 1,
+              "format": "",
+              "indent": 0,
+              "direction": "ltr",
+              "children": [
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "More research before building.",
+                      "format": 1,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    },
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": " Clients like Kellanova used Share of Voice heavily, but newer clients often found it hard to understand, and Performance, Market Insights and the AI chat were rarely used beyond the basics. As a team, we agreed we hadn’t spent enough time with users before committing to fixes; it took two Share of Voice redesigns to correct course.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                },
+                {
+                  "type": "paragraph",
+                  "version": 1,
+                  "format": "",
+                  "indent": 0,
+                  "direction": "ltr",
+                  "textFormat": 0,
+                  "textStyle": "",
+                  "children": [
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": "Define success before designing.",
+                      "format": 1,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    },
+                    {
+                      "type": "text",
+                      "version": 1,
+                      "text": " Revenue told us Remdash was growing, but not which of our changes made people’s work faster or easier. Simple before-and-after metrics, like how long Content AI took from job creation to approved content, would have answered that.",
+                      "format": 0,
+                      "detail": 0,
+                      "mode": "normal",
+                      "style": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "closing": "If a feature needs extensive training to unlock its value, I treat that as a design problem."
+        }
+      ]
+    }
+  ]
+}

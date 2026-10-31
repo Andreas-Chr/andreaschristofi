@@ -33,8 +33,8 @@ pass `priority={true}` only for a deliberately critical image on the future page
 
 ## Current delivery policy
 
-- Resize production CMS PNG/JPEG uploads only when valid dimensions are available.
-- All eligible PNG/JPEG `src` and `srcset` URLs use
+- Resize production CMS PNG/JPEG/WebP uploads only when valid dimensions are available.
+- All eligible PNG/JPEG/WebP `src` and `srcset` URLs use
   `width=…,fit=scale-down,quality=90,format=auto`, including intrinsic-width candidates.
   Cloudflare negotiates output format; quality 90 still requires visual review.
 - Card candidates: 320/480/640/800/1024, capped at 1024px.
@@ -43,7 +43,7 @@ pass `priority={true}` only for a deliberately critical image on the future page
 - `preserveResolution` selects only the largest derivative allowed by the preset,
   still subject to source dimensions; it does not bypass transformation or the cap.
 - Intrinsic dimensions and consumer-provided sizes remain unchanged. CSS owns cropping.
-- GIF, SVG, video, existing WebP/AVIF, unknown metadata, other origins and local sources
+- GIF, SVG, video, AVIF (Enterprise-only input on Cloudflare), unknown metadata, other origins and local sources
   pass through. Native video sources, embeds and animation behavior are unchanged.
 - First detail image: eager/high priority. Other images: lazy, async decoding.
 - `updatedAt` revisions transformed sources and recovery originals. Revisioned original URLs remain available for recovery: derivative -> original -> placeholder.
@@ -75,7 +75,7 @@ for the current automatic-format policy.
 Byte savings vary by asset and candidate width; a resized image can be larger than its
 compressed original. Network byte measurements are not whole-page speed scores.
 
-Tests cover metadata, source safety, PNG/JPEG automatic-format policy, responsive detail candidates,
+Tests cover metadata, source safety, PNG/JPEG/WebP automatic-format policy, responsive detail candidates,
 transformed largest candidates and preset caps, priority, dimensions, local passthrough, the build switch,
 and bounded dynamic image recovery. Inspect real desktop/mobile currentSrc and visual
 sharpness before release. Physical-device and full-page mobile performance checks remain
@@ -93,8 +93,9 @@ pages can pass these directly to `ResponsiveImage` with `hero` or `card` presets
 sizes matching their layout. Importing the adapter does not fetch or add a page.
 Missing uploads remain undefined so the consuming component renders its placeholder.
 The CMS collection now schedules the existing rebuild hook for publish, unpublish and
-published deletion, while draft-only saves remain excluded. No galleries or page blocks
-have been added: those require the future Project page content contract.
+published deletion, while draft-only saves remain excluded. Project pages now also
+normalize the uploads inside visual-card sections; see `docs/CURATED-PROJECTS.md`.
+Remdash artwork is WebP and is resized like PNG/JPEG (see “WebP resizing” below).
 
 ## Cloudflare configuration verified 2026-10-03
 
@@ -130,3 +131,16 @@ setting it to false requires a rebuild. Its default is enabled.
 - Visual sharpness on high-density displays and new whole-page performance scores remain
   release checks. The 1024px card cap deliberately trades some high-DPR detail for bytes.
   Existing WebP/AVIF passthrough and incomplete-metadata safeguards remain intact.
+
+## WebP resizing — 2026-10-31
+
+WebP uploads are now eligible for the same width-only transformations as PNG/JPEG
+(`src/lib/image-delivery.ts`); Cloudflare lists WebP, including animated WebP, as a supported
+input. AVIF stays pass-through because AVIF input requires an Enterprise plan. Animations above
+50 megapixels across all frames are delivered untransformed by Cloudflare, and any failed
+derivative still recovers to the revisioned original.
+Live check on the `andreaschristofi.com` zone: a 131.7 KB WebP source requested at
+`width=320,fit=scale-down,quality=90,format=auto` returned HTTP 200 `image/avif` (27.8 KB,
+`cf-resized: internal=ok`) with an AVIF/WebP `Accept` header and `image/jpeg` (34.0 KB) without one.
+No WebP exists in the production Media library yet, so CMS-hosted WebP is verified by the same
+source allowlist and URL format as the PNG/JPEG checks above, not by a live CMS request.

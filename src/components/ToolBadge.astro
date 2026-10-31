@@ -1,0 +1,56 @@
+---
+import Tooltip from './Tooltip.astro';
+
+/** Figma Badge (5053:618): an 80px tile with a 36px logomark slot; hover/focus swaps to the colour artwork on white. */
+interface Props { tool: string; label?: string | null; id: string; }
+const { tool, label, id } = Astro.props;
+// Natural artwork sizes from Foundations / Iconography; Miro and ChatGPT are scaled up in the Remdash stack (5603:885).
+const artwork: Record<string, { label: string; grey: [number, number]; color?: [number, number] }> = {
+  figma: { label: 'Figma', grey: [19, 28], color: [17, 26] },
+  miro: { label: 'Miro', grey: [31.5, 36] },
+  claude: { label: 'Claude', grey: [28, 28] },
+  chatgpt: { label: 'ChatGPT', grey: [31.5, 31.5] },
+  ps: { label: 'Adobe Photoshop', grey: [27, 20] },
+  ai: { label: 'Adobe Illustrator', grey: [24, 20] },
+  ae: { label: 'Adobe After Effects', grey: [33, 20] },
+  id: { label: 'Adobe InDesign', grey: [19, 20] },
+  xd: { label: 'Adobe XD', grey: [29, 20] },
+  codex: { label: 'Codex', grey: [28, 28] },
+  webflow: { label: 'Webflow', grey: [32, 22] },
+  vscode: { label: 'Visual Studio Code', grey: [28, 28] },
+  html5: { label: 'HTML5', grey: [25, 28] },
+  css3: { label: 'CSS3', grey: [25, 28] },
+  js: { label: 'JavaScript', grey: [28, 28] },
+  astro: { label: 'Astro', grey: [24, 30] },
+  github: { label: 'GitHub', grey: [29, 28] },
+  payload: { label: 'Payload CMS', grey: [26, 30.2041] },
+  cloudflare: { label: 'Cloudflare', grey: [36, 16], color: [35, 16] },
+  wp: { label: 'WordPress', grey: [30, 30] },
+  elementor: { label: 'Elementor', grey: [28, 28] },
+  woocommerce: { label: 'WooCommerce', grey: [35, 21] },
+};
+const art = artwork[tool];
+const name = label?.trim() || art?.label || tool;
+const [greyWidth, greyHeight] = art?.grey ?? [36, 36];
+const [colorWidth, colorHeight] = art?.color ?? art?.grey ?? [36, 36];
+---
+{art && (
+  <li class="tool tool-badge" tabindex="0" aria-label={name} aria-describedby={`${id}-tooltip`} data-tooltip-owner>
+    <span class="tool-badge-logomark" aria-hidden="true">
+      <img class="tool-badge-grey" src={`/assets/tools/${tool}-grey.svg`} width={greyWidth} height={greyHeight} alt="" loading="lazy" />
+      <img class="tool-badge-color" src={`/assets/tools/${tool}-color.svg`} width={colorWidth} height={colorHeight} alt="" loading="lazy" />
+    </span>
+    <Tooltip id={`${id}-tooltip`} title={name} />
+  </li>
+)}
+<style>
+  .tool-badge { position:relative; display:flex; align-items:center; justify-content:center; width:80px; height:80px; border-radius:8px; background:var(--color-surface-card-dark); }
+  .tool-badge-logomark { position:relative; display:grid; place-items:center; width:36px; height:36px; }
+  .tool-badge-logomark img { grid-area:1/1; max-width:none; transition:opacity var(--primitive-animation-duration-fast) var(--primitive-animation-easing-fast); }
+  .tool-badge-color { opacity:0; }
+  .tool-badge:is(:hover,:focus-visible) { background:var(--color-surface-card-light); }
+  .tool-badge:is(:hover,:focus-visible) .tool-badge-color { opacity:1; }
+  .tool-badge:is(:hover,:focus-visible) .tool-badge-grey { opacity:0; }
+  .tool-badge:focus-visible { outline:3px solid var(--color-text-accent); outline-offset:2px; }
+  @media (prefers-reduced-motion:reduce) { .tool-badge-logomark img { transition:none; } }
+</style>

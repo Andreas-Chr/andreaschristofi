@@ -1,0 +1,46 @@
+---
+import '../styles/buttons.css';
+import ResponsiveImage from './ResponsiveImage.astro';
+import { PROJECT_FALLBACK, projectHref, type CuratedProject } from '../lib/curated-projects';
+interface Props { project: CuratedProject; sizes?: string; }
+const { project, sizes = '(min-width: 1440px) 1392px, (min-width: 1200px) calc(100vw - 48px), (min-width: 400px) calc(100vw - 32px), calc(100vw - 16px)' } = Astro.props;
+const thumbnail = project.thumbnail ?? project.heroMedia;
+---
+<!-- Figma Project Card (5270:1396): the whole card is the link; the arrow shares Button/Icon styling. -->
+<a class="project-card" href={projectHref(project.slug)}>
+  <ResponsiveImage class="project-card-thumbnail" asset={thumbnail ? { ...thumbnail, alt: '' } : undefined} preset="hero" sizes={sizes} fallback={PROJECT_FALLBACK} />
+  <span class="project-card-overlay" aria-hidden="true"></span>
+  <div class="project-card-content">
+    <div class="project-card-details">
+      <h3 class="project-card-title">{project.title}</h3>
+      {project.subtitle?.trim() && <p class="project-card-subtitle">{project.subtitle}</p>}
+    </div>
+    <span class="project-card-action icon-button primary large" aria-hidden="true">
+      <img src="/assets/icons/curated-card-arrow-up-right.svg" width="16" height="16" alt="" />
+    </span>
+  </div>
+</a>
+<style>
+  .project-card { position:relative; isolation:isolate; display:flex; flex-direction:column; justify-content:flex-end; height:600px; padding:24px; overflow:hidden; border-radius:var(--primitive-border-radius-24,24px); background:var(--color-surface-card-dark); color:var(--color-text-light); text-decoration:none; }
+  .project-card :global(.project-card-thumbnail) { position:absolute; inset:0; z-index:-2; display:block; width:100%; height:100%; object-fit:cover; }
+  .project-card-overlay { position:absolute; inset:0; z-index:-1; background:linear-gradient(180deg, rgb(0 0 0 / 0%) 68.75%, rgb(0 0 0 / 70%) 100%); pointer-events:none; }
+  .project-card-content { display:flex; align-items:flex-end; gap:16px; width:100%; }
+  .project-card-details { display:flex; flex:1; flex-direction:column; gap:12px; min-width:0; }
+  .project-card-title { font:var(--text-headings-h4); letter-spacing:0; font-feature-settings:'liga' 0; overflow-wrap:anywhere; }
+  .project-card-subtitle { font:var(--text-headings-h6); color:var(--color-text-accent); text-transform:uppercase; letter-spacing:0; font-feature-settings:'liga' 0; }
+  .project-card:focus-visible { outline:3px solid var(--color-text-accent); outline-offset:3px; }
+  /* The arrow follows Button/Icon hover and focus states for the whole card. */
+  .project-card:focus-visible .project-card-action { background:var(--button-hover); border-color:var(--color-focus-primary); }
+  .project-card:focus-visible .project-card-action img { filter:brightness(0) invert(1); }
+  @media(hover:hover) {
+    .project-card:hover .project-card-action { background:var(--button-hover); }
+    .project-card:hover .project-card-action img { filter:brightness(0) invert(1); }
+  }
+  @media(max-width:1023px) { .project-card { height:480px; } }
+  @media(max-width:639px) {
+    .project-card { height:auto; aspect-ratio:1; }
+    .project-card-overlay { background:linear-gradient(180deg, rgb(0 0 0 / 0%) 40%, rgb(0 0 0 / 70%) 100%); }
+    .project-card-title { font:var(--text-headings-h3); }
+  }
+  @media(max-width:399px) { .project-card { padding:16px; } }
+</style>

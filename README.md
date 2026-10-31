@@ -1,6 +1,6 @@
 # andreaschristofi.com
 
-Static Astro implementation of the approved Figma V1 portfolio: Home, Privacy & Cookie Policy, and custom 404. Uses the supplied production assets, local WOFF2 fonts, and CV. Work galleries and project routes remain V2 scope.
+Static Astro implementation of the approved Figma portfolio: Home, case study pages (`/projects/<slug>/`), Privacy & Cookie Policy, and custom 404. Uses the supplied production assets, local WOFF2 fonts, and CV.
 
 ## Development
 
@@ -28,6 +28,7 @@ Tests read the production output, so build before running them. Astro generates 
 - `src/styles/`: local fonts, semantic design tokens, shared styles.
 - [Typography catalog](docs/TYPOGRAPHY.md): all Figma foundation text styles and reusable CSS classes; consult before choosing typography.
 - [ParagraphLink component](docs/PARAGRAPH-LINK.md): Figma variants, Astro API, accessibility, and site-wide usage.
+- [Curated Projects](docs/CURATED-PROJECTS.md): case study pages (`/projects/<slug>/`), homepage Case studies section, content model and CMS mapping.
 - `src/scripts/disclosure.ts`: interruptible disclosure transitions and focus handling.
 - `public/assets/`: supplied/exported SVG artwork, fonts, licenses, CV.
 - `src/assets/`: original raster assets optimized by Astro into AVIF/WebP/JPEG.

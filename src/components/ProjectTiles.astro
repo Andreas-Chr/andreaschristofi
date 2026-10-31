@@ -1,0 +1,58 @@
+---
+import { richTextHTML, type RichText } from '../lib/rich-text';
+import type { ProjectTile } from '../lib/curated-projects';
+
+/** Figma glass tile rows: Users tiles (5630:976), Impact tiles (5604:965) and Progression tiles (5623:965). */
+interface Props {
+  variant: 'audience' | 'stat' | 'phase';
+  heading?: string | null;
+  intro?: RichText | null;
+  tiles?: ProjectTile[] | null;
+  id?: string;
+  headingId: string;
+}
+const { variant, heading, intro, tiles, id, headingId } = Astro.props;
+const introHTML = richTextHTML(intro);
+const items = (tiles ?? []).filter(tile => tile.title?.trim());
+---
+<section class:list={['project-tiles', `project-tiles--${variant}`]} id={id} aria-labelledby={heading?.trim() ? headingId : undefined}>
+  {heading?.trim() && <h2 class="project-heading" id={headingId}>{heading}</h2>}
+  {introHTML && <div class="project-rich project-tiles-intro" set:html={introHTML} />}
+  {items.length > 0 && (
+    <ul class="project-tile-grid">
+      {items.map(tile => (
+        <li class="project-tile">
+          {tile.eyebrow?.trim() && <p class="eyebrow">{tile.eyebrow}</p>}
+          <h3 class="project-tile-title">{tile.title}</h3>
+          {tile.body?.trim() && <p class="project-tile-body">{tile.body}</p>}
+        </li>
+      ))}
+    </ul>
+  )}
+</section>
+<style>
+  .project-tiles { display:flex; flex-direction:column; gap:48px; }
+  .project-tiles--stat,.project-tiles--phase { padding-block:var(--section-space); }
+  .project-tiles-intro { display:grid; gap:48px; }
+  .project-tile-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4px; margin:0; padding:0; list-style:none; }
+  /* Figma “lumi card”: 10px blur radius maps to a 5px CSS blur. */
+  .project-tile { display:flex; flex-direction:column; gap:16px; min-width:0; padding:32px; border-radius:var(--primitive-border-radius-24,24px); background:rgb(255 255 255 / 12%); -webkit-backdrop-filter:blur(5px); backdrop-filter:blur(5px); box-shadow:0 2px 10px 0 #00000012; }
+  .project-tile:last-child:nth-child(odd) { grid-column:1 / -1; }
+  .project-tile-title { font:var(--text-headings-h3); text-transform:uppercase; letter-spacing:0; font-feature-settings:'liga' 0; overflow-wrap:break-word; }
+  .project-tiles--stat .project-tile-title { font:900 var(--heading-size)/var(--heading-line) var(--font-family-primary); text-transform:none; }
+  .project-tiles--phase .project-tile-title { font:var(--text-headings-h1-narrow); }
+  .project-tile-body { font:var(--text-body-medium); font-variation-settings:'opsz' 9; }
+  @media(min-width:1200px) {
+    .project-tile-grid { display:flex; }
+    .project-tile { flex:1 1 0; }
+    .project-tiles--audience .project-tile { min-height:276px; }
+    .project-tiles--stat .project-tile,.project-tiles--phase .project-tile { min-height:280px; }
+  }
+  @media(max-width:639px) {
+    .project-tiles { gap:32px; }
+    .project-tiles-intro { gap:32px; }
+    .project-tile-grid { grid-template-columns:minmax(0,1fr); }
+    .project-tile { padding:24px; }
+  }
+  @media(max-width:399px) { .project-tiles--phase .project-tile-title { font:var(--text-headings-h1-ultranarrow); } }
+</style>

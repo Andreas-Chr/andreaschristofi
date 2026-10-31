@@ -76,9 +76,9 @@ test('content caps large sources at 1600 and transforms even intrinsic-width can
   }
 });
 
-test('JPEG and PNG candidates negotiate format at quality 90', () => {
-  for (const mimeType of ['image/jpeg', 'image/png']) {
-    const input = { ...asset, mimeType, url: `${base}/api/media/file/screen.${mimeType === 'image/jpeg' ? 'jpg' : 'png'}` };
+test('JPEG, PNG and WebP candidates negotiate format at quality 90', () => {
+  for (const [mimeType, extension] of [['image/jpeg', 'jpg'], ['image/png', 'png'], ['image/webp', 'webp']]) {
+    const input = { ...asset, mimeType, url: `${base}/api/media/file/screen.${extension}` };
     const result = getImageProps(input, options);
     assert.match(result.src, /width=800,fit=scale-down,quality=90,format=auto\//);
     assert.ok(result.srcset.split(', ').every(candidate => candidate.includes('quality=90,format=auto/')));
@@ -99,9 +99,9 @@ test('small masters never produce overstated width descriptors or duplicate vari
   }
 });
 
-test('GIFs, SVGs, videos, unknown MIME, local sources and nested transforms pass through', () => {
+test('GIFs, SVGs, AVIF, videos, unknown MIME, local sources and nested transforms pass through', () => {
   const sources = [
-    { mimeType: 'image/webp' }, { mimeType: 'image/avif' },
+    { mimeType: 'image/avif' }, { url: '/assets/screen.webp', mimeType: 'image/webp' },
     { mimeType: 'image/gif' }, { mimeType: 'image/svg+xml' }, { mimeType: 'video/mp4' }, { mimeType: undefined },
     { url: 'http://localhost:8787/api/media/file/screen.png' },
     { url: 'http://127.0.0.1:8787/api/media/file/screen.png' },

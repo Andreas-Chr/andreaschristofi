@@ -1,0 +1,18 @@
+---
+import ProjectCard from './ProjectCard.astro';
+import { curatedProjects } from '../data/curated-projects';
+const projects = curatedProjects.filter(project => project.featured !== false);
+---
+{projects.length > 0 && (
+  <section id="case-studies" class="container case-studies" aria-labelledby="case-studies-heading">
+    <h2 id="case-studies-heading">Case studies</h2>
+    <p class="case-studies-intro">Selected case studies of products I’ve designed end to end. Each one walks through the problem, the research and decisions behind it, and the impact on users and the business. Less about the final polish, more about how I got there.</p>
+    <div class="case-studies-grid">{projects.map(project => <ProjectCard project={project} />)}</div>
+  </section>
+)}
+<style>
+  /* Figma 5492:1725: 160px above; Curated Shots supplies the 160px below. */
+  .case-studies { display:grid; gap:40px; padding-top:160px; }
+  .case-studies-intro { font:var(--text-display-small); font-variation-settings:'opsz' 14; }
+  .case-studies-grid { display:grid; gap:32px; }
+</style>

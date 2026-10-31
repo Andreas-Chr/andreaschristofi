@@ -26,10 +26,15 @@ const { id, title } = Astro.props;
     tooltip.style.setProperty('--tooltip-shift', `${shift}px`);
   };
 
-  document.querySelectorAll<HTMLElement>('[data-tooltip-owner]').forEach(owner => {
+  const owners = document.querySelectorAll<HTMLElement>('[data-tooltip-owner]');
+  owners.forEach(owner => {
     owner.addEventListener('mouseenter', () => positionTooltip(owner));
     owner.addEventListener('focus', () => positionTooltip(owner));
   });
+  // Hidden tooltips still occupy layout; keep edge-adjacent ones inside the viewport.
+  const positionAll = () => owners.forEach(positionTooltip);
+  positionAll();
+  window.addEventListener('resize', positionAll);
 </script>
 
 <style>

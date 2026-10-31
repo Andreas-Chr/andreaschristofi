@@ -1,0 +1,41 @@
+---
+import { richTextHTML } from '../lib/rich-text';
+import type { ProjectStorySection } from '../lib/curated-projects';
+
+/** Figma two-column stage (e.g. 5604:978): a lead column and labelled detail paragraphs. */
+interface Props { section: ProjectStorySection; id?: string; headingId: string; }
+const { section, id, headingId } = Astro.props;
+const introHTML = richTextHTML(section.intro);
+const items = (section.items ?? []).map(item => ({ ...item, html: richTextHTML(item.body) }))
+  .filter(item => item.label?.trim() || item.html || item.closing?.trim());
+---
+<section class:list={['project-story', { 'project-story--compact': section.spacing === 'compact' }]} id={id} aria-labelledby={section.heading?.trim() ? headingId : undefined}>
+  <div class="project-story-lead">
+    {section.eyebrow?.trim() && <p class="eyebrow">{section.eyebrow}</p>}
+    {section.heading?.trim() && <h2 class="project-heading" id={headingId}>{section.heading}</h2>}
+    {introHTML && <div class="project-rich project-story-intro" set:html={introHTML} />}
+  </div>
+  {items.length > 0 && (
+    <div class="project-story-items">
+      {items.map(item => (
+        <div class="project-story-item">
+          {item.label?.trim() && <h3 class="eyebrow project-story-label">{item.label}</h3>}
+          {item.html && <div class="project-rich project-story-body" set:html={item.html} />}
+          {item.closing?.trim() && <p class="project-story-closing">{item.closing}</p>}
+        </div>
+      ))}
+    </div>
+  )}
+</section>
+<style>
+  .project-story { display:grid; gap:40px 24px; align-items:start; padding-block:var(--section-space); }
+  .project-story-lead,.project-story-intro { display:flex; flex-direction:column; gap:24px; min-width:0; }
+  .project-story-items { display:flex; flex-direction:column; gap:40px; min-width:0; }
+  .project-story--compact .project-story-items { gap:24px; }
+  .project-story-item { display:flex; flex-direction:column; gap:12px; }
+  /* Labels keep Figma's deliberate double spaces (“01  /  Foundations”) but may wrap. */
+  .project-story-label { white-space:pre-wrap; }
+  .project-story-body { display:flex; flex-direction:column; gap:32px; }
+  .project-story-closing { padding-block:24px; font:var(--text-display-small); font-variation-settings:'opsz' 14; }
+  @media(min-width:1200px) { .project-story { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+</style>

@@ -57,7 +57,8 @@ export function getImageProps(asset: MediaAsset, options: ImageOptions): ImagePr
   };
   const hasDimensions = dimension(asset.width) && dimension(asset.height);
   if (hasDimensions) { result.width = asset.width; result.height = asset.height; }
-  const eligible = ['image/jpeg', 'image/png'].includes(asset.mimeType || '') &&
+  // Cloudflare accepts JPEG, PNG and WebP sources on this plan; AVIF input is Enterprise-only.
+  const eligible = ['image/jpeg', 'image/png', 'image/webp'].includes(asset.mimeType || '') &&
     !/\.(?:gif|svg|mp4|webm)$/i.test(new URL(src, MEDIA_DELIVERY.sourceOrigin).pathname);
   const source = options.enabled === false || !eligible ? undefined : cmsSource(asset);
   // Missing intrinsic dimensions would make scale-down width descriptors unreliable.

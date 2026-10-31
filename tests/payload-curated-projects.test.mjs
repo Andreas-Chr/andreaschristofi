@@ -46,3 +46,23 @@ test('Project fetch rejects outages, malformed records and looping pagination', 
     await assert.rejects(fetchPayloadProjects(base, async () => ({ ok: true, json: async () => data })), /invalid/i);
   }
 });
+
+test('Project sections keep block content and normalize nested visual uploads', () => {
+  const intro = { root: { type: 'root', children: [{ type: 'paragraph', $: { websiteTypography: 'display-small' }, children: [{ type: 'text', text: 'Intro' }] }] } };
+  const project = fromPayloadProject({ ...doc, sections: [
+    { blockType: 'story', blockName: 'Admin label', navLabel: 'Learnings', heading: 'Learnings', intro, items: [{ label: 'The decision', body: intro }] },
+    { blockType: 'visual', caption: 'description / a / b', layout: 'overlap', images: [{ image: upload, width: 64.57, offsetX: 35.43, offsetY: 11.929, radius: 'large' }, { image: 7 }] },
+  ] }, base);
+  const [story, visual] = project.sections;
+  assert.equal(story.blockName, undefined);
+  assert.deepEqual(story.intro, intro);
+  assert.equal(visual.images[0].image.url, `${base}${upload.url}`);
+  assert.equal(visual.images[0].image.alt, upload.alt);
+  assert.equal(visual.images[0].offsetX, 35.43);
+  assert.equal(visual.images[1].image, undefined);
+  assert.equal(fromPayloadProject({ ...doc, _status: 'draft' }, base).published, false);
+  const webp = fromPayloadProject({ ...doc, sections: [{ blockType: 'visual', images: [{ image: { ...upload, url: '/api/media/file/remdash-dashboard-widgets.webp', mimeType: 'image/webp', width: 2880, height: 2025 } }] }] }, base).sections[0].images[0].image;
+  const image = getImageProps(webp, { preset: 'hero', sizes: '(min-width: 1440px) 1358px, calc(100vw - 82px)' });
+  assert.match(image.src, /cdn-cgi\/image\/width=1440,fit=scale-down,quality=90,format=auto\//);
+  assert.ok(image.srcset.endsWith('remdash-dashboard-widgets.webp 2560w'));
+});

@@ -1,0 +1,62 @@
+---
+import ResponsiveImage from './ResponsiveImage.astro';
+import { PROJECT_FALLBACK, type ProjectVisualSection } from '../lib/curated-projects';
+
+/** Figma visual card (e.g. 5603:913): caption plus stacked or layered artwork, positioned in percent of the media width. */
+interface Props { section: ProjectVisualSection; id?: string; }
+const { section, id } = Astro.props;
+const [label, ...titles] = (section.caption ?? '').split('/').map(part => part.trim()).filter(Boolean);
+const layout = section.layout === 'overlap' ? 'overlap' : 'stack';
+const percent = (value: number | null | undefined, fallback: number) => Number.isFinite(value) ? Number(value) : fallback;
+const images = (section.images ?? []).map(item => {
+  const width = Math.min(Math.max(percent(item.width, 100), 1), 150);
+  // Media spans the container minus card padding and border (82px at 1440px, 66px or 18px below).
+  // The hero preset (up to 2560px) keeps 1358px screenshots sharp on high-density screens.
+  const factor = width / 100;
+  const sizes = `(min-width: 1440px) ${Math.round(1358 * factor)}px, (min-width: 1200px) calc(${(100 * factor).toFixed(2)}vw - ${Math.round(82 * factor)}px), (min-width: 640px) calc(${(100 * factor).toFixed(2)}vw - ${Math.round(66 * factor)}px), calc(${(100 * factor).toFixed(2)}vw - ${Math.round(34 * factor)}px)`;
+  const style = `--visual-width:${width}%;--visual-x:${percent(item.offsetX, 0)}%;--visual-y:${percent(item.offsetY, 0)}%`;
+  return { ...item, sizes, style, radius: item.radius ?? 'small' };
+});
+---
+{images.length > 0 && (
+  <figure class="project-visual" id={id} data-gap={section.gap === 'large' ? 'large' : undefined} data-bleed={section.bleed === 'bottom' ? 'bottom' : undefined}>
+    {label && (
+      <figcaption class="project-visual-caption">
+        {label}{titles.map(title => <Fragment>{' '}<span class="project-visual-separator">/</span>{' '}<b>{title}</b></Fragment>)}
+      </figcaption>
+    )}
+    <div class:list={['project-visual-media', `project-visual-media--${layout}`, { 'project-visual-media--compact': section.spacing === 'compact' }]}>
+      {images.map(item => (
+        <div class="project-visual-item" style={item.style} data-radius={item.radius}>
+          <ResponsiveImage asset={item.image} preset="hero" sizes={item.sizes} fallback={PROJECT_FALLBACK} />
+        </div>
+      ))}
+    </div>
+  </figure>
+)}
+<style>
+  .project-visual { display:flex; flex-direction:column; align-items:center; gap:32px; margin:0; padding:32px 16px 16px; overflow:hidden; border:1px solid #474747; border-radius:var(--primitive-border-radius-24,24px); background:var(--color-surface-card-dark); }
+  :global(.project-visual + .project-visual) { margin-top:16px; }
+  :global(.project-visual + .project-visual[data-gap='large']) { margin-top:32px; }
+  .project-visual[data-bleed='bottom'] { padding-bottom:0; }
+  .project-visual-caption { position:relative; z-index:1; font:var(--text-headings-h6); color:var(--color-text-light); text-align:center; text-transform:uppercase; letter-spacing:0; font-feature-settings:'liga' 0; }
+  .project-visual-caption b { font-weight:700; }
+  .project-visual-separator { color:var(--color-text-accent); }
+  .project-visual-media { width:100%; }
+  .project-visual-media--stack { display:flex; flex-direction:column; align-items:center; gap:32px; }
+  .project-visual-media--compact { gap:16px; }
+  .project-visual-media--overlap { display:grid; }
+  .project-visual-item { flex-shrink:0; width:var(--visual-width); margin-top:var(--visual-y); }
+  .project-visual-media--overlap .project-visual-item { grid-area:1 / 1; justify-self:start; margin-left:var(--visual-x); }
+  .project-visual-item :global(img) { display:block; width:100%; height:auto; }
+  .project-visual-item[data-radius='small'] :global(img) { border-radius:16px; }
+  .project-visual-item[data-radius='large'] :global(img) { border-radius:24px; }
+  .project-visual[data-bleed='bottom'] .project-visual-item:last-child :global(img) { border-bottom-left-radius:0; border-bottom-right-radius:0; }
+  @media(max-width:639px) {
+    .project-visual { gap:24px; padding:24px 8px 8px; border-radius:16px; }
+    .project-visual-media--stack { gap:24px; }
+    .project-visual-media--compact { gap:8px; }
+    .project-visual-item[data-radius='small'] :global(img) { border-radius:8px; }
+    .project-visual-item[data-radius='large'] :global(img) { border-radius:16px; }
+  }
+</style>

@@ -1,62 +1,50 @@
-import { normalizePayloadMedia, type MediaAsset, type PayloadUpload } from './media-assets.ts';
-import type { RichText } from './rich-text.ts';
+import { normalizePayloadMedia, type PayloadUpload } from './media-assets.ts';
+import { validateProjects, type CuratedProject, type ProjectImage, type ProjectSection, type ProjectVisualSection } from './curated-projects.ts';
+export type { CuratedProject } from './curated-projects.ts';
 
-/** Existing CMS metadata contract; page blocks and galleries are intentionally not invented. */
-export interface CuratedProject {
-  id?: number | string;
-  slug: string;
-  title: string;
-  client: string;
-  year?: string | null;
-  role?: string | null;
-  summary?: RichText | null;
-  collaborations?: { name: string }[] | null;
-  stack?: { name: string }[] | null;
-  order: number;
-  featured?: boolean | null;
-  heroMedia?: MediaAsset;
-  thumbnail?: MediaAsset;
-}
-export interface PayloadProject extends Omit<CuratedProject, 'heroMedia' | 'thumbnail'> {
+type PayloadImage = Omit<ProjectImage, 'image'> & { image?: PayloadUpload };
+type PayloadSection = Exclude<ProjectSection, ProjectVisualSection> | (Omit<ProjectVisualSection, 'images'> & { images?: PayloadImage[] | null });
+export interface PayloadProject extends Omit<CuratedProject, 'heroMedia' | 'thumbnail' | 'sections' | 'published'> {
   _status?: 'draft' | 'published';
   heroMedia?: PayloadUpload;
   thumbnail?: PayloadUpload;
+  sections?: (PayloadSection & { blockName?: string | null })[] | null;
 }
+
+/** Map populated Payload upload relationships, including nested visual images, into the UI model. */
 export function fromPayloadProject(doc: PayloadProject, base: string): CuratedProject {
   return {
-    id: doc.id, slug: doc.slug, title: doc.title, client: doc.client,
-    year: doc.year, role: doc.role, summary: doc.summary,
-    collaborations: doc.collaborations, stack: doc.stack,
+    id: doc.id, slug: doc.slug, title: doc.title, subtitle: doc.subtitle, seoDescription: doc.seoDescription,
+    client: doc.client, clientLabel: doc.clientLabel, year: doc.year, role: doc.role,
+    industry: doc.industry, status: doc.status, summary: doc.summary,
+    collaborations: doc.collaborations, stack: doc.stack, stackDetails: doc.stackDetails,
+    challenge: doc.challenge, audience: doc.audience,
+    sections: (doc.sections ?? []).map(({ blockName: _blockName, ...section }): ProjectSection => section.blockType === 'visual'
+      ? { ...section, images: (section.images ?? []).map(item => ({ ...item, image: normalizePayloadMedia(item.image, base) })) }
+      : section),
     order: doc.order, featured: doc.featured,
+    published: doc._status !== 'draft',
     heroMedia: normalizePayloadMedia(doc.heroMedia, base),
     thumbnail: normalizePayloadMedia(doc.thumbnail, base),
   };
 }
 
-/** Call from future Project pages at build time; merely importing does not fetch. */
+/** Build-time public REST read. Failing CMS requests fail the build, preserving the last good deployment. */
 export async function fetchPayloadProjects(base: string, request: typeof fetch = fetch): Promise<CuratedProject[]> {
-  const projects: CuratedProject[] = [];
-  const slugs = new Set<string>();
+  const docs: PayloadProject[] = [];
   let page = 1;
   while (true) {
     const endpoint = new URL('/api/curated-projects', base);
+    // Depth counts relationship hops, so uploads nested in section blocks populate at depth 1.
     endpoint.search = new URLSearchParams({ depth: '1', limit: '100', page: String(page), sort: 'order', 'where[_status][equals]': 'published' }).toString();
     const response = await request(endpoint, { signal: AbortSignal.timeout(15000) });
     if (!response.ok) throw new Error(`Payload curated projects request failed: ${response.status}`);
     const data = await response.json();
     if (!Array.isArray(data.docs)) throw new Error('Payload returned an invalid curated projects response');
-    for (const doc of data.docs as PayloadProject[]) {
-      if (doc._status === 'draft') continue;
-      if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(doc.slug) || slugs.has(doc.slug) ||
-          !Number.isFinite(doc.order) || !doc.title?.trim() || !doc.client?.trim()) {
-        throw new Error('Invalid or duplicate curated project');
-      }
-      slugs.add(doc.slug);
-      projects.push(fromPayloadProject(doc, base));
-    }
+    docs.push(...data.docs);
     if (!data.hasNextPage) break;
     if (!Number.isInteger(data.nextPage) || data.nextPage <= page) throw new Error('Invalid Payload pagination');
     page = data.nextPage;
   }
-  return projects.sort((a, b) => a.order - b.order || a.slug.localeCompare(b.slug));
+  return validateProjects(docs.map(doc => fromPayloadProject(doc, base)));
 }
