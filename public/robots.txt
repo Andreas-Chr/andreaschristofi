@@ -1,3 +1,41 @@
 User-agent: *
 Allow: /
+# Search-hidden projects (src/lib/curated-projects.ts): search crawlers may fetch the page only to read
+# its noindex; the homepage card fragment and the artwork (local and CMS via Cloudflare) stay blocked.
+Disallow: /fragments/
+Disallow: /assets/curated-projects/remdash/
+Disallow: /cdn-cgi/image/*/api/media/file/remdash-
+
+# AI crawlers and AI-use tokens: nothing from search-hidden projects.
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: anthropic-ai
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Google-Extended
+User-agent: GoogleOther
+User-agent: Google-CloudVertexBot
+User-agent: Applebot-Extended
+User-agent: Amazonbot
+User-agent: Bytespider
+User-agent: CCBot
+User-agent: meta-externalagent
+User-agent: meta-externalfetcher
+User-agent: FacebookBot
+User-agent: cohere-ai
+User-agent: cohere-training-data-crawler
+User-agent: DuckAssistBot
+User-agent: MistralAI-User
+User-agent: Diffbot
+User-agent: YouBot
+User-agent: AI2Bot
+Disallow: /fragments/
+Disallow: /projects/remdash/
+Disallow: /assets/curated-projects/remdash/
+Disallow: /cdn-cgi/image/*/api/media/file/remdash-
+
 Sitemap: https://andreaschristofi.com/sitemap-index.xml

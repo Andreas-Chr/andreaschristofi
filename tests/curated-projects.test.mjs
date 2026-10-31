@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
-import { formatList, projectAnchors, projectDescription, projectFacts, richTextPlain, validateProjects } from '../src/lib/curated-projects.ts';
+import { SEARCH_HIDDEN_SLUGS, formatList, projectAnchors, projectCardFragmentId, projectDescription, projectFacts, projectHref, richTextPlain, validateProjects } from '../src/lib/curated-projects.ts';
 import { richTextHTML } from '../src/lib/rich-text.ts';
 
 const dir = new URL('../src/content/curated-projects/', import.meta.url);
@@ -43,4 +43,22 @@ test('rich text keeps website text styles and project descriptions stay short', 
   assert.equal(richTextPlain('  Plain  '), 'Plain');
   assert.throws(() => validateProjects([remdash, remdash]), /duplicate/);
   assert.equal(validateProjects([{ ...remdash, published: false }]).length, 0);
+});
+
+test('search-hidden projects are blocked in robots.txt and _headers behind an opaque card fragment', () => {
+  const robots = readFileSync(new URL('../public/robots.txt', import.meta.url), 'utf8');
+  const headers = readFileSync(new URL('../public/_headers', import.meta.url), 'utf8');
+  const [everyone, ai] = robots.split('\n\n').map(group => `${group}\n`);
+  assert.ok(SEARCH_HIDDEN_SLUGS.includes('remdash'));
+  for (const group of [everyone, ai]) assert.match(group, /^Disallow: \/fragments\/$/m);
+  assert.match(ai, /^User-agent: GPTBot$/m);
+  assert.match(headers, /^\/fragments\/\*$/m);
+  for (const slug of SEARCH_HIDDEN_SLUGS) {
+    const artwork = [`/assets/curated-projects/${slug}/`, `/cdn-cgi/image/*/api/media/file/${slug}-`];
+    for (const path of artwork) for (const group of [everyone, ai]) assert.ok(group.includes(`Disallow: ${path}\n`), path);
+    // Search engines must still be able to fetch the page to see its noindex.
+    assert.ok(!everyone.includes(`Disallow: ${projectHref(slug)}\n`) && ai.includes(`Disallow: ${projectHref(slug)}\n`));
+    for (const path of [projectHref(slug), artwork[0]]) assert.ok(headers.includes(`\n${path}*\n  X-Robots-Tag: noindex`), path);
+    assert.match(projectCardFragmentId(slug), /^[0-9a-f]{16}$/);
+  }
 });

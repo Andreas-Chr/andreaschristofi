@@ -9,9 +9,12 @@ interface Props {
   title: string;
   description?: string;
   noindex?: boolean;
+  /** Stricter than noindex: no link following, snippets, cache, image indexing or AI use. */
+  searchHidden?: boolean;
   showFooter?: boolean;
 }
-const { title, description = site.description, noindex = false, showFooter = true } = Astro.props;
+const { title, description = site.description, noindex = false, searchHidden = false, showFooter = true } = Astro.props;
+const robots = searchHidden ? 'noindex,nofollow,noarchive,nosnippet,noimageindex,noai,noimageai' : noindex ? 'noindex,follow' : undefined;
 const canonical = new URL(Astro.url.pathname, site.origin);
 ---
 
@@ -23,8 +26,8 @@ const canonical = new URL(Astro.url.pathname, site.origin);
     <meta name="theme-color" content="#121212" />
     <title>{title}</title><meta name="description" content={description} />
     {
-      noindex ? (
-        <meta name="robots" content="noindex,follow" />
+      robots ? (
+        <meta name="robots" content={robots} />
       ) : (
         <link rel="canonical" href={canonical} />
       )
@@ -37,7 +40,7 @@ const canonical = new URL(Astro.url.pathname, site.origin);
       property="og:description"
       content={description}
     />
-    {!noindex && <meta property="og:url" content={canonical} />}
+    {!robots && <meta property="og:url" content={canonical} />}
     <meta name="twitter:card" content="summary" />
     <link rel="icon" href="/assets/logo/logo-light.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />

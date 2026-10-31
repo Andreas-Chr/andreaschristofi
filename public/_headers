@@ -1,0 +1,9 @@
+# Search-hidden projects (src/lib/curated-projects.ts); crawl rules are in robots.txt.
+/projects/remdash/*
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet, noimageindex, noai, noimageai
+
+/fragments/*
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet, noimageindex, noai, noimageai
+
+/assets/curated-projects/remdash/*
+  X-Robots-Tag: noindex, noarchive, noimageindex, noai, noimageai

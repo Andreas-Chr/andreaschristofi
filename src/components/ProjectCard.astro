@@ -1,25 +1,56 @@
 ---
 import '../styles/buttons.css';
 import ResponsiveImage from './ResponsiveImage.astro';
-import { PROJECT_FALLBACK, projectHref, type CuratedProject } from '../lib/curated-projects';
-interface Props { project: CuratedProject; sizes?: string; }
-const { project, sizes = '(min-width: 1440px) 1392px, (min-width: 1200px) calc(100vw - 48px), (min-width: 400px) calc(100vw - 32px), calc(100vw - 16px)' } = Astro.props;
+import { PROJECT_FALLBACK, projectCardFragmentId, projectHref, type CuratedProject } from '../lib/curated-projects';
+interface Props {
+  project: CuratedProject;
+  sizes?: string;
+  /** Render an empty, same-sized shell that the browser fills from the card fragment (search-hidden projects). */
+  deferred?: boolean;
+}
+const { project, sizes = '(min-width: 1440px) 1392px, (min-width: 1200px) calc(100vw - 48px), (min-width: 400px) calc(100vw - 32px), calc(100vw - 16px)', deferred = false } = Astro.props;
 const thumbnail = project.thumbnail ?? project.heroMedia;
 ---
 <!-- Figma Project Card (5270:1396): the whole card is the link; the arrow shares Button/Icon styling. -->
-<a class="project-card" href={projectHref(project.slug)}>
-  <ResponsiveImage class="project-card-thumbnail" asset={thumbnail ? { ...thumbnail, alt: '' } : undefined} preset="hero" sizes={sizes} fallback={PROJECT_FALLBACK} />
-  <span class="project-card-overlay" aria-hidden="true"></span>
-  <div class="project-card-content">
-    <div class="project-card-details">
-      <h3 class="project-card-title">{project.title}</h3>
-      {project.subtitle?.trim() && <p class="project-card-subtitle">{project.subtitle}</p>}
+{deferred ? (
+  <div class="project-card" data-project-card-src={`/fragments/${projectCardFragmentId(project.slug)}/`} aria-hidden="true"></div>
+) : (
+  <a class="project-card" href={projectHref(project.slug)}>
+    <ResponsiveImage class="project-card-thumbnail" asset={thumbnail ? { ...thumbnail, alt: '' } : undefined} preset="hero" sizes={sizes} fallback={PROJECT_FALLBACK} />
+    <span class="project-card-overlay" aria-hidden="true"></span>
+    <div class="project-card-content">
+      <div class="project-card-details">
+        <h3 class="project-card-title">{project.title}</h3>
+        {project.subtitle?.trim() && <p class="project-card-subtitle">{project.subtitle}</p>}
+      </div>
+      <span class="project-card-action icon-button primary large" aria-hidden="true">
+        <img src="/assets/icons/curated-card-arrow-up-right.svg" width="16" height="16" alt="" />
+      </span>
     </div>
-    <span class="project-card-action icon-button primary large" aria-hidden="true">
-      <img src="/assets/icons/curated-card-arrow-up-right.svg" width="16" height="16" alt="" />
-    </span>
-  </div>
-</a>
+  </a>
+)}
+<script>
+  import { initResponsiveImages } from '../scripts/responsive-images';
+  // Crawlers that honour robots.txt never fetch /fragments/, so a deferred card exists only in visitors' DOM.
+  function loadDeferredCards() {
+    document.querySelectorAll<HTMLElement>('[data-project-card-src]').forEach(async shell => {
+      const src = shell.dataset.projectCardSrc!;
+      shell.removeAttribute('data-project-card-src');
+      let card: Element | null = null;
+      try {
+        const response = await fetch(src);
+        if (response.ok) card = new DOMParser().parseFromString(await response.text(), 'text/html').querySelector('a.project-card');
+      } catch { /* Offline or blocked: the empty shell is removed below. */ }
+      if (!card) return shell.remove();
+      // Component scripts render beside their markup; this page already loaded and initialised them.
+      card.querySelectorAll('script').forEach(script => script.remove());
+      initResponsiveImages();
+      shell.replaceWith(card);
+    });
+  }
+  loadDeferredCards();
+  document.addEventListener('astro:page-load', loadDeferredCards);
+</script>
 <style>
   .project-card { position:relative; isolation:isolate; display:flex; flex-direction:column; justify-content:flex-end; height:600px; padding:24px; overflow:hidden; border-radius:var(--primitive-border-radius-24,24px); background:var(--color-surface-card-dark); color:var(--color-text-light); text-decoration:none; }
   .project-card :global(.project-card-thumbnail) { position:absolute; inset:0; z-index:-2; display:block; width:100%; height:100%; object-fit:cover; }

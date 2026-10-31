@@ -47,6 +47,18 @@ Remdash artwork is in `public/assets/curated-projects/remdash/` and in the CMS M
 
 Desktop (≥1200px) follows Figma. Below 1200px the challenge/stack and story columns stack, tiles use two columns (an odd last tile spans both) and section spacing uses `--section-space`. Below 640px tiles use one column, overview gaps reduce to 48px, Display/Medium paragraphs drop to 24/36, visual cards use 24/8/8px padding and smaller corners, and the Project Card becomes square. Stat figures follow the site heading scale (64 → 40 → 32px). Verified without horizontal overflow from 1920 to 320px.
 
+## Search and AI visibility
+
+Remdash is kept out of search engines and AI crawlers. Slugs in `SEARCH_HIDDEN_SLUGS` (`src/lib/curated-projects.ts`) get:
+
+- **Project page:** `noindex,nofollow,noarchive,nosnippet,noimageindex,noai,noimageai` as a robots meta tag and as `X-Robots-Tag` (`public/_headers`), no canonical or `og:url`, and no sitemap entry (`astro.config.mjs`).
+- **Homepage card:** only an empty, same-sized shell is in the HTML. The browser fills it from `/fragments/<id>/` (`src/pages/fragments/[card].astro`); the id is a hash, so the homepage HTML never names the project.
+- **`public/robots.txt`:** all crawlers are blocked from `/fragments/` and the artwork (local `/assets/curated-projects/<slug>/` and CMS images through `/cdn-cgi/image/`). Search crawlers may still fetch the page, because that is the only way they see its noindex. Named AI crawlers and AI-use tokens (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, CCBot…) are also blocked from the page.
+
+`tests/curated-projects.test.mjs` checks that `robots.txt` and `_headers` cover every hidden slug. To hide another project, add its slug and mirror the Remdash lines in both files. CMS originals (`cms.andreaschristofi.com/api/media/file/<slug>-*`) and the project JSON are covered in the CMS repository by `public/robots.txt` and `X-Robots-Tag` in `next.config.ts`; mirror a new slug there too.
+
+These are directives that well-behaved crawlers follow. They do not enforce anything: a scraper that ignores robots.txt and runs JavaScript can still read the page.
+
 ## Adding a project
 
 Create it in Payload (or add `src/content/curated-projects/<slug>.json` for local work), publish, and rebuild the site. To copy a local file into the CMS: `npm run payload -- run scripts/seed-curated-project.ts ../website <slug>` from the CMS repository (local emulator by default).

@@ -1,0 +1,14 @@
+---
+import ProjectCard from '../../components/ProjectCard.astro';
+import { isSearchHidden, projectCardFragmentId, type CuratedProject } from '../../lib/curated-projects';
+
+// Project Card markup for search-hidden projects, fetched by the homepage at runtime.
+// robots.txt disallows /fragments/ and _headers marks it noindex.
+export async function getStaticPaths() {
+  const { curatedProjects } = await import('../../data/curated-projects');
+  return curatedProjects.filter(isSearchHidden).map(project => ({ params: { card: projectCardFragmentId(project.slug) }, props: { project } }));
+}
+interface Props { project: CuratedProject; }
+---
+<!-- A document shell keeps hoisted styles and scripts in <head>, out of the card the homepage extracts. -->
+<html lang="en"><head><meta charset="utf-8" /><meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noimageindex,noai,noimageai" /></head><body><ProjectCard project={Astro.props.project} /></body></html>

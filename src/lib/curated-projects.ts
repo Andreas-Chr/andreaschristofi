@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import type { MediaAsset } from './media-assets.ts';
 import type { LexicalNode, RichText } from './rich-text.ts';
 
@@ -70,6 +71,15 @@ export interface CuratedProject {
 
 export const PROJECT_FALLBACK = '/assets/curated-shots/media-fallback.png';
 export const projectHref = (slug: string) => `/projects/${slug}/`;
+
+/**
+ * Kept out of search engines and AI crawlers: noindex/nosnippet page, no sitemap entry, and a homepage card
+ * loaded at runtime from a robots.txt-disallowed fragment. public/robots.txt and public/_headers list the same paths.
+ */
+export const SEARCH_HIDDEN_SLUGS: readonly string[] = ['remdash'];
+export const isSearchHidden = (project: Pick<CuratedProject, 'slug'>) => SEARCH_HIDDEN_SLUGS.includes(project.slug);
+/** Opaque so the homepage HTML never names a hidden project; served at /fragments/<id>/. */
+export const projectCardFragmentId = (slug: string) => createHash('sha256').update(slug).digest('hex').slice(0, 16);
 
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 export function validateProjects(entries: CuratedProject[]): CuratedProject[] {

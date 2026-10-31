@@ -7,7 +7,7 @@ import ProjectTiles from '../../components/ProjectTiles.astro';
 import ProjectStory from '../../components/ProjectStory.astro';
 import ProjectVisual from '../../components/ProjectVisual.astro';
 import { richTextHTML } from '../../lib/rich-text';
-import { PROJECT_FALLBACK, projectAnchors, projectDescription, projectFacts, type CuratedProject } from '../../lib/curated-projects';
+import { PROJECT_FALLBACK, isSearchHidden, projectAnchors, projectDescription, projectFacts, type CuratedProject } from '../../lib/curated-projects';
 
 export async function getStaticPaths() {
   const { curatedProjects } = await import('../../data/curated-projects');
@@ -25,7 +25,7 @@ const stackDetails = project.stackDetails;
 const audienceTiles = (project.audience?.tiles ?? []).filter(tile => tile.title?.trim());
 const hasChallenge = Boolean(challenge?.heading?.trim() || challenge?.eyebrow?.trim() || challengeHTML);
 ---
-<BaseLayout title={`${project.title} — Andreas Christofi`} description={projectDescription(project)}>
+<BaseLayout title={`${project.title} — Andreas Christofi`} description={projectDescription(project)} searchHidden={isSearchHidden(project)}>
   <article class="project" aria-labelledby="project-title">
     <div class="top-region project-top-region">
       <!-- Figma project-overview_section (5603:862). -->
