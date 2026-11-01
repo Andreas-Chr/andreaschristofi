@@ -1,0 +1,118 @@
+---
+/** Figma: 02 - Components / Sticky Nav (5739:1738), Sticky Nav Dropdown (5744:1225)
+ * and Sticky Nav Dropdown Item (5744:1146). A disclosure button whose label follows the
+ * section in view; the dropdown lists every section. Disabled until the script runs.
+ */
+interface Props {
+  links: { label: string; href: string }[];
+  id?: string;
+  class?: string;
+}
+const { links, id = 'sticky-nav', class: className } = Astro.props;
+const icon = (name: string) => ['default', 'hover', 'disabled'].map(state => ({
+  state, src: `/assets/icons/sticky-nav-${name}${state === 'default' ? '' : `-${state}`}.svg`,
+}));
+---
+<nav class:list={['sticky-nav', className]} aria-label="On this page" data-sticky-nav data-open="false">
+  <button class="sticky-nav-bar" type="button" aria-expanded="false" aria-controls={`${id}-menu`} disabled>
+    <span class="sticky-nav-heading">
+      <span class="sticky-nav-icon sticky-nav-burger" aria-hidden="true">
+        {icon('burger').map(({ state, src }) => <img class={`icon-${state}`} src={src} width="24" height="24" alt="" />)}
+      </span>
+      <span class="sticky-nav-eyebrow eyebrow">On this page</span>
+    </span>
+    <span class="sticky-nav-current" data-sticky-nav-current>{links[0]?.label}</span>
+    <span class="sticky-nav-icon sticky-nav-chevron" aria-hidden="true">
+      {icon('chevron').map(({ state, src }) => <img class={`icon-${state}`} src={src} width="16" height="9" alt="" />)}
+    </span>
+  </button>
+  <ul class="sticky-nav-menu" id={`${id}-menu`}>
+    {links.map(link => <li><a class="sticky-nav-item" href={link.href}>{link.label}</a></li>)}
+  </ul>
+</nav>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-sticky-nav]').forEach(nav => {
+    if (nav.dataset.ready) return;
+    const trigger = nav.querySelector<HTMLButtonElement>('.sticky-nav-bar')!;
+    const current = nav.querySelector<HTMLElement>('[data-sticky-nav-current]')!;
+    const links = [...nav.querySelectorAll<HTMLAnchorElement>('.sticky-nav-item')];
+    const targets = links.map(link => document.getElementById(decodeURIComponent(link.hash.slice(1))));
+    const setOpen = (open: boolean, restoreFocus = false) => {
+      nav.dataset.open = String(open);
+      trigger.setAttribute('aria-expanded', String(open));
+      if (restoreFocus) trigger.focus({ preventScroll: true });
+    };
+    // The bar names the last section whose top has scrolled under it.
+    let active = -1;
+    const update = () => {
+      const line = trigger.getBoundingClientRect().bottom + 48;
+      let index = 0;
+      targets.forEach((target, i) => { if (target && target.getBoundingClientRect().top <= line) index = i; });
+      if (index === active) return;
+      links[active]?.removeAttribute('aria-current');
+      active = index;
+      links[index].setAttribute('aria-current', 'location');
+      current.textContent = links[index].textContent;
+    };
+    let frame = 0;
+    const schedule = () => { frame ||= requestAnimationFrame(() => { frame = 0; update(); }); };
+    trigger.addEventListener('click', () => setOpen(nav.dataset.open !== 'true'));
+    links.forEach(link => link.addEventListener('click', () => setOpen(false)));
+    nav.addEventListener('focusout', event => { const next = event.relatedTarget as Node | null; if (next && !nav.contains(next)) setOpen(false); });
+    document.addEventListener('keydown', event => { if (event.key === 'Escape' && nav.dataset.open === 'true') setOpen(false, nav.contains(document.activeElement)); });
+    document.addEventListener('click', event => { if (nav.dataset.open === 'true' && !nav.contains(event.target as Node)) setOpen(false); });
+    addEventListener('scroll', schedule, { passive: true });
+    addEventListener('resize', schedule);
+    if (links.length) update();
+    trigger.disabled = false;
+    nav.dataset.ready = 'true';
+  });
+</script>
+<style>
+  /* The bar is 68px tall (16px padding around a 36px line); anchors land below it. */
+  :global(html:has([data-sticky-nav])) { scroll-padding-top:calc(var(--header-clearance) + 68px + 16px); }
+  .sticky-nav { position:relative; }
+  /* Figma “lumi card”: 10px blur radius maps to a 5px CSS blur. */
+  .sticky-nav-bar,.sticky-nav-menu { border-radius:16px; background:rgb(255 255 255 / 12%); -webkit-backdrop-filter:blur(5px); backdrop-filter:blur(5px); box-shadow:0 2px 10px 0 #00000012; }
+  .sticky-nav-bar { display:flex; align-items:center; gap:48px; width:100%; padding:16px 24px; border:0; color:var(--color-text-light); text-align:left; transition:background var(--primitive-animation-duration-fast) var(--primitive-animation-easing-fast),color var(--primitive-animation-duration-fast) var(--primitive-animation-easing-fast); }
+  .sticky-nav-heading { display:flex; align-items:center; gap:8px; flex-shrink:0; }
+  .sticky-nav-icon { display:grid; flex-shrink:0; }
+  .sticky-nav-icon img { grid-area:1 / 1; }
+  .sticky-nav-burger img { width:24px; height:24px; }
+  .sticky-nav-chevron { transition:transform var(--primitive-animation-duration-standard) var(--primitive-animation-easing-standard); }
+  .sticky-nav-chevron img { width:16px; height:9px; }
+  .icon-hover,.icon-disabled { visibility:hidden; }
+  .sticky-nav-current { flex:1; min-width:0; overflow:hidden; font:var(--text-display-small); font-variation-settings:'opsz' 14; white-space:nowrap; text-overflow:ellipsis; }
+  /* State=Hover (5739:1739); the open bar keeps it and flips the chevron. */
+  .sticky-nav-bar[aria-expanded='true'] { background:var(--color-surface-card-dark); color:var(--color-text-accent); }
+  .sticky-nav-bar[aria-expanded='true'] .icon-default { visibility:hidden; }
+  .sticky-nav-bar[aria-expanded='true'] .icon-hover { visibility:visible; }
+  .sticky-nav-bar[aria-expanded='true'] .sticky-nav-chevron { transform:rotate(180deg); }
+  @media(hover:hover) {
+    .sticky-nav-bar:not(:disabled):hover { background:var(--color-surface-card-dark); color:var(--color-text-accent); }
+    .sticky-nav-bar:not(:disabled):hover .icon-default { visibility:hidden; }
+    .sticky-nav-bar:not(:disabled):hover .icon-hover { visibility:visible; }
+  }
+  /* State=Disabled (5739:1748): shown only until the script enables the bar. */
+  .sticky-nav-bar:disabled { background:#474747; color:var(--color-button-disabled); }
+  .sticky-nav-bar:disabled .eyebrow { color:inherit; }
+  .sticky-nav-bar:disabled .icon-default { visibility:hidden; }
+  .sticky-nav-bar:disabled .icon-disabled { visibility:visible; }
+  /* Sticky Nav Dropdown (5744:1225): 8px below the bar, same width and glass surface,
+     with a stronger blur (Figma “lumi card strong”, 40px) so the list stays legible over content.
+     Figma's 1px inside stroke leaves items 8px from the edge, hence 7px padding. */
+  .sticky-nav-menu { position:absolute; top:calc(100% + 8px); left:0; right:0; display:flex; flex-direction:column; gap:4px; max-height:calc(100dvh - var(--header-clearance) - 68px - 24px); margin:0; padding:7px; border:1px solid rgb(255 255 255 / 12%); overflow-y:auto; overscroll-behavior:contain; list-style:none; -webkit-backdrop-filter:blur(20px); backdrop-filter:blur(20px); opacity:0; visibility:hidden; transform:translateY(-8px); transition:opacity var(--primitive-animation-duration-fast) var(--primitive-animation-easing-fast),transform var(--primitive-animation-duration-fast) var(--primitive-animation-easing-fast),visibility 0s linear var(--primitive-animation-duration-fast); }
+  [data-open='true'] .sticky-nav-menu { opacity:1; visibility:visible; transform:none; transition-delay:0s; }
+  /* Sticky Nav Dropdown Item (5744:1146): hover lightens the row and switches to the accent. */
+  .sticky-nav-item { display:flex; align-items:center; gap:12px; padding:8px 16px; border-radius:8px; color:var(--color-text-light); font:var(--text-display-small); font-variation-settings:'opsz' 14; text-decoration:none; overflow-wrap:anywhere; transition:background var(--primitive-animation-duration-fast) var(--primitive-animation-easing-fast),color var(--primitive-animation-duration-fast) var(--primitive-animation-easing-fast); }
+  /* State=Selected: the section in view keeps the accent and gains a dot after its label. */
+  .sticky-nav-item[aria-current] { color:var(--color-text-accent); }
+  .sticky-nav-item[aria-current]::after { content:''; flex-shrink:0; width:8px; height:8px; border-radius:50%; background:currentColor; }
+  @media(hover:hover) { .sticky-nav-item:hover { background:rgb(255 255 255 / 12%); color:var(--color-text-accent); } }
+  .sticky-nav-item:focus-visible { outline-offset:-3px; }
+  /* Size=Mobile (5739:1813): the eyebrow stays available to assistive technology only. */
+  @media(max-width:639px) {
+    .sticky-nav-bar { gap:24px; }
+    .sticky-nav-eyebrow { position:absolute; width:1px; height:1px; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; }
+  }
+</style>
