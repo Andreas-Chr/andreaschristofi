@@ -10,12 +10,14 @@ interface Props {
 }
 const { project, sizes = '(min-width: 1440px) 1392px, (min-width: 1200px) calc(100vw - 48px), (min-width: 400px) calc(100vw - 32px), calc(100vw - 16px)', deferred = false } = Astro.props;
 const thumbnail = project.thumbnail ?? project.heroMedia;
+const disabled = Boolean(project.disabled);
+const Tag = disabled ? 'div' : 'a';
 ---
-<!-- Figma Project Card (5270:1396): the whole card is the link; the arrow shares Button/Icon styling. -->
+<!-- Figma Project Card (5756:1704): the whole card is the link, except when disabled; the arrow shares Button/Icon styling. -->
 {deferred ? (
   <div class="project-card" data-project-card-src={`/fragments/${projectCardFragmentId(project.slug)}/`} aria-hidden="true"></div>
 ) : (
-  <a class="project-card" href={projectHref(project.slug)}>
+  <Tag class:list={['project-card', { 'project-card--disabled': disabled }]} href={disabled ? undefined : projectHref(project.slug)}>
     <ResponsiveImage class="project-card-thumbnail" asset={thumbnail ? { ...thumbnail, alt: '' } : undefined} preset="hero" sizes={sizes} fallback={PROJECT_FALLBACK} />
     <span class="project-card-overlay" aria-hidden="true"></span>
     <div class="project-card-content">
@@ -27,7 +29,7 @@ const thumbnail = project.thumbnail ?? project.heroMedia;
         <img src="/assets/icons/curated-card-arrow-up-right.svg" width="16" height="16" alt="" />
       </span>
     </div>
-  </a>
+  </Tag>
 )}
 <script>
   import { initResponsiveImages } from '../scripts/responsive-images';
@@ -39,7 +41,7 @@ const thumbnail = project.thumbnail ?? project.heroMedia;
       let card: Element | null = null;
       try {
         const response = await fetch(src);
-        if (response.ok) card = new DOMParser().parseFromString(await response.text(), 'text/html').querySelector('a.project-card');
+        if (response.ok) card = new DOMParser().parseFromString(await response.text(), 'text/html').querySelector('.project-card');
       } catch { /* Offline or blocked: the empty shell is removed below. */ }
       if (!card) return shell.remove();
       // Component scripts render beside their markup; this page already loaded and initialised them.
@@ -54,23 +56,34 @@ const thumbnail = project.thumbnail ?? project.heroMedia;
 <style>
   .project-card { position:relative; isolation:isolate; display:flex; flex-direction:column; justify-content:flex-end; height:600px; padding:24px; overflow:hidden; border-radius:var(--primitive-border-radius-24,24px); background:var(--color-surface-card-dark); color:var(--color-text-light); text-decoration:none; }
   .project-card :global(.project-card-thumbnail) { position:absolute; inset:0; z-index:-2; display:block; width:100%; height:100%; object-fit:cover; }
-  .project-card-overlay { position:absolute; inset:0; z-index:-1; background:linear-gradient(180deg, rgb(0 0 0 / 0%) 68.75%, rgb(0 0 0 / 70%) 100%); pointer-events:none; }
+  .project-card-overlay { position:absolute; inset:0; z-index:-1; pointer-events:none; }
+  .project-card-overlay::before,.project-card-overlay::after { content:''; position:absolute; inset:0; transition:opacity var(--primitive-animation-duration-fast) var(--primitive-animation-easing-fast); }
+  .project-card-overlay::before { background:linear-gradient(180deg, rgb(0 0 0 / 0%) 68.75%, rgb(0 0 0 / 70%) 100%); }
+  /* Hover, focus and Disabled replace the gradient with a flat overlay. */
+  .project-card-overlay::after { background:rgb(0 0 0 / 20%); opacity:0; }
+  :is(.project-card:focus-visible,.project-card--disabled) .project-card-overlay::before { opacity:0; }
+  :is(.project-card:focus-visible,.project-card--disabled) .project-card-overlay::after { opacity:1; }
   .project-card-content { display:flex; align-items:flex-end; gap:16px; width:100%; }
   .project-card-details { display:flex; flex:1; flex-direction:column; gap:12px; min-width:0; }
   .project-card-title { font:var(--text-headings-h4); letter-spacing:0; font-feature-settings:'liga' 0; overflow-wrap:anywhere; }
   .project-card-subtitle { font:var(--text-headings-h6); color:var(--color-text-accent); text-transform:uppercase; letter-spacing:0; font-feature-settings:'liga' 0; }
   .project-card:focus-visible { outline:3px solid var(--color-text-accent); outline-offset:3px; }
-  /* The arrow follows Button/Icon hover and focus states for the whole card. */
+  /* The arrow follows Button/Icon hover and focus states for the whole card; it never takes its own hover, so a disabled card's arrow stays put. */
+  .project-card-action { pointer-events:none; }
   .project-card:focus-visible .project-card-action { background:var(--button-hover); border-color:var(--color-focus-primary); }
   .project-card:focus-visible .project-card-action img { filter:brightness(0) invert(1); }
+  .project-card--disabled :is(.project-card-title,.project-card-subtitle) { color:var(--color-text-disabled); }
+  .project-card--disabled .project-card-action { background:var(--color-icon-disabled); }
   @media(hover:hover) {
-    .project-card:hover .project-card-action { background:var(--button-hover); }
-    .project-card:hover .project-card-action img { filter:brightness(0) invert(1); }
+    a.project-card:hover .project-card-overlay::before { opacity:0; }
+    a.project-card:hover .project-card-overlay::after { opacity:1; }
+    a.project-card:hover .project-card-action { background:var(--button-hover); }
+    a.project-card:hover .project-card-action img { filter:brightness(0) invert(1); }
   }
   @media(max-width:1023px) { .project-card { height:480px; } }
   @media(max-width:639px) {
     .project-card { height:auto; aspect-ratio:1; }
-    .project-card-overlay { background:linear-gradient(180deg, rgb(0 0 0 / 0%) 40%, rgb(0 0 0 / 70%) 100%); }
+    .project-card-overlay::before { background:linear-gradient(180deg, rgb(0 0 0 / 0%) 40%, rgb(0 0 0 / 70%) 100%); }
     .project-card-title { font:var(--text-headings-h3); }
   }
   @media(max-width:399px) { .project-card { padding:16px; } }

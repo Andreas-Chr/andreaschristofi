@@ -6,7 +6,7 @@ Project pages live at `/projects/<slug>/` and are listed in the homepage **Case 
 | --- | --- |
 | Project page `5603:860` (desktop only) | `src/pages/projects/[slug].astro`; tablet and mobile layouts derived from the site's existing breakpoints |
 | Homepage section `5492:1725` | `src/components/CaseStudies.astro` (160px above; Curated Shots supplies the 160px below) |
-| Project Card `5270:1396` | `src/components/ProjectCard.astro`: whole card is the link; the arrow follows Button/Icon hover/focus |
+| Project Card `5756:1704` | `src/components/ProjectCard.astro`: whole card is the link. Hover (and keyboard focus) swaps the bottom gradient for a flat 20% black overlay and puts the arrow in its Button/Icon hover state. Disabled: same overlay, `#676767` title, subtitle and arrow tile, no link or hover |
 | Badge `5053:618` | `src/components/ToolBadge.astro`: 80px tile, 36px logomark slot, colour artwork on white for hover/focus, shared Tooltip |
 | Users, Impact and Progression tiles | `src/components/ProjectTiles.astro` (`audience`, `stat`, `phase`) |
 | Two-column stages (e.g. `5604:978`) | `src/components/ProjectStory.astro` |
@@ -15,13 +15,13 @@ Project pages live at `/projects/<slug>/` and are listed in the homepage **Case 
 
 ## Content sources
 
-`src/data/curated-projects.ts` uses the same switch as Curated Shots: Payload when `PAYLOAD_URL` is set, otherwise `src/content/curated-projects/*.json`. Both produce the model in `src/lib/curated-projects.ts`; the Payload adapter is `src/lib/payload-curated-projects.ts`. Local JSON is never merged with Payload content. Unpublished entries create no page; `featured: false` hides the card.
+`src/data/curated-projects.ts` uses the same switch as Curated Shots: Payload when `PAYLOAD_URL` is set, otherwise `src/content/curated-projects/*.json`. Both produce the model in `src/lib/curated-projects.ts`; the Payload adapter is `src/lib/payload-curated-projects.ts`. Local JSON is never merged with Payload content. Unpublished entries create no page; `featured: false` hides the card; `disabled: true` (CMS **Disable card**) shows the card in its Disabled state and creates no page.
 
 The CMS collection (`cms/src/collections/CuratedProjects.ts`) mirrors the model. `cms/scripts/seed-curated-project.ts` creates or updates a published entry from a local JSON file and uploads its images (filenames prefixed with the slug, reused on later runs).
 
 ## Page structure
 
-- **Card & hero:** title, slug, card subtitle, card image (falls back to the hero), hero image, optional meta description, order, show on homepage.
+- **Card & hero:** title, slug, card subtitle, card image (falls back to the hero), hero image, optional meta description, order, show on homepage, disable card.
 - **Overview:** rich-text overview, then facts in this order: Role, client label + client, Year, Collaborators (`CTO, PM & Engineering`), Industry, Status. Empty facts are omitted.
 - **On this page:** generated from the challenge label and every section with an “On this page label”; each gets a unique anchor.
 - **Challenge & stack:** eyebrow, heading, rich-text body; stack eyebrow/heading/intro and tools. A tool badge needs an icon from the website tool set (`public/assets/tools`).

@@ -61,6 +61,7 @@ test('Project sections keep block content and normalize nested visual uploads', 
   assert.equal(visual.images[0].offsetX, 35.43);
   assert.equal(visual.images[1].image, undefined);
   assert.equal(fromPayloadProject({ ...doc, _status: 'draft' }, base).published, false);
+  assert.equal(fromPayloadProject({ ...doc, disabled: true }, base).disabled, true);
   const webp = fromPayloadProject({ ...doc, sections: [{ blockType: 'visual', images: [{ image: { ...upload, url: '/api/media/file/remdash-dashboard-widgets.webp', mimeType: 'image/webp', width: 2880, height: 2025 } }] }] }, base).sections[0].images[0].image;
   const image = getImageProps(webp, { preset: 'hero', sizes: '(min-width: 1440px) 1358px, calc(100vw - 82px)' });
   assert.match(image.src, /cdn-cgi\/image\/width=1440,fit=scale-down,quality=90,format=auto\//);

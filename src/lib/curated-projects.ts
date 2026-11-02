@@ -64,6 +64,8 @@ export interface CuratedProject {
   sections?: ProjectSection[] | null;
   order: number;
   featured?: boolean | null;
+  /** Project Card Disabled state: greyed out, unlinked, and no project page is built. */
+  disabled?: boolean | null;
   published?: boolean | null;
   heroMedia?: MediaAsset;
   thumbnail?: MediaAsset;

@@ -22,7 +22,7 @@ export function fromPayloadProject(doc: PayloadProject, base: string): CuratedPr
     sections: (doc.sections ?? []).map(({ blockName: _blockName, ...section }): ProjectSection => section.blockType === 'visual'
       ? { ...section, images: (section.images ?? []).map(item => ({ ...item, image: normalizePayloadMedia(item.image, base) })) }
       : section),
-    order: doc.order, featured: doc.featured,
+    order: doc.order, featured: doc.featured, disabled: doc.disabled,
     published: doc._status !== 'draft',
     heroMedia: normalizePayloadMedia(doc.heroMedia, base),
     thumbnail: normalizePayloadMedia(doc.thumbnail, base),

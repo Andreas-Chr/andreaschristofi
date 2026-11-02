@@ -12,7 +12,7 @@ import { PROJECT_FALLBACK, isSearchHidden, projectAnchors, projectDescription, p
 
 export async function getStaticPaths() {
   const { curatedProjects } = await import('../../data/curated-projects');
-  return curatedProjects.map(project => ({ params: { slug: project.slug }, props: { project } }));
+  return curatedProjects.filter(project => !project.disabled).map(project => ({ params: { slug: project.slug }, props: { project } }));
 }
 interface Props { project: CuratedProject; }
 const { project } = Astro.props;
