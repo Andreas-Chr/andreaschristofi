@@ -12,7 +12,7 @@ import SocialLinks from './SocialLinks.astro';
         <img class="light-mark" src="/assets/logo/header-logo-light.svg" width="28" height="48" alt="" />
         <img class="dark-mark" src="/assets/logo/header-logo-dark.svg" width="27" height="48" alt="" />
       </span>
-      <span class="logo-wordmark" aria-hidden="true"><span class="logo-first-name">andreas</span><span class="logo-last-name">christofi</span></span>
+      <span class="logo-wordmark" aria-hidden="true"><span class="logo-first-name">Andreas</span><span class="logo-last-name">Christofi</span></span>
     </a>
     <ButtonIcon class="menu-trigger" type="button" aria-label="Open main menu" aria-expanded="false" aria-controls="main-navigation" hidden version="tertiary">
       <span class="menu-label-mask" aria-hidden="true"><span class="menu-label text-headings-h5">Menu</span></span>
@@ -59,6 +59,20 @@ import SocialLinks from './SocialLinks.astro';
     document.addEventListener('click',event=>{if(!root.contains(event.target as Node)&&trigger.getAttribute('aria-expanded')==='true')change(false);});
     panel.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>change(false)));
     window.addEventListener('resize',()=>setMenuPanel(panel,trigger,trigger.getAttribute('aria-expanded')==='true',false));
+    // Wordmark: any scroll down hides it; scrolling up brings it back only within the page's hero,
+    // the top region every page opens with, which ends where the next section starts.
+    const hero=document.querySelector<HTMLElement>('.top-region');
+    const inHero=()=>hero?hero.getBoundingClientRect().bottom>0:scrollY<innerHeight;
+    let lastY=Math.max(scrollY,0),frame=0;
+    const followWordmark=()=>{
+      const y=Math.max(scrollY,0);
+      if(y>0&&Math.abs(y-lastY)<8)return;
+      if(y>lastY)root.dataset.wordmark='hidden';
+      else if(inHero())root.dataset.wordmark='shown';
+      lastY=y;
+    };
+    addEventListener('scroll',()=>{frame||=requestAnimationFrame(()=>{frame=0;followWordmark();});},{passive:true});
+    root.dataset.wordmark=inHero()?'shown':'hidden';
     setMenuPanel(panel,trigger,false,false);root.dataset.open='false';root.dataset.ready='true';trigger.hidden=false;
   }
 </script>
@@ -69,8 +83,15 @@ import SocialLinks from './SocialLinks.astro';
   .header-row>* { pointer-events:auto; }
   /* logo_div (5069:1016): mark and wordmark form one home link, so hovering either half drives the mark state. */
   .logo-link { display:flex; align-items:center; gap:16px; flex-shrink:0; color:var(--color-text-light); text-decoration:none; }
-  .logo-wordmark { display:flex; align-items:center; gap:8px; font:var(--text-headings-h5); letter-spacing:0; text-transform:uppercase; white-space:nowrap; }
+  /* Wordmark (5734:4802): Black first name, Light last name, 4px apart, ligatures off. */
+  .logo-wordmark { display:flex; align-items:center; gap:4px; font:var(--text-headings-h5); font-feature-settings:'liga' 0; letter-spacing:0; white-space:nowrap; }
   .logo-last-name { font-weight:300; }
+  /* Scroll state mirrors Sticky Nav: a slow intro, a quicker exit; keyboard focus still reveals it. */
+  .logo-wordmark { --wordmark-motion:var(--primitive-animation-duration-slow) var(--primitive-animation-easing-slow); transition:transform var(--wordmark-motion),opacity var(--wordmark-motion); }
+  [data-wordmark='hidden'] .logo-link:not(:focus-visible) .logo-wordmark { --wordmark-motion:var(--primitive-animation-duration-standard) var(--primitive-animation-easing-standard); opacity:0; transform:translateY(calc(-100% - 8px)); }
+  /* While hidden, only the mark stays clickable. */
+  [data-wordmark='hidden'] .logo-link { pointer-events:none; }
+  [data-wordmark='hidden'] .logo-surface { pointer-events:auto; }
   /* Site/LogoLink (5069:1030): a bare mark by default; the surface appears on hover. */
   .logo-surface { position:relative; display:grid; place-items:center; flex-shrink:0; width:48px; height:64px; border:1px solid transparent; border-radius:8px; transition:background var(--primitive-animation-duration-fast),border-color var(--primitive-animation-duration-fast); }
   /* Figma “lumi card”: 10px blur radius maps to a 5px CSS blur. */

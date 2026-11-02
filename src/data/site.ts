@@ -8,9 +8,8 @@ export const site = {
   cv: "/assets/documents/andreas-christofi-cv.pdf",
 };
 export const navigation = [
-  { label: 'Works', href: '/#curated-shots' },
-  { label: 'Process', href: '/#process' },
-  { label: 'About', href: '/#about' },
+  { label: 'Works', href: '/#case-studies' },
+  { label: 'About', href: '/#process' },
 ];
 // Destinations taken from the approved Figma prototype interactions.
 export const socialLinks = [
