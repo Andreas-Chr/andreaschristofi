@@ -45,7 +45,9 @@ const asset = thumbnailURL ? { ...thumbnail, url: thumbnailURL, alt: thumbnail?.
   .curated-card-media :global(.curated-card-thumbnail) { position:absolute; inset:0; }
   .curated-card-media::after { content:''; position:absolute; inset:0; background:rgb(0 0 0 / 35%); opacity:0; pointer-events:none; transition:opacity 160ms ease; }
   .curated-card-centered-action { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); z-index:1; opacity:0; pointer-events:none; transition:opacity 160ms ease; }
+  .curated-card-caption .curated-card-title { transition:color 160ms ease; }
   .curated-card-caption:focus-visible .curated-card-media::after,.curated-card-caption:focus-visible .curated-card-centered-action { opacity:1; }
+  .curated-card-caption:focus-visible .curated-card-title { color:var(--color-text-accent); }
   @media(min-width:1024px) and (hover:hover) {
     .curated-card:hover::after,.curated-card[data-state='hover']::after { opacity:1; }
     .curated-card:hover .curated-card-content,.curated-card[data-state='hover'] .curated-card-content { opacity:1; }
@@ -53,6 +55,7 @@ const asset = thumbnailURL ? { ...thumbnail, url: thumbnailURL, alt: thumbnail?.
   @media(min-width:1200px) and (hover:hover) {
     .curated-card-caption:is(:hover,[data-state='hover']) .curated-card-media::after,
     .curated-card-caption:is(:hover,[data-state='hover']) .curated-card-centered-action { opacity:1; }
+    .curated-card-caption:is(:hover,[data-state='hover']) .curated-card-title { color:var(--color-text-accent); }
   }
   @media(max-width:1199px), (hover:none) {
     .curated-card[data-shot-pointer-focus]:focus-visible { outline:none; }
@@ -60,7 +63,8 @@ const asset = thumbnailURL ? { ...thumbnail, url: thumbnailURL, alt: thumbnail?.
     .curated-card[data-shot-pointer-focus]:focus-visible .curated-card-content,
     .curated-card-caption[data-shot-pointer-focus]:focus-visible .curated-card-media::after,
     .curated-card-caption[data-shot-pointer-focus]:focus-visible .curated-card-centered-action { opacity:0; }
+    .curated-card-caption[data-shot-pointer-focus]:focus-visible .curated-card-title { color:var(--color-text-light); }
   }
   @media(max-width:399px) { .curated-card-caption .curated-card-title { font:var(--text-headings-h5); } }
-  @media(prefers-reduced-motion:reduce) { .curated-card::after,.curated-card-content,.curated-card-media::after,.curated-card-centered-action { transition:none; } }
+  @media(prefers-reduced-motion:reduce) { .curated-card::after,.curated-card-content,.curated-card-media::after,.curated-card-centered-action,.curated-card-caption .curated-card-title { transition:none; } }
 </style>
