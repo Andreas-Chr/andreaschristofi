@@ -1,25 +1,61 @@
 <div class="page-loader" hidden aria-hidden="true">
-  <img src="/assets/logo/logo-light.svg" width="45" height="80" alt="" />
+  <span class="logo"></span>
 </div>
 <script is:inline>
   (() => {
     const overlay = document.querySelector('.page-loader');
     const shell = document.querySelector('[data-site-shell]');
     if (!overlay || !shell) return;
+    // Even an instant load fills over about this long, so cached pages still show 0–100%.
+    const FILL_MS = 1000;
+    // Finished downloads alone fill up to REAL_AT; slow creep never passes HOLD_AT; only window load reaches 100%.
+    const REAL_AT = 0.7;
+    const HOLD_AT = 0.9;
+    // Beat at 100% before the reveal.
+    const PAUSE_MS = 200;
+    // Distinct resources the parsed page references; fonts, imports and fragments arrive on top.
+    const expected = Math.max(
+      8,
+      new Set(
+        [
+          ...document.querySelectorAll(
+            'link[rel~="stylesheet"], link[rel="preload"], script[src], img:not([loading="lazy"])',
+          ),
+        ].map((el) => el.src || el.href),
+      ).size,
+    );
+    // Uneven steps at uneven intervals that together pace the fill over FILL_MS.
+    const pace = (() => {
+      const sizes = Array.from({ length: 5 + Math.floor(Math.random() * 4) }, () => 0.3 + Math.random());
+      const gaps = sizes.map(() => 0.15 + Math.random() * 1.7);
+      const [sizeTotal, gapTotal] = [sizes, gaps].map((list) => list.reduce((a, b) => a + b));
+      let size = 0,
+        at = 0;
+      return sizes.map((step, i) => [(at += (gaps[i] / gapTotal) * FILL_MS), (size += step / sizeTotal)]);
+    })();
+    pace[pace.length - 1][1] = 1;
     let timeout,
+      deadline,
       completion,
-      exiting = false;
+      frame,
+      last,
+      elapsed = 0,
+      step = 0,
+      measured = 0,
+      measureAt = 0,
+      progress = 0,
+      loaded = false;
     const cleanup = () => {
       clearTimeout(timeout);
+      clearTimeout(deadline);
       clearTimeout(completion);
+      cancelAnimationFrame(frame);
       shell.inert = false;
       overlay.remove();
       window.removeEventListener('load', ready);
       window.removeEventListener('pageshow', restored);
     };
-    const ready = () => {
-      if (exiting) return;
-      exiting = true;
+    const reveal = () => {
       if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
         cleanup();
         return;
@@ -28,17 +64,46 @@
       overlay.style.transform = 'translateY(-100%)';
       completion = setTimeout(cleanup, 300);
     };
+    const fill = (now) => {
+      // Capped frame delta: a backgrounded tab resumes the fill instead of jumping to 100%.
+      const delta = Math.min(now - (last ?? now), 64);
+      last = now;
+      elapsed += delta;
+      while (step < pace.length && pace[step][0] <= elapsed) step++;
+      const paced = step ? pace[step - 1][1] : 0;
+      // Sampled at uneven intervals so slow connections advance in steps too.
+      if (elapsed >= measureAt) {
+        // Finished downloads against what the page references, easing out towards REAL_AT.
+        const real =
+          REAL_AT * (1 - Math.exp((-1.5 * performance.getEntriesByType('resource').length) / expected));
+        // During a long download (e.g. a large image) the fill still creeps, by ever smaller amounts.
+        measured = real > measured ? real : measured + (HOLD_AT - measured) * 0.04;
+        measureAt = elapsed + 100 + Math.random() * 400;
+      }
+      const goal = Math.min(paced, loaded ? 1 : measured);
+      progress += (goal - progress) * (1 - Math.exp(-delta / 25));
+      if (goal - progress < 0.002) progress = goal;
+      overlay.style.setProperty('--progress', `${progress * 100}%`);
+      if (progress < 1) frame = requestAnimationFrame(fill);
+      else completion = setTimeout(reveal, PAUSE_MS);
+    };
+    const ready = () => {
+      loaded = true;
+    };
     const restored = (event) => {
       if (event.persisted) cleanup();
     };
     // Established before enhancement: renderer/module failures cannot strand the page.
-    timeout = setTimeout(cleanup, 5000);
+    timeout = setTimeout(cleanup, 6000);
     try {
       window.addEventListener('pageshow', restored);
+      // A slow load still completes the fill and reveals gracefully.
+      deadline = setTimeout(ready, 5000);
       shell.inert = true;
       overlay.hidden = false;
       if (document.readyState === 'complete') ready();
       else window.addEventListener('load', ready, { once: true });
+      frame = requestAnimationFrame(fill);
     } catch {
       cleanup();
     }
@@ -46,17 +111,31 @@
 </script>
 <style>
   .page-loader {
+    --logo-unloaded: rgb(255 255 255 / 12%);
+    --logo-loaded: var(--color-text-light);
+    --progress: 0%;
     position: fixed;
     inset: 0;
     z-index: 1000;
     display: grid;
     place-items: center;
-    background: #121212;
+    background: var(--color-background-canvas);
     transition: transform var(--primitive-animation-duration-standard)
       var(--primitive-animation-easing-standard);
   }
-  img {
-    width: 45px;
-    height: 80px;
+  .page-loader[hidden] {
+    display: none;
+  }
+  /* The logo asset as a mask; the loaded colour fills it bottom-up to --progress. */
+  .logo {
+    width: 55px;
+    height: 96px;
+    background: linear-gradient(
+      to top,
+      var(--logo-loaded) var(--progress),
+      var(--logo-unloaded) var(--progress)
+    );
+    -webkit-mask: url('/assets/logo/logo-light.svg') center / 100% 100% no-repeat;
+    mask: url('/assets/logo/logo-light.svg') center / 100% 100% no-repeat;
   }
 </style>
