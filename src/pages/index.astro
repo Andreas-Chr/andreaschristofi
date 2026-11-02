@@ -6,6 +6,7 @@ import Process from '../components/Process.astro';
 import Hero from '../components/Hero.astro';
 import HeroBackground from '../components/HeroBackground.astro';
 import CaseStudies from '../components/CaseStudies.astro';
+import Clients from '../components/Clients.astro';
 import CuratedShots from '../components/CuratedShots.astro';
 import SocialLinks from '../components/SocialLinks.astro';
 import Experience from '../components/Experience.astro';
@@ -19,9 +20,10 @@ import { site, toolGroups, awards } from '../data/site';
     <HeroBackground />
     <Hero />
   </div>
-  <Process />
+  <Clients />
   <CaseStudies />
   <CuratedShots />
+  <Process />
   <section class="section about container" id="about" aria-labelledby="about-heading">
     <Picture class="portrait" src={portrait} formats={['avif','webp']} fallbackFormat="jpg" widths={[304,448,672,896,1120]} sizes="(min-width: 1440px) 448px, (min-width: 900px) 31vw, min(448px, 100vw)" alt="Andreas Christofi walking through the city" loading="lazy" />
     <div class="about-copy">

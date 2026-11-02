@@ -41,3 +41,19 @@ export const awards = [
   { title:'UI, UX, Innovation & Special Kudos Awards for Equfin.com', detail:'CSS design awards', year:'2019', icon:'css-design' },
   { title:'Bronze Award for Best Corporate Website', detail:'Cyprus digital marketing awards', year:'2019', icon:'cyprus-digital-marketing' },
 ];
+/** Figma clients_section (5749:4336), in design order. width/height are the logo's Figma size inside its 120px box. */
+export const clients = [
+  { name:'Stoli', slug:'stoli', width:100, height:100 },
+  { name:'Field No.7', slug:'fieldno7', width:100, height:100 },
+  { name:'Hellenic Bank', slug:'hellenic', width:110, height:110 },
+  { name:'JCC Payment Systems', slug:'jcc', width:100, height:100 },
+  { name:'Four Seasons Hotel', slug:'four-seasons', width:100, height:100 },
+  { name:'Muskita Hotels', slug:'muskita', width:51, height:64 },
+  { name:'Prevention at Sea', slug:'pas', width:100, height:100 },
+  { name:'The Cyprus Institute', slug:'cy-institute', width:110, height:110 },
+  { name:'ADSS', slug:'ads-securities', width:100, height:100 },
+  { name:'Aristo Developers', slug:'aristo', width:100, height:100 },
+  { name:'Axios', slug:'axios', width:110, height:110 },
+  { name:'everfx', slug:'everfx', width:100, height:100 },
+  { name:'Pandoteira', slug:'pandoteira', width:120, height:120 },
+];

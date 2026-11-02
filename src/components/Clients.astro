@@ -1,0 +1,28 @@
+---
+import { clients } from '../data/site';
+---
+<!-- Figma clients_section (5749:4336): logos keep their Figma size within a 120px box; boxes scale down on phones. -->
+<section class="clients container" aria-labelledby="clients-heading">
+  <h2 class="clients-heading" id="clients-heading">Brands I’ve worked with over the years</h2>
+  <ul class="clients-list">
+    {clients.map(client => (
+      <li class="client">
+        <img src={`/assets/clients/${client.slug}.webp`} width={client.width} height={client.height} alt={client.name} loading="lazy" decoding="async" style={`--logo-width:${client.width};--logo-height:${client.height}`} />
+      </li>
+    ))}
+  </ul>
+</section>
+<style>
+  .clients { --client-size:120px; display:flex; flex-direction:column; align-items:center; gap:40px; padding-block:80px; }
+  .clients-heading { font:var(--text-display-small); font-variation-settings:'opsz' 14; text-align:center; text-transform:none; }
+  /* Figma wraps 8 + 5 with 44px columns; its fixed 283px height spaces the two rows 43px apart. */
+  .clients-list { display:flex; flex-wrap:wrap; justify-content:center; gap:43px 44px; width:100%; margin:0; padding:0; list-style:none; }
+  .client { display:flex; align-items:center; justify-content:center; width:var(--client-size); height:var(--client-size); }
+  .client img { width:calc(var(--logo-width) / 120 * var(--client-size)); height:calc(var(--logo-height) / 120 * var(--client-size)); }
+  /* No mobile frame: 96px boxes with tighter gaps keep three logos per row down to a 320px viewport. */
+  @media(max-width:639px) {
+    .clients { --client-size:96px; }
+    .clients-list { gap:24px 16px; }
+  }
+  @media(max-width:399px) { .clients-list { column-gap:8px; } }
+</style>
