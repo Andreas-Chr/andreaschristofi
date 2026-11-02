@@ -40,10 +40,13 @@ const icon = (name: string) => ['default', 'hover', 'disabled'].map(state => ({
       trigger.setAttribute('aria-expanded', String(open));
       if (restoreFocus) trigger.focus({ preventScroll: true });
     };
+    // The sticky ancestor keeps its place while the bar slides away, so it anchors both measurements below.
+    let host: HTMLElement | null = nav;
+    while (host && getComputedStyle(host).position !== 'sticky') host = host.parentElement;
     // The bar names the last section whose top has scrolled under it.
     let active = -1;
     const update = () => {
-      const line = trigger.getBoundingClientRect().bottom + 48;
+      const line = (host ?? trigger).getBoundingClientRect().bottom + 48;
       let index = 0;
       targets.forEach((target, i) => { if (target && target.getBoundingClientRect().top <= line) index = i; });
       if (index === active) return;
@@ -52,9 +55,19 @@ const icon = (name: string) => ['default', 'hover', 'disabled'].map(state => ({
       links[index].setAttribute('aria-current', 'location');
       current.textContent = links[index].textContent;
     };
+    // Once pinned, scrolling down hides the bar and scrolling up brings it back; it stays while open or keyboard-focused.
+    const pinned = () => Boolean(host) && host!.getBoundingClientRect().top <= parseFloat(getComputedStyle(host!).top) + 1;
+    let lastY = scrollY;
+    const follow = () => {
+      const delta = scrollY - lastY;
+      if (Math.abs(delta) < 8) return;
+      lastY = scrollY;
+      nav.dataset.hidden = String(delta > 0 && pinned() && nav.dataset.open !== 'true' && !nav.querySelector(':focus-visible'));
+    };
     let frame = 0;
-    const schedule = () => { frame ||= requestAnimationFrame(() => { frame = 0; update(); }); };
+    const schedule = () => { frame ||= requestAnimationFrame(() => { frame = 0; update(); follow(); }); };
     trigger.addEventListener('click', () => setOpen(nav.dataset.open !== 'true'));
+    nav.addEventListener('focusin', () => { nav.dataset.hidden = 'false'; });
     links.forEach(link => link.addEventListener('click', () => setOpen(false)));
     nav.addEventListener('focusout', event => { const next = event.relatedTarget as Node | null; if (next && !nav.contains(next)) setOpen(false); });
     document.addEventListener('keydown', event => { if (event.key === 'Escape' && nav.dataset.open === 'true') setOpen(false, nav.contains(document.activeElement)); });
@@ -69,9 +82,11 @@ const icon = (name: string) => ['default', 'hover', 'disabled'].map(state => ({
 <style>
   /* The bar is 50px tall (1px border and 8px padding around a 32px line); anchors land below it. */
   :global(html:has([data-sticky-nav])) { scroll-padding-top:calc(var(--header-clearance) + 50px + 16px); }
-  .sticky-nav { position:relative; }
-  /* Figma “lumi card”: 10px blur radius maps to a 5px CSS blur. */
-  .sticky-nav-bar,.sticky-nav-menu { border:1px solid rgb(255 255 255 / 12%); border-radius:16px; background:rgb(255 255 255 / 12%); -webkit-backdrop-filter:blur(5px); backdrop-filter:blur(5px); box-shadow:0 2px 10px 0 #00000012; }
+  /* Intro eases in slowly; the exit is quicker so the bar clears the content as reading resumes. */
+  .sticky-nav { --sticky-nav-motion:var(--primitive-animation-duration-slow) var(--primitive-animation-easing-slow); position:relative; transition:transform var(--sticky-nav-motion),opacity var(--sticky-nav-motion); }
+  .sticky-nav[data-hidden='true'] { --sticky-nav-motion:var(--primitive-animation-duration-standard) var(--primitive-animation-easing-standard); opacity:0; transform:translateY(calc(-100% - 8px)); pointer-events:none; }
+  /* Solid Color/Neutral/700 surface (#303030) with a white 12% border; no lumi card blur or shadow. */
+  .sticky-nav-bar,.sticky-nav-menu { border:1px solid rgb(255 255 255 / 12%); border-radius:16px; background:var(--color-surface-card-dark); }
   /* Figma uses 24px gap on Desktop Default only; 16px everywhere else keeps the label still on hover. */
   .sticky-nav-bar { display:flex; align-items:center; gap:16px; width:100%; padding:8px 24px; border-radius:999px; color:var(--color-text-light); text-align:left; transition:background var(--primitive-animation-duration-fast) var(--primitive-animation-easing-fast),color var(--primitive-animation-duration-fast) var(--primitive-animation-easing-fast); }
   .sticky-nav-icon { display:grid; flex-shrink:0; }
@@ -81,13 +96,13 @@ const icon = (name: string) => ['default', 'hover', 'disabled'].map(state => ({
   .sticky-nav-chevron img { width:16px; height:9px; }
   .icon-hover,.icon-disabled { visibility:hidden; }
   .sticky-nav-current { flex:1; min-width:0; overflow:hidden; font:var(--text-body-medium); font-variation-settings:'opsz' 9; white-space:nowrap; text-overflow:ellipsis; }
-  /* State=Hover (5739:1739); the open bar keeps it and flips the chevron. */
-  .sticky-nav-bar[aria-expanded='true'] { background:var(--color-surface-card-dark); color:var(--color-text-accent); }
+  /* State=Hover (5739:1739): Color/Neutral/600; the open bar keeps it and flips the chevron. */
+  .sticky-nav-bar[aria-expanded='true'] { background:#474747; color:var(--color-text-accent); }
   .sticky-nav-bar[aria-expanded='true'] .icon-default { visibility:hidden; }
   .sticky-nav-bar[aria-expanded='true'] .icon-hover { visibility:visible; }
   .sticky-nav-bar[aria-expanded='true'] .sticky-nav-chevron { transform:rotate(180deg); }
   @media(hover:hover) {
-    .sticky-nav-bar:not(:disabled):hover { background:var(--color-surface-card-dark); color:var(--color-text-accent); }
+    .sticky-nav-bar:not(:disabled):hover { background:#474747; color:var(--color-text-accent); }
     .sticky-nav-bar:not(:disabled):hover .icon-default { visibility:hidden; }
     .sticky-nav-bar:not(:disabled):hover .icon-hover { visibility:visible; }
   }
@@ -95,10 +110,9 @@ const icon = (name: string) => ['default', 'hover', 'disabled'].map(state => ({
   .sticky-nav-bar:disabled { background:#474747; color:var(--color-button-disabled); }
   .sticky-nav-bar:disabled .icon-default { visibility:hidden; }
   .sticky-nav-bar:disabled .icon-disabled { visibility:visible; }
-  /* Sticky Nav Dropdown (5744:1225): 8px below the bar, same width and glass surface,
-     with a stronger blur (Figma “lumi card strong”, 40px) so the list stays legible over content.
+  /* Sticky Nav Dropdown (5744:1225): 8px below the bar, same width and surface.
      Figma's 1px inside stroke leaves items 8px from the edge, hence 7px padding. */
-  .sticky-nav-menu { position:absolute; top:calc(100% + 8px); left:0; right:0; display:flex; flex-direction:column; gap:4px; max-height:calc(100dvh - var(--header-clearance) - 50px - 24px); margin:0; padding:7px; overflow-y:auto; overscroll-behavior:contain; list-style:none; -webkit-backdrop-filter:blur(20px); backdrop-filter:blur(20px); opacity:0; visibility:hidden; transform:translateY(-8px); transition:opacity var(--primitive-animation-duration-fast) var(--primitive-animation-easing-fast),transform var(--primitive-animation-duration-fast) var(--primitive-animation-easing-fast),visibility 0s linear var(--primitive-animation-duration-fast); }
+  .sticky-nav-menu { position:absolute; top:calc(100% + 8px); left:0; right:0; display:flex; flex-direction:column; gap:4px; max-height:calc(100dvh - var(--header-clearance) - 50px - 24px); margin:0; padding:7px; overflow-y:auto; overscroll-behavior:contain; list-style:none; opacity:0; visibility:hidden; transform:translateY(-8px); transition:opacity var(--primitive-animation-duration-fast) var(--primitive-animation-easing-fast),transform var(--primitive-animation-duration-fast) var(--primitive-animation-easing-fast),visibility 0s linear var(--primitive-animation-duration-fast); }
   [data-open='true'] .sticky-nav-menu { opacity:1; visibility:visible; transform:none; transition-delay:0s; }
   /* Sticky Nav Dropdown Item (5744:1146): hover lightens the row and switches to the accent. */
   .sticky-nav-item { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:8px 16px; border-radius:8px; color:var(--color-text-light); font:var(--text-body-medium); font-variation-settings:'opsz' 9; text-decoration:none; overflow-wrap:anywhere; transition:background var(--primitive-animation-duration-fast) var(--primitive-animation-easing-fast),color var(--primitive-animation-duration-fast) var(--primitive-animation-easing-fast); }
