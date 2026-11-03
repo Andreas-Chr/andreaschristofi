@@ -2,6 +2,8 @@
 :root {
   --color-background-canvas: #121212;
   --color-surface-card-dark: #303030;
+  /* Card dark at 60%, the glass fill under a lumi card blur (Sticky Nav, header menu button). */
+  --color-surface-card-dark-glass: rgb(48 48 48 / 60%);
   --color-surface-card-light: #fff;
   --color-text-light: #fff;
   --color-text-dark: #303030;

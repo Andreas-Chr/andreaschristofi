@@ -102,8 +102,9 @@ const hasChallenge = Boolean(challenge?.heading?.trim() || challenge?.eyebrow?.t
   .project-facts { display:flex; flex-wrap:wrap; gap:32px 40px; margin:0; }
   .project-facts div { display:flex; flex-direction:column; gap:8px; }
   .project-facts dd { margin:0; font:var(--text-display-small); font-variation-settings:'opsz' 14; }
-  /* Sticks below the fixed header (z 100) and opens over Go to top (z 50); the overview's 80px rhythm continues around it. */
-  .project-toc { position:sticky; top:var(--header-clearance); z-index:60; margin-top:80px; }
+  /* Sticks inside the fixed header (z 100), centred on its 64px logo row, where the nav docks between the logo and
+     menu button; anchors then only clear the header. Opens over Go to top (z 50); the overview's 80px rhythm continues around it. */
+  .project-toc { --sticky-nav-top:calc(var(--header-padding) + 7px); position:sticky; top:var(--sticky-nav-top); z-index:60; margin-top:80px; }
   .project-overview-body { display:flex; flex-direction:column; gap:80px; padding-top:80px; }
   .project-challenge { display:grid; gap:80px 160px; align-items:start; }
   .project-challenge-copy { display:flex; flex-direction:column; gap:48px; min-width:0; }
@@ -131,5 +132,11 @@ const hasChallenge = Boolean(challenge?.heading?.trim() || challenge?.eyebrow?.t
     .project-challenge { row-gap:48px; }
     .project-challenge-copy { gap:32px; }
     .project :global(.project-rich .text-display-medium) { font-size:24px; line-height:36px; }
+  }
+  @media(max-width:479px) {
+    /* Site/Header, Layout=Smallest: no room beside the logo, so the nav sticks 16px below the 24px-padded row
+       and anchors land 16px below the nav. */
+    .project-toc { --sticky-nav-top:calc(24px + 64px + 16px); }
+    :global(html:has([data-sticky-nav])) { scroll-padding-top:calc(24px + 64px + 16px + 50px + 16px); }
   }
 </style>
