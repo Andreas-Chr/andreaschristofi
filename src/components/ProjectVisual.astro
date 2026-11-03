@@ -19,7 +19,7 @@ const images = (section.images ?? []).map(item => {
 });
 ---
 {images.length > 0 && (
-  <figure class="project-visual" id={id} data-gap={section.gap === 'large' ? 'large' : undefined} data-bleed={section.bleed === 'bottom' ? 'bottom' : undefined}>
+  <figure class="project-visual" id={id} data-reveal data-gap={section.gap === 'large' ? 'large' : undefined} data-bleed={section.bleed === 'bottom' ? 'bottom' : undefined}>
     {label && (
       <figcaption class="project-visual-caption">
         {label}{titles.map(title => <Fragment>{' '}<span class="project-visual-separator">/</span>{' '}<b>{title}</b></Fragment>)}

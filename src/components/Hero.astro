@@ -6,16 +6,16 @@ const words = ['Vision', 'Clarity', 'Systems', 'Hype'];
 ---
 <section class="hero top-content container" aria-labelledby="hero-heading" data-hero>
   <div class="hero-copy">
-    <h1 id="hero-heading" class="hero-headline">
+    <h1 id="hero-heading" class="hero-headline" data-reveal>
       <span class="sr-only">Building vision, clarity, systems, hype.</span>
       <span aria-hidden="true" class="hero-static">Building</span>
       <span aria-hidden="true" class="hero-words">
         {words.map(word => <span class="hero-word">{word}</span>)}
       </span>
     </h1>
-    <p class="hero-description">{site.heroDescription}</p>
-    <div class="hero-actions">
-      <ButtonMain href="#curated-shots">Explore Work</ButtonMain>
+    <p class="hero-description" data-reveal>{site.heroDescription}</p>
+    <div class="hero-actions" data-reveal>
+      <ButtonMain href="#case-studies">Explore Work</ButtonMain>
       <ButtonMain type="button" hierarchy="secondary" icon="/assets/icons/hero-arrow-up-right.svg" aria-haspopup="dialog" aria-controls="contact-popup" data-contact-popup-trigger>Book a Call</ButtonMain>
     </div>
   </div>

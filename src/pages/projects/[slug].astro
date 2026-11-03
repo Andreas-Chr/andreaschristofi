@@ -32,43 +32,43 @@ const hasChallenge = Boolean(challenge?.heading?.trim() || challenge?.eyebrow?.t
       <!-- Figma project-overview_section (5603:862). -->
       <div class="project-overview container top-content">
         <div class="project-hero">
-          <ParagraphLink mode="light" href="/#case-studies">← All Projects</ParagraphLink>
-          <div class="project-hero-media">
+          <ParagraphLink mode="light" href="/#case-studies" data-reveal="">← All Projects</ParagraphLink>
+          <div class="project-hero-media" data-reveal>
             <ResponsiveImage asset={project.heroMedia} preset="hero" sizes="(min-width: 1440px) 1392px, (min-width: 1200px) calc(100vw - 48px), (min-width: 400px) calc(100vw - 32px), calc(100vw - 16px)" priority fallback={PROJECT_FALLBACK} />
           </div>
         </div>
-        <h1 class="project-title" id="project-title">{project.title}</h1>
-        {summaryHTML && <div class="project-rich project-summary" set:html={summaryHTML} />}
+        <h1 class="project-title" id="project-title" data-reveal>{project.title}</h1>
+        {summaryHTML && <div class="project-rich project-summary" data-reveal set:html={summaryHTML} />}
         {facts.length > 0 && (
           <dl class="project-facts">
-            {facts.map(fact => <div><dt class="eyebrow">{fact.label}</dt><dd>{fact.value}</dd></div>)}
+            {facts.map(fact => <div data-reveal><dt class="eyebrow">{fact.label}</dt><dd>{fact.value}</dd></div>)}
           </dl>
         )}
       </div>
     </div>
     <!-- Figma Sticky Nav (5739:1738): a direct child of the article so it stays stuck through every section. -->
-    {anchors.links.length > 0 && <div class="project-toc container"><StickyNav links={anchors.links} /></div>}
+    {anchors.links.length > 0 && <div class="project-toc container" data-reveal><StickyNav links={anchors.links} /></div>}
     {(hasChallenge || stack.length > 0 || audienceTiles.length > 0) && (
       <div class="project-overview-body container">
         {(hasChallenge || stack.length > 0) && (
           <div class="project-challenge" id={anchors.overview}>
             {hasChallenge && (
               <section class="project-challenge-copy" aria-labelledby={challenge?.heading?.trim() ? 'project-challenge-heading' : undefined}>
-                <div class="project-heading-group">
+                <div class="project-heading-group" data-reveal>
                   {challenge?.eyebrow?.trim() && <p class="eyebrow">{challenge.eyebrow}</p>}
                   {challenge?.heading?.trim() && <h2 class="project-heading" id="project-challenge-heading">{challenge.heading}</h2>}
                 </div>
-                {challengeHTML && <div class="project-rich project-challenge-body" set:html={challengeHTML} />}
+                {challengeHTML && <div class="project-rich project-challenge-body" data-reveal set:html={challengeHTML} />}
               </section>
             )}
             {stack.length > 0 && (
               <section class="project-stack" aria-labelledby="project-stack-heading">
-                <div class="project-heading-group">
+                <div class="project-heading-group" data-reveal>
                   {stackDetails?.eyebrow?.trim() && <p class="eyebrow">{stackDetails.eyebrow}</p>}
                   <h2 class="project-heading" id="project-stack-heading">{stackDetails?.heading?.trim() || 'Stack'}</h2>
                 </div>
-                {stackDetails?.intro?.trim() && <p class="project-stack-intro">{stackDetails.intro}</p>}
-                <ul class="project-stack-badges">
+                {stackDetails?.intro?.trim() && <p class="project-stack-intro" data-reveal>{stackDetails.intro}</p>}
+                <ul class="project-stack-badges" data-reveal>
                   {stack.map((item, index) => <ToolBadge tool={item.tool!} label={item.name} id={`project-tool-${index}`} />)}
                 </ul>
               </section>

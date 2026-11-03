@@ -11,14 +11,14 @@ const items = (section.items ?? []).map(item => ({ ...item, html: richTextHTML(i
 ---
 <section class:list={['project-story', { 'project-story--compact': section.spacing === 'compact' }]} id={id} aria-labelledby={section.heading?.trim() ? headingId : undefined}>
   <div class="project-story-lead">
-    {section.eyebrow?.trim() && <p class="eyebrow">{section.eyebrow}</p>}
-    {section.heading?.trim() && <h2 class="project-heading" id={headingId}>{section.heading}</h2>}
-    {introHTML && <div class="project-rich project-story-intro" set:html={introHTML} />}
+    {section.eyebrow?.trim() && <p class="eyebrow" data-reveal>{section.eyebrow}</p>}
+    {section.heading?.trim() && <h2 class="project-heading" id={headingId} data-reveal>{section.heading}</h2>}
+    {introHTML && <div class="project-rich project-story-intro" data-reveal set:html={introHTML} />}
   </div>
   {items.length > 0 && (
     <div class="project-story-items">
       {items.map(item => (
-        <div class="project-story-item">
+        <div class="project-story-item" data-reveal>
           {item.label?.trim() && <h3 class="eyebrow project-story-label">{item.label}</h3>}
           {item.html && <div class="project-rich project-story-body" set:html={item.html} />}
           {item.closing?.trim() && <p class="project-story-closing">{item.closing}</p>}

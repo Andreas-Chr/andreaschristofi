@@ -25,13 +25,13 @@ import { site, toolGroups, awards } from '../data/site';
   <CuratedShots />
   <Process />
   <section class="section about container" id="about" aria-labelledby="about-heading">
-    <Picture class="portrait" src={portrait} formats={['avif','webp']} fallbackFormat="jpg" widths={[304,448,672,896,1120]} sizes="(min-width: 1440px) 448px, (min-width: 900px) 31vw, min(448px, 100vw)" alt="Andreas Christofi walking through the city" loading="lazy" />
+    <Picture class="portrait" pictureAttributes={{ 'data-reveal': '' }} src={portrait} formats={['avif','webp']} fallbackFormat="jpg" widths={[304,448,672,896,1120]} sizes="(min-width: 1440px) 448px, (min-width: 900px) 31vw, min(448px, 100vw)" alt="Andreas Christofi walking through the city" loading="lazy" />
     <div class="about-copy">
-      <h2 id="about-heading">andreas <span class="about-last-name">christofi</span></h2>
-      <p class="lead">{site.description}</p>
-      <p class="body-large">For the past 2 decades I’ve worked through traditional graphic design, print, brand strategy, web, and digital product design. I’ve learned the art of simplicity by crafting complex ideas into clear, impactful, and engaging experiences. And somewhere along the way, I’ve also had the opportunity to run my own studio, to lead creative teams, and work on AI-powered SaaS digital products.</p>
-      <p class="body-large">Being a designer is only a part of me. I’m also a husband and father, a martial artist, an aviation enthusiast and a custom PC builder. I make space in my life for the things I enjoy because they keep me curious, disciplined, grounded, and always eager to learn something new.</p>
-      <div class="about-button">
+      <h2 id="about-heading" data-reveal>andreas <span class="about-last-name">christofi</span></h2>
+      <p class="lead" data-reveal>{site.description}</p>
+      <p class="body-large" data-reveal>For the past 2 decades I’ve worked through traditional graphic design, print, brand strategy, web, and digital product design. I’ve learned the art of simplicity by crafting complex ideas into clear, impactful, and engaging experiences. And somewhere along the way, I’ve also had the opportunity to run my own studio, to lead creative teams, and work on AI-powered SaaS digital products.</p>
+      <p class="body-large" data-reveal>Being a designer is only a part of me. I’m also a husband and father, a martial artist, an aviation enthusiast and a custom PC builder. I make space in my life for the things I enjoy because they keep me curious, disciplined, grounded, and always eager to learn something new.</p>
+      <div class="about-button" data-reveal>
         <ButtonMain href={site.cv} download icon="/assets/icons/download.svg" hierarchy="secondary">Resume</ButtonMain>
         <SocialLinks />
       </div>
@@ -39,11 +39,11 @@ import { site, toolGroups, awards } from '../data/site';
   </section>
   <div class="section stack-experience container">
     <section class="stack" aria-labelledby="stack-heading">
-      <h2 id="stack-heading">Stack</h2>
-      <p class="body-large">Tools I’ve learned to design, prototype, animate and build cool projects with.</p>
+      <h2 id="stack-heading" data-reveal>Stack</h2>
+      <p class="body-large" data-reveal>Tools I’ve learned to design, prototype, animate and build cool projects with.</p>
       {
         toolGroups.map((group, groupIndex)=>
-          <div class="tool-group">
+          <div class="tool-group" data-reveal>
             <h3 class="eyebrow">{group.label}</h3>
             <ul>
               {
@@ -74,11 +74,11 @@ import { site, toolGroups, awards } from '../data/site';
     <Experience />
   </div>
   <section class="section awards container" aria-labelledby="awards-heading">
-    <h2 id="awards-heading">Awards</h2>
+    <h2 id="awards-heading" data-reveal>Awards</h2>
     <div class="awards-grid">
-      <Picture class="certificates" src={allAwards} formats={['avif','webp']} fallbackFormat="png" widths={[304,448,684,992,1392]} sizes="(min-width: 1200px) 684px, calc(100vw - 32px)" alt="CSS Design Awards certificates for Innovation, Special Kudos, UI and UX" loading="lazy" />
+      <Picture class="certificates" pictureAttributes={{ 'data-reveal': '' }} src={allAwards} formats={['avif','webp']} fallbackFormat="png" widths={[304,448,684,992,1392]} sizes="(min-width: 1200px) 684px, calc(100vw - 32px)" alt="CSS Design Awards certificates for Innovation, Special Kudos, UI and UX" loading="lazy" />
       <ul class="award-list">
-        {awards.map(award=><li><img src={`/assets/awards/${award.icon}.svg`} width="60" height="40" alt="" loading="lazy" /><div><h3>{award.title}</h3><p class="eyebrow"><span>{award.detail}</span><span class="award-date"><span aria-hidden="true">/</span><span>{award.year}</span></span></p></div></li>)}
+        {awards.map(award=><li data-reveal><img src={`/assets/awards/${award.icon}.svg`} width="60" height="40" alt="" loading="lazy" /><div><h3>{award.title}</h3><p class="eyebrow"><span>{award.detail}</span><span class="award-date"><span aria-hidden="true">/</span><span>{award.year}</span></span></p></div></li>)}
       </ul>
     </div>
   </section>

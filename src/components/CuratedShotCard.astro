@@ -2,13 +2,14 @@
 import { CARD_FALLBACK, mediaURL, shotTitle, type CuratedShot } from '../lib/curated-shots';
 import '../styles/buttons.css';
 import ResponsiveImage from './ResponsiveImage.astro';
-interface Props { shot: CuratedShot; state?: 'default' | 'hover'; layout?: 'overlay' | 'caption'; sizes?: string; priority?: boolean; }
-const { shot, state = 'default', layout = 'overlay', priority = false, sizes = '(min-width: 1440px) 694px, (min-width: 1200px) calc((100vw - 52px) / 2), (min-width: 644px) calc((100vw - 36px) / 2), (min-width: 400px) calc(100vw - 32px), calc(100vw - 16px)' } = Astro.props;
+/** `reveal` adds the page's fade in up (the homepage grid only, never the modal). */
+interface Props { shot: CuratedShot; state?: 'default' | 'hover'; layout?: 'overlay' | 'caption'; sizes?: string; priority?: boolean; reveal?: boolean; }
+const { shot, state = 'default', layout = 'overlay', priority = false, reveal = false, sizes = '(min-width: 1440px) 694px, (min-width: 1200px) calc((100vw - 52px) / 2), (min-width: 644px) calc((100vw - 36px) / 2), (min-width: 400px) calc(100vw - 32px), calc(100vw - 16px)' } = Astro.props;
 const thumbnail = typeof shot.thumbnail === 'string' ? { url: shot.thumbnail } : shot.thumbnail;
 const thumbnailURL = mediaURL(thumbnail?.url);
 const asset = thumbnailURL ? { ...thumbnail, url: thumbnailURL, alt: thumbnail?.alt ?? '' } : undefined;
 ---
-<button type="button" class:list={['curated-card', { 'curated-card-caption': layout === 'caption' }]} data-shot-open={shot.slug} data-state={state}
+<button type="button" class:list={['curated-card', { 'curated-card-caption': layout === 'caption' }]} data-shot-open={shot.slug} data-state={state} data-reveal={reveal ? '' : undefined}
   aria-haspopup="dialog" aria-controls="curated-shot-overlay" aria-label={`Open ${shotTitle(shot)}${shot.title?.trim() ? '' : ` (${shot.slug})`}`}>
   {layout === 'caption' ? <>
     <span class="curated-card-media">

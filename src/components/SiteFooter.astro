@@ -3,11 +3,14 @@ import ButtonIcon from './ButtonIcon.astro';
 import ParagraphLink from './ParagraphLink.astro';
 import SocialLinks from './SocialLinks.astro';
 import { site } from '../data/site';
+interface Props { /** Fade in up for the footer's elements (off on the Legal page). */ reveal?: boolean; }
+const { reveal = true } = Astro.props;
+const rise = reveal ? { 'data-reveal': '' } : {};
 ---
 <footer class="site-footer">
   <section class="footer-contact container" aria-labelledby="contact-heading">
-    <h2 class="display" id="contact-heading">Let’s make<br />something <span>matter</span></h2>
-    <div class="contact-disclosure" data-contact>
+    <h2 class="display" id="contact-heading" {...rise}>Let’s make<br />something <span>matter</span></h2>
+    <div class="contact-disclosure" data-contact {...rise}>
       <button class="contact-trigger" type="button" aria-label="Get in touch" aria-expanded="true" aria-controls="contact-panel" hidden><img src="/assets/icons/arrow-up-right.svg" width="80" height="80" alt="" /></button>
       <div class="contact-panel" id="contact-panel">
         <ButtonIcon class="contact-close" type="button" aria-label="Close contact details" hidden version="secondary" size="large" icon="/assets/icons/close.svg" />
@@ -17,7 +20,7 @@ import { site } from '../data/site';
       </div>
     </div>
   </section>
-  <div class="footer-info container">
+  <div class="footer-info container" {...rise}>
     <p class="copyright">© {new Date().getFullYear()} Andreas Christofi. All rights reserved.</p>
     <img class="footer-mark" src="/assets/logo/logo-light.svg" width="45" height="80" alt="" />
     <div class="footer-links"><ParagraphLink mode="light" size="medium" class="legal-link" href="/legal/">Privacy &amp; Cookie Policy</ParagraphLink><SocialLinks /></div>

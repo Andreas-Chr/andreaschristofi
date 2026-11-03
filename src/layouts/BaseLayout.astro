@@ -12,8 +12,10 @@ interface Props {
   /** Stricter than noindex: no link following, snippets, cache, image indexing or AI use. */
   searchHidden?: boolean;
   showFooter?: boolean;
+  /** Fade in up for the footer; page content opts in per element with data-reveal. */
+  reveal?: boolean;
 }
-const { title, description = site.description, noindex = false, searchHidden = false, showFooter = true } = Astro.props;
+const { title, description = site.description, noindex = false, searchHidden = false, showFooter = true, reveal = true } = Astro.props;
 const robots = searchHidden ? 'noindex,nofollow,noarchive,nosnippet,noimageindex,noai,noimageai' : noindex ? 'noindex,follow' : undefined;
 const canonical = new URL(Astro.url.pathname, site.origin);
 ---
@@ -84,9 +86,10 @@ const canonical = new URL(Astro.url.pathname, site.origin);
     <div id="page-top" tabindex="-1" data-site-shell>
       <Header />
       <main><slot /></main>
-      {showFooter && <SiteFooter />}
+      {showFooter && <SiteFooter reveal={reveal} />}
       <GoToTop />
     </div>
     <PageLoader />
+    <script>import '../scripts/reveal';</script>
   </body>
 </html>

@@ -7,17 +7,20 @@ interface Props {
   sizes?: string;
   /** Render an empty, same-sized shell that the browser fills from the card fragment (search-hidden projects). */
   deferred?: boolean;
+  /** Add the page's fade in up; a deferred card passes it on to the card that replaces it. */
+  reveal?: boolean;
 }
-const { project, sizes = '(min-width: 1440px) 1392px, (min-width: 1200px) calc(100vw - 48px), (min-width: 400px) calc(100vw - 32px), calc(100vw - 16px)', deferred = false } = Astro.props;
+const { project, sizes = '(min-width: 1440px) 1392px, (min-width: 1200px) calc(100vw - 48px), (min-width: 400px) calc(100vw - 32px), calc(100vw - 16px)', deferred = false, reveal = false } = Astro.props;
+const rise = reveal ? '' : undefined;
 const thumbnail = project.thumbnail ?? project.heroMedia;
 const disabled = Boolean(project.disabled);
 const Tag = disabled ? 'div' : 'a';
 ---
 <!-- Figma Project Card (5756:1704): the whole card is the link, except when disabled; the arrow shares Button/Icon styling. -->
 {deferred ? (
-  <div class="project-card" data-project-card-src={`/fragments/${projectCardFragmentId(project.slug)}/`} aria-hidden="true"></div>
+  <div class="project-card" data-project-card-src={`/fragments/${projectCardFragmentId(project.slug)}/`} data-reveal={rise} aria-hidden="true"></div>
 ) : (
-  <Tag class:list={['project-card', { 'project-card--disabled': disabled }]} href={disabled ? undefined : projectHref(project.slug)}>
+  <Tag class:list={['project-card', { 'project-card--disabled': disabled }]} href={disabled ? undefined : projectHref(project.slug)} data-reveal={rise}>
     <ResponsiveImage class="project-card-thumbnail" asset={thumbnail ? { ...thumbnail, alt: '' } : undefined} preset="hero" sizes={sizes} fallback={PROJECT_FALLBACK} />
     <span class="project-card-overlay" aria-hidden="true"></span>
     <div class="project-card-content">
@@ -33,6 +36,7 @@ const Tag = disabled ? 'div' : 'a';
 )}
 <script>
   import { initResponsiveImages } from '../scripts/responsive-images';
+  import { observeReveal } from '../scripts/reveal';
   // Crawlers that honour robots.txt never fetch /fragments/, so a deferred card exists only in visitors' DOM.
   function loadDeferredCards() {
     document.querySelectorAll<HTMLElement>('[data-project-card-src]').forEach(async shell => {
@@ -48,6 +52,7 @@ const Tag = disabled ? 'div' : 'a';
       card.querySelectorAll('script').forEach(script => script.remove());
       initResponsiveImages();
       shell.replaceWith(card);
+      if (shell.hasAttribute('data-reveal') && card instanceof HTMLElement) observeReveal([card]);
     });
   }
   loadDeferredCards();

@@ -3,10 +3,10 @@ import { clients } from '../data/site';
 ---
 <!-- Figma clients_section (5749:4336): logos keep their Figma size within a 120px box; boxes scale down on phones. -->
 <section class="clients container" aria-labelledby="clients-heading">
-  <h2 class="clients-heading" id="clients-heading">Brands I’ve worked with over the years</h2>
+  <h2 class="clients-heading" id="clients-heading" data-reveal>Brands I’ve worked with over the years</h2>
   <ul class="clients-list">
     {clients.map(client => (
-      <li class="client">
+      <li class="client" data-reveal>
         <img src={`/assets/clients/${client.slug}.webp`} width={client.width} height={client.height} alt={client.name} loading="lazy" decoding="async" style={`--logo-width:${client.width};--logo-height:${client.height}`} />
       </li>
     ))}

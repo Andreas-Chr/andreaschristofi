@@ -6,9 +6,9 @@ const projects = curatedProjects.filter(project => project.featured !== false);
 ---
 {projects.length > 0 && (
   <section id="case-studies" class="container case-studies" aria-labelledby="case-studies-heading">
-    <h2 id="case-studies-heading">Case studies</h2>
-    <p class="case-studies-intro">Selected case studies of products I’ve designed end to end. Each one walks through the problem, the research and decisions behind it, and the impact on users and the business. Less about the final polish, more about how I got there.</p>
-    <div class="case-studies-grid">{projects.map(project => <ProjectCard project={project} deferred={isSearchHidden(project)} />)}</div>
+    <h2 id="case-studies-heading" data-reveal>Case studies</h2>
+    <p class="case-studies-intro" data-reveal>Selected case studies of products I’ve designed end to end. Each one walks through the problem, the research and decisions behind it, and the impact on users and the business. Less about the final polish, more about how I got there.</p>
+    <div class="case-studies-grid">{projects.map(project => <ProjectCard project={project} deferred={isSearchHidden(project)} reveal />)}</div>
   </section>
 )}
 <style>

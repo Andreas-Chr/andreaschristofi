@@ -16,12 +16,12 @@ const introHTML = richTextHTML(intro);
 const items = (tiles ?? []).filter(tile => tile.title?.trim());
 ---
 <section class:list={['project-tiles', `project-tiles--${variant}`]} id={id} aria-labelledby={heading?.trim() ? headingId : undefined}>
-  {heading?.trim() && <h2 class="project-heading" id={headingId}>{heading}</h2>}
-  {introHTML && <div class="project-rich project-tiles-intro" set:html={introHTML} />}
+  {heading?.trim() && <h2 class="project-heading" id={headingId} data-reveal>{heading}</h2>}
+  {introHTML && <div class="project-rich project-tiles-intro" data-reveal set:html={introHTML} />}
   {items.length > 0 && (
     <ul class="project-tile-grid">
       {items.map(tile => (
-        <li class="project-tile">
+        <li class="project-tile" data-reveal>
           {tile.eyebrow?.trim() && <p class="eyebrow">{tile.eyebrow}</p>}
           <h3 class="project-tile-title">{tile.title}</h3>
           {tile.body?.trim() && <p class="project-tile-body">{tile.body}</p>}

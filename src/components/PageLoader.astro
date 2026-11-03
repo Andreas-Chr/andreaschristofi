@@ -45,7 +45,14 @@
       measureAt = 0,
       progress = 0,
       loaded = false;
+    // Tells the page (e.g. the fade in up reveals) that the overlay is leaving, once.
+    const announce = () => {
+      if (document.documentElement.dataset.pageLoader === 'done') return;
+      document.documentElement.dataset.pageLoader = 'done';
+      document.dispatchEvent(new Event('page-loader:done'));
+    };
     const cleanup = () => {
+      announce();
       clearTimeout(timeout);
       clearTimeout(deadline);
       clearTimeout(completion);
@@ -56,6 +63,7 @@
       window.removeEventListener('pageshow', restored);
     };
     const reveal = () => {
+      announce();
       if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
         cleanup();
         return;

@@ -1,0 +1,9 @@
+/* Fade in up (src/scripts/reveal.ts): page elements marked [data-reveal] rise into place as they first scroll into
+   view. The script marks them pending, then shown (with a cascade delay), then done once the animation ends.
+   `translate` leaves each element's own `transform` alone, and the backwards fill leaves nothing behind afterwards. */
+:root { --reveal-distance:24px; --reveal-duration:600ms; --reveal-easing:var(--primitive-animation-easing-slow); }
+@media (prefers-reduced-motion:no-preference) {
+  [data-reveal='pending'] { opacity:0; }
+  [data-reveal='shown'] { animation:reveal-up var(--reveal-duration) var(--reveal-easing) var(--reveal-delay,0ms) backwards; }
+}
+@keyframes reveal-up { from { opacity:0; translate:0 var(--reveal-distance); } }

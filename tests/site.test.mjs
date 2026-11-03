@@ -71,7 +71,7 @@ test('homepage exposes stable hero copy, an accessible Process section and six p
   assert.equal(document.querySelector('.hero-motion-control'),null);
   const exploreWork=document.querySelector('.hero-copy .button');
   assert.equal(exploreWork.textContent.trim(),'Explore Work');
-  assert.equal(exploreWork.getAttribute('href'),'#curated-shots');
+  assert.equal(exploreWork.getAttribute('href'),'#case-studies');
   assert.ok(document.querySelector(exploreWork.getAttribute('href')));
   assert.equal(exploreWork.querySelector('img'),null);
   assert.equal(document.querySelector('[data-contact-popup-trigger]').textContent.trim(),'Book a Call');

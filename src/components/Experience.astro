@@ -3,9 +3,9 @@ import ButtonAccordion from './ButtonAccordion.astro';
 import experience from '../data/experience.json';
 ---
 <section class="experience" aria-labelledby="experience-heading" data-experience>
-  <h2 id="experience-heading">Experience</h2>
+  <h2 id="experience-heading" data-reveal>Experience</h2>
   <div class="experience-cards">
-    {experience.map((entry,i)=><article data-accordion-card class="experience-card">
+    {experience.map((entry,i)=><article data-accordion-card class="experience-card" data-reveal>
       <h3><ButtonAccordion indicatorClass="experience-toggle" class="experience-trigger" type="button" disabled aria-expanded="true" aria-controls={`experience-panel-${i}`}><span class="experience-title">{entry.title}</span><span class="experience-meta"><span>{entry.role}</span><span class="experience-date"><span aria-hidden="true">/</span><span>{entry.year}</span></span></span></ButtonAccordion></h3>
       <div class="experience-panel" id={`experience-panel-${i}`}>
         {entry.description.startsWith('- ') ? <ul>{entry.description.split('\n').map(line=><li>{line.replace(/^- /,'')}</li>)}</ul> : <p>{entry.description}</p>}
