@@ -116,6 +116,8 @@ import SocialLinks from './SocialLinks.astro';
   .menu-icon-line { position:absolute; left:0; top:calc(50% - .875px); width:16px; height:1.75px; background:currentColor; transform:translateY(-2.875px) rotate(0deg); transform-origin:center; clip-path:inset(0 0 0 0); }
   .menu-icon-line:last-child { transform:translateY(2.875px) rotate(0deg); }
   [data-open='true'] .menu-trigger { background:#4b09f5; }
+  /* Open, the trigger is the close control, which has no hover state: it holds its resting look under the pointer. */
+  [data-open='true'] .menu-trigger:not(:active):hover { background:#4b09f5; color:var(--button-foreground); border-color:var(--button-border); }
   [data-open='true'] .menu-icon { color:var(--color-text-light); }
   [data-open='true'] .menu-icon-line { transform:translateY(0) rotate(45deg); }
   [data-open='true'] .menu-icon-line:last-child { transform:translateY(0) rotate(-45deg); }
