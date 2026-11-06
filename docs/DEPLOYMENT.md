@@ -5,7 +5,7 @@ Cloudflare Workers Builds tracks `Andreas-Chr/andreaschristofi`, branch `main`, 
 
 - Build: `npm run build`
 - Deploy: `npx wrangler deploy`
-- Build variables: `PAYLOAD_URL=https://cms.andreaschristofi.com`, `NODE_VERSION=22.23.2`
+- Build variables: `PAYLOAD_URL=https://cms.andreaschristofi.com`, `NODE_VERSION=24.21.0`
 - Local build configuration: copy `.env.example` to `.env`.
 - Local deployment: `npm run deploy` with the existing Cloudflare account login.
 
