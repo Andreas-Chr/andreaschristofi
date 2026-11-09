@@ -134,9 +134,8 @@ const hasChallenge = Boolean(challenge?.heading?.trim() || challenge?.eyebrow?.t
     .project :global(.project-rich .text-display-medium) { font-size:24px; line-height:36px; }
   }
   @media(max-width:479px) {
-    /* Site/Header, Layout=Smallest: no room beside the logo, so the nav sticks 16px below the 24px-padded row
-       and anchors land 16px below the nav. */
-    .project-toc { --sticky-nav-top:calc(24px + 64px + 16px); }
-    :global(html:has([data-sticky-nav])) { scroll-padding-top:calc(24px + 64px + 16px + 50px + 16px); }
+    /* Site/Header, Layout=Smallest: the header pads 24px here, so the nav centres on that row's 64px logo and
+       docks between the logo and menu button as on wider layouts; anchors keep the global header clearance. */
+    .project-toc { --sticky-nav-top:calc(24px + 7px); }
   }
 </style>

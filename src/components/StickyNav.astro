@@ -146,4 +146,10 @@ const icon = (name: string) => ['default', 'hover', 'disabled'].map(state => ({
   .sticky-nav-item[aria-current]::after { content:''; flex-shrink:0; width:4px; height:4px; border-radius:50%; background:currentColor; }
   @media(hover:hover) { .sticky-nav-item:hover { background:rgb(255 255 255 / 12%); color:var(--color-text-accent); } }
   .sticky-nav-item:focus-visible { outline-offset:-3px; }
+  /* Site/Header, Layout=Smallest: the bar shares the header row between the logo and menu button, so it drops the
+     burger (it would sit beside the menu button's own) and tightens its padding to leave the label room. */
+  @media(max-width:479px) {
+    .sticky-nav-bar { padding-inline:16px; }
+    .sticky-nav-burger { display:none; }
+  }
 </style>
