@@ -60,7 +60,9 @@ const icon = (name: string) => ['default', 'hover', 'disabled'].map(state => ({
       current.textContent = links[index].textContent;
     };
     // Once the bar rises into the fixed header it lines up with the header row. Where it shares the row it fills
-    // the space between the logo and menu button, 24px clear of each; stuck below the row it spans their outer edges.
+    // the space between the logo and menu button, 24px clear of each (9px and 19px at 480px and below);
+    // stuck below the row it spans their outer edges.
+    const narrow = matchMedia('(max-width: 480px)');
     let dockKey = '';
     const dock = () => {
       if (!host || !start || !end) return;
@@ -69,9 +71,10 @@ const icon = (name: string) => ['default', 'hover', 'disabled'].map(state => ({
       const style = getComputedStyle(host), top = parseFloat(style.top);
       const beside = top < logo.bottom && top + box.height > logo.top;
       const docked = box.top < headerBottom();
+      const [gapStart, gapEnd] = narrow.matches ? [9, 19] : [24, 24];
       const inset = [
-        (beside ? logo.right + 24 : logo.left) - box.left - parseFloat(style.paddingLeft),
-        box.right - parseFloat(style.paddingRight) - (beside ? menu.left - 24 : menu.right),
+        (beside ? logo.right + gapStart : logo.left) - box.left - parseFloat(style.paddingLeft),
+        box.right - parseFloat(style.paddingRight) - (beside ? menu.left - gapEnd : menu.right),
       ];
       const key = `${docked}|${inset}`;
       if (key !== dockKey) {
